@@ -1,0 +1,56 @@
+<div class="shape-container"></div>
+    <div class="shape-top"></div>
+    <div class="shape-top1"></div>
+    <div class="shape-top2"></div>
+    <div class="shape-top3"></div>
+    <div nz-row nzJustify="center"  class="cardLogin">
+        <div nz-col nzSpan="5">
+            <nz-card style="width:200px; float: right;margin-top: 50px;" [nzCover]="coverTemplate">
+              </nz-card>
+              <ng-template #coverTemplate>
+                <img style="height: 410px !important;width:430px;" src="./assets/img/cardLog.jpg" />
+              </ng-template>
+        </div>
+        <div nz-col nzSpan="1"></div>
+        <div nz-col nzSpan="15">
+    
+            <div nz-row nzJustify="center">
+                <img src="./assets/img/negro.png" class="img-login">
+            </div>
+            <div nz-row nzJustify="center">
+                <h2 style="margin-left: 130px;">Activo Fijo</h2>
+            </div>
+            <form nz-form [formGroup]="validateForm" class="login-form">
+                <nz-form-item >
+                  <nz-form-control nzErrorTip="Please input your username!">
+                    <nz-input-group>
+                        <div nz-row nzJustify="center">
+                            <div nz-col nzSpan="3"><img src="./assets/img/user.png"></div>
+                            <div nz-col nzSpan="21"> 
+                                <input type="text" nz-input formControlName="correo" placeholder="Usuario" class="inputZ"/>
+                            </div>
+                          </div>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Por favor ingresa tu contraseña!">
+                    <nz-input-group>
+                        <div nz-row nzJustify="center">
+                            <div nz-col nzSpan="3"><img src="./assets/img/padlock.png"></div>
+                            <div nz-col nzSpan="21"> 
+                                <input type="password" nz-input formControlName="password" placeholder="Contraseña" class="inputZ"/>
+                            </div>
+                        </div>
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+                
+                <button type="button" (click)="validarCredenciales()" nz-button class="login-form-button login-form-margin">Iniciar Sesión</button>
+              </form>
+        </div>
+        
+    </div>
+
+
+
