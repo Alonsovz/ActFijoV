@@ -1,0 +1,20 @@
+<nz-layout>
+  <nz-header>
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li routerLink="tipoactivo" nz-menu-item>Tipos de activo</li>
+      <li nz-menu-item>Marcas</li>
+      <li nz-menu-item>Modelos</li>
+    </ul>
+  </nz-header>
+  <nz-content>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>Dashboard</nz-breadcrumb-item>
+      <nz-breadcrumb-item></nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <div class="inner-content">
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+  <nz-footer>Activo Fijo ©2020 Implement By EDESAL</nz-footer>
+</nz-layout>

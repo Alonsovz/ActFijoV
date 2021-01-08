@@ -6,7 +6,10 @@ const routes: Routes = [
   {
     path: '', component: DashboardComponent,
     children: [
-
+      {
+        path: 'tipoactivo',
+        loadChildren: () => import('./../tipoactivo/tipoactivo.module').then(m => m.TipoactivoModule)
+      }
     ]
   }
 ];
