@@ -35,9 +35,12 @@
             "styles": [
               "src/theme.less",
               "src/styles.scss",
-              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "node_modules/notie/dist/notie.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/notie/dist/notie.js"
+            ]
           },
           "configurations": {
             "production": {

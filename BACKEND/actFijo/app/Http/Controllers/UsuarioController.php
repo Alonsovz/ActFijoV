@@ -1,10 +1,15 @@
 <?php
 
+namespace App\Http\Controllers;
+
+
 use Illuminate\Http\Request;
+use DB;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Response as FacadeResponse;
-namespace App\Http\Controllers;
-use DB;
+use Session;
+
+
 date_default_timezone_set("America/El_Salvador");
 
 class UsuarioController extends Controller
@@ -18,12 +23,8 @@ class UsuarioController extends Controller
             $result = [];
             if ($password=="12345") 
 			{     
-                $usuariosesion =  json_encode( DB::connection('facturacion')->select("
-                select u.*, r.aliasRol as rol from EDESAL_CALIDAD.dbo.SGT_usuarios u 
-                inner join enr_usuario_rol ur on ur.idUsuario = u.id
-                inner join enr_roles r on r.id = ur.idRol
-                where
-                u.alias = '".$usuario."'"));
+                $usuariosesion =  json_encode( DB::connection('comanda')->select("
+                select * from users where correo= '".$correo."'"));
 
                 $arrayJson = [];
                 foreach (json_decode($usuariosesion, true) as $value){
@@ -35,12 +36,8 @@ class UsuarioController extends Controller
 
                 $passform = md5($password);
 
-                $usuariosesion =  json_encode( DB::connection('facturacion')->select("
-                select u.*, r.aliasRol as rol from EDESAL_CALIDAD.dbo.SGT_usuarios u 
-                inner join enr_usuario_rol ur on ur.idUsuario = u.id
-                inner join enr_roles r on r.id = ur.idRol
-                where
-                u.alias = '".$usuario."' and u.password = '".$passform."'"));
+                $usuariosesion =  json_encode( DB::connection('comanda')->select("
+                select * from users where correo = '".$correo."' and password = '".$passform."'"));
 
                 $arrayJson = [];
                 foreach (json_decode($usuariosesion, true) as $value){

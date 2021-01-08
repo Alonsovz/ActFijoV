@@ -17,4 +17,4 @@ Route::get('/', function () {
 
 
 
-Route::any('validarCredenciales', 'UsuarioController@validarCredenciales');
+Route::post('validarCredenciales', 'UsuarioController@validarCredenciales');

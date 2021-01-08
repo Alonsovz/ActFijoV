@@ -15,12 +15,9 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     CommonModule,
     DashboardRoutingModule,
     ZmoduleModule
-<<<<<<< HEAD
-=======
   ],
   exports: [
     NzButtonModule,
->>>>>>> fbcd2e5dc80bdaaa695db17fe2d171acc2fceefb
   ]
 })
 export class DashboardModule { }
