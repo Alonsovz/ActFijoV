@@ -1,0 +1,17 @@
+create table af_roles_sistema(
+id int IDENTITY(1,1) PRIMARY KEY,
+rol varchar(50)
+);
+
+create table af_usuario_rol(
+id int IDENTITY(1,1) PRIMARY KEY,
+idUsuario int,
+idRol int,
+estado int
+);
+
+ALTER TABLE af_usuario_rol
+ADD FOREIGN KEY (idUsuario) REFERENCES  users(id)
+
+ALTER TABLE af_usuario_rol
+ADD FOREIGN KEY (idRol) REFERENCES  af_roles_sistema(id)

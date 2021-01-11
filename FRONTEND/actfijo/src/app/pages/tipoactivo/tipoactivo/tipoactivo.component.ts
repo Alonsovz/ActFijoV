@@ -5,11 +5,15 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './tipoactivo.component.html',
   styleUrls: ['./tipoactivo.component.scss']
 })
+
+
+
 export class TipoactivoComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
 
 }

@@ -9,7 +9,13 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 const zorromodules = [
   NzFormModule,
   NzInputModule,
@@ -18,7 +24,14 @@ const zorromodules = [
   NzButtonModule,
   NzCardModule,
   NzLayoutModule,
-  NzBreadCrumbModule
+  NzBreadCrumbModule,
+  NzTableModule,
+  NzDividerModule,
+  NzGridModule,
+  NzIconModule,
+  NzModalModule,
+  NzSelectModule,
+  NzSkeletonModule
 ]
 
 

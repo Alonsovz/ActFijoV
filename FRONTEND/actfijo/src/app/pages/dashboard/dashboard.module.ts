@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzFormModule } from 'ng-zorro-antd/form';
+
 
 
 
@@ -15,9 +14,6 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     CommonModule,
     DashboardRoutingModule,
     ZmoduleModule
-  ],
-  exports: [
-    NzButtonModule,
   ]
 })
 export class DashboardModule { }

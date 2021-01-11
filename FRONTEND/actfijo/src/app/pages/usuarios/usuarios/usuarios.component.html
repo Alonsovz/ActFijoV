@@ -1,0 +1,99 @@
+<div style="color: #001529; font-size: 25px;"> 
+    Gestión de usuarios
+
+    <button nz-button nzType="primary" style="float: right;" (click)="showCardAgregar()"><i nz-icon nzType="user-add"></i>Agregar</button>
+    <button nz-button nzType="primary default" style="float: right;" (click)="showCardListado()"><i nz-icon nzType="team"></i>Listado de usuarios</button>
+    
+    <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+</div>
+
+
+<!--card para lista de usuarios-->
+<nz-card style="width:65%" class="cardShadow" *ngIf="mostrarCardListado">
+<div nz-row>
+    <h2> <i nz-icon nzType="team" nzTheme="outline"></i> Listado de usuarios</h2>
+</div>
+<nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+<div nz-row>
+    <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
+
+    <nz-table #basicTable [nzData]="objUsuariosTbl" *ngIf="mostrarTablaCarga">
+        <thead>
+          <tr>
+           
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let us of objUsuariosTbl">
+            <td>{{ us.nombre }}</td>
+            <td>{{ us.apellido }}</td>
+            <td>{{ us.correo }}</td>
+            <td>{{ us.rol }}</td>
+            <td>
+                <button nz-button nzType="default"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
+                <button nz-button nzType="default" nzDanger> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
+               
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+</div>
+    
+
+</nz-card>
+
+<!--Card para mostrar formulario de agregar usuario-->
+<nz-card style="width:50%" class="cardShadow" *ngIf="mostrarCardAgregar">
+    <div nz-row>
+        <div nz-col nzSpan="12">
+            <img src="./assets/img/teamwork.png" class="imgCenter"/>
+        </div>
+        
+        <div nz-col nzSpan="12">
+            <h3> <i nz-icon nzType="user-add" nzTheme="outline"></i> Agregar nuevo usuario</h3>
+            <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+            <form nz-form [nzLayout]="'inline'" [formGroup]="agregarUsuarioForm">
+                <nz-form-item>
+                  <nz-form-control>
+                      <nz-form-label nzRequired>Nombre de usuario</nz-form-label>
+                      <nz-select formControlName="usuario" nzShowSearch nzAllowClear nzPlaceHolder="Nombre de usuario" [(ngModel)]="selectedValue">
+                          <nz-option *ngFor="let user of objUsuarios" nzValue="{{user.id}}" nzLabel="{{user.nombre}}" ></nz-option>
+                      </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item style="width: 100% !important;">
+                  <nz-form-control>
+                      <nz-form-label nzRequired>Rol de usuario</nz-form-label>
+                      <nz-select formControlName="rol" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione el rol" [(ngModel)]="selectedValue">
+                          <nz-option *ngFor="let rol of objRoles" nzValue="{{rol.id}}"  nzLabel="{{rol.rol}}"></nz-option>
+                      </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </form>
+              
+              <div nz-row style="margin-top: 10px;float: right !important;">
+                <button nz-button nzType="primary" style="float: right !important;" (click)="cerrarCardAgregar()"><i nz-icon nzType="save"></i>Guardar</button>
+              </div>
+             
+        </div>
+    </div>
+  
+</nz-card>
+
+
+<!--modal agregar usuario-->
+<nz-modal [(nzVisible)]="mostrarModalAgregar" nzTitle="Agregar nuevo usuario">
+    <ng-container *nzModalContent>
+       
+        
+    </ng-container>
+    <div *nzModalFooter>
+        <button nz-button nzType="default" (click)="cerrarModalAgregar()">Cerrar</button>
+        <button nz-button nzType="primary" (click)="guardarUsuario()">Guardar</button>
+      </div>
+  </nz-modal>

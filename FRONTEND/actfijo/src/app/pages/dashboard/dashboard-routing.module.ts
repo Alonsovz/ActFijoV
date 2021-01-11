@@ -9,6 +9,10 @@ const routes: Routes = [
       {
         path: 'tipoactivo',
         loadChildren: () => import('./../tipoactivo/tipoactivo.module').then(m => m.TipoactivoModule)
+      },
+      {
+        path: 'usuarios',
+        loadChildren: () => import('./../usuarios/usuarios.module').then(m => m.UsuariosModule)
       }
     ]
   }

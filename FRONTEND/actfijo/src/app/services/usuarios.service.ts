@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { Rol } from '../models/rol';
 
 
 const httpOptions = {
@@ -38,6 +39,19 @@ export class UsuariosService {
   public login(usuario: Usuario): Observable<Usuario> {
     return this.http.post<Usuario>(this.globalservice.getUrlBackEnd() + 'validarCredenciales', usuario, httpOptions)
     .pipe(map(data => data as Usuario ));
+  }
+
+  public getUsuarios(): Observable<Usuario[]> {
+    return this.http.get(this.globalservice.getUrlBackEnd() + 'getUsuarios').pipe(map(data => data as Usuario[]));
+  }
+
+  public getRoles(): Observable<Rol[]> {
+    return this.http.get(this.globalservice.getUrlBackEnd() + 'getRoles').pipe(map(data => data as Rol[]));
+  }
+
+
+  public getUsuariosTbl(): Observable<Usuario[]> {
+    return this.http.get(this.globalservice.getUrlBackEnd() + 'getUsuariosTbl').pipe(map(data => data as Usuario[]));
   }
 
   // metodo para cerrar sesion
