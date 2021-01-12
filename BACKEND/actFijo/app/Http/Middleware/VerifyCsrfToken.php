@@ -15,6 +15,12 @@ class VerifyCsrfToken extends BaseVerifier
         'validarCredenciales',
         'getUsuarios',
         'getRoles',
-        'getUsuariosTbl'
+        'getUsuariosTbl',
+        'guardarUsuario',
+        'eliminarUsuario',
+        'editarUsuario',
+        'guardarRol',
+        'eliminarRol',
+        'editarRol',
     ];
 }

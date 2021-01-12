@@ -41,18 +41,41 @@ export class UsuariosService {
     .pipe(map(data => data as Usuario ));
   }
 
+  //metodo para obtener objeto de usuarios para select
   public getUsuarios(): Observable<Usuario[]> {
     return this.http.get(this.globalservice.getUrlBackEnd() + 'getUsuarios').pipe(map(data => data as Usuario[]));
   }
 
+  //metodo para obtener objeto de roles para select
   public getRoles(): Observable<Rol[]> {
     return this.http.get(this.globalservice.getUrlBackEnd() + 'getRoles').pipe(map(data => data as Rol[]));
   }
 
-
+  //metodo para obtener objeto de datos para tabla
   public getUsuariosTbl(): Observable<Usuario[]> {
     return this.http.get(this.globalservice.getUrlBackEnd() + 'getUsuariosTbl').pipe(map(data => data as Usuario[]));
   }
+
+
+    // metodo para guardar nuevo usuario
+    public guardarUsuario(usuario: Usuario): Observable<Usuario> {
+      return this.http.post<Usuario>(this.globalservice.getUrlBackEnd() + 'guardarUsuario', usuario, httpOptions)
+      .pipe(map(data => data as Usuario ));
+    }
+
+
+    // metodo para eliminar usuario
+    public eliminarUsuario(usuario: Usuario): Observable<Usuario> {
+      return this.http.post<Usuario>(this.globalservice.getUrlBackEnd() + 'eliminarUsuario', usuario, httpOptions)
+      .pipe(map(data => data as Usuario ));
+    }
+
+
+    // metodo para editar usuario
+    public editarUsuario(usuario: Usuario): Observable<Usuario> {
+      return this.http.post<Usuario>(this.globalservice.getUrlBackEnd() + 'editarUsuario', usuario, httpOptions)
+      .pipe(map(data => data as Usuario ));
+    }
 
   // metodo para cerrar sesion
   public cerrarSesion() {

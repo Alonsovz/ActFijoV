@@ -1,6 +1,7 @@
 create table af_roles_sistema(
 id int IDENTITY(1,1) PRIMARY KEY,
-rol varchar(50)
+rol varchar(50),
+estado int
 );
 
 create table af_usuario_rol(

@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UsuariosRoutingModule } from './usuarios-routing.module';
-import { UsuariosComponent } from './usuarios/usuarios.component';
+import { RolesRoutingModule } from './roles-routing.module';
+import { RolesComponent } from './roles/roles.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [UsuariosComponent],
+  declarations: [RolesComponent],
   imports: [
     CommonModule,
-    UsuariosRoutingModule,
+    RolesRoutingModule,
     ZmoduleModule,
     FormsModule,
     ReactiveFormsModule
   ]
 })
-export class UsuariosModule { }
+export class RolesModule { }

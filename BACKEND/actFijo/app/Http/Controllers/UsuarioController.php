@@ -14,7 +14,7 @@ date_default_timezone_set("America/El_Salvador");
 
 class UsuarioController extends Controller
 {
-    
+        //metodo para validar credenciales
         public function validarCredenciales(Request $request)
         {
             $correo = $request["correo"];
@@ -50,33 +50,68 @@ class UsuarioController extends Controller
            
         }
 
-
+        //metodo para obtener listado de usuarios para mostrar en select de vista de usuarios
         public function getUsuarios(){
             $usuarios = 
             DB::connection('comanda')->select("SELECT distinct id,
              nombre+' '+apellido as nombre from users where estado = 1
-            and id not in (select idUsuario from af_usuario_rol)");
+            and id not in (select idUsuario from af_usuario_rol where estado = 1)");
     
     
             return response()->json($usuarios);
         }
 
-        public function getRoles(){
-            $usuarios = 
-            DB::connection('comanda')->select("SELECT * from af_roles_sistema ");
-
-            return response()->json($usuarios);
-        }
-
+       
+        //metodo para obtener listado de usuarios para mostrar en tabla de vista de usuarios
         public function getUsuariosTbl(){
             $usuarios = 
-            DB::connection('comanda')->select("SELECT u.*, rs.rol as rol from users u 
+            DB::connection('comanda')->select("SELECT u.*,u.nombre+' '+u.apellido as nombreUsuario,
+             rs.rol as rol,rs.id as idRol, ur.id as idUsuarioRol from users u 
             inner join af_usuario_rol ur on ur.idUsuario = u.id
             inner join af_roles_sistema rs on rs.id = ur.idRol
             where ur.estado = 1
+            order by ur.id desc
             ");
 
             return response()->json($usuarios);
+        }
+
+        //metodo para guardar usuarios
+        public function guardarUsuario(Request $request){
+            $usuario = $request["usuario"];
+            $rol = $request["rol"];
+
+            $insertar =  DB::connection('comanda')->table('af_usuario_rol')
+            ->insert([
+                'idUsuario' => $usuario,
+                'idRol ' => $rol,
+                'estado' => 1,
+            ]);
+
+            return response()->json($insertar);
+        }
+
+        //metodo para eliminar usuarios
+        public function eliminarUsuario(Request $request){
+            $idUsuarioRol = $request["idUsuarioRol"];
+
+            $editar = DB::connection('comanda')->table('af_usuario_rol')->where('id', $idUsuarioRol)
+            ->update(['estado' => 2 , 
+            ]);
+
+            return response()->json($editar);
+        }
+
+        //metodo para editar usuarios
+        public function editarUsuario(Request $request){
+            $idUsuarioRol = $request["idUsuarioRol"];
+            $rol = $request["idRol"];
+
+            $editar = DB::connection('comanda')->table('af_usuario_rol')->where('id', $idUsuarioRol)
+            ->update(['idRol' => $rol , 
+            ]);
+
+            return response()->json($editar);
         }
 }
 
