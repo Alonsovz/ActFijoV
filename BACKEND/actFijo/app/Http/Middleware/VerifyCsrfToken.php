@@ -22,5 +22,9 @@ class VerifyCsrfToken extends BaseVerifier
         'guardarRol',
         'eliminarRol',
         'editarRol',
+        'guardarTipoActivo',
+        'getTipoActivo',
+        'editarTipoActivo',
+        'eliminarTipoActivo'
     ];
 }

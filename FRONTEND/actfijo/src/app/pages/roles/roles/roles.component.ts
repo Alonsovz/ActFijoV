@@ -46,16 +46,20 @@ export class RolesComponent implements OnInit {
 
    //metodo para mostrar card para agregar usuario y traer objeto para llenado de tabla de lista de usuario
    showCardListado() : void{
+    this.mostrarTablaCarga = false;
     this.mostrarCardAgregar = false;
+    this.mostrarCardListado = true;
+    this.mostrarCardEditar = false;
 
     this.mostrarSkeleton = true;
 
     this.rol.getRoles().subscribe(
       data => {
         this.objRoles = data;
+        this.mostrarCardListado = true;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
-        this.mostrarCardListado = true;
+        
         this.mostrarCardAgregar = false;
         this.mostrarCardEditar = false;
       });

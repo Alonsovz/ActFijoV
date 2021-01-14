@@ -16,7 +16,6 @@ export class UsuariosComponent implements OnInit {
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
-  mostrarCardRoles = false;
   mostrarTablaCarga = false;
   mostrarSkeleton = true;
   
@@ -59,13 +58,18 @@ export class UsuariosComponent implements OnInit {
     this.mostrarCardListado = false;
     this.mostrarCardEditar = false;
     this.editarUsuarioForm.reset();
+    this.agregarUsuarioForm.reset();
   }
 
 
 
-  //metodo para mostrar card para agregar usuario y traer objeto para llenado de tabla de lista de usuario
+  //metodo para mostrar card para ver tablas usuario y traer objeto para llenado de tabla de lista de usuario
   showCardListado() : void{
+    this.mostrarTablaCarga = false;
     this.mostrarCardAgregar = false;
+    this.mostrarCardListado = true;
+    this.mostrarCardEditar = false;
+
     this.agregarUsuarioForm.reset();
     this.editarUsuarioForm.reset();
 
@@ -74,9 +78,9 @@ export class UsuariosComponent implements OnInit {
     this.usuario.getUsuariosTbl().subscribe(
       data => {
         this.objUsuariosTbl = data;
+        this.mostrarCardListado = true;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
-        this.mostrarCardListado = true;
         this.mostrarCardAgregar = false;
         this.mostrarCardEditar = false;
       });
@@ -212,12 +216,4 @@ export class UsuariosComponent implements OnInit {
     );
   }
 
-   //metodo para mostrar card Roles
-
-   showCardListadoRoles(){
-    this.mostrarCardAgregar = false;
-    this.mostrarCardListado = false;
-    this.mostrarCardEditar = false;
-    this.mostrarCardRoles = true;
-  }
 }

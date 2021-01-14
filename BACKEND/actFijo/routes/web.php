@@ -29,3 +29,9 @@ Route::any('getRoles', 'RolesController@getRoles');
 Route::post('guardarRol', 'RolesController@guardarRol');
 Route::post('eliminarRol', 'RolesController@eliminarRol');
 Route::post('editarRol', 'RolesController@editarRol');
+
+//rutas para tipoACtivo
+Route::any('getTipoActivo', 'TipoActivoController@getTipoActivo');
+Route::post('guardarTipoActivo', 'TipoActivoController@guardarTipoActivo');
+Route::post('editarTipoActivo', 'TipoActivoController@editarTipoActivo');
+Route::post('eliminarTipoActivo', 'TipoActivoController@eliminarTipoActivo');

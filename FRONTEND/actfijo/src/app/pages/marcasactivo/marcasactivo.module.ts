@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TipoactivoRoutingModule } from './tipoactivo-routing.module';
-import { TipoactivoComponent } from './tipoactivo/tipoactivo.component';
+import { MarcasactivoRoutingModule } from './marcasactivo-routing.module';
+import { MarcasactivoComponent } from './marcasactivo/marcasactivo.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 @NgModule({
-  declarations: [TipoactivoComponent],
+  declarations: [MarcasactivoComponent],
   imports: [
     CommonModule,
-    TipoactivoRoutingModule,
+    MarcasactivoRoutingModule,
     ZmoduleModule,
     FormsModule,
     ReactiveFormsModule
   ]
 })
-export class TipoactivoModule {
-
- }
+export class MarcasactivoModule { }
