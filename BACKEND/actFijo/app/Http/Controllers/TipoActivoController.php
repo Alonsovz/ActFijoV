@@ -31,8 +31,8 @@ class TipoActivoController extends Controller
     public function getCuentas(){
         $cuenta = 
         DB::connection('comanda')->select("SELECT  cuenta, nombre
-        FROM       saf_2011.dbo.catalogo_completo
-        WHERE     (LEFT(CUENTA, 6) IN ('120109', '120110', '120111', '120112')) AND (OPERABLE = 'S') 
+        FROM  saf_2011.dbo.catalogo_completo
+        WHERE  (OPERABLE = 'S') 
         ORDER BY CUENTA");
 
         return response()->json($cuenta);
