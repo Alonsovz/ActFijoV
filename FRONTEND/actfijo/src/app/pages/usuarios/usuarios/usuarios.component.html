@@ -9,7 +9,7 @@
 
 
 <!--card para lista de usuarios-->
-<nz-card style="width:80%" class="cardShadow" *ngIf="mostrarCardListado">
+<nz-card style="width:90%" class="cardShadow" *ngIf="mostrarCardListado">
 <div nz-row>
     <h2> <i nz-icon nzType="team" nzTheme="outline"></i> Listado de usuarios</h2>
 </div>
@@ -26,7 +26,7 @@
             <th><i nz-icon nzType="user" nzTheme="outline"></i> Usuario</th>
             <th><i nz-icon nzType="mail" nzTheme="outline"></i> Correo</th>
             <th><i nz-icon nzType="tool" nzTheme="outline"></i> Rol</th>
-            <th><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+            <th style="text-align: center; align-items: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +36,7 @@
             <td>{{ us.alias }}</td>
             <td>{{ us.correo }}</td>
             <td>{{ us.rol }}</td>
-            <td>
+            <td style="text-align: center; align-items: center;">
                 <button nz-button nzType="default" (click)="editarUsuarioCard(us)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
                 <button nz-button nzType="default" nzDanger (click)="eliminarUsuario(us)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
                
@@ -50,7 +50,7 @@
 </nz-card>
 
 <!--Card para mostrar formulario de agregar usuario-->
-<nz-card style="width:50%" class="cardShadow" *ngIf="mostrarCardAgregar">
+<nz-card style="width:70%" class="cardShadow" *ngIf="mostrarCardAgregar">
     <div nz-row>
         <div nz-col nzSpan="12">
             <img src="./assets/img/teamwork.png" class="imgCenter"/>
@@ -89,7 +89,7 @@
 
 
 <!--Card para mostrar formulario de editar usuario-->
-<nz-card style="width:50%" class="cardShadow" *ngIf="mostrarCardEditar">
+<nz-card style="width:70%" class="cardShadow" *ngIf="mostrarCardEditar">
     <div nz-row>
         <div nz-col nzSpan="12">
             <img src="./assets/img/editUser.png" class="imgCenter"/>

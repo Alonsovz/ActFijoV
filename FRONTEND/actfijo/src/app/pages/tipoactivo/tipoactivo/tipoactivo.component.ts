@@ -174,7 +174,7 @@ export class TipoactivoComponent implements OnInit {
     }
 
 
-    //metodo para eliminar rol 
+    //metodo para eliminar tipoActivo 
 
   eliminarTipoActivo(tipoActivo){
     this.mostrarTablaCarga = false;

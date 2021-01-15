@@ -25,6 +25,14 @@ class VerifyCsrfToken extends BaseVerifier
         'guardarTipoActivo',
         'getTipoActivo',
         'editarTipoActivo',
-        'eliminarTipoActivo'
+        'eliminarTipoActivo',
+        'getMarcasActivo',
+        'guardarMarcasActivo',
+        'editarMarcaActivo',
+        'eliminarMarcaActivo',
+        'getModelosActivo',
+        'guardarModelosActivo',
+        'editarModelosActivo',
+        'eliminarModelosActivo',
     ];
 }

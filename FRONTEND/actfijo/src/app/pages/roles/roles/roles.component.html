@@ -8,7 +8,7 @@
 </div>
 
 <!--card para lista de roles-->
-<nz-card style="width:50%" class="cardShadow" *ngIf="mostrarCardListado">
+<nz-card style="width:60%" class="cardShadow" *ngIf="mostrarCardListado">
     <div nz-row>
         <h2> <i nz-icon nzType="tool" nzTheme="outline"></i> Listado de roles</h2>
     </div>
@@ -21,13 +21,13 @@
               <tr>
                
                 <th><i nz-icon nzType="tool" nzTheme="outline"></i> Rol</th>
-                <th><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+                <th style="text-align: center; align-items: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let roles of objRoles">
                 <td>{{ roles.rol }}</td>
-                <td>
+                <td style="text-align: center; align-items: center;">
                     <button nz-button nzType="default" (click)="editarRolCard(roles)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
                     <button nz-button nzType="default" nzDanger (click)="eliminarRol(roles)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
                    
@@ -41,7 +41,7 @@
 </nz-card>
 
 <!--Card para mostrar formulario de agregar usuario-->
-<nz-card style="width:50%" class="cardShadow" *ngIf="mostrarCardAgregar">
+<nz-card style="width:60%" class="cardShadow" *ngIf="mostrarCardAgregar">
     <div nz-row>
         <div nz-col nzSpan="12">
             <img src="./assets/img/cogs.png" class="imgCenter"/>
@@ -70,7 +70,7 @@
 
 
 <!--Card para mostrar formulario de editar rol-->
-<nz-card style="width:50%" class="cardShadow" *ngIf="mostrarCardEditar">
+<nz-card style="width:60%" class="cardShadow" *ngIf="mostrarCardEditar">
     <div nz-row>
         <div nz-col nzSpan="12">
             <img src="./assets/img/cogwheel.png" class="imgCenter"/>

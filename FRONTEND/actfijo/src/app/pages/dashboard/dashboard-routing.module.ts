@@ -7,6 +7,10 @@ const routes: Routes = [
     path: '', component: DashboardComponent,
     children: [
       {
+        path: 'modelosactivo',
+        loadChildren: () => import('./../modelosactivo/modelosactivo.module').then(m => m.ModelosactivoModule)
+      },
+      {
         path: 'marcasactivo',
         loadChildren: () => import('./../marcasactivo/marcasactivo.module').then(m => m.MarcasactivoModule)
       },

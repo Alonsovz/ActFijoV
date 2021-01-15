@@ -67,8 +67,8 @@
 </nz-card>
 
 
-<!--card para lista de usuarios-->
-<nz-card style="width:80%" class="cardShadow" *ngIf="mostrarCardListado">
+<!--card para lista de tipoActivo-->
+<nz-card style="width:90%" class="cardShadow" *ngIf="mostrarCardListado">
     <div nz-row>
         <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de tipos de activo</h2>
     </div>
@@ -86,7 +86,7 @@
                 <th><i nz-icon nzType="dollar" nzTheme="outline"></i> Tasa Fiscal</th>
                 <th><i nz-icon nzType="dollar" nzTheme="outline"></i> Tasa Financiera</th>
                 <th><i nz-icon nzType="bars" nzTheme="outline"></i> Siglas</th>
-                <th><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+                <th style="text-align: center; align-items: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -97,7 +97,7 @@
                 <td>{{ ob.tasaFiscal  }}</td>
                 <td>{{ ob.tasaFinan  }}</td>
                 <td>{{ ob.siglas   }}</td>
-                <td>
+                <td style="text-align: center; align-items: center;">
                     <button nz-button nzType="default" (click)="editarTipoActivoCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
                     <button nz-button nzType="default" nzDanger (click)="eliminarTipoActivo(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
                 </td>

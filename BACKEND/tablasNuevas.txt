@@ -27,3 +27,21 @@ tasa_financ float,
 siglas varchar(10),
 estado int
 );
+
+
+create table af_marcas(
+codigo_marca int IDENTITY(1,1) PRIMARY KEY,
+nombre_marca varchar(50),
+estado int
+);
+
+
+create table af_modelos (
+codigo_modelo int IDENTITY(1,1) PRIMARY KEY,
+codigo_marca int,
+nombre_modelo varchar(50),
+estado int
+);
+
+ALTER TABLE af_modelos
+ADD FOREIGN KEY (codigo_marca) REFERENCES  af_marcas(codigo_marca)

@@ -30,8 +30,22 @@ Route::post('guardarRol', 'RolesController@guardarRol');
 Route::post('eliminarRol', 'RolesController@eliminarRol');
 Route::post('editarRol', 'RolesController@editarRol');
 
-//rutas para tipoACtivo
+//rutas para tipo de activo
 Route::any('getTipoActivo', 'TipoActivoController@getTipoActivo');
 Route::post('guardarTipoActivo', 'TipoActivoController@guardarTipoActivo');
 Route::post('editarTipoActivo', 'TipoActivoController@editarTipoActivo');
 Route::post('eliminarTipoActivo', 'TipoActivoController@eliminarTipoActivo');
+
+
+//rutas para marcas de activo
+Route::any('getMarcasActivo', 'MarcasActivoController@getMarcasActivo');
+Route::post('guardarMarcasActivo', 'MarcasActivoController@guardarMarcasActivo');
+Route::post('editarMarcaActivo', 'MarcasActivoController@editarMarcaActivo');
+Route::post('eliminarMarcaActivo', 'MarcasActivoController@eliminarMarcaActivo');
+
+
+//rutas para modelos de activo
+Route::any('getModelosActivo', 'ModelosActivoController@getModelosActivo');
+Route::post('guardarModelosActivo', 'ModelosActivoController@guardarModelosActivo');
+Route::post('editarModelosActivo', 'ModelosActivoController@editarModelosActivo');
+Route::post('eliminarModelosActivo', 'ModelosActivoController@eliminarModelosActivo');

@@ -1,58 +1,71 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Marcasactivo } from 'src/app/models/marcasactivo';
+import { Modelosactivo } from 'src/app/models/modelosactivo';
 import { MarcasactivoService } from 'src/app/services/marcasactivo.service';
+import { ModelosactivoService } from 'src/app/services/modelosactivo.service';
 import notie from 'notie';
 
 @Component({
-  selector: 'app-marcasactivo',
-  templateUrl: './marcasactivo.component.html',
-  styleUrls: ['./marcasactivo.component.scss']
+  selector: 'app-modelosactivo',
+  templateUrl: './modelosactivo.component.html',
+  styleUrls: ['./modelosactivo.component.scss']
 })
-export class MarcasactivoComponent implements OnInit {
+export class ModelosactivoComponent implements OnInit {
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
   mostrarTablaCarga = false;
   mostrarSkeleton = true;
 
+
+  objModelosActivos : Modelosactivo[];
+  agregarModelosActivoForm : FormGroup;
+  editarModelosActivoForm : FormGroup;
+
+  modeloActivoEdit: Modelosactivo = new Modelosactivo();
   objMarcasActivosTbl : Marcasactivo[];
-  agregarMarcaActivoForm : FormGroup;
-  editarMarcaActivoForm : FormGroup;
+  objModelosActivosTbl : Modelosactivo[];
+  
+  constructor(private modelosactivo: ModelosactivoService, private marcasActivo: MarcasactivoService) { 
 
-  marcaActivoEdit: Marcasactivo = new Marcasactivo();
-
-  constructor(private marcasActivo: MarcasactivoService) { 
-
-    this.agregarMarcaActivoForm = new FormGroup({
-      'nombreMarca' : new FormControl(''),
+    this.agregarModelosActivoForm = new FormGroup({
+      'nombreModelo' : new FormControl(''),
+      'idMarca' : new FormControl(''),
     });
 
 
-    this.editarMarcaActivoForm = new FormGroup({
-      'nombre_marca': new FormControl(''),
-      'codigo_marca': new FormControl(''),
+    this.editarModelosActivoForm = new FormGroup({
+      'nombre_modelo' : new FormControl(''),
+      'codigo_marca' : new FormControl(''),
+      'codigo_modelo' : new FormControl(''),
     });
   }
 
   ngOnInit(): void {
+
+    this.modelosactivo.getModelosActivo().subscribe(
+      data => {
+        this.objModelosActivosTbl = data;
+        this.mostrarTablaCarga = true;
+        this.mostrarSkeleton = false;
+      });
+
     this.marcasActivo.getMarcasActivo().subscribe(
       data => {
         this.objMarcasActivosTbl = data;
-        this.mostrarTablaCarga = true;
-        this.mostrarSkeleton = false;
       });
   }
 
 
-  //metodo para mostrar card para agregar tipo de activo
+   //metodo para mostrar card para agregar tipo de activo
 
-  showCardAgregar() : void{
+   showCardAgregar() : void{
     
     this.mostrarCardAgregar = true;
     this.mostrarCardListado = false;
     this.mostrarCardEditar = false;
-    this.agregarMarcaActivoForm.reset();
+    this.agregarModelosActivoForm.reset();
   }
 
   //metodo para mostrar card para ver tabla de marcaActivos
@@ -64,27 +77,28 @@ export class MarcasactivoComponent implements OnInit {
 
   this.mostrarSkeleton = true;
 
-  this.marcasActivo.getMarcasActivo().subscribe(
+  this.modelosactivo.getModelosActivo().subscribe(
     data => {
-      this.objMarcasActivosTbl = data;
+      this.objModelosActivosTbl = data;
       this.mostrarCardAgregar = false;
       this.mostrarCardEditar = false;
       this.mostrarSkeleton = false;
       this.mostrarCardListado = true;
       this.mostrarTablaCarga = true;
-      
     });
+
 }
 
 
- //metodo para guardar marca de activo 
 
- guardarMarcasActivo(){
-  let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+ //metodo para guardar modelo de activo 
 
-  datosmarcaActivo = this.agregarMarcaActivoForm.value;
+ guardarModelosActivo(){
+  let datosModelosActivo : Modelosactivo = new Modelosactivo();
 
-  this.marcasActivo.guardarMarcasActivo(datosmarcaActivo).subscribe(
+  datosModelosActivo = this.agregarModelosActivoForm.value;
+
+  this.modelosactivo.guardarModelosActivo(datosModelosActivo).subscribe(
     response => {
      
     },
@@ -115,28 +129,28 @@ export class MarcasactivoComponent implements OnInit {
 
 
 
- //metodo para despeglar card de edición de marcaActivo
- editarMarcaActivoCard(marcaActivo){
+ //metodo para despeglar card de edición de modelos de activo
+ editarModeloActivoCard(modeloActivo){
   this.mostrarCardEditar = true;
   this.mostrarCardListado = false;
   this.mostrarCardAgregar = false;
-  this.marcaActivoEdit = marcaActivo;
+  this.modeloActivoEdit = modeloActivo;
 }
 
 
- //metodo para cancelar edicion de datos de marcaActivo
- cancelarEdicionMarcaActivo(){
+ //metodo para cancelar edicion de datos de modelos de activo
+ cancelarEdicionModeloActivo(){
   this.mostrarCardEditar = false;
   this.mostrarCardListado = true;
 }
 
-  //metodo para guardar cambios de edición de marcaActivo
-  guardarEdicionMarcaActivo(){
-    let datosMarcaActivo : Marcasactivo = new Marcasactivo();
+  //metodo para guardar cambios de edición de modelos de activo
+  guardarEdicionModeloActivo(){
+    let datosModeloActivo : Modelosactivo = new Modelosactivo();
 
-    datosMarcaActivo = this.editarMarcaActivoForm.value;
+    datosModeloActivo = this.editarModelosActivoForm.value;
 
-    this.marcasActivo.editarMarcaActivo(datosMarcaActivo).subscribe(
+    this.modelosactivo.editarModeloActivo(datosModeloActivo).subscribe(
       response => {
        
       },
@@ -166,12 +180,12 @@ export class MarcasactivoComponent implements OnInit {
   }
 
 
-   //metodo para eliminar marca de actvio 
+   //metodo para eliminar modelo de actvio 
 
-   eliminarMarcaActivo(marcaActivo){
+   eliminarModeloActivo(modeloActivo){
     this.mostrarTablaCarga = false;
     this.mostrarSkeleton = true;
-    this.marcasActivo.eliminarMarcaActivo(marcaActivo).subscribe(
+    this.modelosactivo.eliminarModeloActivo(modeloActivo).subscribe(
       response => {
        
       },
@@ -188,15 +202,15 @@ export class MarcasactivoComponent implements OnInit {
        
           notie.alert({ 
             type: 'success', 
-            text: 'Marca de activo eliminada con éxito',
+            text: 'Modelo de activo eliminado con éxito',
             stay: false,
             time: 2, 
             position: 'top' 
           });
 
-          this.marcasActivo.getMarcasActivo().subscribe(
+          this.modelosactivo.getModelosActivo().subscribe(
             data => {
-              this.objMarcasActivosTbl = data;
+              this.objModelosActivosTbl = data;
               this.mostrarTablaCarga = true;
               this.mostrarSkeleton = false;
             });
@@ -205,6 +219,5 @@ export class MarcasactivoComponent implements OnInit {
     
     );
   }
-
 
 }
