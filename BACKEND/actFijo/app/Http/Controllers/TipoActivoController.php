@@ -27,6 +27,17 @@ class TipoActivoController extends Controller
         return response()->json($tipoActivo);
     }
 
+    //también funciona para obtener objeto de tabla en vista de roles
+    public function getCuentas(){
+        $cuenta = 
+        DB::connection('comanda')->select("SELECT  cuenta, nombre
+        FROM       saf_2011.dbo.catalogo_completo
+        WHERE     (LEFT(CUENTA, 6) IN ('120109', '120110', '120111', '120112')) AND (OPERABLE = 'S') 
+        ORDER BY CUENTA");
+
+        return response()->json($cuenta);
+    }
+
     //metodo para insertar nuevo tipo de activo en base de datos COMANDA
     public function guardarTipoActivo(Request $request){
         $descPPYE = $request["descPPYE"];

@@ -34,5 +34,6 @@ class VerifyCsrfToken extends BaseVerifier
         'guardarModelosActivo',
         'editarModelosActivo',
         'eliminarModelosActivo',
+        'getCuentas'
     ];
 }

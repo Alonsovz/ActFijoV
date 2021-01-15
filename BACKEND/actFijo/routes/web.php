@@ -35,7 +35,7 @@ Route::any('getTipoActivo', 'TipoActivoController@getTipoActivo');
 Route::post('guardarTipoActivo', 'TipoActivoController@guardarTipoActivo');
 Route::post('editarTipoActivo', 'TipoActivoController@editarTipoActivo');
 Route::post('eliminarTipoActivo', 'TipoActivoController@eliminarTipoActivo');
-
+Route::any('getCuentas', 'TipoActivoController@getCuentas');
 
 //rutas para marcas de activo
 Route::any('getMarcasActivo', 'MarcasActivoController@getMarcasActivo');

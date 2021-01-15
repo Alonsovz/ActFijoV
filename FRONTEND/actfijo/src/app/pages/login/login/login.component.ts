@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
             time: 2, 
             position: 'top' 
           });
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['dashboard/usuarios']);
         
         }
        

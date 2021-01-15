@@ -26,11 +26,11 @@
     <nz-header>
       <ul nz-menu nzTheme="dark" nzMode="horizontal">
         
-        <li nz-submenu nzTitle="Dhernandez" nzIcon="user" style="float: right !important;
+        <li nz-submenu nzTitle="{{user.alias}}" nzIcon="user" style="float: right !important;
+        text-transform: uppercase;
         margin-right: 50px !important;">
           <ul style="float: left !important;">
-            <li nz-menu-item>Mi cuenta</li>
-            <li nz-menu-item>Cerrar Sesión</li>
+            <li nz-menu-item (click)="cerrarSesion()">Cerrar Sesión</li>
           </ul>
         </li>
       </ul>

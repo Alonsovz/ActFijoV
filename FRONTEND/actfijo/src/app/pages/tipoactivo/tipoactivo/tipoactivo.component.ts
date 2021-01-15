@@ -22,6 +22,7 @@ export class TipoactivoComponent implements OnInit {
   mostrarSkeleton = true;
   objTipoActivosTbl : Tipoactivo[];
   tipoActivoEdit: Tipoactivo = new Tipoactivo();
+  objCuentas: Tipoactivo[];
 
   constructor(private tipoActivo: TipoactivoService) { 
     this.agregarTipoActivoForm = new FormGroup({
@@ -52,6 +53,12 @@ export class TipoactivoComponent implements OnInit {
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
       });
+
+
+      this.tipoActivo.getCuentas().subscribe(
+        data => {
+          this.objCuentas = data;
+        });
   }
 
 

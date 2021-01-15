@@ -41,6 +41,15 @@ export class UsuariosService {
     .pipe(map(data => data as Usuario ));
   }
 
+
+    // metodo para cerrar sesion
+    public cerrarSesion() {
+      localStorage.clear();
+      this.router.navigate(['login']);
+    }
+  
+
+
   //metodo para obtener objeto de usuarios para select
   public getUsuarios(): Observable<Usuario[]> {
     return this.http.get(this.globalservice.getUrlBackEnd() + 'getUsuarios').pipe(map(data => data as Usuario[]));
@@ -77,9 +86,5 @@ export class UsuariosService {
       .pipe(map(data => data as Usuario ));
     }
 
-  // metodo para cerrar sesion
-  public cerrarSesion() {
-    localStorage.clear();
-    this.router.navigate(['login']);
-  }
+  
 }

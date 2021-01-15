@@ -28,6 +28,12 @@ export class TipoactivoService {
 }
 
 
+//metodo para obtener objeto de datos para tabla
+public getCuentas(): Observable<Tipoactivo[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getCuentas').pipe(map(data => data as Tipoactivo[]));
+}
+
+
   // metodo para guardar nuevo tipoactivo
   public guardarTipoActivo(tipoActivo: Tipoactivo): Observable<Tipoactivo> {
     return this.http.post<Tipoactivo>(this.globalservice.getUrlBackEnd() + 'guardarTipoActivo', tipoActivo, httpOptions)

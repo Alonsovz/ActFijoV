@@ -1,5 +1,5 @@
 <div style="color: #001529; font-size: 25px;"> 
-    Gestión de tipo de activos
+    Gestión de Tipos de activos
 
     <button nz-button nzType="primary" style="float: right;" (click)="showCardAgregar()">
         <i nz-icon nzType="folder-add"></i>Agregar
@@ -25,29 +25,36 @@
             <form nz-form  [formGroup]="agregarTipoActivoForm">
 
                 <div nz-row>
-                    <div nz-col [nzSpan]="10">
+                    <div nz-col [nzSpan]="11">
                         <nz-form-label nzRequired>Descripción PPYE</nz-form-label>
                         <textarea rows="3" autocomplete="off" nz-input formControlName="descPPYE" name="descPPYE" placeholder="Descripción PPYE"></textarea>
                     </div>
                     <div nz-col [nzSpan]="2"></div>
-                    <div nz-col [nzSpan]="10">
-                        <nz-form-label nzRequired>Cuenta contable</nz-form-label>
-                        <input type="text" nz-input autocomplete="off" formControlName="cuentaContable" name="cuentaContable" placeholder="Cuenta contable"/>
+                    <div nz-col [nzSpan]="11">
+                        <nz-form-label nzRequired>Tasa Fiscal</nz-form-label>
+                        <input type="text" nz-input autocomplete="off" formControlName="tasaFiscal" name="tasaFiscal" placeholder="Tasa Fiscal">
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-label nzRequired>Cuenta contable</nz-form-label><br>
+                        <nz-select formControlName="cuentaContable" name="cuentaContable" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione la cuenta contable"
+                        style="width: 100% !important;">
+                            <nz-option *ngFor="let cu of objCuentas" nzValue="{{cu.cuenta}}" nzLabel="{{cu.cuenta}} -- {{cu.nombre}}"></nz-option>
+                          </nz-select>  
+                      
                     </div>
                 </div>
 
                 <div nz-row style="margin-top: 15px;">
-                    <div nz-col [nzSpan]="7">
-                        <nz-form-label nzRequired>Tasa Fiscal</nz-form-label>
-                        <input type="text" nz-input autocomplete="off" formControlName="tasaFiscal" name="tasaFiscal" placeholder="Tasa Fiscal">
-                    </div>
-                    <div nz-col [nzSpan]="1"></div>
-                    <div nz-col [nzSpan]="7">
+                    
+                    <div nz-col [nzSpan]="11">
                         <nz-form-label nzRequired>Tasa Financiera</nz-form-label>
                         <input type="text" autocomplete="off" nz-input formControlName="tasaFinanciera" name="tasaFinanciera" placeholder="Tasa Financiera"/>
                     </div>
-                    <div nz-col [nzSpan]="1"></div>
-                    <div nz-col [nzSpan]="7">
+                    <div nz-col [nzSpan]="2"></div>
+                    <div nz-col [nzSpan]="11">
                         <nz-form-label nzRequired>Siglas</nz-form-label>
                         <input type="text" autocomplete="off" nz-input formControlName="siglas" name="siglas" placeholder="Siglas"/>
                     </div>
@@ -124,34 +131,39 @@
             <form nz-form  [formGroup]="editarTipoActivoForm">
              
                 <div nz-row>
-                    <div nz-col [nzSpan]="10">
+                    <div nz-col [nzSpan]="11">
                         <input type="hidden" nz-input formControlName="cod_ppye" name="cod_ppye" [(ngModel)]="tipoActivoEdit.cod_ppye"/>
                         <nz-form-label nzRequired>Descripción PPYE</nz-form-label>
                         <textarea rows="3" nz-input formControlName="descripcion_ppye" name="descripcion_ppye"
                          placeholder="Descripción PPYE" autocomplete="off" [(ngModel)]="tipoActivoEdit.descripcion_ppye"></textarea>
                     </div>
                     <div nz-col [nzSpan]="2"></div>
-                    <div nz-col [nzSpan]="10">
-                        <nz-form-label nzRequired>Cuenta contable</nz-form-label>
-                        <input type="text" nz-input autocomplete="off" formControlName="cuenta_contable" name="cuenta_contable" placeholder="Cuenta contable"
-                        [(ngModel)]="tipoActivoEdit.cuenta_contable"/>
-                    </div>
-                </div>
-
-                <div nz-row style="margin-top: 15px;">
-                    <div nz-col [nzSpan]="7">
+                    <div nz-col [nzSpan]="11">
                         <nz-form-label nzRequired>Tasa Fiscal</nz-form-label>
                         <input type="text" nz-input autocomplete="off" formControlName="tasa_fiscal" name="tasa_fiscal" placeholder="Tasa Fiscal"
                         [(ngModel)]="tipoActivoEdit.tasaFiscal"/>
                     </div>
-                    <div nz-col [nzSpan]="1"></div>
-                    <div nz-col [nzSpan]="7">
+                </div>
+
+                <div nz-row style="margin-top: 15px;">
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-label nzRequired>Cuenta contable</nz-form-label><br>
+
+                        <nz-select formControlName="cuenta_contable" name="cuenta_contable" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione la cuenta contable"
+                        style="width: 100% !important;" [(ngModel)]="tipoActivoEdit.cuenta_contable">
+                            <nz-option *ngFor="let cu of objCuentas" nzValue="{{cu.cuenta}}" nzLabel="{{cu.cuenta}} -- {{cu.nombre}}"></nz-option>
+                        </nz-select> 
+                    </div>
+                </div>
+
+                <div nz-row style="margin-top: 15px;">
+                    <div nz-col [nzSpan]="11">
                         <nz-form-label nzRequired>Tasa Financiera</nz-form-label>
                         <input type="text" nz-input autocomplete="off" formControlName="tasa_financ" name="tasa_financ" placeholder="Tasa Financiera"
                         [(ngModel)]="tipoActivoEdit.tasaFinan"/>
                     </div>
-                    <div nz-col [nzSpan]="1"></div>
-                    <div nz-col [nzSpan]="7">
+                    <div nz-col [nzSpan]="2"></div>
+                    <div nz-col [nzSpan]="11">
                         <nz-form-label nzRequired>Siglas</nz-form-label>
                         <input type="text" nz-input autocomplete="off" formControlName="siglas" name="siglas" placeholder="Siglas"
                         [(ngModel)]="tipoActivoEdit.siglas"/>
