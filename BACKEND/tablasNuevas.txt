@@ -57,7 +57,17 @@ estado int
 
 create table af_agd (
 codigo_agd int IDENTITY(1,1) PRIMARY KEY,
-descripcion_agd varchar(25),
+descripcion_agd varchar(50),
+estado int
+);
+
+
+----Tabla nueva---
+
+create table af_tipos_documento(
+codigo_tipo_documento int IDENTITY(1,1) PRIMARY KEY,
+descripcion_tipo_documento varchar(50),
+siglas varchar(15),
 estado int
 );
 
