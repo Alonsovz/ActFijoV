@@ -49,3 +49,18 @@ Route::any('getModelosActivo', 'ModelosActivoController@getModelosActivo');
 Route::post('guardarModelosActivo', 'ModelosActivoController@guardarModelosActivo');
 Route::post('editarModelosActivo', 'ModelosActivoController@editarModelosActivo');
 Route::post('eliminarModelosActivo', 'ModelosActivoController@eliminarModelosActivo');
+
+
+
+//rutas para tipo de Bien VNR
+Route::any('getTipoBienVNR', 'TipoBienVnrController@getTipoBienVNR');
+Route::post('guardarTipoBienVNR', 'TipoBienVnrController@guardarTipoBienVNR');
+Route::post('editarTipoBienVNR', 'TipoBienVnrController@editarTipoBienVNR');
+Route::post('eliminarTipoBienVNR', 'TipoBienVnrController@eliminarTipoBienVNR');
+
+
+//rutas para clasificacion AGD
+Route::any('getClasificacionesAgd', 'ClasificacionAgdController@getClasificacionesAgd');
+Route::post('guardarClasificacionAgd', 'ClasificacionAgdController@guardarClasificacionAgd');
+Route::post('editarClasificacionAgd', 'ClasificacionAgdController@editarClasificacionAgd');
+Route::post('eliminarClasificacionAgd', 'ClasificacionAgdController@eliminarClasificacionAgd');

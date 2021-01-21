@@ -17,7 +17,7 @@ class UsuarioController extends Controller
         //metodo para validar credenciales
         public function validarCredenciales(Request $request)
         {
-            $correo = $request["correo"];
+            $correo = $request["correo"].'@edesal.com';
             $password= $request["password"]; 
            
             $result = [];

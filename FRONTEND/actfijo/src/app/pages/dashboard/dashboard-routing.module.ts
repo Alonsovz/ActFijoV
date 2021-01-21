@@ -7,6 +7,22 @@ const routes: Routes = [
     path: '', component: DashboardComponent,
     children: [
       {
+        path: 'tipoBienVnr',
+        loadChildren: () => import('./../tipo-bien-vnr/tipo-bien-vnr.module').then(m => m.TipoBienVnrModule)
+      },
+      {
+        path: 'clasificacionAgd',
+        loadChildren: () => import('./../clasificacion-agd/clasificacion-agd.module').then(m => m.ClasificacionAgdModule)
+      },
+      {
+        path: 'actfijoGestion',
+        loadChildren: () => import('./../actfijo-gestion/actfijo-gestion.module').then(m => m.ActfijoGestionModule)
+      },
+      {
+        path: 'actfijoAltas',
+        loadChildren: () => import('./../actfijo-altas/actfijo-altas.module').then(m => m.ActfijoAltasModule)
+      },
+      {
         path: 'modelosactivo',
         loadChildren: () => import('./../modelosactivo/modelosactivo.module').then(m => m.ModelosactivoModule)
       },

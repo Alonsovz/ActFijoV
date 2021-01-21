@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rol } from 'src/app/models/rol';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuariosService } from 'src/app/services/usuarios.service';
@@ -28,15 +28,15 @@ export class UsuariosComponent implements OnInit {
   editarUsuarioForm : FormGroup;
   constructor(private usuario: UsuariosService) { 
     this.agregarUsuarioForm = new FormGroup({
-      'usuario' : new FormControl(''),
-      'rol' : new FormControl(''),
+      'usuario' : new FormControl('',[Validators.required]),
+      'rol' : new FormControl('',[Validators.required]),
 
     });
 
     this.editarUsuarioForm = new FormGroup({
-      'idUsuarioRol': new FormControl(''),
-      'nombre' : new FormControl(''),
-      'idRol' : new FormControl(''),
+      'idUsuarioRol': new FormControl('',[Validators.required]),
+      'nombre' : new FormControl('',[Validators.required]),
+      'idRol' : new FormControl('',[Validators.required]),
 
     });
   }

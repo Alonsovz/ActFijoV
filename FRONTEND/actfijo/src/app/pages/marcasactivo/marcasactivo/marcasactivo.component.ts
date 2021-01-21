@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Marcasactivo } from 'src/app/models/marcasactivo';
 import { MarcasactivoService } from 'src/app/services/marcasactivo.service';
 import notie from 'notie';
@@ -25,13 +25,13 @@ export class MarcasactivoComponent implements OnInit {
   constructor(private marcasActivo: MarcasactivoService) { 
 
     this.agregarMarcaActivoForm = new FormGroup({
-      'nombreMarca' : new FormControl(''),
+      'nombreMarca' : new FormControl('',[Validators.required]),
     });
 
 
     this.editarMarcaActivoForm = new FormGroup({
-      'nombre_marca': new FormControl(''),
-      'codigo_marca': new FormControl(''),
+      'nombre_marca': new FormControl('',[Validators.required]),
+      'codigo_marca': new FormControl('',[Validators.required]),
     });
   }
 
@@ -45,7 +45,7 @@ export class MarcasactivoComponent implements OnInit {
   }
 
 
-  //metodo para mostrar card para agregar tipo de activo
+  //metodo para mostrar card para agregar marcaActivos
 
   showCardAgregar() : void{
     

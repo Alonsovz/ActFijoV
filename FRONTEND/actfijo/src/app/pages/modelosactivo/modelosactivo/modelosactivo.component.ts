@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Marcasactivo } from 'src/app/models/marcasactivo';
 import { Modelosactivo } from 'src/app/models/modelosactivo';
 import { MarcasactivoService } from 'src/app/services/marcasactivo.service';
@@ -30,15 +30,15 @@ export class ModelosactivoComponent implements OnInit {
   constructor(private modelosactivo: ModelosactivoService, private marcasActivo: MarcasactivoService) { 
 
     this.agregarModelosActivoForm = new FormGroup({
-      'nombreModelo' : new FormControl(''),
-      'idMarca' : new FormControl(''),
+      'nombreModelo' : new FormControl('',[Validators.required]),
+      'idMarca' : new FormControl('',[Validators.required]),
     });
 
 
     this.editarModelosActivoForm = new FormGroup({
-      'nombre_modelo' : new FormControl(''),
-      'codigo_marca' : new FormControl(''),
-      'codigo_modelo' : new FormControl(''),
+      'nombre_modelo' : new FormControl('',[Validators.required]),
+      'codigo_marca' : new FormControl('',[Validators.required]),
+      'codigo_modelo' : new FormControl('',[Validators.required]),
     });
   }
 

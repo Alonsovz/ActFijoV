@@ -40,7 +40,7 @@
     
 </nz-card>
 
-<!--Card para mostrar formulario de agregar usuario-->
+<!--Card para mostrar formulario de agregar rol-->
 <nz-card style="width:60%" class="cardShadow" *ngIf="mostrarCardAgregar">
     <div nz-row>
         <div nz-col nzSpan="12">
@@ -60,7 +60,7 @@
               </form>
               
               <div nz-row style="margin-top: 10px;float: right !important;">
-                <button nz-button nzType="primary" style="float: right !important;" (click)="guardarRol()"><i nz-icon nzType="save"></i>Guardar</button>
+                <button nz-button nzType="primary" [disabled] = "agregarRolForm.invalid" style="float: right !important;" (click)="guardarRol()"><i nz-icon nzType="save"></i>Guardar</button>
               </div>
              
         </div>
@@ -83,15 +83,15 @@
                 <nz-form-item>
                   <nz-form-control>
                       <nz-form-label>Nombre de usuario</nz-form-label>
-                      <input type="text" nz-input formControlName="rol" name="rol" [(ngModel)]="rolEdit.rol"/>
+                      <input type="text" nz-input formControlName="rol" name="rol" [(ngModel)]="rolEdit.rol" autocomplete="off"/>
                       <input type="hidden" nz-input formControlName="id" name="id" [(ngModel)]="rolEdit.id" readonly/>
                   </nz-form-control>
                 </nz-form-item>
               </form>
               
               <div nz-row style="margin-top: 10px;float: right !important;">
-                <button nz-button nzType="danger" style="float: right !important;" (click)="cancelarEdicionRol()"><i nz-icon nzType="close"></i>Cancelar</button>
-                <button nz-button nzType="primary" style="float: right !important;" (click)="guardarEdicionRol()"><i nz-icon nzType="save"></i>Guardar Cambios</button>
+                <button nz-button nzType="danger" [disabled] = "editarRolForm.invalid"  style="float: right !important;" (click)="cancelarEdicionRol()"><i nz-icon nzType="close"></i>Cancelar</button>
+                <button nz-button nzType="primary"  [disabled] = "editarRolForm.invalid" style="float: right !important;" (click)="guardarEdicionRol()"><i nz-icon nzType="save"></i>Guardar Cambios</button>
               </div>
              
         </div>

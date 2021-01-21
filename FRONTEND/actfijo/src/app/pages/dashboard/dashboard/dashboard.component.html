@@ -6,20 +6,33 @@
     <ul nz-menu nzTheme="dark" nzMode="inline">
     
 
-      <li nz-submenu nzTitle="Config. Act Fijo" nzIcon="tool">
-        <ul>
-          <li nz-menu-item routerLink="tipoactivo">Tipo de activo</li>
-          <li nz-menu-item routerLink="marcasactivo">Marcas de activo</li>
+      <li nz-submenu nzTitle="Gestiones" nzIcon="tool">
+        <ul style="align-items:left !important; float: left !important;">
+          <li nz-menu-item routerLink="tipoactivo" > Tipo de activo</li>
+          <li nz-menu-item routerLink="marcasactivo"> Marcas de activo</li>
           <li nz-menu-item routerLink="modelosactivo">Modelos de activo</li>
+          <li nz-menu-item routerLink="tipoBienVnr">Tipo bien VNR</li>
+          <li nz-menu-item routerLink="clasificacionAgd">Clasficaciones AGD</li>
+        </ul>
+      </li>
+
+      <li nz-submenu nzTitle="Gestión de activos" nzIcon="snippets" nzSpin="true">
+        <ul>
+          <li nz-menu-item routerLink="actfijoGestion">Gestión</li>
+          <li nz-menu-item routerLink="actfijoAltas">Altas</li>
         </ul>
       </li>
       
       <li nz-submenu nzTitle="Config.Usuarios" nzIcon="team" nzSpin="true">
+        
         <ul>
           <li nz-menu-item routerLink="usuarios">Usuarios</li>
           <li nz-menu-item routerLink="roles">Roles</li>
         </ul>
       </li>
+
+
+      
     </ul>
   </nz-sider>
   <nz-layout>

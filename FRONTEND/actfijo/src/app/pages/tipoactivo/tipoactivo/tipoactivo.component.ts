@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tipoactivo } from 'src/app/models/tipoactivo';
 import notie from 'notie';
 import { TipoactivoService } from 'src/app/services/tipoactivo.service';
@@ -26,21 +26,21 @@ export class TipoactivoComponent implements OnInit {
 
   constructor(private tipoActivo: TipoactivoService) { 
     this.agregarTipoActivoForm = new FormGroup({
-      'descPPYE' : new FormControl(''),
-      'cuentaContable' : new FormControl(''),
-      'tasaFiscal' : new FormControl(''),
-      'tasaFinanciera' : new FormControl(''),
-      'siglas' : new FormControl(''),
+      'descPPYE' : new FormControl('',[Validators.required]),
+      'cuentaContable' : new FormControl('',[Validators.required]),
+      'tasaFiscal' : new FormControl('',[Validators.required]),
+      'tasaFinanciera' : new FormControl('',[Validators.required]),
+      'siglas' : new FormControl('',[Validators.required]),
     });
 
 
     this.editarTipoActivoForm = new FormGroup({
-      'cod_ppye': new FormControl(''),
-      'descripcion_ppye' : new FormControl(''),
-      'cuenta_contable' : new FormControl(''),
-      'tasa_fiscal' : new FormControl(''),
-      'tasa_financ' : new FormControl(''),
-      'siglas' : new FormControl(''),
+      'cod_ppye': new FormControl('',[Validators.required]),
+      'descripcion_ppye' : new FormControl('',[Validators.required]),
+      'cuenta_contable' : new FormControl('',[Validators.required]),
+      'tasa_fiscal' : new FormControl('',[Validators.required]),
+      'tasa_financ' : new FormControl('',[Validators.required]),
+      'siglas' : new FormControl('',[Validators.required]),
     });
 
   }

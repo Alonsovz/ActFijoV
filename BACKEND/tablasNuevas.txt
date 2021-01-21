@@ -45,3 +45,20 @@ estado int
 
 ALTER TABLE af_modelos
 ADD FOREIGN KEY (codigo_marca) REFERENCES  af_marcas(codigo_marca)
+
+
+
+create table af_tipo_bien_vnr(
+codigo_tipo_bien_vnr int IDENTITY(1,1) PRIMARY KEY,
+nombre_tipo_bien varchar(50),
+estado int
+);
+
+
+create table af_agd (
+codigo_agd int IDENTITY(1,1) PRIMARY KEY,
+descripcion_agd varchar(25),
+estado int
+);
+
+

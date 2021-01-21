@@ -1,0 +1,115 @@
+<div style="color: #001529; font-size: 25px;"> 
+    Gestión de Clasificaciones AGD
+
+    <button nz-button nzType="primary" style="float: right;" (click)="showCardAgregar()">
+        <i nz-icon nzType="folder-add"></i>Agregar
+    </button>
+    <button nz-button nzType="primary default" style="float: right;" (click)="showCardListado()">
+        <i nz-icon nzType="bars"></i>Listado de Clasificaciones AGD
+    </button>
+    
+    <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+</div>
+
+<!--Card para mostrar formulario de agregar clasifiacion AGD-->
+<nz-card style="width:50%" class="cardShadow" *ngIf="mostrarCardAgregar">
+    <div nz-row>
+        <div nz-col nzSpan="8">
+            <img src="./assets/img/addModel.png" class="imgCenter"/>
+        </div>
+        
+        <div nz-col nzSpan="16">
+            <h3><i nz-icon nzType="file-add" nzTheme="fill"></i> Agregar nueva clasificación AGD</h3>
+            <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+            <form nz-form  [formGroup]="agregarClasificacionAgdForm">
+
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-label nzRequired>Nombre</nz-form-label>
+                        <textarea rows="3" nz-input autocomplete="off" formControlName="nombre" name="nombre" placeholder="Nombre" >
+                        </textarea>
+                    </div>
+                </div>
+
+              
+              </form>
+              <br>
+              <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+              <div nz-row style="margin-top: 20px;float: right !important;">
+                <button nz-button nzType="primary" [disabled] = "agregarClasificacionAgdForm.invalid" style="float: right !important;" (click)="guardarClasificacionAgd()"><i nz-icon nzType="save"></i>Guardar</button>
+              </div>
+             
+        </div>
+    </div>
+  
+</nz-card>
+
+
+<!--card para lista de clasifiacion AGD-->
+<nz-card style="width:65%" class="cardShadow" *ngIf="mostrarCardListado">
+    <div nz-row>
+        <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de Clasificaciones AGD</h2>
+    </div>
+    <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+    <div nz-row>
+        <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
+    
+        <nz-table #basicTable [nzData]="objClasificacionAgd" *ngIf="mostrarTablaCarga">
+            <thead>
+              <tr>
+               
+                <th><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
+                <th><i nz-icon nzType="edit" nzTheme="outline"></i> Nombre</th>
+                <th style="text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ob of objClasificacionAgd">
+                <td>{{ ob.codigo_agd }}</td>
+                <td>{{ ob.descripcion_agd }}</td>
+                <td style="text-align: center; align-items: center;">
+                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
+                    <button nz-button nzType="default" nzDanger (click)="eliminarClasificacionAgd(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+    </div>
+        
+    
+</nz-card>
+
+
+
+<!--Card para mostrar formulario de clasifiacion AGD-->
+<nz-card style="width:65%" class="cardShadow" *ngIf="mostrarCardEditar">
+    <div nz-row>
+        <div nz-col nzSpan="8">
+            <img src="./assets/img/edit.png" class="imgCenter"/>
+        </div>
+        
+        <div nz-col nzSpan="16">
+            <h3> <i nz-icon nzType="bars" nzTheme="outline"></i> Editar Tipo de bien VNR</h3>
+            <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+            <form nz-form  [formGroup]="editarClasificacionAgdForm">
+             
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <input type="hidden" nz-input formControlName="codigo_agd" name="codigo_agd" [(ngModel)]="clasificacionAgdEdit.codigo_agd"/>
+                        <nz-form-label nzRequired>Nombre</nz-form-label>
+                        <textarea rows="3" nz-input formControlName="descripcion_agd" name="descripcion_agd" autocomplete="off" [(ngModel)]="clasificacionAgdEdit.descripcion_agd" >
+                        </textarea>
+                    </div>
+                </div>
+
+              </form>
+              
+              <div nz-row style="margin-top: 20px;float: right !important;">
+                <button nz-button nzType="danger" [disabled] = "editarClasificacionAgdForm.invalid" style="float: right !important;" (click)="cancelarEdicionClasificacionAgd()"><i nz-icon nzType="close"></i>Cancelar</button>
+                <button nz-button nzType="primary" [disabled] = "editarClasificacionAgdForm.invalid" style="float: right !important;" (click)="guardarEdicionClasificacionAgd()"><i nz-icon nzType="save"></i>Guardar Cambios</button>
+              </div>
+             
+        </div>
+    </div>
+  
+</nz-card>

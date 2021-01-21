@@ -34,6 +34,14 @@ class VerifyCsrfToken extends BaseVerifier
         'guardarModelosActivo',
         'editarModelosActivo',
         'eliminarModelosActivo',
-        'getCuentas'
+        'getCuentas',
+        'getTipoBienVNR',
+        'guardarTipoBienVNR',
+        'editarTipoBienVNR',
+        'eliminarTipoBienVNR',
+        'getClasificacionesAgd',
+        'guardarClasificacionAgd',
+        'editarClasificacionAgd',
+        'eliminarClasificacionAgd',
     ];
 }

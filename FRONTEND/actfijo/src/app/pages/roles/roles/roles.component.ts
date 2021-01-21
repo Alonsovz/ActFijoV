@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rol } from 'src/app/models/rol';
 import { RolService } from 'src/app/services/rol.service';
 import notie from 'notie';
@@ -25,13 +25,13 @@ export class RolesComponent implements OnInit {
 
   constructor(private rol: RolService) {
     this.agregarRolForm = new FormGroup({
-      'nombreRol' : new FormControl(''),
+      'nombreRol' : new FormControl('',[Validators.required]),
 
     });
 
     this.editarRolForm = new FormGroup({
-      'id' : new FormControl(''),
-      'rol' : new FormControl(''),
+      'id' : new FormControl('',[Validators.required]),
+      'rol' : new FormControl('',[Validators.required]),
     });
    }
 

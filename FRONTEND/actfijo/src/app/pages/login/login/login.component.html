@@ -18,14 +18,17 @@
             <div nz-row nzJustify="center">
                 <h2 style="margin-left: 130px;">Activo Fijo</h2>
             </div>
-            <form nz-form [formGroup]="validateForm" class="login-form">
+            <form nz-form [formGroup]="validateForm" class="login-form" >
                 <nz-form-item >
                   <nz-form-control nzErrorTip="Please input your username!">
                     <nz-input-group>
                         <div nz-row nzJustify="center">
                             <div nz-col nzSpan="3"><img src="./assets/img/user.png"></div>
                             <div nz-col nzSpan="21"> 
-                                <input type="text" nz-input formControlName="correo" placeholder="Usuario" class="inputZ"/>
+                              <nz-input-group nzSuffix="@edesal.com"  class="inputZ" >
+                                <input type="text" nz-input  placeholder="Correo electrónico" formControlName="correo" class="inputZi"/>
+                              </nz-input-group>
+                               
                             </div>
                           </div>
                     </nz-input-group>
@@ -44,7 +47,7 @@
                   </nz-form-control>
                 </nz-form-item>
                 
-                <button type="button" (click)="validarCredenciales()" nz-button class="login-form-button login-form-margin">Iniciar Sesión</button>
+                <button type="submit" (click)="validarCredenciales()" nz-button class="login-form-button login-form-margin">Iniciar Sesión</button>
             </form>
         </div>
         
