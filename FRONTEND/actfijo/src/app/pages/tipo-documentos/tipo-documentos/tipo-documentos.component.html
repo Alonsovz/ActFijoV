@@ -1,0 +1,123 @@
+<div style="color: #001529; font-size: 25px;">
+  Gestión de Tipos de documentos
+
+  <button nz-button nzType="primary" style="float: right;" (click)="showCardAgregar()">
+      <i nz-icon nzType="folder-add"></i>Agregar
+  </button>
+  <button nz-button nzType="primary default" style="float: right;" (click)="showCardListado()">
+      <i nz-icon nzType="bars"></i>Listado de tipos de documentos
+  </button>
+
+  <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+</div>
+
+<!--Card para mostrar formulario de agregar nuevo tipo de documento-->
+<nz-card style="width:50%" class="cardShadow" *ngIf="mostrarCardAgregar">
+  <div nz-row>
+      <div nz-col nzSpan="8">
+          <img src="./assets/img/documentos.png" class="imgCenter"/>
+      </div>
+
+      <div nz-col nzSpan="16">
+          <h3><i nz-icon nzType="file-add" nzTheme="fill"></i> Agregar nuevo tipo de documento</h3>
+          <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+          <form nz-form  [formGroup]="agregarTipoDocumento">
+
+              <div nz-row>
+                  <div nz-col [nzSpan]="24">
+                      <nz-form-label nzRequired>Descripción:</nz-form-label>
+                      <textarea rows="4" name="tipodocumento"  autocomplete="off" nz-input formControlName="descripcion_tipo_documento" placeholder="Descripción de tipo de documento"></textarea>
+                  </div>
+              </div>
+              <div nz-row>
+                <div nz-col [nzSpan]="6">
+                    <nz-form-label nzRequired>Siglas:</nz-form-label>
+                    <input type="text" nz-input autocomplete="off" formControlName="siglas" name="descripcion_tipo_documento" placeholder="Siglas"/>
+                </div>
+            </div>
+            </form>
+            <br>
+            <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+            <div nz-row style="margin-top: 20px;float: right !important;">
+              <button nz-button nzType="primary"  [disabled] = "agregarTipoDocumento.invalid" style="float: right !important;" (click)="guardarTipoDocumento()"><i nz-icon nzType="save"></i>Guardar</button>
+            </div>
+
+      </div>
+  </div>
+
+</nz-card>
+
+
+
+
+<!--card para lista de marcas de activo-->
+<nz-card style="width:65%" class="cardShadow" *ngIf="mostrarCardListado">
+  <div nz-row>
+      <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de Tipos de documentos</h2>
+  </div>
+  <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+  <div nz-row>
+      <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
+
+      <nz-table #basicTable [nzData]="objTipoDocumentosTbl" *ngIf="mostrarTablaCarga">
+          <thead>
+            <tr>
+
+              <th><i nz-icon nzType="barcode" nzTheme="outline"></i>ID</th>
+              <th><i nz-icon nzType="edit" nzTheme="outline"></i>Descripción</th>
+              <th><i nz-icon nzType="edit" nzTheme="outline"></i>Siglas</th>
+              <th style="text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ob of objTipoDocumentosTbl">
+              <td>{{ ob.codigo_tipo_documento }}</td>
+              <td>{{ ob.descripcion_tipo_documento }}</td>
+              <td>{{ ob.siglas }}</td>
+              <td style="text-align: center; align-items: center;">
+                  <button nz-button nzType="default" (click)="editarMarcaActivoCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
+                  <button nz-button nzType="default" nzDanger (click)="eliminarTipoActivo(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+  </div>
+
+
+</nz-card>
+
+
+
+<!--Card para mostrar formulario de editar tipoActivo-->
+<nz-card style="width:65%" class="cardShadow" *ngIf="mostrarCardEditar">
+  <div nz-row>
+      <div nz-col nzSpan="8">
+          <img src="./assets/img/escritura.png" class="imgCenter"/>
+      </div>
+
+      <div nz-col nzSpan="16">
+          <h3> <i nz-icon nzType="bars" nzTheme="outline"></i> Editar Tipo de documento</h3>
+          <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+          <form nz-form  [formGroup]="editarTipoDocumento">
+
+              <div nz-row>
+                  <div nz-col [nzSpan]="24">
+                      <input type="hidden" nz-input formControlName="codigo_tipo_documento" name="codigo_tipo_documento" [(ngModel)]="tipodocumentoedit.codigo_tipo_documento"/>
+                      <nz-form-label nzRequired>Descripción</nz-form-label>
+                      <textarea rows="4" name="tipodocumento" [(ngModel)]="tipodocumentoedit.descripcion_tipo_documento"  autocomplete="off" nz-input formControlName="descripcion_tipo_documento" placeholder="Descripción de tipo de documento"></textarea>
+                      <nz-form-label nzRequired>Siglas</nz-form-label>
+                      <input nz-input formControlName="siglas" name="siglas" autocomplete="off" [(ngModel)]="tipodocumentoedit.siglas">
+                  </div>
+              </div>
+
+            </form>
+
+            <div nz-row style="margin-top: 20px;float: right !important;">
+              <button nz-button nzType="danger" [disabled] = "editarTipoDocumento.invalid" style="float: right !important;" (click)="cancelarEdicionTipoDocumento()"><i nz-icon nzType="close"></i>Cancelar</button>
+              <button nz-button nzType="primary" [disabled] = "editarTipoDocumento.invalid" style="float: right !important;" (click)="guardarEdicionTipoDocumento()"><i nz-icon nzType="save"></i>Guardar Cambios</button>
+            </div>
+
+      </div>
+  </div>
+
+</nz-card>

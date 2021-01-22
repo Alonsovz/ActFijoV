@@ -1,10 +1,10 @@
 <nz-layout class="layout" nzTheme="dark">
-  <nz-sider nzCollapsible nzBreakpoint="xs"> 
-    
+  <nz-sider nzCollapsible nzBreakpoint="xs">
+
     <div class="logo"><img src="./assets/img/blanco.png"  height=35
       style="margin:auto;"></div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-    
+
 
       <li nz-submenu nzTitle="Gestiones" nzIcon="tool">
         <ul style="align-items:left !important; float: left !important;">
@@ -13,6 +13,7 @@
           <li nz-menu-item routerLink="modelosactivo">Modelos de activo</li>
           <li nz-menu-item routerLink="tipoBienVnr">Tipo bien VNR</li>
           <li nz-menu-item routerLink="clasificacionAgd">Clasficaciones AGD</li>
+          <li nz-menu-item routerLink="tiposdocumentos">Tipos de documento</li>
         </ul>
       </li>
 
@@ -22,9 +23,9 @@
           <li nz-menu-item routerLink="actfijoAltas">Altas</li>
         </ul>
       </li>
-      
+
       <li nz-submenu nzTitle="Config.Usuarios" nzIcon="team" nzSpin="true">
-        
+
         <ul>
           <li nz-menu-item routerLink="usuarios">Usuarios</li>
           <li nz-menu-item routerLink="roles">Roles</li>
@@ -32,13 +33,13 @@
       </li>
 
 
-      
+
     </ul>
   </nz-sider>
   <nz-layout>
     <nz-header>
       <ul nz-menu nzTheme="dark" nzMode="horizontal">
-        
+
         <li nz-submenu nzTitle="{{user.alias}}" nzIcon="user" style="float: right !important;
         text-transform: uppercase;
         margin-right: 50px !important;">

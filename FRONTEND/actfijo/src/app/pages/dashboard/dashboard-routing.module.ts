@@ -1,3 +1,4 @@
+import { TipoDocumentosModule } from './../tipo-documentos/tipo-documentos.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'roles',
         loadChildren: () => import('./../roles/roles.module').then(m => m.RolesModule)
+      },
+      {
+        path: 'tiposdocumentos',
+        loadChildren: () => import('./../tipo-documentos/tipo-documentos.module').then(m => m.TipoDocumentosModule)
       },
     ]
   }

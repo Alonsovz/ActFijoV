@@ -64,3 +64,10 @@ Route::any('getClasificacionesAgd', 'ClasificacionAgdController@getClasificacion
 Route::post('guardarClasificacionAgd', 'ClasificacionAgdController@guardarClasificacionAgd');
 Route::post('editarClasificacionAgd', 'ClasificacionAgdController@editarClasificacionAgd');
 Route::post('eliminarClasificacionAgd', 'ClasificacionAgdController@eliminarClasificacionAgd');
+
+
+//rutas para tipos de documentos
+Route::post('guardarTipoDocumento','TipoDocumentosController@store');
+Route::get('getTipoDocumentos', 'TipoDocumentosController@index');
+Route::post('editarTipoDocumento', 'TipoDocumentosController@edit');
+Route::post('eliminartipodocumento', 'TipoDocumentosController@destroy');
