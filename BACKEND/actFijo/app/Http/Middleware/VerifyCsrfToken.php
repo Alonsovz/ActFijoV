@@ -47,5 +47,13 @@ class VerifyCsrfToken extends BaseVerifier
         'getTipoDocumentos',
         'editarTipoDocumento',
         'eliminartipodocumento',
+        'getModelosByMarca',
+        'getCCostoBien',
+        'getBodegas',
+        'getProveedores',
+        'getTipoPartida',
+        'getDepartamentos',
+        'getMunicipios',
+        'getCuentaContablePPYE'
     ];
 }

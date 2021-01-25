@@ -49,7 +49,8 @@ Route::any('getModelosActivo', 'ModelosActivoController@getModelosActivo');
 Route::post('guardarModelosActivo', 'ModelosActivoController@guardarModelosActivo');
 Route::post('editarModelosActivo', 'ModelosActivoController@editarModelosActivo');
 Route::post('eliminarModelosActivo', 'ModelosActivoController@eliminarModelosActivo');
-
+Route::post('editarModelosActivo', 'ModelosActivoController@editarModelosActivo');
+Route::post('getModelosByMarca', 'ModelosActivoController@getModelosByMarca');
 
 
 //rutas para tipo de Bien VNR
@@ -71,3 +72,15 @@ Route::post('guardarTipoDocumento','TipoDocumentosController@store');
 Route::get('getTipoDocumentos', 'TipoDocumentosController@index');
 Route::post('editarTipoDocumento', 'TipoDocumentosController@edit');
 Route::post('eliminartipodocumento', 'TipoDocumentosController@destroy');
+
+
+//rutas para gestión de activos
+Route::get('getCCostoBien', 'GestionActivoController@getCCostoBien');
+Route::get('getBodegas', 'GestionActivoController@getBodegas');
+Route::get('getProveedores', 'GestionActivoController@getProveedores');
+Route::get('getTipoPartida', 'GestionActivoController@getTipoPartida');
+Route::get('getDepartamentos', 'GestionActivoController@getDepartamentos');
+Route::post('getMunicipios', 'GestionActivoController@getMunicipios');
+
+Route::post('getCuentaContablePPYE', 'GestionActivoController@getCuentaContablePPYE');
+

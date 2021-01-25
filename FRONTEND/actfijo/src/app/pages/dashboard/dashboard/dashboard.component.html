@@ -1,10 +1,11 @@
-<nz-layout class="layout" nzTheme="dark">
-  <nz-sider nzCollapsible nzBreakpoint="xs">
+<nz-layout class="layout" nzTheme="dark" >
+  <nz-sider class="sidebar" nzCollapsible nzBreakpoint="xs" style="position: sticky !important;z-index: 1000;">
 
-    <div class="logo"><img src="./assets/img/blanco.png"  height=35
-      style="margin:auto;"></div>
-    <ul nz-menu nzTheme="dark" nzMode="inline">
+    <ul nz-menu nzTheme="dark" nzMode="inline" class="sidebar">
 
+
+      <div class="logo"><img src="./assets/img/blanco.png"  height=35
+        style="margin:auto;"></div>
 
       <li nz-submenu nzTitle="Gestiones" nzIcon="tool">
         <ul style="align-items:left !important; float: left !important;">
@@ -19,8 +20,7 @@
 
       <li nz-submenu nzTitle="Gestión de activos" nzIcon="snippets" nzSpin="true">
         <ul>
-          <li nz-menu-item routerLink="actfijoGestion">Gestión</li>
-          <li nz-menu-item routerLink="actfijoAltas">Altas</li>
+          <li nz-menu-item routerLink="actfijoGestion">Mis Activos</li>
         </ul>
       </li>
 
@@ -36,8 +36,8 @@
 
     </ul>
   </nz-sider>
-  <nz-layout>
-    <nz-header>
+ 
+    <nz-header style="position: fixed;width: 100%;z-index: 100;">
       <ul nz-menu nzTheme="dark" nzMode="horizontal">
 
         <li nz-submenu nzTitle="{{user.alias}}" nzIcon="user" style="float: right !important;
@@ -50,9 +50,9 @@
       </ul>
     </nz-header>
     <nz-content>
-      <div class="inner content">
+      <div class="inner content" style="margin-top: 60px;">
         <router-outlet></router-outlet>
       </div>
     </nz-content>
-  </nz-layout>
+ 
 </nz-layout>

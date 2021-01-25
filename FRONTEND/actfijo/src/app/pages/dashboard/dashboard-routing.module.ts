@@ -20,10 +20,6 @@ const routes: Routes = [
         loadChildren: () => import('./../actfijo-gestion/actfijo-gestion.module').then(m => m.ActfijoGestionModule)
       },
       {
-        path: 'actfijoAltas',
-        loadChildren: () => import('./../actfijo-altas/actfijo-altas.module').then(m => m.ActfijoAltasModule)
-      },
-      {
         path: 'modelosactivo',
         loadChildren: () => import('./../modelosactivo/modelosactivo.module').then(m => m.ModelosactivoModule)
       },

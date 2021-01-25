@@ -26,3 +26,9 @@ nz-content {
 nz-footer {
   text-align: center;
 }
+
+.sidebar{
+position: sticky !important;
+top: 0 !important;
+z-index: 1000 !important;
+}
