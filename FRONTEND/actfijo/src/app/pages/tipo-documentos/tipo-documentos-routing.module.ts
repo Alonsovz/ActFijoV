@@ -1,10 +1,10 @@
+import { TipoDocumentosComponent } from './tipo-documentos/tipo-documentos.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ActfijoAltasComponent } from './actfijo-altas/actfijo-altas.component';
 
 const routes: Routes = [
   {
-    path: '', component: ActfijoAltasComponent,
+    path: '', component: TipoDocumentosComponent,
     children: [
 
     ]
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ActfijoAltasRoutingModule { }
+export class TipoDocumentosRoutingModule { }

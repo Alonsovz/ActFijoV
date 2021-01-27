@@ -43,5 +43,17 @@ class VerifyCsrfToken extends BaseVerifier
         'guardarClasificacionAgd',
         'editarClasificacionAgd',
         'eliminarClasificacionAgd',
+        'guardarTipoDocumento',
+        'getTipoDocumentos',
+        'editarTipoDocumento',
+        'eliminartipodocumento',
+        'getModelosByMarca',
+        'getCCostoBien',
+        'getBodegas',
+        'getProveedores',
+        'getTipoPartida',
+        'getDepartamentos',
+        'getMunicipios',
+        'getCuentaContablePPYE'
     ];
 }

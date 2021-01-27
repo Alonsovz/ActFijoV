@@ -223,9 +223,12 @@ export class UsuariosComponent implements OnInit {
   }
 
 
+<<<<<<< HEAD
   onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Usuario>) {
     this.listOfCurrentPageData  = listOfCurrentPageData;
 
   }
+=======
+>>>>>>> 1c78928fbd9fbe1b7d49e1f8a482fe788446ffa6
 
 }

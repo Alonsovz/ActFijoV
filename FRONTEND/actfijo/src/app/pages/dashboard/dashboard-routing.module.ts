@@ -1,3 +1,4 @@
+import { TipoDocumentosModule } from './../tipo-documentos/tipo-documentos.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -19,10 +20,6 @@ const routes: Routes = [
         loadChildren: () => import('./../actfijo-gestion/actfijo-gestion.module').then(m => m.ActfijoGestionModule)
       },
       {
-        path: 'actfijoAltas',
-        loadChildren: () => import('./../actfijo-altas/actfijo-altas.module').then(m => m.ActfijoAltasModule)
-      },
-      {
         path: 'modelosactivo',
         loadChildren: () => import('./../modelosactivo/modelosactivo.module').then(m => m.ModelosactivoModule)
       },
@@ -41,6 +38,10 @@ const routes: Routes = [
       {
         path: 'roles',
         loadChildren: () => import('./../roles/roles.module').then(m => m.RolesModule)
+      },
+      {
+        path: 'tiposdocumentos',
+        loadChildren: () => import('./../tipo-documentos/tipo-documentos.module').then(m => m.TipoDocumentosModule)
       },
     ]
   }

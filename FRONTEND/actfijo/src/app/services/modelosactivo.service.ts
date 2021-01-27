@@ -48,4 +48,9 @@ export class ModelosactivoService {
 }
 
 
+  //metodo para obtener objeto de modelos por marca
+  public getModelosByMarca(modeloActivo): Observable<Modelosactivo[]> {
+    return this.http.post(this.globalservice.getUrlBackEnd() + 'getModelosByMarca', modeloActivo, httpOptions).pipe(map(data => data as Modelosactivo[]));
+  }
+
 }

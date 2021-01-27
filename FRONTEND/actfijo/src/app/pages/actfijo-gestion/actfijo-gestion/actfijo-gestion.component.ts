@@ -1,4 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActfijoGestion } from 'src/app/models/actfijo-gestion';
+import { ClasificacionAgd } from 'src/app/models/clasificacion-agd';
+import { Marcasactivo } from 'src/app/models/marcasactivo';
+import { Modelosactivo } from 'src/app/models/modelosactivo';
+import { TipoBienVnr } from 'src/app/models/tipo-bien-vnr';
+import { TipoDocumentos } from 'src/app/models/tipo-documentos';
+import { Tipoactivo } from 'src/app/models/tipoactivo';
+import { ActfijoGestionService } from 'src/app/services/actfijo-gestion.service';
+import { ClasficacionAgdService } from 'src/app/services/clasficacion-agd.service';
+import { MarcasactivoService } from 'src/app/services/marcasactivo.service';
+import { ModelosactivoService } from 'src/app/services/modelosactivo.service';
+import { TipoBienVnrService } from 'src/app/services/tipo-bien-vnr.service';
+import { TipoDocumentosService } from 'src/app/services/tipo-documentos.service';
+import { TipoactivoService } from 'src/app/services/tipoactivo.service';
 
 @Component({
   selector: 'app-actfijo-gestion',
@@ -6,10 +21,195 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./actfijo-gestion.component.scss']
 })
 export class ActfijoGestionComponent implements OnInit {
+  mostrarCardAgregar = false;
+  mostrarCardListado = true;
+  mostrarCardEditar = false;
+  mostrarTablaCarga = false;
+  mostrarSkeleton = true;
+  mostrarSkeletonTabla = true;
+  datosCargados = false;
+  validarPPYE = false;
+  validarDepartamento = true;
+  validarModelo = true;
+  altaActivoForm : FormGroup;
 
-  constructor() { }
+  objTipoActivosTbl : Tipoactivo[];
+  objTipoBienVNR : TipoBienVnr[];
+  objClasificacionAgd : ClasificacionAgd[];
+  objMarcasActivosTbl : Marcasactivo[];
+  objTipoDocumentosTbl : TipoDocumentos[];
+  objModelosActivos : Modelosactivo[];
+  objCCostoBien : ActfijoGestion[];
+  objBodegas : ActfijoGestion[];
+  objProveedores :  ActfijoGestion[];
+  objTipoPartida : ActfijoGestion[];
+  objDepartamentos : ActfijoGestion[];
+  objMunicipios : ActfijoGestion[];
+  objTipoActivoPPYE : ActfijoGestion[];
+
+  constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
+    private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
+    private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
+    private gestionActFijo: ActfijoGestionService) { 
+
+    this.altaActivoForm = new FormGroup({
+      'marcaModelo': new FormControl('0',[Validators.required]),
+      'departamento': new FormControl('0',[Validators.required]),
+      'tipoActivoPPYE' : new FormControl('0',[Validators.required]),
+      'cuentaContable': new FormControl('',[Validators.required]),
+      'tasaFiscal': new FormControl('',[Validators.required]),
+      'tasaFinanciera': new FormControl('',[Validators.required]),
+    });
+  }
 
   ngOnInit(): void {
+    this.tipoActivo.getTipoActivo().subscribe(
+      data => {
+        this.objTipoActivosTbl = data;
+    });
+
+    this.tipoBienVnr.getTiposBienVnr().subscribe(
+      data => {
+        this.objTipoBienVNR = data;
+    });
+
+
+    this.clasificacionAgd.getClasificacionesAgd().subscribe(
+      data => {
+        this.objClasificacionAgd = data;
+    });
+
+
+    this.marcasActivo.getMarcasActivo().subscribe(
+      data => {
+        this.objMarcasActivosTbl = data;
+    });
+
+    this.tipodocumentoservice.getTipoDocumentos().subscribe(
+      data => {
+        this.objTipoDocumentosTbl = data; 
+    });
+
+    this.gestionActFijo.getCCostoBien().subscribe(
+      data => {
+        this.objCCostoBien = data;
+    });
+
+
+    this.gestionActFijo.getBodegas().subscribe(
+      data => {
+        this.objBodegas = data;
+    });
+      
+    this.gestionActFijo.getProveedores().subscribe(
+      data => {
+        this.objProveedores = data;
+    });
+
+    this.gestionActFijo.getTipoPartida().subscribe(
+      data => {
+        this.objTipoPartida = data;
+    });
+
+
+    this.gestionActFijo.getDepartamentos().subscribe(
+      data => {
+        this.objDepartamentos = data;
+
+        this.mostrarSkeleton = false;
+        this.datosCargados = true;
+    });
   }
+
+
+   //metodo para mostrar card para alta de activo
+
+   showCardAgregar() : void{
+    
+    this.mostrarCardAgregar = true;
+    this.mostrarCardListado = false;
+    this.mostrarCardEditar = false;
+    this.validarPPYE = false;
+    //this.agregarClasificacionAgdForm.reset();
+  }
+
+
+  //metodo para mostrar card para ver tabla de mis activos
+  showCardListado() : void{
+    this.mostrarTablaCarga = false;
+    this.mostrarCardAgregar = false;
+    this.mostrarCardListado = true;
+    this.mostrarCardEditar = false;
+  
+    this.mostrarSkeletonTabla = true;
+  
+  /*  this.modelosactivo.getModelosActivo().subscribe(
+      data => {
+        this.objModelosActivosTbl = data;
+        this.mostrarCardAgregar = false;
+        this.mostrarCardEditar = false;
+        this.mostrarSkeleton = false;
+        this.mostrarCardListado = true;
+        this.mostrarTablaCarga = true;
+      });*/
+  
+  }
+
+  //metodo para filtrar modelos por marca seleccionada
+
+  public filtrarModelos(){
+    let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+
+    datosmarcaActivo = this.altaActivoForm.value;
+  
+  this.modelosactivo.getModelosByMarca(datosmarcaActivo).subscribe(
+    data => {
+      this.objModelosActivos = data;
+      this.validarModelo = false;
+    });
+
+  }
+
+
+    //metodo para filtrar municipios por departamento seleccionado
+
+    public filtrarMunicipios(){
+      let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+  
+      datosmarcaActivo = this.altaActivoForm.value;
+    
+    this.gestionActFijo.getMunicipios(datosmarcaActivo).subscribe(
+      data => {
+        this.objMunicipios = data;
+        this.validarDepartamento = false;
+      });
+  
+    }
+
+
+      //metodo para obtener cuenta contable por codigo_PPYE
+
+      public getCuentaContablePPYE(){
+        let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+    
+        datosmarcaActivo = this.altaActivoForm.value;
+      
+      this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
+        data => {
+        this.objTipoActivoPPYE = data;
+        this.validarPPYE = true;
+        });
+    
+      }
+
+      //metodo para limpiar formulario de altas
+      public limpiarFormularioAlta(){
+        this.altaActivoForm.reset();
+        this.altaActivoForm.controls["departamento"].setValue("0");
+        this.altaActivoForm.controls["tipoActivoPPYE"].setValue("0");
+        this.altaActivoForm.controls["marcaModelo"].setValue("0");
+        this.objTipoActivoPPYE = [];
+        this.validarPPYE = false;
+      }
 
 }

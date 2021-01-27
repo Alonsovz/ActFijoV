@@ -24,7 +24,7 @@ export class TipoactivoComponent implements OnInit {
   tipoActivoEdit: Tipoactivo = new Tipoactivo();
   objCuentas: Tipoactivo[];
 
-  constructor(private tipoActivo: TipoactivoService) { 
+  constructor(private tipoActivo: TipoactivoService) {  
     this.agregarTipoActivoForm = new FormGroup({
       'descPPYE' : new FormControl('',[Validators.required]),
       'cuentaContable' : new FormControl('',[Validators.required]),
