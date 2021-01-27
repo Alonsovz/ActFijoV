@@ -58,13 +58,6 @@ export class LoginComponent implements OnInit {
             position: 'top' 
           });
         }else{
-          notie.alert({ 
-            type: 'success', 
-            text: 'Inicio de sesión exitoso',
-            stay: false,
-            time: 2, 
-            position: 'top' 
-          });
           this.router.navigate(['dashboard/usuarios']);
         
         }

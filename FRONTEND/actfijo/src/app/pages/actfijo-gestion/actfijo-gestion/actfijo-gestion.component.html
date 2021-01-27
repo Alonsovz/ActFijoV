@@ -1,5 +1,5 @@
-<div style="color: #001529; font-size: 25px;"> 
-    Mis Activos
+<div style="color: #001529; font-size: 25px;" class="titulo"> 
+   Mis Activos
 
     <button nz-button nzType="primary" style="float: right;" (click)="showCardAgregar()">
         <i nz-icon nzType="folder-add"></i>Alta de activo
@@ -31,7 +31,7 @@
     <form nz-form  [formGroup]="altaActivoForm">
     <div nz-row *ngIf="datosCargados">
          
-        <h3><i nz-icon nzType="file-add" nzTheme="fill"></i> Nuevo Activo</h3>
+        <h2><i nz-icon nzType="file-add" nzTheme="fill"></i> Nuevo Activo</h2>
        
         <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
 
@@ -88,19 +88,19 @@
                 <div nz-col [nzSpan]="7">
                     <nz-form-label nzRequired>Cuenta contable asociada</nz-form-label>
                     <input type="text" placeholder="Cuenta contable asociada" nz-input
-                    [(ngModel)]="tp.cuenta_contable" formControlName="cuentaContable">
+                    [(ngModel)]="tp.cuenta_contable" formControlName="cuentaContable" readonly>
                 </div>
                 <div nz-col [nzSpan]="2"></div>
                 <div nz-col [nzSpan]="7">
                     <nz-form-label nzRequired>Tasa Fiscal</nz-form-label>
                     <input type="text" placeholder="Tasa Fiscal" nz-input
-                    [(ngModel)]="tp.tasaFiscal" formControlName="tasaFiscal">
+                    [(ngModel)]="tp.tasaFiscal" formControlName="tasaFiscal" readonly>
                 </div>
                 <div nz-col [nzSpan]="1"></div>
                 <div nz-col [nzSpan]="7">
                     <nz-form-label nzRequired>Tasa Financiera</nz-form-label>
                     <input type="text" placeholder="Tasa Financiera" nz-input
-                    [(ngModel)]="tp.tasaFinan" formControlName="tasaFinanciera">
+                    [(ngModel)]="tp.tasaFinan" formControlName="tasaFinanciera" readonly>
                 </div>
             </div>
             <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
@@ -138,7 +138,7 @@
                         <nz-option nzValue="General" nzLabel="General"></nz-option>
                         <nz-option nzValue="Distribución" nzLabel="Distribución"></nz-option>
                         <nz-option nzValue="Comercial" nzLabel="Comercial"></nz-option>
-                      </nz-select> 
+                    </nz-select> 
                 </div>
                 <div nz-col [nzSpan]="1"></div>
                 <div nz-col [nzSpan]="7">
@@ -147,7 +147,7 @@
                         <nz-option *ngFor="let tp of objCCostoBien" nzValue="{{tp.estructura11_id}}" nzLabel="{{tp.estructura11_nombre}}"></nz-option>
                     </nz-select> 
                 </div>
-                <div nz-col [nzSpan]="1"></div>
+                <div nz-col [nzSpan]="2"></div>
                 <div nz-col [nzSpan]="7">
                     <nz-form-label nzRequired>Tipo Agd</nz-form-label>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo Agd">
@@ -241,6 +241,13 @@
                     <nz-form-label nzRequired>Valor $$</nz-form-label>
                     <input type="text" nz-input placeholder="Valor $$" autocomplete="off">
                 </div>
+            </div>
+        </div>
+        
+        <div nz-col nzSpan="24">
+            <div nz-row style="margin-top: 40px !important;">
+                <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+                <button nz-button nzType="primary" nzBlock>Guardar datos</button>
             </div>
         </div>
         
