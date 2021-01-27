@@ -13,12 +13,14 @@ import notie from 'notie';
 export class UsuariosComponent implements OnInit {
   //mostrarModalAgregar = false;
 
+  texto: any;
+
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
   mostrarTablaCarga = false;
   mostrarSkeleton = true;
-  
+
   objUsuarios : Usuario[];
   objUsuariosTbl : Usuario[];
   objRoles : Rol[];
@@ -26,7 +28,11 @@ export class UsuariosComponent implements OnInit {
 
   agregarUsuarioForm : FormGroup;
   editarUsuarioForm : FormGroup;
-  constructor(private usuario: UsuariosService) { 
+
+  listOfData: ReadonlyArray<Usuario> = [];
+  listOfCurrentPageData: ReadonlyArray<Usuario> = [];
+
+  constructor(private usuario: UsuariosService) {
     this.agregarUsuarioForm = new FormGroup({
       'usuario' : new FormControl('',[Validators.required]),
       'rol' : new FormControl('',[Validators.required]),
@@ -45,7 +51,7 @@ export class UsuariosComponent implements OnInit {
     this.usuario.getRoles().subscribe(data => {this.objRoles = data;});
     this.usuario.getUsuariosTbl().subscribe(
       data => {
-        this.objUsuariosTbl = data;
+        this.listOfData = data;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
       });
@@ -85,11 +91,11 @@ export class UsuariosComponent implements OnInit {
         this.mostrarCardEditar = false;
       });
 
-  
+
   }
 
 
-  //metodo para guardar usuario 
+  //metodo para guardar usuario
 
   guardarUsuario(){
     let datosUsuario : Usuario = new Usuario();
@@ -98,59 +104,59 @@ export class UsuariosComponent implements OnInit {
 
     this.usuario.guardarUsuario(datosUsuario).subscribe(
       response => {
-       
+
       },
       err => {
-        notie.alert({ 
-          type: 'error', 
+        notie.alert({
+          type: 'error',
           text: 'Error al guardar datos!',
           stay: false,
-          time: 2, 
-          position: 'top' 
+          time: 2,
+          position: 'top'
         });
       },
       () => {
-       
-          notie.alert({ 
-            type: 'success', 
+
+          notie.alert({
+            type: 'success',
             text: 'Usuario guardado con éxito',
             stay: false,
-            time: 2, 
-            position: 'top' 
+            time: 2,
+            position: 'top'
           });
         this.showCardListado();
         }
-       
-    
+
+
     );
   }
 
-//metodo para eliminar usuario 
+//metodo para eliminar usuario
 
   eliminarUsuario(usuario){
     this.mostrarTablaCarga = false;
     this.mostrarSkeleton = true;
     this.usuario.eliminarUsuario(usuario).subscribe(
       response => {
-       
+
       },
       err => {
-        notie.alert({ 
-          type: 'error', 
+        notie.alert({
+          type: 'error',
           text: 'Error al eliminar datos!',
           stay: false,
-          time: 2, 
-          position: 'top' 
+          time: 2,
+          position: 'top'
         });
       },
       () => {
-       
-          notie.alert({ 
-            type: 'success', 
+
+          notie.alert({
+            type: 'success',
             text: 'Usuario eliminado con éxito',
             stay: false,
-            time: 2, 
-            position: 'top' 
+            time: 2,
+            position: 'top'
           });
 
           this.usuario.getUsuariosTbl().subscribe(
@@ -160,8 +166,8 @@ export class UsuariosComponent implements OnInit {
               this.mostrarSkeleton = false;
             });
         }
-       
-    
+
+
     );
   }
 
@@ -189,31 +195,37 @@ export class UsuariosComponent implements OnInit {
 
     this.usuario.editarUsuario(datosUsuario).subscribe(
       response => {
-       
+
       },
       err => {
-        notie.alert({ 
-          type: 'error', 
+        notie.alert({
+          type: 'error',
           text: 'Error al guardar datos!',
           stay: false,
-          time: 2, 
-          position: 'top' 
+          time: 2,
+          position: 'top'
         });
       },
       () => {
-       
-          notie.alert({ 
-            type: 'success', 
+
+          notie.alert({
+            type: 'success',
             text: 'Datos modificados con éxito',
             stay: false,
-            time: 2, 
-            position: 'top' 
+            time: 2,
+            position: 'top'
           });
         this.showCardListado();
         }
-       
-    
+
+
     );
+  }
+
+
+  onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Usuario>) {
+    this.listOfCurrentPageData  = listOfCurrentPageData;
+
   }
 
 }
