@@ -83,7 +83,7 @@ export class UsuariosComponent implements OnInit {
 
     this.usuario.getUsuariosTbl().subscribe(
       data => {
-        this.objUsuariosTbl = data;
+        this.listOfData = data;
         this.mostrarCardListado = true;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
@@ -161,7 +161,7 @@ export class UsuariosComponent implements OnInit {
 
           this.usuario.getUsuariosTbl().subscribe(
             data => {
-              this.objUsuariosTbl = data;
+              this.listOfData = data;
               this.mostrarTablaCarga = true;
               this.mostrarSkeleton = false;
             });
@@ -223,12 +223,9 @@ export class UsuariosComponent implements OnInit {
   }
 
 
-<<<<<<< HEAD
   onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Usuario>) {
     this.listOfCurrentPageData  = listOfCurrentPageData;
 
   }
-=======
->>>>>>> 1c78928fbd9fbe1b7d49e1f8a482fe788446ffa6
 
 }

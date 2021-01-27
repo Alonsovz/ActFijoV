@@ -54,7 +54,8 @@
     <div nz-row>
         <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
     
-        <nz-table #basicTable [nzData]="objClasificacionAgd" *ngIf="mostrarTablaCarga">
+        <nz-table nzShowPagination #rowSelectionTable
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
                
@@ -64,7 +65,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ob of objClasificacionAgd">
+              <tr *ngFor="let ob of rowSelectionTable.data">
                 <td>{{ ob.codigo_agd }}</td>
                 <td>{{ ob.descripcion_agd }}</td>
                 <td style="text-align: center; align-items: center;">

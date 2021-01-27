@@ -24,6 +24,10 @@ export class TipoactivoComponent implements OnInit {
   tipoActivoEdit: Tipoactivo = new Tipoactivo();
   objCuentas: Tipoactivo[];
 
+
+  listOfData: ReadonlyArray<Tipoactivo> = [];
+  listOfCurrentPageData: ReadonlyArray<Tipoactivo> = [];
+
   constructor(private tipoActivo: TipoactivoService) {  
     this.agregarTipoActivoForm = new FormGroup({
       'descPPYE' : new FormControl('',[Validators.required]),
@@ -49,7 +53,7 @@ export class TipoactivoComponent implements OnInit {
    
     this.tipoActivo.getTipoActivo().subscribe(
       data => {
-        this.objTipoActivosTbl = data;
+        this.listOfData = data;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
       });
@@ -83,7 +87,7 @@ export class TipoactivoComponent implements OnInit {
 
     this.tipoActivo.getTipoActivo().subscribe(
       data => {
-        this.objTipoActivosTbl = data;
+        this.listOfData = data;
         this.mostrarCardAgregar = false;
         this.mostrarCardEditar = false;
         this.mostrarSkeleton = false;
@@ -211,7 +215,7 @@ export class TipoactivoComponent implements OnInit {
 
           this.tipoActivo.getTipoActivo().subscribe(
             data => {
-              this.objTipoActivosTbl = data;
+              this.listOfData = data;
               this.mostrarTablaCarga = true;
               this.mostrarSkeleton = false;
             });
@@ -219,5 +223,11 @@ export class TipoactivoComponent implements OnInit {
        
     
     );
+  }
+
+
+  onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Tipoactivo>) {
+    this.listOfCurrentPageData  = listOfCurrentPageData;
+
   }
 }

@@ -23,6 +23,10 @@ export class ClasificacionAgdComponent implements OnInit {
 
   clasificacionAgdEdit: ClasificacionAgd = new ClasificacionAgd();
 
+
+  listOfData: ReadonlyArray<ClasificacionAgd> = [];
+  listOfCurrentPageData: ReadonlyArray<ClasificacionAgd> = [];
+
   constructor(private clasificacionAgd: ClasficacionAgdService) {
     this.agregarClasificacionAgdForm = new FormGroup({
       'nombre' : new FormControl('',[Validators.required]),
@@ -38,7 +42,7 @@ export class ClasificacionAgdComponent implements OnInit {
   ngOnInit(): void {
     this.clasificacionAgd.getClasificacionesAgd().subscribe(
       data => {
-        this.objClasificacionAgd = data;
+        this.listOfData = data;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
       });
@@ -68,7 +72,7 @@ export class ClasificacionAgdComponent implements OnInit {
     
     this.clasificacionAgd.getClasificacionesAgd().subscribe(
         data => {
-          this.objClasificacionAgd = data;
+          this.listOfData = data;
           this.mostrarCardAgregar = false;
           this.mostrarCardEditar = false;
           this.mostrarSkeleton = false;
@@ -198,7 +202,7 @@ export class ClasificacionAgdComponent implements OnInit {
 
         this.clasificacionAgd.getClasificacionesAgd().subscribe(
           data => {
-            this.objClasificacionAgd = data;
+            this.listOfData = data;
             this.mostrarTablaCarga = true;
             this.mostrarSkeleton = false;
           });
@@ -206,6 +210,12 @@ export class ClasificacionAgdComponent implements OnInit {
      
   
   );
+}
+
+
+onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<ClasificacionAgd>) {
+  this.listOfCurrentPageData  = listOfCurrentPageData;
+
 }
 
 

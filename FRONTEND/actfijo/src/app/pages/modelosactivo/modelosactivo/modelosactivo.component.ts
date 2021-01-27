@@ -26,7 +26,9 @@ export class ModelosactivoComponent implements OnInit {
   modeloActivoEdit: Modelosactivo = new Modelosactivo();
   objMarcasActivosTbl : Marcasactivo[];
   objModelosActivosTbl : Modelosactivo[];
-  
+  listOfData: ReadonlyArray<Modelosactivo> = [];
+  listOfCurrentPageData: ReadonlyArray<Modelosactivo> = [];
+
   constructor(private modelosactivo: ModelosactivoService, private marcasActivo: MarcasactivoService) { 
 
     this.agregarModelosActivoForm = new FormGroup({
@@ -46,7 +48,7 @@ export class ModelosactivoComponent implements OnInit {
 
     this.modelosactivo.getModelosActivo().subscribe(
       data => {
-        this.objModelosActivosTbl = data;
+        this.listOfData = data;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
       });
@@ -79,7 +81,7 @@ export class ModelosactivoComponent implements OnInit {
 
   this.modelosactivo.getModelosActivo().subscribe(
     data => {
-      this.objModelosActivosTbl = data;
+      this.listOfData = data;
       this.mostrarCardAgregar = false;
       this.mostrarCardEditar = false;
       this.mostrarSkeleton = false;
@@ -210,7 +212,7 @@ export class ModelosactivoComponent implements OnInit {
 
           this.modelosactivo.getModelosActivo().subscribe(
             data => {
-              this.objModelosActivosTbl = data;
+              this.listOfData = data;
               this.mostrarTablaCarga = true;
               this.mostrarSkeleton = false;
             });
@@ -218,6 +220,12 @@ export class ModelosactivoComponent implements OnInit {
        
     
     );
+  }
+
+
+  onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Modelosactivo>) {
+    this.listOfCurrentPageData  = listOfCurrentPageData;
+
   }
 
 }

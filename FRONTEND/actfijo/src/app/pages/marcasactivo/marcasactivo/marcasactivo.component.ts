@@ -22,6 +22,9 @@ export class MarcasactivoComponent implements OnInit {
 
   marcaActivoEdit: Marcasactivo = new Marcasactivo();
 
+  listOfData: ReadonlyArray<Marcasactivo> = [];
+  listOfCurrentPageData: ReadonlyArray<Marcasactivo> = [];
+
   constructor(private marcasActivo: MarcasactivoService) { 
 
     this.agregarMarcaActivoForm = new FormGroup({
@@ -38,7 +41,7 @@ export class MarcasactivoComponent implements OnInit {
   ngOnInit(): void {
     this.marcasActivo.getMarcasActivo().subscribe(
       data => {
-        this.objMarcasActivosTbl = data;
+        this.listOfData = data;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
       });
@@ -66,7 +69,7 @@ export class MarcasactivoComponent implements OnInit {
 
   this.marcasActivo.getMarcasActivo().subscribe(
     data => {
-      this.objMarcasActivosTbl = data;
+      this.listOfData = data;
       this.mostrarCardAgregar = false;
       this.mostrarCardEditar = false;
       this.mostrarSkeleton = false;
@@ -196,7 +199,7 @@ export class MarcasactivoComponent implements OnInit {
 
           this.marcasActivo.getMarcasActivo().subscribe(
             data => {
-              this.objMarcasActivosTbl = data;
+              this.listOfData = data;
               this.mostrarTablaCarga = true;
               this.mostrarSkeleton = false;
             });
@@ -204,6 +207,11 @@ export class MarcasactivoComponent implements OnInit {
        
     
     );
+  }
+
+  onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Marcasactivo>) {
+    this.listOfCurrentPageData  = listOfCurrentPageData;
+
   }
 
 

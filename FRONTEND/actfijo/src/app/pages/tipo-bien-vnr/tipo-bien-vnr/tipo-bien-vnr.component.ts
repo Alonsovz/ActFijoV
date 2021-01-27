@@ -23,6 +23,10 @@ export class TipoBienVnrComponent implements OnInit {
   tipoBienVnrEdit: TipoBienVnr = new TipoBienVnr();
   objTipoBienVNRTbl : TipoBienVnr[];
 
+
+  listOfData: ReadonlyArray<TipoBienVnr> = [];
+  listOfCurrentPageData: ReadonlyArray<TipoBienVnr> = [];
+
   constructor(private tipoBienVnr: TipoBienVnrService) { 
     this.agregarTipoBienVNRForm = new FormGroup({
       'nombre' : new FormControl('',[Validators.required]),
@@ -38,7 +42,7 @@ export class TipoBienVnrComponent implements OnInit {
   ngOnInit(): void {
     this.tipoBienVnr.getTiposBienVnr().subscribe(
       data => {
-        this.objTipoBienVNR = data;
+        this.listOfData = data;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
       });
@@ -67,7 +71,7 @@ export class TipoBienVnrComponent implements OnInit {
   
    this.tipoBienVnr.getTiposBienVnr().subscribe(
       data => {
-        this.objTipoBienVNR = data;
+        this.listOfData = data;
         this.mostrarCardAgregar = false;
         this.mostrarCardEditar = false;
         this.mostrarSkeleton = false;
@@ -197,7 +201,7 @@ export class TipoBienVnrComponent implements OnInit {
 
         this.tipoBienVnr.getTiposBienVnr().subscribe(
           data => {
-            this.objTipoBienVNR = data;
+            this.listOfData = data;
             this.mostrarTablaCarga = true;
             this.mostrarSkeleton = false;
           });
@@ -207,4 +211,9 @@ export class TipoBienVnrComponent implements OnInit {
   );
 }
 
+
+onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<TipoBienVnr>) {
+  this.listOfCurrentPageData  = listOfCurrentPageData;
+
+}
 }

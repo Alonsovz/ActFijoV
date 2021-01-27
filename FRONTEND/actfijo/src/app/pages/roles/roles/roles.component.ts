@@ -23,6 +23,10 @@ export class RolesComponent implements OnInit {
   agregarRolForm : FormGroup;
   editarRolForm : FormGroup;
 
+  listOfData: ReadonlyArray<Rol> = [];
+  listOfCurrentPageData: ReadonlyArray<Rol> = [];
+
+
   constructor(private rol: RolService) {
     this.agregarRolForm = new FormGroup({
       'nombreRol' : new FormControl('',[Validators.required]),
@@ -38,7 +42,7 @@ export class RolesComponent implements OnInit {
   ngOnInit(): void {
     this.rol.getRoles().subscribe(
       data => {
-        this.objRoles = data; 
+        this.listOfData = data; 
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
       });
@@ -55,7 +59,7 @@ export class RolesComponent implements OnInit {
 
     this.rol.getRoles().subscribe(
       data => {
-        this.objRoles = data;
+        this.listOfData = data;
         this.mostrarCardListado = true;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
@@ -141,7 +145,7 @@ export class RolesComponent implements OnInit {
 
           this.rol.getRoles().subscribe(
             data => {
-              this.objRoles = data;
+              this.listOfData = data;
               this.mostrarTablaCarga = true;
               this.mostrarSkeleton = false;
             });
@@ -203,6 +207,9 @@ export class RolesComponent implements OnInit {
   }
 
  
+  onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Rol>) {
+    this.listOfCurrentPageData  = listOfCurrentPageData;
 
+  }
 
 }

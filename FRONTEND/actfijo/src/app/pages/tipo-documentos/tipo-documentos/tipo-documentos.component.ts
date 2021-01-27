@@ -22,6 +22,9 @@ export class TipoDocumentosComponent implements OnInit {
   objTipoDocumentosTbl : TipoDocumentos[];
   tipodocumentoedit: TipoDocumentos = new TipoDocumentos();
 
+  listOfData: ReadonlyArray<TipoDocumentos> = [];
+  listOfCurrentPageData: ReadonlyArray<TipoDocumentos> = [];
+
   constructor(private tipodocumentoservice: TipoDocumentosService) {
 
     this.agregarTipoDocumento = new FormGroup({
@@ -73,7 +76,7 @@ export class TipoDocumentosComponent implements OnInit {
 // obtener los tipos de documentos
 mostrarTipoDocumentos() {
   this.tipodocumentoservice.getTipoDocumentos().subscribe(
-    response => {this.objTipoDocumentosTbl = response;
+    response => {this.listOfData = response;
       this.mostrarCardAgregar = false;
       this.mostrarCardEditar = false;
       this.mostrarSkeleton = false;
@@ -196,6 +199,13 @@ guardarEdicionTipoDocumento() {
       this.showCardListado();
     }
   )
+}
+
+
+
+onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<TipoDocumentos>) {
+  this.listOfCurrentPageData  = listOfCurrentPageData;
+
 }
 
 
