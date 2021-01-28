@@ -62,28 +62,107 @@ class GestionActivoController extends Controller
     }
 
 
- //metodo para obtener departamentos
- public function getMunicipios(Request $request){
-    $dep = $request["departamento"];
+    //metodo para obtener departamentos
+    public function getMunicipios(Request $request){
+        $dep = $request["departamento"];
 
-    $getMunicipios = 
-    DB::connection('comanda')->select("select * from MUNSV where DEPSV_ID = ".$dep."");
+        $getMunicipios = 
+        DB::connection('comanda')->select("select * from MUNSV where DEPSV_ID = ".$dep."");
 
-    return response()->json($getMunicipios);
-}
+        return response()->json($getMunicipios);
+    }
 
- //metodo para obtener departamentos
- public function getCuentaContablePPYE(Request $request){
-    $tipoActivo = $request["tipoActivoPPYE"];
+    //metodo para obtener departamentos
+    public function getCuentaContablePPYE(Request $request){
+        $tipoActivo = $request["tipoActivoPPYE"];
 
-    $getCuentaContablePPYE = 
-    DB::connection('comanda')->select("SELECT *,LTRIM(str(tasa_fiscal,12,2)) as tasaFiscal,
-    LTRIM(str(tasa_financ,12,2)) as tasaFinan
-    from af_tipo_ppye
-    where cod_ppye = ".$tipoActivo."");
+        $getCuentaContablePPYE = 
+        DB::connection('comanda')->select("SELECT *,LTRIM(str(tasa_fiscal,12,2)) as tasaFiscal,
+        LTRIM(str(tasa_financ,12,2)) as tasaFinan
+        from af_tipo_ppye
+        where cod_ppye = ".$tipoActivo."");
 
-    return response()->json($getCuentaContablePPYE);
-}
+        return response()->json($getCuentaContablePPYE);
+    }
+
+
+    //metodo para obtener sucursales para ubicación física
+    public function getUbicacionFisica(){
+
+        $getUbicacionFisica = 
+        DB::connection('comanda')->select("select * from FACTURACION.dbo.fe_cta_sucursales");
+
+        return response()->json($getUbicacionFisica);
+    }
+
+     //metodo para insertar alta de activo en base de datos COMANDA
+     public function guardarAltaActivo(Request $request){
+        $codigoVNR = $request["codigoVNR"];
+        $codigoContable = $request["codigoContable"];
+        $tipoActivoPPYE = $request["tipoActivoPPYE"];
+        $fechaRegistro = $request["fechaRegistro"];
+        $cuentaContable = $request["cuentaContable"];
+        $tasaFiscal = $request["tasaFiscal"];
+        $tasaFinanciera = $request["tasaFinanciera"];
+        $vidaUtil = $request["vidaUtil"];
+        $tipoPartida = $request["tipoPartida"];
+        $descripcionBien = $request["descripcionBien"];
+        $tipoActivoVNR = $request["tipoActivoVNR"];
+        $areaUbicacionVNR = $request["areaUbicacionVNR"];
+        $ccCostoVnr = $request["ccCostoVnr"];
+        $tipoAgd = $request["tipoAgd"];
+        $bodegaAsignada = $request["bodegaAsignada"];
+        $marcaBien = $request["marcaBien"];
+        $modeloBien = $request["modeloBien"];
+        $serieBien = $request["serieBien"];
+        $otrasEspecificaciones = $request["otrasEspecificaciones"];
+        $fechaCompra = $request["fechaCompra"];
+        $proveedor = $request["proveedor"];
+        $departamento = $request["departamento"];
+        $municipio = $request["municipio"];
+        $ubicacionFisica = $request["ubicacionFisica"];
+        $estadoActivo = $request["estadoActivo"];
+        $valorSiva = $request["valorSiva"];
+        $tipoDocumento = $request["tipoDocumento"];
+        $numeroDocumento = $request["numeroDocumento"];
+
+        $insertar =  DB::connection('comanda')->table('af_maestro')
+        ->insert([
+            'af_codigo_vnr' => $codigoVNR,
+            'af_codigo_contable' => $codigoContable,
+            'codigo_ppye' => $tipoActivoPPYE,
+            'fecha_reg_contable' => $fechaRegistro,
+            'tipo_partida_id' => $tipoPartida,
+            'cuenta_contable'=> $cuentaContable,
+            'estado' => $estadoActivo,
+            'descripcion_bien' => $descripcionBien,
+            'codigo_tipo_bien_vnr' => $tipoActivoVNR,
+            'area_del_bien_vnr' => $areaUbicacionVNR,
+            'ccosto_del_bien_vnr' => $ccCostoVnr,
+            'codigo_agd' => $tipoAgd,
+            'bodega_id' => $bodegaAsignada,
+            'codigo_marca' => $marcaBien,
+            'codigo_modelo' => $modeloBien,
+            'af_serie' => $serieBien,
+            'otras_especificaciones' => $otrasEspecificaciones,
+            'fecha_compra' => $fechaCompra,
+            'codigo_tipo_documento' => $tipoDocumento,
+            'numero_documento' => $numeroDocumento,
+            'codigo_proveedor' => $proveedor,
+            'af_valor_compra_siva' => $valorSiva,
+            'af_tasa_depreciación_financ' => $tasaFinanciera,
+            'af_tasa_depreciación_fiscal' => $tasaFiscal,
+            'af_vida_util' => $vidaUtil,
+            'cod_departamento' => $departamento,
+            'cod_municipio' => $municipio,
+            'fecha_alta' => date('Ymd H:i:s'),
+            'codigo_sucursal' => $ubicacionFisica,
+
+        ]);
+
+        return response()->json($insertar);
+    }
+
 
 }
 

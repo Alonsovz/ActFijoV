@@ -25,7 +25,8 @@ cuenta_contable char(21),
 tasa_fiscal float,
 tasa_financ float,
 siglas varchar(10),
-estado int
+estado int,
+vidaUtil int
 );
 
 
@@ -62,7 +63,6 @@ estado int
 );
 
 
-----Tabla nueva---
 
 create table af_tipos_documento(
 codigo_tipo_documento int IDENTITY(1,1) PRIMARY KEY,
@@ -70,5 +70,72 @@ descripcion_tipo_documento varchar(50),
 siglas varchar(15),
 estado int
 );
+
+
+
+
+create table af_maestro(
+af_codigo_interno int IDENTITY(1,1) PRIMARY KEY,
+af_codigo_vnr varchar(10),
+af_codigo_contable varchar(25),
+codigo_ppye int,
+fecha_reg_contable datetime,
+tipo_partida_id char(1),
+cuenta_contable	char(21),
+estado char(1),
+descripcion_bien varchar(100),
+codigo_tipo_bien_vnr int,
+area_del_bien_vnr char(1),
+ccosto_del_bien_vnr int,
+codigo_asignado varchar(5),
+codigo_agd int,
+bodega_id int,
+codigo_marca int,
+codigo_modelo int,
+af_serie varchar(25),
+otras_especificaciones varchar(50),
+fecha_compra datetime,
+fecha_baja datetime,
+codigo_tipo_documento int,
+numero_documento varchar(25),
+codigo_proveedor int,
+af_valor_compra_siva float,
+af_valor_residual float,
+af_tasa_depreciación_financ float,
+af_tasa_depreciación_fiscal float,
+af_vida_util int,
+cod_departamento int,
+cod_municipio int,
+af_valor_vnr_siva float,
+fecha_alta datetime,
+usuario_alta varchar(15),
+fecha_modificacion	datetime,
+usuario_modificacion varchar(15),
+periodo_inicial	varchar(6),
+periodo_final	varchar(6),
+codigo_sucursal	varchar(50),
+aplica_contabilidad char(1),
+solo_vnr char(1)
+);
+
+
+ALTER TABLE af_maestro
+ADD FOREIGN KEY (codigo_ppye) REFERENCES  af_tipo_ppye(cod_ppye)
+
+ALTER TABLE af_maestro
+ADD FOREIGN KEY (codigo_tipo_bien_vnr) REFERENCES  af_tipo_bien_vnr(codigo_tipo_bien_vnr) 
+
+ALTER TABLE af_maestro
+ADD FOREIGN KEY (codigo_agd) REFERENCES  af_agd (codigo_agd)
+
+ALTER TABLE af_maestro
+ADD FOREIGN KEY (codigo_marca) REFERENCES  af_marcas(codigo_marca)
+
+ALTER TABLE af_maestro
+ADD FOREIGN KEY (codigo_modelo) REFERENCES  af_modelos(codigo_modelo)
+
+
+ALTER TABLE af_maestro
+ADD FOREIGN KEY (codigo_tipo_documento) REFERENCES  af_tipos_documento(codigo_tipo_documento)
 
 

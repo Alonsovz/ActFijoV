@@ -54,6 +54,8 @@ class VerifyCsrfToken extends BaseVerifier
         'getTipoPartida',
         'getDepartamentos',
         'getMunicipios',
-        'getCuentaContablePPYE'
+        'getCuentaContablePPYE',
+        'getUbicacionFisica',
+        'guardarAltaActivo'
     ];
 }

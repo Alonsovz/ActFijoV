@@ -35,6 +35,7 @@ export class TipoactivoComponent implements OnInit {
       'tasaFiscal' : new FormControl('',[Validators.required]),
       'tasaFinanciera' : new FormControl('',[Validators.required]),
       'siglas' : new FormControl('',[Validators.required]),
+      'vidaUtil' : new FormControl('',[Validators.required]),
     });
 
 
@@ -45,6 +46,7 @@ export class TipoactivoComponent implements OnInit {
       'tasa_fiscal' : new FormControl('',[Validators.required]),
       'tasa_financ' : new FormControl('',[Validators.required]),
       'siglas' : new FormControl('',[Validators.required]),
+      'vidaUtil' : new FormControl('',[Validators.required]),
     });
 
   }

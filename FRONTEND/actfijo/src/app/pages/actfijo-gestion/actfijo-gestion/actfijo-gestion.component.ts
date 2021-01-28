@@ -14,6 +14,7 @@ import { ModelosactivoService } from 'src/app/services/modelosactivo.service';
 import { TipoBienVnrService } from 'src/app/services/tipo-bien-vnr.service';
 import { TipoDocumentosService } from 'src/app/services/tipo-documentos.service';
 import { TipoactivoService } from 'src/app/services/tipoactivo.service';
+import notie from 'notie';
 
 @Component({
   selector: 'app-actfijo-gestion',
@@ -46,6 +47,7 @@ export class ActfijoGestionComponent implements OnInit {
   objDepartamentos : ActfijoGestion[];
   objMunicipios : ActfijoGestion[];
   objTipoActivoPPYE : ActfijoGestion[];
+  objUbicacionFisica : ActfijoGestion[];
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
@@ -53,12 +55,34 @@ export class ActfijoGestionComponent implements OnInit {
     private gestionActFijo: ActfijoGestionService) { 
 
     this.altaActivoForm = new FormGroup({
-      'marcaModelo': new FormControl('0',[Validators.required]),
-      'departamento': new FormControl('0',[Validators.required]),
+      'tipoDocumento': new FormControl('',[Validators.required]),
+      'numeroDocumento': new FormControl('',[Validators.required]),
+      'codigoVNR': new FormControl('',[Validators.required]),
+      'codigoContable': new FormControl('',[Validators.required]),
       'tipoActivoPPYE' : new FormControl('0',[Validators.required]),
+      'fechaRegistro': new FormControl('',[Validators.required]),
       'cuentaContable': new FormControl('',[Validators.required]),
       'tasaFiscal': new FormControl('',[Validators.required]),
       'tasaFinanciera': new FormControl('',[Validators.required]),
+      'vidaUtil': new FormControl('',[Validators.required]),
+      'tipoPartida': new FormControl('',[Validators.required]),
+      'descripcionBien': new FormControl('',[Validators.required]),
+      'tipoActivoVNR': new FormControl('',[Validators.required]),
+      'areaUbicacionVNR': new FormControl('',[Validators.required]),
+      'ccCostoVnr': new FormControl('',[Validators.required]),
+      'tipoAgd': new FormControl('',[Validators.required]),
+      'bodegaAsignada': new FormControl('',[Validators.required]),
+      'marcaBien': new FormControl('0',[Validators.required]),
+      'modeloBien': new FormControl('',[Validators.required]),
+      'serieBien': new FormControl('',[Validators.required]),
+      'otrasEspecificaciones': new FormControl('',[Validators.required]),
+      'fechaCompra': new FormControl('',[Validators.required]),
+      'proveedor': new FormControl('',[Validators.required]),
+      'departamento': new FormControl('0',[Validators.required]),
+      'municipio': new FormControl('',[Validators.required]),
+      'ubicacionFisica': new FormControl('',[Validators.required]),
+      'estadoActivo' : new FormControl('',[Validators.required]),
+      'valorSiva': new FormControl('',[Validators.required]),
     });
   }
 
@@ -115,6 +139,11 @@ export class ActfijoGestionComponent implements OnInit {
     this.gestionActFijo.getDepartamentos().subscribe(
       data => {
         this.objDepartamentos = data;
+    });
+
+    this.gestionActFijo.getUbicacionFisica().subscribe(
+      data => {
+        this.objUbicacionFisica = data;
 
         this.mostrarSkeleton = false;
         this.datosCargados = true;
@@ -211,5 +240,43 @@ export class ActfijoGestionComponent implements OnInit {
         this.objTipoActivoPPYE = [];
         this.validarPPYE = false;
       }
+
+
+
+  //metodo para guardar alta de activo 
+
+   guardarAltaActivo(){
+    let datosActivo : ActfijoGestion = new ActfijoGestion();
+
+    datosActivo = this.altaActivoForm.value;
+
+    this.gestionActFijo.guardarAltaActivo(datosActivo).subscribe(
+      response => {
+      
+      },
+      err => {
+        notie.alert({ 
+          type: 'error', 
+          text: 'Error al guardar datos!',
+          stay: false,
+          time: 2, 
+          position: 'top' 
+        });
+      },
+      () => {
+      
+          notie.alert({ 
+            type: 'success', 
+            text: 'Alta registrada con éxito',
+            stay: false,
+            time: 2, 
+            position: 'top' 
+          });
+        this.showCardListado();
+        }
+      
+    
+    );
+}
 
 }

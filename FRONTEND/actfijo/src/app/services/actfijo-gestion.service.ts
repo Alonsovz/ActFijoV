@@ -58,4 +58,17 @@ public getCuentaContablePPYE(tipoActivo): Observable<ActfijoGestion[]> {
   return this.http.post(this.globalservice.getUrlBackEnd() + 'getCuentaContablePPYE', tipoActivo, httpOptions).pipe(map(data => data as ActfijoGestion[]));
 }
 
+
+//metodo para obtener objeto de sucursales para ubicación física
+public getUbicacionFisica(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getUbicacionFisica').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+  // metodo para guardar alta de activo
+  public guardarAltaActivo(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+    return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarAltaActivo', activoDatos, httpOptions)
+    .pipe(map(data => data as ActfijoGestion ));
+  }
+
 }
