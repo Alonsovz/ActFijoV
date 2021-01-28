@@ -71,4 +71,9 @@ public getUbicacionFisica(): Observable<ActfijoGestion[]> {
     .pipe(map(data => data as ActfijoGestion ));
   }
 
+
+  //metodo para obtener listado de activos
+public getMisActivos(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getMisActivos').pipe(map(data => data as ActfijoGestion[]));
+}
 }

@@ -126,12 +126,17 @@ class GestionActivoController extends Controller
         $tipoDocumento = $request["tipoDocumento"];
         $numeroDocumento = $request["numeroDocumento"];
 
+        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+
+        $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+
+
         $insertar =  DB::connection('comanda')->table('af_maestro')
         ->insert([
             'af_codigo_vnr' => $codigoVNR,
             'af_codigo_contable' => $codigoContable,
             'codigo_ppye' => $tipoActivoPPYE,
-            'fecha_reg_contable' => $fechaRegistro,
+            'fecha_reg_contable' => $fechaRegistroConFormato,
             'tipo_partida_id' => $tipoPartida,
             'cuenta_contable'=> $cuentaContable,
             'estado' => $estadoActivo,
@@ -163,6 +168,17 @@ class GestionActivoController extends Controller
         return response()->json($insertar);
     }
 
+    //metodo para insertar alta de activo en base de datos COMANDA
+    public function getMisActivos(){
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af_codigo_interno, descripcion_bien,
+        estado,
+        '$'+str(af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar,fecha_compra, 103) as fechaCompra from af_maestro");
+
+        return response()->json($getMisActivos);
+    }
 
 }
 

@@ -49,6 +49,10 @@ export class ActfijoGestionComponent implements OnInit {
   objTipoActivoPPYE : ActfijoGestion[];
   objUbicacionFisica : ActfijoGestion[];
 
+
+  listOfData: ReadonlyArray<ActfijoGestion> = [];
+  listOfCurrentPageData: ReadonlyArray<ActfijoGestion> = [];
+
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
@@ -87,6 +91,14 @@ export class ActfijoGestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.gestionActFijo.getMisActivos().subscribe(
+      data => {
+        this.listOfData = data;
+        this.mostrarTablaCarga = true;
+        this.mostrarSkeletonTabla = false;
+      });
+
     this.tipoActivo.getTipoActivo().subscribe(
       data => {
         this.objTipoActivosTbl = data;
@@ -172,15 +184,15 @@ export class ActfijoGestionComponent implements OnInit {
   
     this.mostrarSkeletonTabla = true;
   
-  /*  this.modelosactivo.getModelosActivo().subscribe(
+   this.gestionActFijo.getMisActivos().subscribe(
       data => {
-        this.objModelosActivosTbl = data;
+        this.listOfData = data;
         this.mostrarCardAgregar = false;
         this.mostrarCardEditar = false;
-        this.mostrarSkeleton = false;
+        this.mostrarSkeletonTabla = false;
         this.mostrarCardListado = true;
         this.mostrarTablaCarga = true;
-      });*/
+      });
   
   }
 

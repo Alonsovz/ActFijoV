@@ -19,7 +19,33 @@
     <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
     <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeletonTabla"></nz-skeleton>
     <div nz-row>
-     
+        <nz-table nzShowPagination #rowSelectionTable
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
+            <thead>
+              <tr>
+               
+                <th><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
+                <th><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
+                <th><i nz-icon nzType="edit" nzTheme="outline"></i> Estado</th>
+                <th><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
+                <th><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
+                <th style="text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ob of rowSelectionTable.data">
+                <td>{{ ob.af_codigo_interno }}</td>
+                <td>{{ ob.descripcion_bien }}</td>
+                <td>{{ ob.estado }}</td>
+                <td>{{ ob.fechaCompra }}</td>
+                <td>{{ ob.compraSiva }}</td>
+                <td style="text-align: center; align-items: center;">
+                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
+                    <button nz-button nzType="default" nzDanger (click)="eliminarClasificacionAgd(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
     </div>
         
     
