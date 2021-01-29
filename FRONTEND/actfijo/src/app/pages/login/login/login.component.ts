@@ -58,7 +58,8 @@ export class LoginComponent implements OnInit {
             position: 'top' 
           });
         }else{
-          this.router.navigate(['dashboard/usuarios']);
+          
+          this.router.navigate(['dashboard/actfijoGestion']);
         
         }
        

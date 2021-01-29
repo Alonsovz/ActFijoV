@@ -7,7 +7,7 @@
       <div class="logo"><img src="./assets/img/blanco.png"  height=35
         style="margin:auto;"></div>
 
-      <li nz-submenu nzTitle="Gestiones" nzIcon="tool">
+      <li nz-submenu nzTitle="Gestiones" nzIcon="tool" *ngIf="user.rol != 'Usuario'">
         <ul style="align-items:left !important; float: left !important;">
           <li nz-menu-item routerLink="tipoactivo" > Tipo de activo</li>
           <li nz-menu-item routerLink="marcasactivo"> Marcas de activo</li>
@@ -24,7 +24,7 @@
         </ul>
       </li>
 
-      <li nz-submenu nzTitle="Config.Usuarios" nzIcon="team" nzSpin="true">
+      <li nz-submenu nzTitle="Config.Usuarios" nzIcon="team" nzSpin="true" *ngIf="user.rol != 'Usuario'">
 
         <ul>
           <li nz-menu-item routerLink="usuarios">Usuarios</li>
