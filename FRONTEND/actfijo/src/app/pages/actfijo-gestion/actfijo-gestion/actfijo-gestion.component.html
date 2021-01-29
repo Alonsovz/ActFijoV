@@ -48,8 +48,9 @@
                 <td>{{ ob.compraSiva }}</td>
                 <td>{{ ob.asignado }}</td>
                 <td  style="text-align: center; align-items: center;">
-                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
-                    <button nz-button nzType="default" nzDanger (click)="eliminarClasificacionAgd(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
+                    <button nz-button nzType="primary" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Detalles</button>
+                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="send" nzTheme="outline"></i> Traslado</button>
+                    <button nz-button nzType="default" nzDanger (click)="eliminarClasificacionAgd(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Baja</button>
                 </td>
               </tr>
             </tbody>
@@ -88,8 +89,8 @@
                 <td>{{ ob.fechaCompra }}</td>
                 <td>{{ ob.compraSiva }}</td>
                 <td  style="text-align: center; align-items: center;">
-                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
-                    <button nz-button nzType="default" nzDanger (click)="eliminarClasificacionAgd(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
+                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="send" nzTheme="outline"></i> Traslado</button>
+                   
                 </td>
               </tr>
             </tbody>
