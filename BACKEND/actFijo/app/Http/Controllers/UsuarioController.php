@@ -24,7 +24,10 @@ class UsuarioController extends Controller
             if ($password=="12345") 
 			{     
                 $usuariosesion =  json_encode( DB::connection('comanda')->select("
-                select * from users where correo= '".$correo."'"));
+                select u.*, rs.rol as rol from users u
+                inner join af_usuario_rol ur on ur.idUsuario = u.id
+                inner join af_roles_sistema rs on rs.id = ur.idRol 
+                where ur.estado = 1 and u.correo = '".$correo."'"));
 
                 $arrayJson = [];
                 foreach (json_decode($usuariosesion, true) as $value){
@@ -37,7 +40,10 @@ class UsuarioController extends Controller
                 $passform = md5($password);
 
                 $usuariosesion =  json_encode( DB::connection('comanda')->select("
-                select * from users where correo = '".$correo."' and password = '".$passform."'"));
+                select u.*, rs.rol as rol from users u
+                inner join af_usuario_rol ur on ur.idUsuario = u.id
+                inner join af_roles_sistema rs on rs.id = ur.idRol 
+                where ur.estado = 1 and u.correo = '".$correo."' and u.password = '".$passform."'"));
 
                 $arrayJson = [];
                 foreach (json_decode($usuariosesion, true) as $value){
@@ -54,7 +60,7 @@ class UsuarioController extends Controller
         public function getUsuarios(){
             $usuarios = 
             DB::connection('comanda')->select("SELECT distinct id,
-             nombre+' '+apellido as nombre from users where estado = 1
+             nombre+' '+apellido as nombre from users where (estado is null or estado = 1)
             and id not in (select idUsuario from af_usuario_rol where estado = 1)");
     
     

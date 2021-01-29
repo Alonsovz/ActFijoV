@@ -15,6 +15,7 @@ import { TipoBienVnrService } from 'src/app/services/tipo-bien-vnr.service';
 import { TipoDocumentosService } from 'src/app/services/tipo-documentos.service';
 import { TipoactivoService } from 'src/app/services/tipoactivo.service';
 import notie from 'notie';
+import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-actfijo-gestion',
@@ -34,6 +35,10 @@ export class ActfijoGestionComponent implements OnInit {
   validarModelo = true;
   altaActivoForm : FormGroup;
 
+  mostrarCardListadoAdmin = false;
+  mostrarSkeletonTablaAdmin = false;
+  mostrarTablaCargaAdmin = false;
+
   objTipoActivosTbl : Tipoactivo[];
   objTipoBienVNR : TipoBienVnr[];
   objClasificacionAgd : ClasificacionAgd[];
@@ -52,6 +57,11 @@ export class ActfijoGestionComponent implements OnInit {
 
   listOfData: ReadonlyArray<ActfijoGestion> = [];
   listOfCurrentPageData: ReadonlyArray<ActfijoGestion> = [];
+
+  listOfDataAdmin: ReadonlyArray<ActfijoGestion> = [];
+  listOfCurrentPageDataAdmin: ReadonlyArray<ActfijoGestion> = [];
+
+  user: Usuario = new Usuario();
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
@@ -87,17 +97,25 @@ export class ActfijoGestionComponent implements OnInit {
       'ubicacionFisica': new FormControl('',[Validators.required]),
       'estadoActivo' : new FormControl('',[Validators.required]),
       'valorSiva': new FormControl('',[Validators.required]),
+      'asignadoA': new FormControl('',[Validators.required]),
     });
   }
 
   ngOnInit(): void {
 
-    this.gestionActFijo.getMisActivos().subscribe(
-      data => {
-        this.listOfData = data;
-        this.mostrarTablaCarga = true;
-        this.mostrarSkeletonTabla = false;
-      });
+    this.user = JSON.parse(localStorage.getItem("usuario"));
+
+      let datosUsuario : Usuario = new Usuario();
+    
+      datosUsuario = this.user;
+
+      this.gestionActFijo.getMisActivos(datosUsuario).subscribe(
+        data => {
+          this.listOfData = data;
+          this.mostrarTablaCarga = true;
+          this.mostrarSkeletonTabla = false;
+        });
+    
 
     this.tipoActivo.getTipoActivo().subscribe(
       data => {
@@ -153,6 +171,7 @@ export class ActfijoGestionComponent implements OnInit {
         this.objDepartamentos = data;
     });
 
+    
     this.gestionActFijo.getUbicacionFisica().subscribe(
       data => {
         this.objUbicacionFisica = data;
@@ -163,6 +182,8 @@ export class ActfijoGestionComponent implements OnInit {
   }
 
 
+
+
    //metodo para mostrar card para alta de activo
 
    showCardAgregar() : void{
@@ -171,12 +192,19 @@ export class ActfijoGestionComponent implements OnInit {
     this.mostrarCardListado = false;
     this.mostrarCardEditar = false;
     this.validarPPYE = false;
+
+    this.mostrarSkeletonTablaAdmin = false;
+    this.mostrarCardListadoAdmin = false; 
+    this.mostrarTablaCargaAdmin = false;
     //this.agregarClasificacionAgdForm.reset();
   }
 
 
   //metodo para mostrar card para ver tabla de mis activos
   showCardListado() : void{
+    this.mostrarSkeletonTablaAdmin = false;
+    this.mostrarCardListadoAdmin = false; 
+    this.mostrarTablaCargaAdmin = false;
     this.mostrarTablaCarga = false;
     this.mostrarCardAgregar = false;
     this.mostrarCardListado = true;
@@ -184,14 +212,40 @@ export class ActfijoGestionComponent implements OnInit {
   
     this.mostrarSkeletonTabla = true;
   
-   this.gestionActFijo.getMisActivos().subscribe(
+
+      let datosUsuario : Usuario = new Usuario();
+    
+      datosUsuario = this.user;
+
+      this.gestionActFijo.getMisActivos(datosUsuario).subscribe(
+        data => {
+          this.listOfData = data;
+          this.mostrarTablaCarga = true;
+          this.mostrarSkeletonTabla = false;
+        });
+
+   
+  
+  }
+
+   //metodo para mostrar card para ver tabla de mis activos
+   showCardListadoAdminActivos() : void{
+    this.mostrarTablaCarga = false;
+    this.mostrarCardAgregar = false;
+    this.mostrarCardEditar = false;
+    this.mostrarCardListado = false;
+    this.mostrarCardEditar = false;
+    this.validarPPYE = false;
+  
+    this.mostrarTablaCargaAdmin = false;
+    this.mostrarSkeletonTablaAdmin = true;
+    this.mostrarCardListadoAdmin = true; 
+
+    this.gestionActFijo.getActivosAdmin().subscribe(
       data => {
-        this.listOfData = data;
-        this.mostrarCardAgregar = false;
-        this.mostrarCardEditar = false;
-        this.mostrarSkeletonTabla = false;
-        this.mostrarCardListado = true;
-        this.mostrarTablaCarga = true;
+        this.listOfDataAdmin = data;
+        this.mostrarTablaCargaAdmin = true;
+        this.mostrarSkeletonTablaAdmin = false;
       });
   
   }
@@ -292,8 +346,14 @@ export class ActfijoGestionComponent implements OnInit {
 }
 
 
-onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<ClasificacionAgd>) {
+onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<ActfijoGestion>) {
   this.listOfCurrentPageData  = listOfCurrentPageData;
+
+}
+
+
+onCurrentPageDataChangeAdmin(listOfCurrentPageDataAdmin: ReadonlyArray<ActfijoGestion>) {
+  this.listOfCurrentPageDataAdmin  = listOfCurrentPageDataAdmin;
 
 }
 

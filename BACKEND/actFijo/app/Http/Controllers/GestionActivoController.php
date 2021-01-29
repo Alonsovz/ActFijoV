@@ -125,10 +125,15 @@ class GestionActivoController extends Controller
         $valorSiva = $request["valorSiva"];
         $tipoDocumento = $request["tipoDocumento"];
         $numeroDocumento = $request["numeroDocumento"];
+        $asignadoA = $request["asignadoA"];
 
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
         $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+
+        $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
+
+        $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
 
 
         $insertar =  DB::connection('comanda')->table('af_maestro')
@@ -150,7 +155,7 @@ class GestionActivoController extends Controller
             'codigo_modelo' => $modeloBien,
             'af_serie' => $serieBien,
             'otras_especificaciones' => $otrasEspecificaciones,
-            'fecha_compra' => $fechaCompra,
+            'fecha_compra' => $fechaCompraConFormato,
             'codigo_tipo_documento' => $tipoDocumento,
             'numero_documento' => $numeroDocumento,
             'codigo_proveedor' => $proveedor,
@@ -162,20 +167,36 @@ class GestionActivoController extends Controller
             'cod_municipio' => $municipio,
             'fecha_alta' => date('Ymd H:i:s'),
             'codigo_sucursal' => $ubicacionFisica,
-
+            'codigo_asignado' => $asignadoA,
         ]);
 
         return response()->json($insertar);
     }
 
-    //metodo para insertar alta de activo en base de datos COMANDA
-    public function getMisActivos(){
+    //metodo para mostrar activos tipo admin en base de datos COMANDA
+    public function getActivosAdmin(){
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.af_codigo_interno, af.descripcion_bien,
+        af.estado,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar,af.fecha_compra, 103) as fechaCompra, u.alias as asignado from af_maestro af
+        inner join users u on u.id = af.codigo_asignado order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+
+    //metodo para mostrar activos por usuario en base de datos COMANDA
+    public function getMisActivos(Request $request){
+        $idUsuario = $request["id"];
       
         $getMisActivos = 
         DB::connection('comanda')->select("select af_codigo_interno, descripcion_bien,
         estado,
         '$'+str(af_valor_compra_siva,12,2) as compraSiva,
-        convert(varchar,fecha_compra, 103) as fechaCompra from af_maestro");
+        convert(varchar,fecha_compra, 103) as fechaCompra from af_maestro
+        where codigo_asignado = ".$idUsuario ." order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
     }

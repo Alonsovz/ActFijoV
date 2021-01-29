@@ -1,5 +1,5 @@
 <div style="color: #001529; font-size: 25px;" class="titulo"> 
-   Mis Activos
+   Gestión de Activos
 
     <button nz-button nzType="primary" style="float: right;" (click)="showCardAgregar()">
         <i nz-icon nzType="folder-add"></i>Alta de activo
@@ -8,8 +8,56 @@
         <i nz-icon nzType="bars"></i>Lista de mis activos
     </button>
 
+    <button *ngIf="user.rol != 'Usuario'" nz-button nzType="danger" style="float: right;" (click)="showCardListadoAdminActivos()">
+        <i nz-icon nzType="bars"></i>Listado de activos
+    </button>
+
     <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
 </div>
+
+
+<!--card para lista de activos administrador-->
+<nz-card style="width:95%" class="cardShadow" *ngIf="mostrarCardListadoAdmin">
+    <div nz-row>
+        <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de todos los activos</h2>
+    </div>
+    <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+    <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeletonTablaAdmin"></nz-skeleton>
+    <div nz-row>
+        <nz-table nzShowPagination #rowSelectionTableAdmin
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChangeAdmin($event)" 
+        [nzData]="listOfDataAdmin" *ngIf="mostrarTablaCargaAdmin">
+            <thead>
+              <tr>
+               
+                <th><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
+                <th><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
+                <th><i nz-icon nzType="edit" nzTheme="outline"></i> Estado</th>
+                <th><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
+                <th><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
+                <th><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
+                <th  style="text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ob of rowSelectionTableAdmin.data">
+                <td>{{ ob.af_codigo_interno }}</td>
+                <td>{{ ob.descripcion_bien }}</td>
+                <td>{{ ob.estado }}</td>
+                <td>{{ ob.fechaCompra }}</td>
+                <td>{{ ob.compraSiva }}</td>
+                <td>{{ ob.asignado }}</td>
+                <td  style="text-align: center; align-items: center;">
+                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
+                    <button nz-button nzType="default" nzDanger (click)="eliminarClasificacionAgd(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+    </div>
+        
+    
+</nz-card>
 
 <!--card para lista de mis activos-->
 <nz-card style="width:95%" class="cardShadow" *ngIf="mostrarCardListado">
@@ -29,7 +77,7 @@
                 <th><i nz-icon nzType="edit" nzTheme="outline"></i> Estado</th>
                 <th><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
                 <th><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
-                <th style="text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+                <th  style="text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -39,7 +87,7 @@
                 <td>{{ ob.estado }}</td>
                 <td>{{ ob.fechaCompra }}</td>
                 <td>{{ ob.compraSiva }}</td>
-                <td style="text-align: center; align-items: center;">
+                <td  style="text-align: center; align-items: center;">
                     <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
                     <button nz-button nzType="default" nzDanger (click)="eliminarClasificacionAgd(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Eliminar</button>
                 </td>
@@ -293,6 +341,7 @@
             <div nz-row style="margin-top: 20px !important;">
                 <div nz-col [nzSpan]="7">
                     <nz-form-label nzRequired>Valor de compra (sin IVA)</nz-form-label>
+                    <input type="hidden"  formControlName="asignadoA" [(ngModel)]="user.id" readonly>
                     <input type="text" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="valorSiva">
                 </div>
                 <div nz-col [nzSpan]="1"></div>

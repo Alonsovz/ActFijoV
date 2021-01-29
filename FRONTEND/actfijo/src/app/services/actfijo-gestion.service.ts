@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ActfijoGestion } from '../models/actfijo-gestion';
+import { Usuario } from '../models/usuario';
 import { GlobalService } from './global.service';
 
 
@@ -73,7 +74,14 @@ public getUbicacionFisica(): Observable<ActfijoGestion[]> {
 
 
   //metodo para obtener listado de activos
-public getMisActivos(): Observable<ActfijoGestion[]> {
-  return this.http.get(this.globalservice.getUrlBackEnd() + 'getMisActivos').pipe(map(data => data as ActfijoGestion[]));
+public getActivosAdmin(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getActivosAdmin').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+
+//metodo para obtener objeto de actibos por usuario
+public getMisActivos(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getMisActivos', usuario, httpOptions).pipe(map(data => data as Usuario[]));
 }
 }

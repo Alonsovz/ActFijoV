@@ -84,4 +84,5 @@ Route::post('getMunicipios', 'GestionActivoController@getMunicipios');
 Route::post('getCuentaContablePPYE', 'GestionActivoController@getCuentaContablePPYE');
 Route::get('getUbicacionFisica', 'GestionActivoController@getUbicacionFisica');
 Route::post('guardarAltaActivo', 'GestionActivoController@guardarAltaActivo');
-Route::get('getMisActivos', 'GestionActivoController@getMisActivos');
+Route::post('getMisActivos', 'GestionActivoController@getMisActivos');
+Route::get('getActivosAdmin', 'GestionActivoController@getActivosAdmin');
