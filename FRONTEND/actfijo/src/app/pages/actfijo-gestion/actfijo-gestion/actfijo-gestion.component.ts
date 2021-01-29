@@ -291,4 +291,10 @@ export class ActfijoGestionComponent implements OnInit {
     );
 }
 
+
+onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<ClasificacionAgd>) {
+  this.listOfCurrentPageData  = listOfCurrentPageData;
+
+}
+
 }
