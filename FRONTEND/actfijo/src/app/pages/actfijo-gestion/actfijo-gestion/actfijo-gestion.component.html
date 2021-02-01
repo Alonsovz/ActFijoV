@@ -43,14 +43,19 @@
               <tr *ngFor="let ob of rowSelectionTableAdmin.data">
                 <td>{{ ob.af_codigo_interno }}</td>
                 <td>{{ ob.descripcion_bien }}</td>
-                <td>{{ ob.estado }}</td>
+                <td>{{ ob.estado }} -- {{ ob.estadoActivo }}</td>
                 <td>{{ ob.fechaCompra }}</td>
                 <td>{{ ob.compraSiva }}</td>
                 <td>{{ ob.asignado }}</td>
-                <td  style="text-align: center; align-items: center;">
-                    <button nz-button nzType="primary" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="edit" nzTheme="outline"></i> Detalles</button>
-                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="send" nzTheme="outline"></i> Traslado</button>
-                    <button nz-button nzType="default" nzDanger (click)="eliminarClasificacionAgd(ob)"> <i nz-icon nzType="delete" nzTheme="outline"></i> Baja</button>
+                <td  style="text-align: center; align-items: left;">
+                    <button style="margin: 5px !important;" nz-button nzType="primary" *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario'"
+                    nzTooltipTitle="Activar artículo" nzTooltipPlacement="topCenter" nz-tooltip (click)="confimarActivacion(ob)"><i nz-icon nzType="check" nzTheme="outline"></i></button>
+                    <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarClasificacionAgdCard(ob)"
+                    nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                    <button style="margin: 5px !important;" nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"
+                    nzTooltipTitle="Hacer traslado" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i> </button>
+                    <button style="margin: 5px !important;" nz-button nzType="danger"  (click)="eliminarClasificacionAgd(ob)" 
+                    nzTooltipTitle="Dar de baja" nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="delete" nzTheme="outline"></i></button>
                 </td>
               </tr>
             </tbody>
@@ -85,11 +90,12 @@
               <tr *ngFor="let ob of rowSelectionTable.data">
                 <td>{{ ob.af_codigo_interno }}</td>
                 <td>{{ ob.descripcion_bien }}</td>
-                <td>{{ ob.estado }}</td>
+                <td>{{ ob.estado }} -- {{ ob.estadoActivo }}</td>
                 <td>{{ ob.fechaCompra }}</td>
                 <td>{{ ob.compraSiva }}</td>
                 <td  style="text-align: center; align-items: center;">
-                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)"><i nz-icon nzType="send" nzTheme="outline"></i> Traslado</button>
+                    <button nz-button nzType="default" (click)="editarClasificacionAgdCard(ob)" 
+                    nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
                    
                 </td>
               </tr>
@@ -368,3 +374,18 @@
     </div>
     </form>
 </nz-card>
+
+
+
+<nz-modal [(nzVisible)]="modalActivacionVisible"   [nzFooter]="modalFooter" [nzContent]="modalContent"
+(nzOnCancel)="cerrarModalActivacion()">
+   
+    <ng-template #modalContent>
+        <h3 style="text-align: center !important;">¿Desea activar el artículo N° {{actFijoOb.af_codigo_interno}} asignado a {{actFijoOb.asignado}}?</h3>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="danger" (click)="cerrarModalActivacion()">Cancelar</button>
+        <button nz-button nzType="primary" (click)="guardarActivacion()">Activar</button>
+    </ng-template>
+  </nz-modal>

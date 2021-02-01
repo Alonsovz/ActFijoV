@@ -54,14 +54,17 @@ export class ActfijoGestionComponent implements OnInit {
   objTipoActivoPPYE : ActfijoGestion[];
   objUbicacionFisica : ActfijoGestion[];
 
-
-  listOfData: ReadonlyArray<ActfijoGestion> = [];
+  actFijoOb: ActfijoGestion = new ActfijoGestion();
+  listOfData: ReadonlyArray<Usuario> = [];
   listOfCurrentPageData: ReadonlyArray<ActfijoGestion> = [];
 
   listOfDataAdmin: ReadonlyArray<ActfijoGestion> = [];
   listOfCurrentPageDataAdmin: ReadonlyArray<ActfijoGestion> = [];
 
+  modalActivacionVisible = false;
   user: Usuario = new Usuario();
+
+
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
@@ -345,16 +348,67 @@ export class ActfijoGestionComponent implements OnInit {
     );
 }
 
-
+//metodo para paginación de tabla de mis activos
 onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<ActfijoGestion>) {
   this.listOfCurrentPageData  = listOfCurrentPageData;
 
 }
 
-
+//metodo para paginación de tabla de todos los activos
 onCurrentPageDataChangeAdmin(listOfCurrentPageDataAdmin: ReadonlyArray<ActfijoGestion>) {
   this.listOfCurrentPageDataAdmin  = listOfCurrentPageDataAdmin;
 
 }
 
+
+
+//metodo para mostrar modal de confirmación para activar artículo
+confimarActivacion(actFijo) : void{
+  this.modalActivacionVisible = true;
+
+  this.actFijoOb = actFijo;
+}
+
+//metodo para guardar activación de artículo
+guardarActivacion(){
+
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+
+  datosActivo = this.actFijoOb;
+
+  this.gestionActFijo.guardarActivacionActivo(datosActivo).subscribe(
+    response => {
+    
+    },
+    err => {
+      notie.alert({ 
+        type: 'error', 
+        text: 'Error al guardar datos!',
+        stay: false,
+        time: 2, 
+        position: 'top' 
+      });
+    },
+    () => {
+    
+        notie.alert({ 
+          type: 'success', 
+          text: 'Artículo activo con éxito',
+          stay: false,
+          time: 2, 
+          position: 'top' 
+        });
+      this.showCardListadoAdminActivos();
+      this.modalActivacionVisible = false;
+      }
+    
+  
+  );
+ 
+}
+
+//metodo para cancelar activación de artículo
+cerrarModalActivacion(){
+  this.modalActivacionVisible = false;
+}
 }

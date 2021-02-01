@@ -115,7 +115,8 @@ periodo_inicial	varchar(6),
 periodo_final	varchar(6),
 codigo_sucursal	varchar(50),
 aplica_contabilidad char(1),
-solo_vnr char(1)
+solo_vnr char(1),
+estadoActivo varchar(10)
 );
 
 

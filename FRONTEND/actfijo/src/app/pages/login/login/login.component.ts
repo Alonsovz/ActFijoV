@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   validateForm : FormGroup;
   usuariosesion: Usuario = new Usuario();
   submitted = false;
+  passwordVisible = false;
   
   constructor(private usuarioservice: UsuariosService, private router: Router) {
     this.validateForm = new FormGroup({

@@ -58,6 +58,7 @@ class VerifyCsrfToken extends BaseVerifier
         'getUbicacionFisica',
         'guardarAltaActivo',
         'getMisActivos',
-        'getActivosAdmin'
+        'getActivosAdmin',
+        'guardarActivacionActivo'
     ];
 }

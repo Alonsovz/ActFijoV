@@ -84,4 +84,11 @@ public getActivosAdmin(): Observable<ActfijoGestion[]> {
 public getMisActivos(usuario): Observable<Usuario[]> {
   return this.http.post(this.globalservice.getUrlBackEnd() + 'getMisActivos', usuario, httpOptions).pipe(map(data => data as Usuario[]));
 }
+
+
+// metodo para guardar activación de activo
+public guardarActivacionActivo(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+  return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarActivacionActivo', activoDatos, httpOptions)
+  .pipe(map(data => data as ActfijoGestion ));
+}
 }
