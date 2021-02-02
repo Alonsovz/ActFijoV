@@ -64,7 +64,7 @@ class GestionActivoController extends Controller
 
     //metodo para obtener departamentos
     public function getMunicipios(Request $request){
-        $dep = $request["departamento"];
+        $dep = $request["cod_departamento"];
 
         $getMunicipios = 
         DB::connection('comanda')->select("select * from MUNSV where DEPSV_ID = ".$dep."");
@@ -74,7 +74,7 @@ class GestionActivoController extends Controller
 
     //metodo para obtener departamentos
     public function getCuentaContablePPYE(Request $request){
-        $tipoActivo = $request["tipoActivoPPYE"];
+        $tipoActivo = $request["codigo_ppye"];
 
         $getCuentaContablePPYE = 
         DB::connection('comanda')->select("SELECT *,LTRIM(str(tasa_fiscal,12,2)) as tasaFiscal,
@@ -99,7 +99,7 @@ class GestionActivoController extends Controller
      public function guardarAltaActivo(Request $request){
         $codigoVNR = $request["codigoVNR"];
         $codigoContable = $request["codigoContable"];
-        $tipoActivoPPYE = $request["tipoActivoPPYE"];
+        $tipoActivoPPYE = $request["codigo_ppye"];
         $fechaRegistro = $request["fechaRegistro"];
         $cuentaContable = $request["cuentaContable"];
         $tasaFiscal = $request["tasaFiscal"];
@@ -160,8 +160,8 @@ class GestionActivoController extends Controller
             'numero_documento' => $numeroDocumento,
             'codigo_proveedor' => $proveedor,
             'af_valor_compra_siva' => $valorSiva,
-            'af_tasa_depreciación_financ' => $tasaFinanciera,
-            'af_tasa_depreciación_fiscal' => $tasaFiscal,
+            'af_tasa_depreciacion_financ' => $tasaFinanciera,
+            'af_tasa_depreciacion_fiscal' => $tasaFiscal,
             'af_vida_util' => $vidaUtil,
             'cod_departamento' => $departamento,
             'cod_municipio' => $municipio,
@@ -178,10 +178,10 @@ class GestionActivoController extends Controller
     public function getActivosAdmin(){
       
         $getMisActivos = 
-        DB::connection('comanda')->select("select af.af_codigo_interno, af.descripcion_bien,
-        af.estado,
+        DB::connection('comanda')->select("select *,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
-        convert(varchar,af.fecha_compra, 103) as fechaCompra, u.alias as asignado, af.estadoActivo as estadoActivo from af_maestro af
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc from af_maestro af
         inner join users u on u.id = af.codigo_asignado order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -193,10 +193,9 @@ class GestionActivoController extends Controller
         $idUsuario = $request["id"];
       
         $getMisActivos = 
-        DB::connection('comanda')->select("select af_codigo_interno, descripcion_bien,
-        estado,
+        DB::connection('comanda')->select("select *,estado as estadoAc,
         '$'+str(af_valor_compra_siva,12,2) as compraSiva,
-        convert(varchar,fecha_compra, 103) as fechaCompra, estadoActivo as estadoActivo from af_maestro
+        convert(varchar,fecha_compra, 103) as fechaCompra from af_maestro
         where codigo_asignado = ".$idUsuario ." order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -211,6 +210,93 @@ class GestionActivoController extends Controller
 
         return response()->json($editar);
 
+    }
+
+
+
+    public function getActivoByid(Request $request){
+        $id = $request["af_codigo_interno"];
+
+        $getActivo = DB::connection('comanda')
+        ->select("SELECT  *
+         from af_maestro where af_codigo_interno = ".$id."");
+
+        return response()->json($getActivo);
+    }
+
+
+     //metodo para editar activo en base de datos COMANDA
+     public function guardarEdicionActivo(Request $request){
+        $codigoVNR = $request["af_codigo_vnr"];
+        $codigoContable = $request["af_codigo_contable"];
+        $tipoActivoPPYE = $request["codigo_ppye"];
+        $fechaRegistro = $request["fechaRegistro"];
+        $cuentaContable = $request["cuenta_contable"];
+        $tasaFiscal = $request["af_tasa_depreciacion_fiscal"];
+        $tasaFinanciera = $request["af_tasa_depreciacion_financ"];
+        $vidaUtil = $request["af_vida_util"];
+        $tipoPartida = $request["tipo_partida_id"];
+        $descripcionBien = $request["descripcion_bien"];
+        $tipoActivoVNR = $request["codigo_tipo_bien_vnr"];
+        $areaUbicacionVNR = $request["area_del_bien_vnr"];
+        $ccCostoVnr = $request["ccosto_del_bien_vnr"];
+        $tipoAgd = $request["codigo_agd"];
+        $bodegaAsignada = $request["bodega_id"];
+        $marcaBien = $request["codigo_marca"];
+        $modeloBien = $request["codigo_modelo"];
+        $serieBien = $request["af_serie"];
+        $otrasEspecificaciones = $request["otras_especificaciones"];
+        $fechaCompra = $request["fechaCompra"];
+        $proveedor = $request["codigo_proveedor"];
+        $departamento = $request["cod_departamento"];
+        $municipio = $request["cod_municipio"];
+        $ubicacionFisica = $request["codigo_sucursal"];
+        $valorSiva = $request["af_valor_compra_siva"];
+        $tipoDocumento = $request["codigo_tipo_documento"];
+        $numeroDocumento = $request["numero_documento"];
+        $id = $request["af_codigo_interno"];
+
+        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+
+        $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+
+        $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
+
+        $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
+
+
+        $insertar =  DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $id)
+        ->update([
+            'af_codigo_vnr' => $codigoVNR,
+            'af_codigo_contable' => $codigoContable,
+            'codigo_ppye' => $tipoActivoPPYE,
+            'fecha_reg_contable' => $fechaRegistroConFormato,
+            'tipo_partida_id' => $tipoPartida,
+            'cuenta_contable'=> $cuentaContable,
+            'descripcion_bien' => $descripcionBien,
+            'codigo_tipo_bien_vnr' => $tipoActivoVNR,
+            'area_del_bien_vnr' => $areaUbicacionVNR,
+            'ccosto_del_bien_vnr' => $ccCostoVnr,
+            'codigo_agd' => $tipoAgd,
+            'bodega_id' => $bodegaAsignada,
+            'codigo_marca' => $marcaBien,
+            'codigo_modelo' => $modeloBien,
+            'af_serie' => $serieBien,
+            'otras_especificaciones' => $otrasEspecificaciones,
+            'fecha_compra' => $fechaCompraConFormato,
+            'codigo_tipo_documento' => $tipoDocumento,
+            'numero_documento' => $numeroDocumento,
+            'codigo_proveedor' => $proveedor,
+            'af_valor_compra_siva' => $valorSiva,
+            'af_tasa_depreciacion_financ' => $tasaFinanciera,
+            'af_tasa_depreciacion_fiscal' => $tasaFiscal,
+            'af_vida_util' => $vidaUtil,
+            'cod_departamento' => $departamento,
+            'cod_municipio' => $municipio,
+            'codigo_sucursal' => $ubicacionFisica,
+        ]);
+
+        return response()->json($insertar);
     }
 
 }

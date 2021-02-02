@@ -71,7 +71,7 @@ class ModelosActivoController extends Controller
 
       //metodo para obtener modelos por marcas
       public function getModelosByMarca(Request $request){
-        $idMarca = $request["marcaBien"];
+        $idMarca = $request["codigo_marca"];
 
         $ModelosActivo = 
         DB::connection('comanda')->select("select * from af_modelos where codigo_marca = ".$idMarca."

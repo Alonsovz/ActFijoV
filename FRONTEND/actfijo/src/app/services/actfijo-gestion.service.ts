@@ -91,4 +91,18 @@ public guardarActivacionActivo(activoDatos: ActfijoGestion): Observable<ActfijoG
   return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarActivacionActivo', activoDatos, httpOptions)
   .pipe(map(data => data as ActfijoGestion ));
 }
+
+  //metodo para obtener datos de activo por ID
+   public getActivoByid(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+    return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'getActivoByid', activoDatos, httpOptions)
+    .pipe(map(data => data as ActfijoGestion ));
+  }
+
+
+  // metodo para guardar edición de activo
+  public guardarEdicionActivo(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+    return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarEdicionActivo', activoDatos, httpOptions)
+    .pipe(map(data => data as ActfijoGestion ));
+  }
+
 }

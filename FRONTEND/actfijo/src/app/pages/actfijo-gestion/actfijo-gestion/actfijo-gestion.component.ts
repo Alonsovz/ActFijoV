@@ -26,15 +26,18 @@ export class ActfijoGestionComponent implements OnInit {
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
+  mostrarSkeletonEditar = false;
+  datosCargadosEditar = false;
   mostrarTablaCarga = false;
   mostrarSkeleton = true;
   mostrarSkeletonTabla = true;
   datosCargados = false;
   validarPPYE = false;
+  validarPPYEdicion = false;
   validarDepartamento = true;
   validarModelo = true;
   altaActivoForm : FormGroup;
-
+  editarActivoForm : FormGroup;
   mostrarCardListadoAdmin = false;
   mostrarSkeletonTablaAdmin = false;
   mostrarTablaCargaAdmin = false;
@@ -52,6 +55,7 @@ export class ActfijoGestionComponent implements OnInit {
   objDepartamentos : ActfijoGestion[];
   objMunicipios : ActfijoGestion[];
   objTipoActivoPPYE : ActfijoGestion[];
+  objTipoActivoPPYEdicion : ActfijoGestion[];
   objUbicacionFisica : ActfijoGestion[];
 
   actFijoOb: ActfijoGestion = new ActfijoGestion();
@@ -63,7 +67,7 @@ export class ActfijoGestionComponent implements OnInit {
 
   modalActivacionVisible = false;
   user: Usuario = new Usuario();
-
+  vista: string;
 
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
@@ -76,7 +80,7 @@ export class ActfijoGestionComponent implements OnInit {
       'numeroDocumento': new FormControl('',[Validators.required]),
       'codigoVNR': new FormControl('',[Validators.required]),
       'codigoContable': new FormControl('',[Validators.required]),
-      'tipoActivoPPYE' : new FormControl('0',[Validators.required]),
+      'codigo_ppye' : new FormControl('0',[Validators.required]),
       'fechaRegistro': new FormControl('',[Validators.required]),
       'cuentaContable': new FormControl('',[Validators.required]),
       'tasaFiscal': new FormControl('',[Validators.required]),
@@ -89,18 +93,52 @@ export class ActfijoGestionComponent implements OnInit {
       'ccCostoVnr': new FormControl('',[Validators.required]),
       'tipoAgd': new FormControl('',[Validators.required]),
       'bodegaAsignada': new FormControl('',[Validators.required]),
-      'marcaBien': new FormControl('0',[Validators.required]),
+      'codigo_marca': new FormControl('0',[Validators.required]),
       'modeloBien': new FormControl('',[Validators.required]),
       'serieBien': new FormControl('',[Validators.required]),
       'otrasEspecificaciones': new FormControl('',[Validators.required]),
       'fechaCompra': new FormControl('',[Validators.required]),
       'proveedor': new FormControl('',[Validators.required]),
-      'departamento': new FormControl('0',[Validators.required]),
+      'cod_departamento': new FormControl('0',[Validators.required]),
       'municipio': new FormControl('',[Validators.required]),
       'ubicacionFisica': new FormControl('',[Validators.required]),
       'estadoActivo' : new FormControl('',[Validators.required]),
       'valorSiva': new FormControl('',[Validators.required]),
       'asignadoA': new FormControl('',[Validators.required]),
+    });
+
+
+    this.editarActivoForm = new FormGroup({
+      'af_codigo_interno': new FormControl('',[Validators.required]),
+      'codigo_tipo_documento': new FormControl('',[Validators.required]),
+      'numero_documento': new FormControl('',[Validators.required]),
+      'af_codigo_vnr': new FormControl('',[Validators.required]),
+      'af_codigo_contable': new FormControl('',[Validators.required]),
+      'codigo_ppye' : new FormControl('0',[Validators.required]),
+      'tipo_partida_id': new FormControl('',[Validators.required]),
+      'fechaRegistro': new FormControl('',[Validators.required]),
+      'cuenta_contable': new FormControl('',[Validators.required]),
+      'af_tasa_depreciacion_fiscal': new FormControl('',[Validators.required]),
+      'af_tasa_depreciacion_financ': new FormControl('',[Validators.required]),
+      'af_vida_util': new FormControl('',[Validators.required]),
+      'descripcion_bien': new FormControl('',[Validators.required]),
+      'codigo_tipo_bien_vnr': new FormControl('',[Validators.required]),
+      'area_del_bien_vnr': new FormControl('',[Validators.required]),
+      'ccosto_del_bien_vnr': new FormControl('',[Validators.required]),
+      'codigo_agd': new FormControl('',[Validators.required]),
+      'bodega_id': new FormControl('',[Validators.required]),
+      'codigo_marca': new FormControl('0',[Validators.required]),
+      'codigo_modelo': new FormControl('',[Validators.required]),
+      'af_serie': new FormControl('',[Validators.required]),
+      'otras_especificaciones': new FormControl('',[Validators.required]),
+      'fechaCompra': new FormControl('',[Validators.required]),
+      'codigo_proveedor': new FormControl('',[Validators.required]),
+      'cod_departamento': new FormControl('0',[Validators.required]),
+      'cod_municipio': new FormControl('',[Validators.required]),
+      'codigo_sucursal': new FormControl('',[Validators.required]),
+      'af_valor_compra_siva': new FormControl('',[Validators.required]),
+      'codigo_asignado': new FormControl('',[Validators.required]),
+      'asignado': new FormControl('',[Validators.required]),
     });
   }
 
@@ -410,5 +448,103 @@ guardarActivacion(){
 //metodo para cancelar activación de artículo
 cerrarModalActivacion(){
   this.modalActivacionVisible = false;
+}
+
+public filtrarMunicipiosEdicion(){
+  let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+
+  datosmarcaActivo = this.editarActivoForm.value;
+
+this.gestionActFijo.getMunicipios(datosmarcaActivo).subscribe(
+  data => {
+    this.objMunicipios = data;
+    this.validarDepartamento = false;
+  });
+
+}
+
+
+public filtrarModelosEdicion(){
+  let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+
+  datosmarcaActivo = this.editarActivoForm.value;
+
+this.modelosactivo.getModelosByMarca(datosmarcaActivo).subscribe(
+  data => {
+    this.objModelosActivos = data;
+    this.validarModelo = false;
+  });
+
+}
+
+public getCuentaContablePPYEEdicion(){
+  let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+
+  datosmarcaActivo = this.editarActivoForm.value;
+
+this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
+  data => {
+  this.objTipoActivoPPYEdicion = data;
+  this.validarPPYEdicion = true;
+  });
+
+}
+
+editarActFijo(act, vis){
+
+  this.editarActivoForm.reset();
+  this.mostrarSkeletonTablaAdmin = false;
+  this.mostrarCardListadoAdmin = false; 
+  this.mostrarTablaCargaAdmin = false;
+  this.mostrarCardListado = false;
+  
+  this.mostrarCardEditar = true;
+  this.editarActivoForm.patchValue(act);
+  this.datosCargadosEditar = true;
+
+  this.filtrarMunicipiosEdicion();
+  this.filtrarModelosEdicion();
+  this.getCuentaContablePPYEEdicion();
+  this.vista = vis;
+}
+
+
+
+
+
+ //metodo para guardar edición de activo 
+
+   guardarEdicionActivo(){
+    let datosActivo : ActfijoGestion = new ActfijoGestion();
+
+    datosActivo = this.editarActivoForm.value;
+
+    this.gestionActFijo.guardarEdicionActivo(datosActivo).subscribe(
+      response => {
+      
+      },
+      err => {
+        notie.alert({ 
+          type: 'error', 
+          text: 'Error al guardar datos!',
+          stay: false,
+          time: 2, 
+          position: 'top' 
+        });
+      },
+      () => {
+      
+          notie.alert({ 
+            type: 'success', 
+            text: 'Datos modificados con éxito',
+            stay: false,
+            time: 2, 
+            position: 'top' 
+          });
+        this.showCardListadoAdminActivos();
+        }
+      
+    
+    );
 }
 }
