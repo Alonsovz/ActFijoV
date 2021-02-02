@@ -102,7 +102,7 @@ codigo_proveedor int,
 af_valor_compra_siva float,
 af_valor_residual float,
 af_tasa_depreciacion_financ float,
-af_tasa_depreciacion_fiscal float,
+af_tasa_depreciación_fiscal float,
 af_vida_util int,
 cod_departamento int,
 cod_municipio int,
@@ -139,4 +139,18 @@ ADD FOREIGN KEY (codigo_modelo) REFERENCES  af_modelos(codigo_modelo)
 ALTER TABLE af_maestro
 ADD FOREIGN KEY (codigo_tipo_documento) REFERENCES  af_tipos_documento(codigo_tipo_documento)
 
+
+create table af_historial_activo(
+id int IDENTITY(1,1) PRIMARY KEY,
+idActivo int,
+movimiento varchar(15),
+fecha_movimiento datetime,
+usuario_movimiento varchar(25),
+usuario_aprobacion varchar(25),
+usuario_asignado varchar(25)
+);
+
+
+ALTER TABLE af_historial_activo
+ADD FOREIGN KEY (idActivo) REFERENCES  af_maestro(af_codigo_interno)
 
