@@ -328,7 +328,8 @@ class GestionActivoController extends Controller
         try {
             //code...
             
-            $actualizar = DB::table('af_maestro')->where('af_codigo_interno', $request['af_codigo_interno'])->update([
+            $actualizar = DB::connection('comanda')->table
+            ('af_maestro')->where('af_codigo_interno', $request['af_codigo_interno'])->update([
                 'estado' => 'B',
                 'fecha_baja' => date('Ymd H:i:s'),
                 'estadoActivo' => 'Pendiente',
@@ -372,7 +373,7 @@ class GestionActivoController extends Controller
        $editar = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno ', $id)
         ->update([
             'estadoActivo' => 'Activo' ,
-            'estado' => 'A' ,
+            'estado' => 'T' ,
         ]);
 
 
@@ -395,13 +396,13 @@ class GestionActivoController extends Controller
     public function finalizarProcesoBaja(Request $request) {
         try {
             //code...
-            $actualizar_AFM = DB::table('af_maestro')->where('af_codigo_interno', $request['af_codigo_interno'])
+            $actualizar_AFM = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $request['af_codigo_interno'])
                                                       ->update([
                                                       'estadoActivo' => 'Activo',
                                                       'estado' => 'B',
                                                     ]);
 
-            $actualizar_History = DB::table('af_historial_activo')->insert([
+            $actualizar_History =DB::connection('comanda')->table('af_historial_activo')->insert([
                 'idActivo' => $request['af_codigo_interno'],
                 'movimiento' => 'Baja',
                 'fecha_movimiento' => date('Ymd H:i:s'),
