@@ -124,6 +124,12 @@ public guardarActivacionActivo(activoDatos: ActfijoGestion): Observable<ActfijoG
   .pipe(map(data => data as ActfijoGestion ));
 }
 
+// finalizar el proceso de baja por parte del administrador
+finalizarProcesoBaja(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'finalizacionprocesobaja', activoDatos).pipe(
+    map(data => data as ActfijoGestion)
+  );
+}
 
 
 }

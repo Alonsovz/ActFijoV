@@ -76,6 +76,7 @@ export class ActfijoGestionComponent implements OnInit {
   objUsuarios : Usuario[];
   vista: string;
   modalBajaConfirmacion = false;
+  modalFinalizarProcesoBaja = false;
 
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
@@ -731,6 +732,49 @@ guardarAceptacionTraslado(){
 
 
   );
+}
+
+
+// cerrar modal para el proceso de finalizacion del activo
+cerrarModalFinalizarProcesoBaja(){
+  this.modalFinalizarProcesoBaja = false;
+}
+
+// finalizar proceso de baja por parte del administrador
+finalizarProcesoBaja() {
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+  datosActivo = Object.assign(this.actFijoOb, this.user);
+
+  this.gestionActFijo.finalizarProcesoBaja(datosActivo).subscribe(
+    response =>{},
+    err => {
+      notie.alert({
+        type: 'error',
+        text: 'Error al finalizar proceso de baja',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+    },
+    () => {
+      notie.alert({
+        type: 'success',
+        text: 'Proceso de baja finalizado con exito',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+      this.cerrarModalFinalizarProcesoBaja();
+      this.showCardListadoAdminActivos();
+    }
+  )
+
+}
+
+// mostrar modal para aceptacion de la finalizacion del proceso de baja
+mostrarModalFinalizarProcesoBaja(obj) {
+  this.modalFinalizarProcesoBaja = true;
+  this.actFijoOb = obj;
 }
 
 }

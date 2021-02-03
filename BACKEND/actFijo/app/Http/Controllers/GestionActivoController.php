@@ -389,9 +389,43 @@ class GestionActivoController extends Controller
         return response()->json($editar);
 
     }
+
+
+    // funcion para finalizar el proceso de baja por parte de un administrador
+    public function finalizarProcesoBaja(Request $request) {
+        try {
+            //code...
+            $actualizar_AFM = DB::table('af_maestro')->where('af_codigo_interno', $request['af_codigo_interno'])
+                                                      ->update([
+                                                      'estadoActivo' => 'Activo',
+                                                      'estado' => 'B',
+                                                    ]);
+
+            $actualizar_History = DB::table('af_historial_activo')->insert([
+                'idActivo' => $request['af_codigo_interno'],
+                'movimiento' => 'Baja',
+                'fecha_movimiento' => date('Ymd H:i:s'),
+                'usuario_movimiento' => $request['asignado'],
+                'usuario_aprobacion' => $request['alias'],
+            ]);
+
+            return Response::json([
+                'proceso de baja' => $actualizar_AFM,
+                'historico' => $actualizar_History,
+            ], 200);
+
+        } catch (\Illuminate\Database\QueryException $ex) {
+            //throw $th;
+            return Response::json([
+                'error' => $ex->getMessage()
+            ], 201);
+        }
+    }
     
     
 }
+
+
 
 
 

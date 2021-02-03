@@ -62,8 +62,9 @@
 
                     <button style="margin: 5px !important;" nz-button nzType="default" (click)="trasladarActivo(ob)"
                     nzTooltipTitle="Hacer traslado" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i> </button>
-                    <button style="margin: 5px !important;" nz-button nzType="danger"  (click)="mostrarModalInicioBaja(ob)"
-                    nzTooltipTitle="Dar de baja" nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="delete" nzTheme="outline"></i></button>
+                    <button style="margin: 5px !important;" nz-button nzType="danger"  *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='B'"
+                    (click)="mostrarModalFinalizarProcesoBaja(ob)"
+                    nzTooltipTitle="Finalizar proceso de baja" nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="delete" nzTheme="outline"></i></button>
 
                 </td>
               </tr>
@@ -776,6 +777,7 @@
 </nz-modal>
 
 
+<!-- MODAL PARA EL INICIO DEL PROCESO DE BAJA -->
 <nz-modal [(nzVisible)]="modalAceptarTrasladoVisible"   [nzFooter]="modalFooterAceptarTraslado" [nzContent]="modalContentAceptarTraslado"
 (nzOnCancel)="cerrarModalAceptarTraslado()">
 
@@ -788,5 +790,23 @@
     <ng-template #modalFooterAceptarTraslado>
         <button nz-button nzType="danger" (click)="cerrarModalAceptarTraslado()">Cancelar</button>
         <button nz-button nzType="primary" (click)="guardarAceptacionTraslado()">Aceptar traslado</button>
+    </ng-template>
+</nz-modal>
+
+
+
+<!-- MODAL PARA LA ACEPTACION DE BAJA POR PARTE DEL ADMINISTRADOR -->
+<nz-modal [(nzVisible)]="modalFinalizarProcesoBaja"   [nzFooter]="modalprocesofinbajafooter" [nzContent]="modalprocesofinbajacontent"
+(nzOnCancel)="cerrarModalAceptarTraslado()">
+
+    <ng-template #modalprocesofinbajacontent>
+        <h3 style="text-align: center !important;margin-top: 40px;">¿Desea finalizar el proceso de baja del activo N°
+            {{actFijoOb.af_codigo_interno}} asignado al usuario
+              {{actFijoOb.asignado}}?</h3>
+    </ng-template>
+
+    <ng-template #modalprocesofinbajafooter>
+        <button nz-button nzType="danger" (click)="cerrarModalFinalizarProcesoBaja()">Cancelar</button>
+        <button nz-button nzType="primary" (click)="finalizarProcesoBaja()">Finalizar proceso de baja</button>
     </ng-template>
 </nz-modal>

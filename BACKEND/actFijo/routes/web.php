@@ -92,5 +92,5 @@ Route::post('guardarEdicionActivo', 'GestionActivoController@guardarEdicionActiv
 Route::post('iniciarbajaactivo', 'GestionActivoController@iniciarBaja');
 Route::post('guardarTraslado', 'GestionActivoController@guardarTraslado');
 Route::post('guardarAceptacionTraslado', 'GestionActivoController@guardarAceptacionTraslado');
-
+Route::post('finalizacionprocesobaja', 'GestionActivoController@finalizarProcesoBaja');
 
