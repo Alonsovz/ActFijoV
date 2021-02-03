@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Response as FacadeResponse;
 use Session;
 
 
+
 date_default_timezone_set("America/El_Salvador");
 
 class GestionActivoController extends Controller
@@ -315,8 +316,36 @@ class GestionActivoController extends Controller
          from af_historial_activo where idActivo = ".$id."");
 
         return response()->json($getActivo);
+
     }
+
+    public function iniciarBaja(Request $request) {
+        try {
+            //code...
+            
+            $actualizar = DB::table('af_maestro')->where('af_codigo_interno', $request['af_codigo_interno'])->update([
+                'estado' => 'B',
+                'fecha_baja' => date('Ymd H:i:s'),
+                'estadoActivo' => 'Pendiente',
+            ]);
+
+            return Response::json([
+                'success' => $actualizar
+            ], 200);
+
+        } catch (\Illuminate\Database\QueryException $ex) {
+            //throw $th;
+            return Response::json([
+                'error' => $ex->getMessage()
+            ], 201);
+
+        }
+    }
+    
 }
+
+
+
 
 
 ?>

@@ -104,4 +104,11 @@ public guardarActivacionActivo(activoDatos: ActfijoGestion): Observable<ActfijoG
     .pipe(map(data => data as ActfijoGestion ));
   }
 
+  // metodo para iniciar la baja de un activo
+  iniciarBaja(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+    return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'iniciarbajaactivo', activoDatos, httpOptions ).pipe(
+      map(data => data as ActfijoGestion)
+    );
+  }
+
 }

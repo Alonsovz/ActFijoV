@@ -70,12 +70,13 @@ export class ActfijoGestionComponent implements OnInit {
   modalActivacionVisible = false;
   user: Usuario = new Usuario();
   vista: string;
+  modalBajaConfirmacion = false;
 
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
-    private gestionActFijo: ActfijoGestionService) { 
+    private gestionActFijo: ActfijoGestionService) {
 
     this.altaActivoForm = new FormGroup({
       'tipoDocumento': new FormControl('',[Validators.required]),
@@ -149,7 +150,7 @@ export class ActfijoGestionComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem("usuario"));
 
       let datosUsuario : Usuario = new Usuario();
-    
+
       datosUsuario = this.user;
 
       this.gestionActFijo.getMisActivos(datosUsuario).subscribe(
@@ -158,7 +159,7 @@ export class ActfijoGestionComponent implements OnInit {
           this.mostrarTablaCarga = true;
           this.mostrarSkeletonTabla = false;
         });
-    
+
 
     this.tipoActivo.getTipoActivo().subscribe(
       data => {
@@ -184,7 +185,7 @@ export class ActfijoGestionComponent implements OnInit {
 
     this.tipodocumentoservice.getTipoDocumentos().subscribe(
       data => {
-        this.objTipoDocumentosTbl = data; 
+        this.objTipoDocumentosTbl = data;
     });
 
     this.gestionActFijo.getCCostoBien().subscribe(
@@ -197,7 +198,7 @@ export class ActfijoGestionComponent implements OnInit {
       data => {
         this.objBodegas = data;
     });
-      
+
     this.gestionActFijo.getProveedores().subscribe(
       data => {
         this.objProveedores = data;
@@ -214,7 +215,7 @@ export class ActfijoGestionComponent implements OnInit {
         this.objDepartamentos = data;
     });
 
-    
+
     this.gestionActFijo.getUbicacionFisica().subscribe(
       data => {
         this.objUbicacionFisica = data;
@@ -230,14 +231,14 @@ export class ActfijoGestionComponent implements OnInit {
    //metodo para mostrar card para alta de activo
 
    showCardAgregar() : void{
-    
+
     this.mostrarCardAgregar = true;
     this.mostrarCardListado = false;
     this.mostrarCardEditar = false;
     this.validarPPYE = false;
 
     this.mostrarSkeletonTablaAdmin = false;
-    this.mostrarCardListadoAdmin = false; 
+    this.mostrarCardListadoAdmin = false;
     this.mostrarTablaCargaAdmin = false;
     //this.agregarClasificacionAgdForm.reset();
   }
@@ -246,18 +247,18 @@ export class ActfijoGestionComponent implements OnInit {
   //metodo para mostrar card para ver tabla de mis activos
   showCardListado() : void{
     this.mostrarSkeletonTablaAdmin = false;
-    this.mostrarCardListadoAdmin = false; 
+    this.mostrarCardListadoAdmin = false;
     this.mostrarTablaCargaAdmin = false;
     this.mostrarTablaCarga = false;
     this.mostrarCardAgregar = false;
     this.mostrarCardListado = true;
     this.mostrarCardEditar = false;
-  
+
     this.mostrarSkeletonTabla = true;
-  
+
 
       let datosUsuario : Usuario = new Usuario();
-    
+
       datosUsuario = this.user;
 
       this.gestionActFijo.getMisActivos(datosUsuario).subscribe(
@@ -267,8 +268,8 @@ export class ActfijoGestionComponent implements OnInit {
           this.mostrarSkeletonTabla = false;
         });
 
-   
-  
+
+
   }
 
    //metodo para mostrar card para ver tabla de mis activos
@@ -279,10 +280,10 @@ export class ActfijoGestionComponent implements OnInit {
     this.mostrarCardListado = false;
     this.mostrarCardEditar = false;
     this.validarPPYE = false;
-  
+
     this.mostrarTablaCargaAdmin = false;
     this.mostrarSkeletonTablaAdmin = true;
-    this.mostrarCardListadoAdmin = true; 
+    this.mostrarCardListadoAdmin = true;
 
     this.gestionActFijo.getActivosAdmin().subscribe(
       data => {
@@ -290,7 +291,7 @@ export class ActfijoGestionComponent implements OnInit {
         this.mostrarTablaCargaAdmin = true;
         this.mostrarSkeletonTablaAdmin = false;
       });
-  
+
   }
 
   //metodo para filtrar modelos por marca seleccionada
@@ -299,7 +300,7 @@ export class ActfijoGestionComponent implements OnInit {
     let datosmarcaActivo : Marcasactivo = new Marcasactivo();
 
     datosmarcaActivo = this.altaActivoForm.value;
-  
+
   this.modelosactivo.getModelosByMarca(datosmarcaActivo).subscribe(
     data => {
       this.objModelosActivos = data;
@@ -313,15 +314,15 @@ export class ActfijoGestionComponent implements OnInit {
 
     public filtrarMunicipios(){
       let datosmarcaActivo : Marcasactivo = new Marcasactivo();
-  
+
       datosmarcaActivo = this.altaActivoForm.value;
-    
+
     this.gestionActFijo.getMunicipios(datosmarcaActivo).subscribe(
       data => {
         this.objMunicipios = data;
         this.validarDepartamento = false;
       });
-  
+
     }
 
 
@@ -329,15 +330,15 @@ export class ActfijoGestionComponent implements OnInit {
 
       public getCuentaContablePPYE(){
         let datosmarcaActivo : Marcasactivo = new Marcasactivo();
-    
+
         datosmarcaActivo = this.altaActivoForm.value;
-      
+
       this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
         data => {
         this.objTipoActivoPPYE = data;
         this.validarPPYE = true;
         });
-    
+
       }
 
       //metodo para limpiar formulario de altas
@@ -352,7 +353,7 @@ export class ActfijoGestionComponent implements OnInit {
 
 
 
-  //metodo para guardar alta de activo 
+  //metodo para guardar alta de activo
 
    guardarAltaActivo(){
     let datosActivo : ActfijoGestion = new ActfijoGestion();
@@ -361,30 +362,30 @@ export class ActfijoGestionComponent implements OnInit {
 
     this.gestionActFijo.guardarAltaActivo(datosActivo).subscribe(
       response => {
-      
+
       },
       err => {
-        notie.alert({ 
-          type: 'error', 
+        notie.alert({
+          type: 'error',
           text: 'Error al guardar datos!',
           stay: false,
-          time: 2, 
-          position: 'top' 
+          time: 2,
+          position: 'top'
         });
       },
       () => {
-      
-          notie.alert({ 
-            type: 'success', 
+
+          notie.alert({
+            type: 'success',
             text: 'Alta registrada con éxito',
             stay: false,
-            time: 2, 
-            position: 'top' 
+            time: 2,
+            position: 'top'
           });
         this.showCardListado();
         }
-      
-    
+
+
     );
 }
 
@@ -418,33 +419,33 @@ guardarActivacion(){
 
   this.gestionActFijo.guardarActivacionActivo(datosActivo).subscribe(
     response => {
-    
+
     },
     err => {
-      notie.alert({ 
-        type: 'error', 
+      notie.alert({
+        type: 'error',
         text: 'Error al guardar datos!',
         stay: false,
-        time: 2, 
-        position: 'top' 
+        time: 2,
+        position: 'top'
       });
     },
     () => {
-    
-        notie.alert({ 
-          type: 'success', 
+
+        notie.alert({
+          type: 'success',
           text: 'Artículo activo con éxito',
           stay: false,
-          time: 2, 
-          position: 'top' 
+          time: 2,
+          position: 'top'
         });
       this.showCardListadoAdminActivos();
       this.modalActivacionVisible = false;
       }
-    
-  
+
+
   );
- 
+
 }
 
 //metodo para cancelar activación de artículo
@@ -500,10 +501,10 @@ editarActFijo(act, vis){
 
   this.editarActivoForm.reset();
   this.mostrarSkeletonTablaAdmin = false;
-  this.mostrarCardListadoAdmin = false; 
+  this.mostrarCardListadoAdmin = false;
   this.mostrarTablaCargaAdmin = false;
   this.mostrarCardListado = false;
-  
+
   this.mostrarCardEditar = true;
   this.editarActivoForm.patchValue(act);
   this.datosCargadosEditar = true;
@@ -519,7 +520,7 @@ editarActFijo(act, vis){
     });
 }
 
- //metodo para guardar edición de activo 
+ //metodo para guardar edición de activo
 
 guardarEdicionActivo(){
     let datosActivo : ActfijoGestion = new ActfijoGestion();
@@ -528,30 +529,30 @@ guardarEdicionActivo(){
 
     this.gestionActFijo.guardarEdicionActivo(datosActivo).subscribe(
       response => {
-      
+
       },
       err => {
-        notie.alert({ 
-          type: 'error', 
+        notie.alert({
+          type: 'error',
           text: 'Error al guardar datos!',
           stay: false,
-          time: 2, 
-          position: 'top' 
+          time: 2,
+          position: 'top'
         });
       },
       () => {
-      
-          notie.alert({ 
-            type: 'success', 
+
+          notie.alert({
+            type: 'success',
             text: 'Datos modificados con éxito',
             stay: false,
-            time: 2, 
-            position: 'top' 
+            time: 2,
+            position: 'top'
           });
         this.showCardListadoAdminActivos();
         }
-      
-    
+
+
     );
 }
 
@@ -560,7 +561,7 @@ guardarEdicionActivo(){
 //metodo para cerrar edición de activo admin
 
 cerrarCardEditarAdmin(){
-  this.mostrarCardListadoAdmin = true; 
+  this.mostrarCardListadoAdmin = true;
   this.mostrarTablaCargaAdmin = true;
   this.mostrarCardEditar = false;
 }
@@ -568,7 +569,7 @@ cerrarCardEditarAdmin(){
 //metodo para cerrar edición de activo ser
 cerrarCardEditar(){
   this.mostrarCardEditar = false;
-  this.mostrarCardListado = true; 
+  this.mostrarCardListado = true;
   this.mostrarTablaCarga = true;
 }
 
@@ -577,6 +578,29 @@ cerrarCardEditar(){
 onCurrentPageDataChangeHistorial(listOfCurrentPageDataHistorial: ReadonlyArray<ActfijoGestion>) {
   this.listOfCurrentPageDataHistorial  = listOfCurrentPageDataHistorial;
 
+}
+
+cerrarModalBajaConfirmacion() {
+  this.modalBajaConfirmacion = false;
+}
+
+// mostrar modal de inicio de baja para activo
+mostrarModalInicioBaja(obj) {
+  this.modalBajaConfirmacion = true;
+  this.actFijoOb = obj;
+}
+
+// iniciar baja
+iniciarBaja(obj) {
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+  datosActivo = Object.assign(obj, this.user);
+  this.gestionActFijo.iniciarBaja(datosActivo).subscribe(
+    response => {
+      console.log(response);
+    },
+    err => {},
+    () => {}
+  )
 }
 
 }

@@ -89,4 +89,4 @@ Route::get('getActivosAdmin', 'GestionActivoController@getActivosAdmin');
 Route::post('guardarActivacionActivo', 'GestionActivoController@guardarActivacionActivo');
 Route::post('getHistorialActivo', 'GestionActivoController@getHistorialActivo');
 Route::post('guardarEdicionActivo', 'GestionActivoController@guardarEdicionActivo');
-
+Route::post('iniciarbajaactivo', 'GestionActivoController@iniciarBaja');
