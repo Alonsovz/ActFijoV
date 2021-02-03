@@ -16,6 +16,7 @@ import { TipoDocumentosService } from 'src/app/services/tipo-documentos.service'
 import { TipoactivoService } from 'src/app/services/tipoactivo.service';
 import notie from 'notie';
 import { Usuario } from 'src/app/models/usuario';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
   selector: 'app-actfijo-gestion',
@@ -38,6 +39,7 @@ export class ActfijoGestionComponent implements OnInit {
   validarModelo = true;
   altaActivoForm : FormGroup;
   editarActivoForm : FormGroup;
+  trasladoActivoForm : FormGroup;
   mostrarCardListadoAdmin = false;
   mostrarSkeletonTablaAdmin = false;
   mostrarTablaCargaAdmin = false;
@@ -68,14 +70,21 @@ export class ActfijoGestionComponent implements OnInit {
   listOfCurrentPageDataHistorial: ReadonlyArray<ActfijoGestion> = [];
 
   modalActivacionVisible = false;
+  modalTrasladoVisible = false;
+  modalAceptarTrasladoVisible = false;
   user: Usuario = new Usuario();
   vista: string;
-
+  objUsuarios : Usuario[];
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
-    private gestionActFijo: ActfijoGestionService) { 
+    private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService) { 
+
+      this.trasladoActivoForm = new FormGroup({
+        'usuarioTrasladoNuevo': new FormControl('',[Validators.required]),
+      });
+
 
     this.altaActivoForm = new FormGroup({
       'tipoDocumento': new FormControl('',[Validators.required]),
@@ -145,6 +154,8 @@ export class ActfijoGestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.usuario.getUsuarios().subscribe(data => {this.objUsuarios = data;});
 
     this.user = JSON.parse(localStorage.getItem("usuario"));
 
@@ -577,6 +588,106 @@ cerrarCardEditar(){
 onCurrentPageDataChangeHistorial(listOfCurrentPageDataHistorial: ReadonlyArray<ActfijoGestion>) {
   this.listOfCurrentPageDataHistorial  = listOfCurrentPageDataHistorial;
 
+}
+
+
+//metodo para desplegar modal de traslado de activo
+
+trasladarActivo(actFijo){
+this.modalTrasladoVisible = true;
+this.actFijoOb = actFijo;
+}
+
+//metodo para cancelar traslado de artículo
+cerrarModalTraslado(){
+  this.modalTrasladoVisible = false;
+}
+
+//metodo para guardar traslado de artículo
+guardarTraslado(){
+
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+
+  datosActivo = Object.assign(this.trasladoActivoForm.value,this.actFijoOb);
+
+  this.gestionActFijo.guardarTraslado(datosActivo).subscribe(
+    response => {
+    
+    },
+    err => {
+      notie.alert({ 
+        type: 'error', 
+        text: 'Error al guardar datos!',
+        stay: false,
+        time: 2, 
+        position: 'top' 
+      });
+    },
+    () => {
+    
+        notie.alert({ 
+          type: 'success', 
+          text: 'Traslado guardado con éxito, pendiente de aprobación',
+          stay: false,
+          time: 4, 
+          position: 'top' 
+        });
+
+      this.showCardListado();
+      this.modalTrasladoVisible = false;
+      }
+    
+  
+  );
+
+}
+
+//metodo para desplegar modal de aceptación de traslado
+confimarTraslado(actFijo){
+  this.modalAceptarTrasladoVisible = true;
+this.actFijoOb = actFijo;
+}
+
+//metodo para cerrar modal de aceptación de traslado
+cerrarModalAceptarTraslado(){
+  this.modalAceptarTrasladoVisible = false;
+}
+
+
+//metodo para aceptar traslado de artículo
+guardarAceptacionTraslado(){
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+
+  datosActivo = Object.assign(this.actFijoOb, this.user);
+
+  this.gestionActFijo.guardarAceptacionTraslado(datosActivo).subscribe(
+    response => {
+    
+    },
+    err => {
+      notie.alert({ 
+        type: 'error', 
+        text: 'Error al guardar datos!',
+        stay: false,
+        time: 2, 
+        position: 'top' 
+      });
+    },
+    () => {
+    
+        notie.alert({ 
+          type: 'success', 
+          text: 'Artículo trasladado con éxito',
+          stay: false,
+          time: 2, 
+          position: 'top' 
+        });
+      this.showCardListadoAdminActivos();
+      this.modalAceptarTrasladoVisible = false;
+      }
+    
+  
+  );
 }
 
 }
