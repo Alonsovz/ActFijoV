@@ -90,3 +90,7 @@ Route::post('guardarActivacionActivo', 'GestionActivoController@guardarActivacio
 Route::post('getHistorialActivo', 'GestionActivoController@getHistorialActivo');
 Route::post('guardarEdicionActivo', 'GestionActivoController@guardarEdicionActivo');
 Route::post('iniciarbajaactivo', 'GestionActivoController@iniciarBaja');
+Route::post('guardarTraslado', 'GestionActivoController@guardarTraslado');
+Route::post('guardarAceptacionTraslado', 'GestionActivoController@guardarAceptacionTraslado');
+
+

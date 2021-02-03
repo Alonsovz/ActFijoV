@@ -63,5 +63,7 @@ class VerifyCsrfToken extends BaseVerifier
         'getHistorialActivo',
         'guardarEdicionActivo',
         'iniciarbajaactivo',
+        'guardarTraslado',
+        'guardarAceptacionTraslado'
     ];
 }

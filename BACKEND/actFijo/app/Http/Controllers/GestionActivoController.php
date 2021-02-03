@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Response as FacadeResponse;
 use Session;
+use Response;
 
 
 
@@ -182,7 +181,10 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
-        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc from af_maestro af
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
         inner join users u on u.id = af.codigo_asignado order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -194,11 +196,14 @@ class GestionActivoController extends Controller
         $idUsuario = $request["id"];
       
         $getMisActivos = 
-        DB::connection('comanda')->select("select *,estado as estadoAc,
-        '$'+str(af_valor_compra_siva,12,2) as compraSiva,
-        convert(varchar(10),fecha_compra, 23) as fechaCompra,
-        convert(varchar(10),fecha_reg_contable, 23) as fechaRegistro from af_maestro
-        where codigo_asignado = ".$idUsuario ." order by af_codigo_interno desc");
+        DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        where af.codigo_asignado = ".$idUsuario ." order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
     }
@@ -229,7 +234,7 @@ class GestionActivoController extends Controller
 
     }
      //metodo para editar activo en base de datos COMANDA
-     public function guardarEdicionActivo(Request $request){
+    public function guardarEdicionActivo(Request $request){
         $codigoVNR = $request["af_codigo_vnr"];
         $codigoContable = $request["af_codigo_contable"];
         $tipoActivoPPYE = $request["codigo_ppye"];
@@ -341,6 +346,50 @@ class GestionActivoController extends Controller
 
         }
     }
+
+    public function guardarTraslado(Request $request){
+        $id = $request["af_codigo_interno"];
+        $userTraslado = $request["usuarioTrasladoNuevo"];
+
+       $editar = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno ', $id)
+        ->update([
+            'estadoActivo' => 'Pendiente' , 
+            'codigo_asignado' => $userTraslado, 
+            'estado' => 'T', 
+        ]);
+
+        return response()->json($editar);
+
+    }
+    
+
+    public function guardarAceptacionTraslado(Request $request){
+        $id = $request["af_codigo_interno"];
+        $usuarioAnterior = $request["usuarioAnterior"];
+        $userMovimiento = $request["asignado"];
+        $userAprobacion = $request["alias"];
+
+       $editar = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno ', $id)
+        ->update([
+            'estadoActivo' => 'Activo' ,
+            'estado' => 'A' ,
+        ]);
+
+
+        $insertar =  DB::connection('comanda')->table('af_historial_activo')
+        ->insert([
+            'idActivo' => $id,
+            'movimiento' => 'Traslado',
+            'fecha_movimiento'=> date('Ymd H:i:s'),
+            'usuario_movimiento' => $usuarioAnterior,
+            'usuario_aprobacion' => $userAprobacion,
+            'usuario_asignado' => $userMovimiento,
+        ]);
+
+        return response()->json($editar);
+
+    }
+    
     
 }
 

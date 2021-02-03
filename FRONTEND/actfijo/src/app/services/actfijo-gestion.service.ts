@@ -111,4 +111,19 @@ public guardarActivacionActivo(activoDatos: ActfijoGestion): Observable<ActfijoG
     );
   }
 
+
+  // metodo para guardar edición de activo
+  public guardarTraslado(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+    return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarTraslado', activoDatos, httpOptions)
+    .pipe(map(data => data as ActfijoGestion ));
+  }
+
+ // metodo para guardar aceptación de traslado de activo
+ public guardarAceptacionTraslado(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+  return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarAceptacionTraslado', activoDatos, httpOptions)
+  .pipe(map(data => data as ActfijoGestion ));
+}
+
+
+
 }
