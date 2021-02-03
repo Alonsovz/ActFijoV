@@ -60,7 +60,7 @@ class VerifyCsrfToken extends BaseVerifier
         'getMisActivos',
         'getActivosAdmin',
         'guardarActivacionActivo',
-        'getActivoByid',
+        'getHistorialActivo',
         'guardarEdicionActivo'
     ];
 }

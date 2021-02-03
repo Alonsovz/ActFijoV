@@ -112,13 +112,13 @@ class GestionActivoController extends Controller
         $ccCostoVnr = $request["ccCostoVnr"];
         $tipoAgd = $request["tipoAgd"];
         $bodegaAsignada = $request["bodegaAsignada"];
-        $marcaBien = $request["marcaBien"];
+        $marcaBien = $request["codigo_marca"];
         $modeloBien = $request["modeloBien"];
         $serieBien = $request["serieBien"];
         $otrasEspecificaciones = $request["otrasEspecificaciones"];
         $fechaCompra = $request["fechaCompra"];
         $proveedor = $request["proveedor"];
-        $departamento = $request["departamento"];
+        $departamento = $request["cod_departamento"];
         $municipio = $request["municipio"];
         $ubicacionFisica = $request["ubicacionFisica"];
         $estadoActivo = $request["estadoActivo"];
@@ -178,7 +178,7 @@ class GestionActivoController extends Controller
     public function getActivosAdmin(){
       
         $getMisActivos = 
-        DB::connection('comanda')->select("select *,
+        DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc from af_maestro af
@@ -195,7 +195,8 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select *,estado as estadoAc,
         '$'+str(af_valor_compra_siva,12,2) as compraSiva,
-        convert(varchar,fecha_compra, 103) as fechaCompra from af_maestro
+        convert(varchar(10),fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),fecha_reg_contable, 23) as fechaRegistro from af_maestro
         where codigo_asignado = ".$idUsuario ." order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -203,28 +204,29 @@ class GestionActivoController extends Controller
 
     public function guardarActivacionActivo(Request $request){
         $id = $request["af_codigo_interno"];
+        $userMovimiento = $request["asignado"];
+        $userAprobacion = $request["alias"];
 
-        $editar = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno ', $id)
-        ->update(['estadoActivo' => 'Activo' , 
+       $editar = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno ', $id)
+        ->update([
+            'estadoActivo' => 'Activo' , 
+            'usuario_alta' => $userAprobacion , 
+        ]);
+
+
+        $insertar =  DB::connection('comanda')->table('af_historial_activo')
+        ->insert([
+            'idActivo' => $id,
+            'movimiento' => 'Alta',
+            'fecha_movimiento'=> date('Ymd H:i:s'),
+            'usuario_movimiento' => $userMovimiento,
+            'usuario_aprobacion' => $userAprobacion,
+            'usuario_asignado' => $userMovimiento,
         ]);
 
         return response()->json($editar);
 
     }
-
-
-
-    public function getActivoByid(Request $request){
-        $id = $request["af_codigo_interno"];
-
-        $getActivo = DB::connection('comanda')
-        ->select("SELECT  *
-         from af_maestro where af_codigo_interno = ".$id."");
-
-        return response()->json($getActivo);
-    }
-
-
      //metodo para editar activo en base de datos COMANDA
      public function guardarEdicionActivo(Request $request){
         $codigoVNR = $request["af_codigo_vnr"];
@@ -255,6 +257,7 @@ class GestionActivoController extends Controller
         $tipoDocumento = $request["codigo_tipo_documento"];
         $numeroDocumento = $request["numero_documento"];
         $id = $request["af_codigo_interno"];
+        $userModificacion = $request["alias"];
 
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -294,11 +297,25 @@ class GestionActivoController extends Controller
             'cod_departamento' => $departamento,
             'cod_municipio' => $municipio,
             'codigo_sucursal' => $ubicacionFisica,
+            'usuario_modificacion' => $userModificacion,
+            'fecha_modificacion' => date('Ymd H:i:s'),
         ]);
 
         return response()->json($insertar);
     }
 
+
+    //metodo para obtener el historial del activo
+    public function getHistorialActivo(Request $request){
+        $id = $request["af_codigo_interno"];
+
+        $getActivo = DB::connection('comanda')
+        ->select("SELECT  *, convert(varchar, fecha_movimiento, 103) as fechaMovimiento,
+         substring(convert(varchar,fecha_movimiento, 114),1,5) as horaMovimiento
+         from af_historial_activo where idActivo = ".$id."");
+
+        return response()->json($getActivo);
+    }
 }
 
 

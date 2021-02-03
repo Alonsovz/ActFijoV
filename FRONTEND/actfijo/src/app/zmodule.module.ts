@@ -17,6 +17,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+
 const zorromodules = [
   NzFormModule,
   NzInputModule,
@@ -33,7 +35,8 @@ const zorromodules = [
   NzModalModule,
   NzSelectModule,
   NzSkeletonModule,
-  NzToolTipModule
+  NzToolTipModule,
+  NzTabsModule
 ]
 
 

@@ -65,6 +65,8 @@ export class ActfijoGestionComponent implements OnInit {
   listOfDataAdmin: ReadonlyArray<ActfijoGestion> = [];
   listOfCurrentPageDataAdmin: ReadonlyArray<ActfijoGestion> = [];
 
+  listOfCurrentPageDataHistorial: ReadonlyArray<ActfijoGestion> = [];
+
   modalActivacionVisible = false;
   user: Usuario = new Usuario();
   vista: string;
@@ -412,7 +414,7 @@ guardarActivacion(){
 
   let datosActivo : ActfijoGestion = new ActfijoGestion();
 
-  datosActivo = this.actFijoOb;
+  datosActivo = Object.assign(this.actFijoOb, this.user);
 
   this.gestionActFijo.guardarActivacionActivo(datosActivo).subscribe(
     response => {
@@ -450,6 +452,8 @@ cerrarModalActivacion(){
   this.modalActivacionVisible = false;
 }
 
+
+//metodo para filtrar municipios por departarmento en edición
 public filtrarMunicipiosEdicion(){
   let datosmarcaActivo : Marcasactivo = new Marcasactivo();
 
@@ -463,7 +467,7 @@ this.gestionActFijo.getMunicipios(datosmarcaActivo).subscribe(
 
 }
 
-
+//metodo para filtrar modelos por marca en edición
 public filtrarModelosEdicion(){
   let datosmarcaActivo : Marcasactivo = new Marcasactivo();
 
@@ -477,6 +481,7 @@ this.modelosactivo.getModelosByMarca(datosmarcaActivo).subscribe(
 
 }
 
+//metodo para filtrar cuentas contables en edición
 public getCuentaContablePPYEEdicion(){
   let datosmarcaActivo : Marcasactivo = new Marcasactivo();
 
@@ -490,6 +495,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
 
 }
 
+//metodo para mostrar card de edición de activo
 editarActFijo(act, vis){
 
   this.editarActivoForm.reset();
@@ -506,18 +512,19 @@ editarActFijo(act, vis){
   this.filtrarModelosEdicion();
   this.getCuentaContablePPYEEdicion();
   this.vista = vis;
+
+  this.gestionActFijo.getHistorialActivo(act).subscribe(
+    data => {
+      this.listOfCurrentPageDataHistorial = data;
+    });
 }
-
-
-
-
 
  //metodo para guardar edición de activo 
 
-   guardarEdicionActivo(){
+guardarEdicionActivo(){
     let datosActivo : ActfijoGestion = new ActfijoGestion();
 
-    datosActivo = this.editarActivoForm.value;
+    datosActivo = Object.assign(this.editarActivoForm.value, this.user);
 
     this.gestionActFijo.guardarEdicionActivo(datosActivo).subscribe(
       response => {
@@ -547,4 +554,29 @@ editarActFijo(act, vis){
     
     );
 }
+
+
+
+//metodo para cerrar edición de activo admin
+
+cerrarCardEditarAdmin(){
+  this.mostrarCardListadoAdmin = true; 
+  this.mostrarTablaCargaAdmin = true;
+  this.mostrarCardEditar = false;
+}
+
+//metodo para cerrar edición de activo ser
+cerrarCardEditar(){
+  this.mostrarCardEditar = false;
+  this.mostrarCardListado = true; 
+  this.mostrarTablaCarga = true;
+}
+
+
+//metodo para paginación de tabla de todos los activos
+onCurrentPageDataChangeHistorial(listOfCurrentPageDataHistorial: ReadonlyArray<ActfijoGestion>) {
+  this.listOfCurrentPageDataHistorial  = listOfCurrentPageDataHistorial;
+
+}
+
 }
