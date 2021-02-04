@@ -185,12 +185,15 @@ public getBajasUser(usuario): Observable<Usuario[]> {
   return this.http.post(this.globalservice.getUrlBackEnd() + 'getBajasUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
 }
 
-//metodo para obtener objeto de traslados por usuario
-public getTrasladosUser(usuario): Observable<Usuario[]> {
-  return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+//metodo para obtener objeto de traslados recibido por usuario
+public getTrasladosRecibidosUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosRecibidosUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
 }
 
-
+//metodo para obtener objeto de traslados hecho por usuario
+public getTrasladosHechosUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosHechosUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
 
 //metodo para obtener objeto de altas pendientes por usuario
 public getAltasPendientesUser(usuario): Observable<Usuario[]> {

@@ -111,6 +111,9 @@ export class ActfijoGestionComponent implements OnInit {
   listaTrasladosUserObj: ReadonlyArray<Usuario> = [];
 
 
+  listaTrasladosHechosUser : ReadonlyArray<Usuario> = [];
+  listaTrasladosHechosUserObj : ReadonlyArray<Usuario> = [];
+
   listaAltasPendienteUser: ReadonlyArray<Usuario> = [];
   listaAltasPendienteUserObj: ReadonlyArray<Usuario> = [];
 
@@ -132,7 +135,8 @@ export class ActfijoGestionComponent implements OnInit {
 
   conteoAltasUser = 0;
   conteoBajasUser = 0;
-  conteoTrasladosUser = 0;
+  conteoTrasladosRecibidosUser = 0;
+  conteoTrasladosHechosUser = 0;
   conteoAltasPenUser = 0;
   conteoBajasPenUser = 0;
   conteoTrasladosPenUser = 0;
@@ -320,6 +324,7 @@ export class ActfijoGestionComponent implements OnInit {
 
 
   this.getAltasUser();
+  this.conteoUser();
 
 
   }
@@ -489,7 +494,8 @@ guardarActivacion(){
           time: 2,
           position: 'top'
         });
-      this.showCardListadoAdminActivos();
+      this.getAltasPendientesAdmin();
+      this.conteoAdmin();
       this.modalActivacionVisible = false;
       }
 
@@ -660,7 +666,9 @@ iniciarBaja() {
         position: 'top'
       });
 
-    this.showCardListado();
+    this.getBajasUser();
+    this.getAltasUser();
+    this.conteoUser();
     this.modalBajaConfirmacion = false;
 
     }
@@ -708,7 +716,8 @@ guardarTraslado(){
           position: 'top'
         });
 
-      this.showCardListado();
+      this.getAltasUser();
+      this.conteoUser();
       this.modalTrasladoVisible = false;
       }
 
@@ -757,7 +766,8 @@ guardarAceptacionTraslado(){
           time: 2,
           position: 'top'
         });
-      this.showCardListadoAdminActivos();
+      this.getTrasladosPendientesAdmin();
+      this.conteoAdmin();
       this.modalAceptarTrasladoVisible = false;
       }
 
@@ -795,8 +805,9 @@ finalizarProcesoBaja() {
         time: 4,
         position: 'top'
       });
-      this.cerrarModalFinalizarProcesoBaja();
-      this.showCardListadoAdminActivos();
+      this.getBajasPendientesAdmin();
+      this.conteoAdmin();
+      this.modalFinalizarProcesoBaja = false;
     }
   )
 
@@ -863,7 +874,7 @@ getTrasladosAdmin(){
   this.mostrarTablaCargaAdmin = false;
       this.mostrarSkeletonTablaAdmin = true;
       
-  this.gestionActFijo.getBajasAdmin().subscribe(
+  this.gestionActFijo.getTrasladosAdmin().subscribe(
     data => {
       this.listaTrasladosAdminObj = data;
       this.mostrarTablaCargaAdmin = true;
@@ -984,14 +995,14 @@ getBajasUser(){
 }
 
 
-//metodo para paginación de tabla de traslados por usuario
-paginacionTablaTrasladosUser(listaTrasladosUser: ReadonlyArray<Usuario>) {
+//metodo para paginación de tabla de traslados recibido por usuario
+paginacionTablaTrasladosRecbididosUser(listaTrasladosUser: ReadonlyArray<Usuario>) {
   this.listaTrasladosUser  = listaTrasladosUser;
 
 }
 
-//metodo para obtener listado de traslados por usuario
-getTrasladosUser(){
+//metodo para obtener listado de traslados recibidos por usuario
+getTrasladosRecibidosUser(){
   this.mostrarTablaCarga = false;
   this.mostrarSkeletonTabla = true;
 
@@ -999,13 +1010,39 @@ getTrasladosUser(){
 
   datosUsuario = this.user;
   
-  this.gestionActFijo.getTrasladosUser(datosUsuario).subscribe(
+  this.gestionActFijo.getTrasladosRecibidosUser(datosUsuario).subscribe(
     data => {
       this.listaTrasladosUserObj = data;
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
 }
+
+
+
+//metodo para paginación de tabla de traslados hechos por usuario
+paginacionTablaTrasladosRecibidosUser(listaTrasladosHechosUser: ReadonlyArray<Usuario>) {
+  this.listaTrasladosHechosUser  = listaTrasladosHechosUser;
+
+}
+
+//metodo para obtener listado de traslados hechos por usuario
+getTrasladosHechosUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getTrasladosHechosUser(datosUsuario).subscribe(
+    data => {
+      this.listaTrasladosHechosUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
 
 //metodo para paginación de tabla de altas por usuario
 paginacionTablaAltasPendientesUser(listaAltasPendienteUser: ReadonlyArray<Usuario>) {
@@ -1063,7 +1100,7 @@ paginacionTablaTrasladosPendientesUser(listaTrasladosPendienteUser: ReadonlyArra
 }
 
 //metodo para obtener listado de traslados por usuario
-getTrasladosPendienteUser(){
+getTrasladosPendientesUser(){
   this.mostrarTablaCarga = false;
   this.mostrarSkeletonTabla = true;
 
@@ -1071,7 +1108,7 @@ getTrasladosPendienteUser(){
 
   datosUsuario = this.user;
   
-  this.gestionActFijo.getTrasladosUser(datosUsuario).subscribe(
+  this.gestionActFijo.getTrasladosPendientesUser(datosUsuario).subscribe(
     data => {
       this.listaTrasladosPendienteUserObj = data;
       this.mostrarTablaCarga = true;
@@ -1091,8 +1128,8 @@ conteoAdmin(){
         this.conteoBajas = Number(element["conteoBajas"]);
         this.conteoTraslados = Number(element["conteoTraslados"]);
         this.conteoAltasPen = Number(element["conteoAltasPen"]);
-        this.conteoBajasPen = Number(element["conteoTrasladosPen"]);
-        this.conteoTrasladosPen = Number(element["conteoBajasPen"]);
+        this.conteoBajasPen = Number(element["conteoBajasPen"]);
+        this.conteoTrasladosPen = Number(element["conteoTrasladosPen"]);
       });
   });
 }
@@ -1108,10 +1145,11 @@ conteoUser(){
       data.forEach(element => {
       this.conteoAltasUser = Number(element["conteoAltas"]);
       this.conteoBajasUser = Number(element["conteoBajas"]);
-      this.conteoTrasladosUser = Number(element["conteoTraslados"]);
+      this.conteoTrasladosRecibidosUser = Number(element["conteoTrasladosRecibidos"]);
+      this.conteoTrasladosHechosUser = Number(element["conteoTrasladosHechos"]);
       this.conteoAltasPenUser = Number(element["conteoAltasPen"]);
-      this.conteoBajasPenUser = Number(element["conteoTrasladosPen"]);
-      this.conteoTrasladosPenUser = Number(element["conteoBajasPen"]);
+      this.conteoTrasladosPenUser = Number(element["conteoTrasladosPen"]);
+      this.conteoBajasPenUser = Number(element["conteoBajasPen"]);
     });
   });
 }

@@ -318,7 +318,8 @@ class GestionActivoController extends Controller
         $getActivo = DB::connection('comanda')
         ->select("SELECT  *, convert(varchar, fecha_movimiento, 103) as fechaMovimiento,
          substring(convert(varchar,fecha_movimiento, 114),1,5) as horaMovimiento
-         from af_historial_activo where idActivo = ".$id."");
+         from af_historial_activo where idActivo = ".$id."
+         order by id desc");
 
         return response()->json($getActivo);
 
@@ -590,22 +591,70 @@ class GestionActivoController extends Controller
     }
 
       //metodo para mostrar activos traslado por usuario en base de datos COMANDA
-      public function getTrasladosUser(Request $request){
+      public function getTrasladosRecibidosUser(Request $request){
         $idUsuario = $request["id"];
+        $alias = $request["alias"];
       
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
-        (select top 1 usuario_asignado from af_historial_activo
-        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
-        order by id desc ) as usuarioAnterior from af_maestro af
-        where af.codigo_asignado = ".$idUsuario ."
-        and af.estado = 'T' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
+        h.usuario_asignado as usuarioNuevo,
+        h.usuario_movimiento as usuarioAnterior,
+        convert(varchar, h.fecha_movimiento, 103) as fechaTraslado,
+         substring(convert(varchar,h.fecha_movimiento, 114),1,5) as horaTraslado,
+         case when af.estado = 'A'
+         then
+         'Alta'
+         when af.estado = 'B'
+         then
+         'Baja'
+         when af.estado = 'T'
+         then
+         'Traslado'
+         end as estadoActual
+        from af_historial_activo h
+        inner join af_maestro af on af.af_codigo_interno = h.idActivo
+        where h.usuario_asignado = '".$alias."'
+        and h.movimiento = 'Traslado' and af.estado != 'B' order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
     }
+
+
+     //metodo para mostrar activos traslado por usuario en base de datos COMANDA
+     public function getTrasladosHechosUser(Request $request){
+        $idUsuario = $request["alias"];
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        h.usuario_asignado as usuarioNuevo,
+        convert(varchar, h.fecha_movimiento, 103) as fechaTraslado,
+         substring(convert(varchar,h.fecha_movimiento, 114),1,5) as horaTraslado,
+         case when af.estado = 'A'
+         then
+         'Alta'
+         when af.estado = 'B'
+         then
+         'Baja'
+         when af.estado = 'T'
+         then
+         'Traslado'
+         end as estadoActual
+        from af_historial_activo h
+        inner join af_maestro af on af.af_codigo_interno = h.idActivo
+        where h.usuario_movimiento = '".$idUsuario."'
+        and h.movimiento = 'Traslado'  and af.estado != 'B' order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+
+
 
       //metodo para mostrar activos altas pendientes por usuario en base de datos COMANDA
       public function getAltasPendientesUser(Request $request){
@@ -619,7 +668,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        where af.codigo_asignado = ".$idUsuario ."
+        where af.codigo_asignado = ".$idUsuario."
         and af.estado = 'A' and af.estadoActivo = 'Pendiente' order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -637,7 +686,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        where af.codigo_asignado = ".$idUsuario ."
+        where af.codigo_asignado = ".$idUsuario."
         and af.estado = 'T' and af.estadoActivo = 'Pendiente' order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -655,7 +704,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        where af.codigo_asignado = ".$idUsuario ."
+        where af.codigo_asignado = ".$idUsuario."
         and af.estado = 'B' and af.estadoActivo = 'Pendiente' order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -665,17 +714,27 @@ class GestionActivoController extends Controller
      //metodo para obtener conteo de badges en vista de administrador
      public function getConteoUser(Request $request){
         $id = $request["id"];
+        $alias = $request["alias"];
 
-        $getConteoAdmin = 
+        $getConteoUser = 
         DB::connection('comanda')->select("select 
         (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Activo' and codigo_asignado=".$id.") as conteoAltas,
-        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Activo' and codigo_asignado=".$id.") as conteoTraslados,
         (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Activo' and codigo_asignado=".$id.") as conteoBajas,
         (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Pendiente' and codigo_asignado=".$id.") as conteoAltasPen,
         (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Pendiente' and codigo_asignado=".$id.") as conteoTrasladosPen,
-        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Pendiente' and codigo_asignado=".$id.") as conteoBajasPen");
+        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Pendiente' and codigo_asignado=".$id.") as conteoBajasPen,
+        
+        (select count(h.id) from af_historial_activo h
+        inner join af_maestro af on af.af_codigo_interno = h.idActivo
+         where h.usuario_asignado = '".$alias."' and h.movimiento = 'Traslado'
+         and af.estado != 'B' and af.estadoActivo = 'Activo') as conteoTrasladosRecibidos,
 
-        return response()->json($getConteoAdmin);
+         (select count(h.id) from af_historial_activo h
+        inner join af_maestro af on af.af_codigo_interno = h.idActivo
+         where h.usuario_movimiento = '".$alias."' and h.movimiento = 'Traslado'
+         and af.estado != 'B' and af.estadoActivo = 'Activo')as conteoTrasladosHechos");
+
+        return response()->json($getConteoUser);
     }
     
     

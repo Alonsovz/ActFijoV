@@ -96,7 +96,7 @@
                 </nz-table>
             </nz-tab>
         
-        <nz-tab [nzTitle]="tituloTabTraslados">
+        <nz-tab [nzTitle]="tituloTabTraslados" (nzClick)="getTrasladosAdmin()">
 
             <ng-template #tituloTabTraslados>
                 Traslados <nz-badge [nzCount]="conteoTraslados" nzShowZero
@@ -469,7 +469,7 @@
         <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de mis de activos</h2>
     </div>
     
-    <nz-tabset>
+    <nz-tabset nzTabPosition="left" style="height:620px;">
         
         <nz-tab [nzTitle]="altasUserTab" (nzClick)="getAltasUser()">
 
@@ -512,7 +512,7 @@
                             nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
                             <button nz-button nzType="danger" (click)="mostrarModalInicioBaja(ob)"
                             *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                            nzTooltipTitle="Inciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+                            nzTooltipTitle="Iniciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
         
                         </td>
                       </tr>
@@ -520,38 +520,38 @@
                 </nz-table>
         </nz-tab>
 
-        <nz-tab [nzTitle]="trasladosUserTab" (nzClick)="getTrasladosUser()">
+        <nz-tab [nzTitle]="trasladosRecibidosUserTab" (nzClick)="getTrasladosRecibidosUser()">
 
-            <ng-template #trasladosUserTab>
-                Mis Traslados  <nz-badge [nzCount]="conteoTrasladosUser" nzShowZero
+            <ng-template #trasladosRecibidosUserTab>
+               Traslados Recibidos <nz-badge [nzCount]="conteoTrasladosRecibidosUser" nzShowZero
                 [nzStyle]="{ backgroundColor: '#0E508E' }"></nz-badge>
               </ng-template>
             <div nz-row>
                 <h2 style="color: #0E508E !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
-                    Mis Traslados</h2>
+                     Traslados Recibidos</h2>
 
                     <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeletonTabla"></nz-skeleton>
                 
             </div>
-                <nz-table nzShowPagination #trasladosUser
-                nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosUser($event)"
+                <nz-table nzShowPagination #trasladosRecibidosUser
+                nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosRecibidosUser($event)"
                  [nzData]="listaTrasladosUserObj" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
                         <th style="background-color: #0E508E !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #0E508E !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
-                       <th style="background-color: #0E508E !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
-                        <th style="background-color: #0E508E !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
+                       <th style="background-color: #0E508E !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de traslado</th>
+                        <th style="background-color: #0E508E !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Usuario anterior </th>
                         <th style="background-color: #0E508E !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of trasladosUser.data">
+                      <tr *ngFor="let ob of trasladosRecibidosUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaCompra }}</td>
-                        <td>{{ ob.compraSiva }}</td>
+                        <td>{{ ob.fechaTraslado }} {{ob.horaTraslado}}</td>
+                        <td>{{ ob.usuarioAnterior }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
@@ -560,12 +560,65 @@
                             nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
                             <button nz-button nzType="danger" (click)="mostrarModalInicioBaja(ob)"
                             *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                            nzTooltipTitle="Inciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+                            nzTooltipTitle="Iniciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
         
                         </td>
                       </tr>
                     </tbody>
                 </nz-table>
+        </nz-tab>
+
+
+        <nz-tab [nzTitle]="trasladosUserHechosTab" (nzClick)="getTrasladosHechosUser()">
+
+            <ng-template #trasladosUserHechosTab>
+                Traslados hechos  <nz-badge [nzCount]="conteoTrasladosHechosUser" nzShowZero
+                [nzStyle]="{ backgroundColor: '#0E508E' }"></nz-badge>
+              </ng-template>
+
+                    <div nz-row>
+                        <h2 style="color: #099322 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
+                             Traslados Hechos</h2>
+        
+                            <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeletonTabla"></nz-skeleton>
+                        
+                    </div>
+                        <nz-table nzShowPagination #trasladosHechosUser
+                        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosRecibidosUser($event)"
+                         [nzData]="listaTrasladosHechosUserObj" *ngIf="mostrarTablaCarga">
+                            <thead>
+                              <tr>
+                
+                                <th style="background-color: #099322 !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
+                                <th style="background-color: #099322 !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
+                               <th style="background-color:  #099322 !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de traslado</th>
+                                <th style="background-color: #099322 !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Usuario asignado </th>
+                                <th style="background-color: #099322 !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let ob of trasladosHechosUser.data">
+                                <td>{{ ob.af_codigo_interno }}</td>
+                                <td>{{ ob.descripcion_bien }}</td>
+                                <td>{{ ob.fechaTraslado }} {{ob.horaTraslado}}</td>
+                                <td>{{ ob.usuarioNuevo }}</td>
+                                <td  style="text-align: center; align-items: center;">
+                                    <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
+                                    nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                                    <button nz-button nzType="default" (click)="trasladarActivo(ob)"
+                                    *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
+                                    nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
+                                    <button nz-button nzType="danger" (click)="mostrarModalInicioBaja(ob)"
+                                    *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
+                                    nzTooltipTitle="Iniciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+                
+                                </td>
+                              </tr>
+                            </tbody>
+                        </nz-table>
+                
+            
+                
         </nz-tab>
 
         <nz-tab [nzTitle]="bajasUserTab" (nzClick)="getBajasUser()">
@@ -608,7 +661,7 @@
                             nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
                             <button nz-button nzType="danger" (click)="mostrarModalInicioBaja(ob)"
                             *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                            nzTooltipTitle="Inciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+                            nzTooltipTitle="Iniciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
         
                         </td>
                       </tr>
@@ -619,7 +672,7 @@
         <nz-tab [nzTitle]="altasPendientesUserTab" (nzClick)="getAltasPendientesUser()">
 
             <ng-template #altasPendientesUserTab>
-                Mis altas pendientes de aceptación <nz-badge [nzCount]="conteoAltasPenUser" nzShowZero
+                Altas pend. de aceptación <nz-badge [nzCount]="conteoAltasPenUser" nzShowZero
                 [nzStyle]="{ backgroundColor: '#C8690A' }"></nz-badge>
               </ng-template>
             <div nz-row>
@@ -656,7 +709,7 @@
                             nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
                             <button nz-button nzType="danger" (click)="mostrarModalInicioBaja(ob)"
                             *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                            nzTooltipTitle="Inciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+                            nzTooltipTitle="Iniciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
         
                         </td>
                       </tr>
@@ -667,7 +720,7 @@
         <nz-tab [nzTitle]="trasladosPendientesUserTab" (nzClick)="getTrasladosPendientesUser()">
 
             <ng-template #trasladosPendientesUserTab>
-                Mis traslados de aceptación <nz-badge [nzCount]="conteoTrasladosPenUser" nzShowZero
+                Traslados pend. de aceptación <nz-badge [nzCount]="conteoTrasladosPenUser" nzShowZero
                 [nzStyle]="{ backgroundColor: '#008678' }"></nz-badge>
               </ng-template>
 
@@ -705,7 +758,7 @@
                             nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
                             <button nz-button nzType="danger" (click)="mostrarModalInicioBaja(ob)"
                             *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                            nzTooltipTitle="Inciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+                            nzTooltipTitle="Iniciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
         
                         </td>
                       </tr>
@@ -716,7 +769,7 @@
         <nz-tab [nzTitle]="bajasPendientesUserTab" (nzClick)="getBajasPendientesUser()">
 
             <ng-template #bajasPendientesUserTab>
-                Mis bajas de aceptación <nz-badge [nzCount]="conteoBajasPenUser" nzShowZero
+                Bajas pend. de aceptación <nz-badge [nzCount]="conteoBajasPenUser" nzShowZero
                 [nzStyle]="{ backgroundColor: '#86001C' }"></nz-badge>
               </ng-template>
             <div nz-row>
@@ -753,7 +806,7 @@
                             nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
                             <button nz-button nzType="danger" (click)="mostrarModalInicioBaja(ob)"
                             *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                            nzTooltipTitle="Inciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+                            nzTooltipTitle="Iniciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
         
                         </td>
                       </tr>
@@ -1340,7 +1393,7 @@
                             [nzData]="listOfCurrentPageDataHistorial">
                             <thead>
                             <tr>
-                            
+
                                 <th><i nz-icon nzType="tool" nzTheme="outline"></i> Movimiento</th>
                                 <th><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha </th>
                                 <th><i nz-icon nzType="user" nzTheme="outline"></i> Usuario </th>
