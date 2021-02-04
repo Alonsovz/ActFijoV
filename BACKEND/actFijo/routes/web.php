@@ -109,3 +109,7 @@ Route::post('getAltasPendientesUser', 'GestionActivoController@getAltasPendiente
 Route::post('getBajasPendientesUser', 'GestionActivoController@getBajasPendientesUser');
 Route::post('getTrasladosPendientesUser', 'GestionActivoController@getTrasladosPendientesUser');
 Route::post('getConteoUser', 'GestionActivoController@getConteoUser');
+
+Route::post('getTrasladosRecibidosPendientesUser', 'GestionActivoController@getTrasladosRecibidosPendientesUser');
+Route::post('getTrasladosHechosPendientesUser', 'GestionActivoController@getTrasladosHechosPendientesUser');
+

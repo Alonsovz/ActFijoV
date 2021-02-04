@@ -217,4 +217,16 @@ public getConteoUser(usuario): Observable<Usuario[]> {
   return this.http.post(this.globalservice.getUrlBackEnd() + 'getConteoUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
 }
 
+
+//metodo para obtener objeto de traslados pendientes de recibir por usuario
+public getTrasladosRecibidosPendientesUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosRecibidosPendientesUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
+//metodo para obtener objeto de traslados hechos pendientes de aceptación
+public getTrasladosHechosPendientesUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosHechosPendientesUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
+
 }

@@ -123,7 +123,12 @@ export class ActfijoGestionComponent implements OnInit {
   listaTrasladosPendienteUser: ReadonlyArray<Usuario> = [];
   listaTrasladosPendienteUserObj: ReadonlyArray<Usuario> = [];
 
+  listaTrasladosRecibidosPendientesUser: ReadonlyArray<Usuario> = [];
+  listaTrasladosRecibidosPendientesUserObj: ReadonlyArray<Usuario> = [];
 
+  
+  listaTrasladosHechosPendientesUser: ReadonlyArray<Usuario> = [];
+  listaTrasladosHechosPendientesUserObj: ReadonlyArray<Usuario> = [];
 
   conteoAltas = 0;
   conteoBajas = 0;
@@ -140,6 +145,8 @@ export class ActfijoGestionComponent implements OnInit {
   conteoAltasPenUser = 0;
   conteoBajasPenUser = 0;
   conteoTrasladosPenUser = 0;
+  conteoTrasladosRecibidosPendientesRecibir = 0;
+  conteoTrasladosHechosPendientesRecibir = 0;
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
@@ -1044,6 +1051,52 @@ getTrasladosHechosUser(){
 }
 
 
+//metodo para paginación de tabla de traslados recibidos pedientes de recibir por usuario
+paginacionTablaTrasladosRecibidosPendientesUser(listaTrasladosRecibidosPendientesUser: ReadonlyArray<Usuario>) {
+  this.listaTrasladosRecibidosPendientesUser  = listaTrasladosRecibidosPendientesUser;
+
+}
+
+//metodo para obtener listado de tabla de traslados recibidos pedientes de recibir por usuario
+getTrasladosRecibidosPendientesUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getTrasladosRecibidosPendientesUser(datosUsuario).subscribe(
+    data => {
+      this.listaTrasladosRecibidosPendientesUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+
+//metodo para paginación de tabla de traslados hechos pedientes de aceptación
+paginacionTablaTrasladosHechosPendientesUser(listaTrasladosHechosPendientesUser: ReadonlyArray<Usuario>) {
+  this.listaTrasladosHechosPendientesUser  = listaTrasladosHechosPendientesUser;
+
+}
+//metodo para obtener objeto de traslados hechos pendientes de aceptación
+getTrasladosHechosPendientesUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getTrasladosHechosPendientesUser(datosUsuario).subscribe(
+    data => {
+      this.listaTrasladosHechosPendientesUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
 //metodo para paginación de tabla de altas por usuario
 paginacionTablaAltasPendientesUser(listaAltasPendienteUser: ReadonlyArray<Usuario>) {
   this.listaAltasPendienteUser  = listaAltasPendienteUser;
@@ -1150,7 +1203,9 @@ conteoUser(){
       this.conteoAltasPenUser = Number(element["conteoAltasPen"]);
       this.conteoTrasladosPenUser = Number(element["conteoTrasladosPen"]);
       this.conteoBajasPenUser = Number(element["conteoBajasPen"]);
-    });
+      this.conteoTrasladosRecibidosPendientesRecibir = Number(element["conteoTrasladosRecibidosPendientesRecibir"]);
+      this.conteoTrasladosHechosPendientesRecibir = Number(element["conteoTrasladosHechosPendientesRecibir"]);
+    }); 
   });
 }
 
