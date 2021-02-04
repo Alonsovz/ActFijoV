@@ -208,4 +208,10 @@ public getTrasladosPendientesUser(usuario): Observable<Usuario[]> {
   return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosPendientesUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
 }
 
+
+//metodo para obtener objeto de altas por usuario
+public getConteoUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getConteoUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
 }

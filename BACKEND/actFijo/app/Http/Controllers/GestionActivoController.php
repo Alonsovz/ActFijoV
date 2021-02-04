@@ -660,6 +660,23 @@ class GestionActivoController extends Controller
 
         return response()->json($getMisActivos);
     }
+
+
+     //metodo para obtener conteo de badges en vista de administrador
+     public function getConteoUser(Request $request){
+        $id = $request["id"];
+
+        $getConteoAdmin = 
+        DB::connection('comanda')->select("select 
+        (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Activo' and codigo_asignado=".$id.") as conteoAltas,
+        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Activo' and codigo_asignado=".$id.") as conteoTraslados,
+        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Activo' and codigo_asignado=".$id.") as conteoBajas,
+        (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Pendiente' and codigo_asignado=".$id.") as conteoAltasPen,
+        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Pendiente' and codigo_asignado=".$id.") as conteoTrasladosPen,
+        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Pendiente' and codigo_asignado=".$id.") as conteoBajasPen");
+
+        return response()->json($getConteoAdmin);
+    }
     
     
 }

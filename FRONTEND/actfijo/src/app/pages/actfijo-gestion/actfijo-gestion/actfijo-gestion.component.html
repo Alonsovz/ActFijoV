@@ -29,13 +29,11 @@
             <nz-tab [nzTitle]="tituloTabAltas" (nzClick)="getAltasAdmin()">
 
                 <ng-template #tituloTabAltas>
-                    Altas <nz-badge  [nzCount]="conteoAlta" 
-                    [nzStyle]="{ backgroundColor: '#52c41a', color: 'white' }"></nz-badge>
+                    Altas <nz-badge  [nzCount]="conteoAltas"  nzShowZero
+                    [nzStyle]="{ backgroundColor: '#007E61', color: 'white' }"></nz-badge>
                 </ng-template>
 
-                <ng-template #conteoAlta>
-                    {{conteoAltas}}
-                </ng-template>
+               
 
             <h2 style="color: #007E61 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i> Altas de activos</h2>
 
@@ -101,13 +99,9 @@
         <nz-tab [nzTitle]="tituloTabTraslados">
 
             <ng-template #tituloTabTraslados>
-                Traslados <nz-badge [nzCount]="conteoTraslado"
-                [nzStyle]="{ backgroundColor: '#52c41a' }"></nz-badge>
+                Traslados <nz-badge [nzCount]="conteoTraslados" nzShowZero
+                [nzStyle]="{ backgroundColor: '#1A3A78' }"></nz-badge>
               </ng-template>
-
-              <ng-template #conteoTraslado>
-                  {{conteoTraslados}}
-                </ng-template>
 
             <div nz-row>
                 <h2 style="color: #1A3A78 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i> Traslados de activos</h2>
@@ -177,13 +171,9 @@
         <nz-tab [nzTitle]="tituloTabBajas" (nzClick)="getBajasAdmin()">
 
             <ng-template #tituloTabBajas>
-                Bajas <nz-badge [nzCount]="conteoBaja"
-                [nzStyle]="{ backgroundColor: '#52c41a' }"></nz-badge>
+                Bajas <nz-badge [nzCount]="conteoBajas" nzShowZero
+                [nzStyle]="{ backgroundColor: '#7B0505' }"></nz-badge>
               </ng-template>
-
-              <ng-template #conteoBaja>
-                  {{conteoBajas}}
-                </ng-template>
 
             <div nz-row>
                 <h2 style="color: #7B0505 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i> Bajas de activos</h2>
@@ -255,13 +245,9 @@
 
             
             <ng-template #tituloTabAltasPen>
-                Altas pendientes de aceptación  <nz-badge [nzCount]="conteoAltaPen"
-                [nzStyle]="{ backgroundColor: '#52c41a' }"></nz-badge>
+                Altas pendientes de aceptación  <nz-badge [nzCount]="conteoAltasPen" nzShowZero
+                [nzStyle]="{ backgroundColor: '#9E4211' }"></nz-badge>
               </ng-template>
-
-              <ng-template #conteoAltaPen>
-                  {{conteoAltasPen}}
-                </ng-template>
 
             <div nz-row>
                 <h2 style="color: #9E4211 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
@@ -331,13 +317,10 @@
 
         <nz-tab [nzTitle]="tituloTabTrasladosPen" (nzClick)="getTrasladosPendientesAdmin()">
             <ng-template #tituloTabTrasladosPen>
-                Traslados pendientes de aceptación  <nz-badge [nzCount]="conteoTrasladoPen"
-                [nzStyle]="{ backgroundColor: '#52c41a' }"></nz-badge>
+                Traslados pendientes de aceptación  <nz-badge [nzCount]="conteoTrasladosPen" nzShowZero
+                [nzStyle]="{ backgroundColor: '#10690A' }"></nz-badge>
               </ng-template>
 
-              <ng-template #conteoTrasladoPen>
-                  {{conteoTrasladosPen}}
-                </ng-template>
 
             <div nz-row>
                 <h2 style="color: #10690A !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
@@ -407,13 +390,10 @@
 
             
             <ng-template #tituloTabBajasPen>
-                Bajas pendientes de aceptación  <nz-badge [nzCount]="conteoBajaPen"
-                [nzStyle]="{ backgroundColor: '#52c41a' }"></nz-badge>
+                Bajas pendientes de aceptación  <nz-badge [nzCount]="conteoBajasPen" nzShowZero
+                [nzStyle]="{ backgroundColor: '#39136D' }"></nz-badge>
               </ng-template>
 
-              <ng-template #conteoBajaPen>
-                  {{conteoBajasPen}}
-                </ng-template>
 
             <div nz-row>
                 <h2 style="color: #39136D !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
@@ -491,7 +471,12 @@
     
     <nz-tabset>
         
-        <nz-tab nzTitle="Mis altas" (nzClick)="getAltasUser()">
+        <nz-tab [nzTitle]="altasUserTab" (nzClick)="getAltasUser()">
+
+            <ng-template #altasUserTab>
+                Mis Altas  <nz-badge [nzCount]="conteoAltasUser" nzShowZero
+                [nzStyle]="{ backgroundColor: '#39136D' }"></nz-badge>
+              </ng-template>
 
             <div nz-row>
                 <h2 style="color: #39136D !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
@@ -535,8 +520,12 @@
                 </nz-table>
         </nz-tab>
 
-        <nz-tab nzTitle="Mis traslados" (nzClick)="getTrasladosUser()">
+        <nz-tab [nzTitle]="trasladosUserTab" (nzClick)="getTrasladosUser()">
 
+            <ng-template #trasladosUserTab>
+                Mis Traslados  <nz-badge [nzCount]="conteoTrasladosUser" nzShowZero
+                [nzStyle]="{ backgroundColor: '#0E508E' }"></nz-badge>
+              </ng-template>
             <div nz-row>
                 <h2 style="color: #0E508E !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
                     Mis Traslados</h2>
@@ -579,8 +568,12 @@
                 </nz-table>
         </nz-tab>
 
-        <nz-tab nzTitle="Mis bajas" (nzClick)="getBajasUser()">
+        <nz-tab [nzTitle]="bajasUserTab" (nzClick)="getBajasUser()">
 
+            <ng-template #bajasUserTab>
+                Mis Bajas  <nz-badge [nzCount]="conteoBajasUser" nzShowZero
+                [nzStyle]="{ backgroundColor: '#8E2B0E' }"></nz-badge>
+              </ng-template>
             <div nz-row>
                 <h2 style="color: #8E2B0E !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
                     Mis Bajas</h2>
@@ -623,7 +616,12 @@
             </nz-table>
         </nz-tab >
 
-        <nz-tab nzTitle="Mis altas pendientes de aceptación" (nzClick)="getAltasPendientesUser()">
+        <nz-tab [nzTitle]="altasPendientesUserTab" (nzClick)="getAltasPendientesUser()">
+
+            <ng-template #altasPendientesUserTab>
+                Mis altas pendientes de aceptación <nz-badge [nzCount]="conteoAltasPenUser" nzShowZero
+                [nzStyle]="{ backgroundColor: '#C8690A' }"></nz-badge>
+              </ng-template>
             <div nz-row>
                 <h2 style="color: #C8690A !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
                     Mis altas pendientes de aceptación</h2>
@@ -666,7 +664,13 @@
             </nz-table>
         </nz-tab>
 
-        <nz-tab nzTitle="Mis traslados pendientes de aceptación" (nzClick)="getTrasladosPendientesUser()">
+        <nz-tab [nzTitle]="trasladosPendientesUserTab" (nzClick)="getTrasladosPendientesUser()">
+
+            <ng-template #trasladosPendientesUserTab>
+                Mis traslados de aceptación <nz-badge [nzCount]="conteoTrasladosPenUser" nzShowZero
+                [nzStyle]="{ backgroundColor: '#008678' }"></nz-badge>
+              </ng-template>
+
             <div nz-row>
                 <h2 style="color: #008678 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
                     Mis traslados pendientes de aceptación</h2>
@@ -709,7 +713,12 @@
             </nz-table>
         </nz-tab>
 
-        <nz-tab nzTitle="Mis bajas pendientes de aceptación" (nzClick)="getBajasPendientesUser()">
+        <nz-tab [nzTitle]="bajasPendientesUserTab" (nzClick)="getBajasPendientesUser()">
+
+            <ng-template #bajasPendientesUserTab>
+                Mis bajas de aceptación <nz-badge [nzCount]="conteoBajasPenUser" nzShowZero
+                [nzStyle]="{ backgroundColor: '#86001C' }"></nz-badge>
+              </ng-template>
             <div nz-row>
                 <h2 style="color: #86001C !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
                     Mis bajas pendientes de aceptación</h2>
@@ -1046,332 +1055,327 @@
 </nz-modal>
 
 
-<!--Card para mostrar formulario de edición de activo-->
-<nz-card style="width:95%" class="cardShadow" *ngIf="mostrarCardEditar">
-    <form nz-form  [formGroup]="editarActivoForm">
-    <div nz-row *ngIf="datosCargadosEditar">
-
-        <div nz-col nzSpan="18">
-            <h2><i nz-icon nzType="file-add" nzTheme="fill"></i> Detalles del Activo</h2>
-
-        </div>
-
-        <div nz-col nzSpan="6">
-            <button nz-button nzType="danger" *ngIf="vista == '1'"
-            style="float: right !important;" (click)="cerrarCardEditarAdmin()">
-               <i nz-icon nzType="close"></i>Cerrar
-           </button>
-
-           <button nz-button nzType="danger" *ngIf="vista == '2'"
-           style="float: right !important;" (click)="cerrarCardEditar()">
-              <i nz-icon nzType="close"></i>Cerrar
-          </button>
-        </div>
-
-
-        <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
-
-        <nz-tabset>
-            <nz-tab nzTitle="Detalles del activo">
-                <div nz-col nzSpan="24">
-                    <div nz-row>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Tipo de documento</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de documento" formControlName="codigo_tipo_documento"
-                            name="codigo_tipo_documento">
-                                <nz-option *ngFor="let tp of objTipoDocumentosTbl" nzValue="{{tp.codigo_tipo_documento}}" nzLabel="{{tp.descripcion_tipo_documento}}"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="6">
-                            <nz-form-label nzRequired>N° de documento</nz-form-label>
-                            <input type="text" nz-input placeholder="N° de documento" formControlName="numero_documento">
-                            <input type="hidden" nz-input formControlName="af_codigo_interno">
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="6" *ngIf="vista == '1'">
-                            <nz-form-label nzRequired>Asignado  a: </nz-form-label>
-                            <input type="text"  formControlName="asignado" readonly  nz-input>
-                        </div>
-                    </div>
+<!--Modal para mostrar formulario de edición de activo-->
+<nz-modal nzWidth="90%" [(nzVisible)]="modalDetallesActivo" *ngIf="datosCargadosEditar"
+[nzStyle]="{ top: '10px' }"
+[nzFooter]="modalFooterDetallesActivo" [nzContent]="modalContentDetallesActivo" (nzOnCancel)="cerrarCardEditar()">
+    <ng-template #modalContentDetallesActivo>
+        <form nz-form  [formGroup]="editarActivoForm">
+            <div nz-row *ngIf="datosCargadosEditar">
+        
+                <div nz-col nzSpan="18">
+                    <h2><i nz-icon nzType="file-add" nzTheme="fill"></i> Detalles del Activo</h2>
+        
                 </div>
+        
+        
+                <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+        
+                <nz-tabset>
+                    <nz-tab nzTitle="Detalles del activo">
+                        <div nz-col nzSpan="24">
+                            <div nz-row>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Tipo de documento</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de documento" formControlName="codigo_tipo_documento"
+                                    name="codigo_tipo_documento">
+                                        <nz-option *ngFor="let tp of objTipoDocumentosTbl" nzValue="{{tp.codigo_tipo_documento}}" nzLabel="{{tp.descripcion_tipo_documento}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="6">
+                                    <nz-form-label nzRequired>N° de documento</nz-form-label>
+                                    <input type="text" nz-input placeholder="N° de documento" formControlName="numero_documento">
+                                    <input type="hidden" nz-input formControlName="af_codigo_interno">
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="6" *ngIf="vista == '1'">
+                                    <nz-form-label nzRequired>Asignado  a: </nz-form-label>
+                                    <input type="text"  formControlName="asignado" readonly  nz-input>
+                                </div>
+                            </div>
+                        </div>
+        
+        
+                        <div nz-col nzSpan="24" style="margin-top: 20px !important;">
+                            <div nz-row>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Código de VNR</nz-form-label>
+                                    <input type="text" placeholder="Código de VNR" nz-input  formControlName="af_codigo_vnr" autocomplete="off">
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Código Contabilidad</nz-form-label>
+                                    <input type="text" placeholder="Código Contabilidad" nz-input  formControlName="af_codigo_contable" autocomplete="off">
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Tipo de Activo</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de activo" formControlName="codigo_ppye"
+                                    (ngModelChange)="getCuentaContablePPYEEdicion()">
+                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+                                        <nz-option *ngFor="let tp of objTipoActivosTbl" nzValue="{{tp.cod_ppye}}" nzLabel="{{tp.descripcion_ppye}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="6">
+                                    <nz-form-label nzRequired>Fecha de registro</nz-form-label>
+                                        <input type="date" nz-input formControlName="fechaRegistro">
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div nz-col nzSpan="24"  *ngFor="let tp of objTipoActivoPPYEdicion">
+                            <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+        
+                            <h3>Detalles del tipo de activo</h3>
+                            <div nz-row>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Cuenta contable asociada</nz-form-label>
+                                    <input type="text" placeholder="Cuenta contable asociada" nz-input
+                                    [(ngModel)]="tp.cuenta_contable" formControlName="cuenta_contable" readonly>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Tasa Fiscal</nz-form-label>
+                                    <input type="text" placeholder="Tasa Fiscal" nz-input
+                                    [(ngModel)]="tp.tasaFiscal" formControlName="af_tasa_depreciacion_fiscal" readonly>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Tasa Financiera</nz-form-label>
+                                    <input type="text" placeholder="Tasa Financiera" nz-input
+                                    [(ngModel)]="tp.tasaFinan" formControlName="af_tasa_depreciacion_financ" readonly>
+                                </div>
+        
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="4">
+                                    <nz-form-label nzRequired>Vida útil (Años)</nz-form-label>
+                                    <input type="text" placeholder="Vida útil (Años)" nz-input
+                                    [(ngModel)]="tp.vidaUtil" formControlName="af_vida_util" readonly>
+                                </div>
+                            </div>
+                            <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+        
+                        </div>
+        
+                        <div nz-col nzSpan="24">
+                            <div nz-row style="margin-top: 20px !important;">
+                                <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>Tipo de partida</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de partida" formControlName="tipo_partida_id">
+                                        <nz-option *ngFor="let tp of objTipoPartida" nzValue="{{tp.tipo_partida_id}}" nzLabel="{{tp.tipo_partida_descripcion}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>Descripción del bien</nz-form-label>
+                                    <textarea rows="3" placeholder="Descripción del bien" nz-input formControlName="descripcion_bien" autocomplete="off"></textarea>
+                                </div>
+                                <div nz-col [nzSpan]="2"></div>
+                                <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>VNR - Tipo de activo fijo</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Tipo de activo fijo" formControlName="codigo_tipo_bien_vnr">
+                                        <nz-option *ngFor="let tp of objTipoBienVNR" nzValue="{{tp.codigo_tipo_bien_vnr}}" nzLabel="{{tp.nombre_tipo_bien}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div nz-col nzSpan="24">
+                            <div nz-row style="margin-top: 20px !important;">
+                                <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>VNR - Área ubicación del bien </nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Área ubicación del bien" formControlName="area_del_bien_vnr">
+                                        <nz-option nzValue="General" nzLabel="General"></nz-option>
+                                        <nz-option nzValue="Distribución" nzLabel="Distribución"></nz-option>
+                                        <nz-option nzValue="Comercial" nzLabel="Comercial"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>VNR - Centro del costo del bien</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Centro del costo del bien" formControlName="ccosto_del_bien_vnr">
+                                        <nz-option *ngFor="let tp of objCCostoBien" nzValue="{{tp.estructura11_id}}" nzLabel="{{tp.estructura11_nombre}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="2"></div>
+                                <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>Tipo Agd</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo Agd" formControlName="codigo_agd">
+                                        <nz-option *ngFor="let tp of objClasificacionAgd" nzValue="{{tp.codigo_agd}}" nzLabel="{{tp.descripcion_agd}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div nz-col nzSpan="24">
+                            <div nz-row style="margin-top: 20px !important;">
+                                <div nz-col [nzSpan]="10">
+                                    <nz-form-label nzRequired>Bodega Asignada</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Bodega Asignada" formControlName="bodega_id">
+                                        <nz-option *ngFor="let tp of objBodegas" nzValue="{{tp.bodega_id}}"
+                                        nzLabel="{{tp.codigo}} -- {{tp.descripcion}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="6">
+                                    <nz-form-label nzRequired>Marca del bien</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Marca del bien" (ngModelChange)="filtrarModelosEdicion()"
+                                    formControlName="codigo_marca">
+                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+                                        <nz-option *ngFor="let tp of objMarcasActivosTbl" nzValue="{{tp.codigo_marca}}" nzLabel="{{tp.nombre_marca}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="6">
+                                    <nz-form-label nzRequired>Modelo del bien</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Modelo del bien" formControlName="codigo_modelo">
+                                        <nz-option nzValue="0" nzLabel="Selecciona una marca" *ngIf="validarModelo"></nz-option>
+                                        <nz-option *ngFor="let tp of objModelosActivos" nzValue="{{tp.codigo_modelo}}" nzLabel="{{tp.nombre_modelo}}"></nz-option>
+                                    </nz-select>
+                                </div>
+        
+        
+        
+                            </div>
+                        </div>
+        
+        
+        
+                        <div nz-col nzSpan="24">
+                            <div nz-row style="margin-top: 20px !important;">
+                                <div nz-col [nzSpan]="3">
+                                    <nz-form-label nzRequired>Serie</nz-form-label>
+                                    <input type="text" nz-input placeHolder="Serie"  autocomplete="off" formControlName="af_serie"/>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="6">
+                                    <nz-form-label nzRequired>Otras especificaciones</nz-form-label>
+                                    <textarea rows="3" placeholder="Otras especificaciones" nz-input formControlName="otras_especificaciones" autocomplete="off"></textarea>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="4">
+                                    <nz-form-label nzRequired>Fecha de compra</nz-form-label>
+                                    <input type="date" formControlName="fechaCompra" nz-input>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="8">
+                                    <nz-form-label nzRequired>Proveedor</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Proveedor" formControlName="codigo_proveedor">
+                                        <nz-option *ngFor="let tp of objProveedores" nzValue="{{tp.entidad_id}}" nzLabel="{{tp.entidad_nombre}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div nz-col nzSpan="24">
+                            <div nz-row style="margin-top: 20px !important;">
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Departamento</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Departamento" formControlName="cod_departamento"
+                                    (ngModelChange)="filtrarMunicipiosEdicion()">
+                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+                                        <nz-option *ngFor="let tp of objDepartamentos" nzValue="{{tp.ID}}" nzLabel="{{tp.DepName}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Municipio</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Municipio" formControlName="cod_municipio">
+                                        <nz-option nzValue="0" nzLabel="Selecciona un departamento" *ngIf="validarDepartamento"></nz-option>
+                                        <nz-option *ngFor="let tp of objMunicipios" nzValue="{{tp.ID}}" nzLabel="{{tp.MunName}}"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="6">
+                                    <nz-form-label nzRequired>Ubicación Física</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Ubicación Física" formControlName="codigo_sucursal">
+                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+                                        <nz-option *ngFor="let tp of objUbicacionFisica" nzValue="{{tp.NOMBRE}}" nzLabel="{{tp.NOMBRE}}"></nz-option>
+                                    </nz-select>
+                                </div>
+        
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Valor de compra (sin IVA)</nz-form-label>
+                                    <input type="text" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="af_valor_compra_siva">
+                                </div>
+                            </div>
+                        </div>
+        
+                         <!--<div nz-col nzSpan="24">
+                            <div nz-row style="margin-top: 20px !important;">
+                                <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>Valor de compra (sin IVA)</nz-form-label>
+                                    <input type="hidden"  formControlName="asignadoA" [(ngModel)]="user.id" readonly>
+                                    <input type="text" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="valorSiva">
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                               <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>Valor residual</nz-form-label>
+                                    <input type="text" nz-input placeholder="Valor residual" autocomplete="off">
+                                </div>
+                                <div nz-col [nzSpan]="2"></div>
+                                <div nz-col [nzSpan]="7">
+                                    <nz-form-label nzRequired>Valor VNR</nz-form-label>
+                                    <input type="text" nz-input placeholder="Valor VNR" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>-->
+        
+                        <div nz-col nzSpan="24">
+                            <div nz-row style="margin-top: 40px !important;">
+                                <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+                                <button *ngIf="user.rol != 'Usuario'" (click)="guardarEdicionActivo()" [disabled] = "editarActivoForm.invalid" nz-button nzType="primary" nzBlock>Guardar datos</button>
+                            </div>
+                        </div>
+        
+                    </nz-tab>
+                    <nz-tab nzTitle="Historial del activo">
+                     
+                        <nz-table nzShowPagination #rowSelectionTableHistorial
+                            nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChangeHistorial($event)"
+                            [nzData]="listOfCurrentPageDataHistorial">
+                            <thead>
+                            <tr>
+                            
+                                <th><i nz-icon nzType="tool" nzTheme="outline"></i> Movimiento</th>
+                                <th><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha </th>
+                                <th><i nz-icon nzType="user" nzTheme="outline"></i> Usuario </th>
+                                <th><i nz-icon nzType="user" nzTheme="outline"></i> Aprobado por </th>
+                                <th><i nz-icon nzType="user" nzTheme="outline"></i> Usuario asignado </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let hist of rowSelectionTableHistorial.data">
+                                <td>{{ hist.movimiento }}</td>
+                                <td>{{ hist.fechaMovimiento }} {{hist.horaMovimiento}}</td>
+                                <td>{{ hist.usuario_movimiento }}</td>
+                                <td>{{ hist.usuario_aprobacion }}</td>
+                                <td>{{ hist.usuario_asignado }}</td>
+                            </tr>
+                            </tbody>
+                        </nz-table>
+                    </nz-tab>
+                </nz-tabset>
+        
+        
+        
+            </div>
+        </form>
+
+    </ng-template>
+
+    <ng-template #modalFooterDetallesActivo>
+        <button nz-button nzType="danger" (click)="cerrarCardEditar()">Cancelar</button>
+    </ng-template>
+</nz-modal>
 
 
-                <div nz-col nzSpan="24" style="margin-top: 20px !important;">
-                    <div nz-row>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Código de VNR</nz-form-label>
-                            <input type="text" placeholder="Código de VNR" nz-input  formControlName="af_codigo_vnr" autocomplete="off">
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Código Contabilidad</nz-form-label>
-                            <input type="text" placeholder="Código Contabilidad" nz-input  formControlName="af_codigo_contable" autocomplete="off">
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Tipo de Activo</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de activo" formControlName="codigo_ppye"
-                            (ngModelChange)="getCuentaContablePPYEEdicion()">
-                                <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
-                                <nz-option *ngFor="let tp of objTipoActivosTbl" nzValue="{{tp.cod_ppye}}" nzLabel="{{tp.descripcion_ppye}}"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="6">
-                            <nz-form-label nzRequired>Fecha de registro</nz-form-label>
-                                <input type="date" nz-input formControlName="fechaRegistro">
-                        </div>
-                    </div>
-                </div>
 
-                <div nz-col nzSpan="24"  *ngFor="let tp of objTipoActivoPPYEdicion">
-                    <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
-
-                    <h3>Detalles del tipo de activo</h3>
-                    <div nz-row>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Cuenta contable asociada</nz-form-label>
-                            <input type="text" placeholder="Cuenta contable asociada" nz-input
-                            [(ngModel)]="tp.cuenta_contable" formControlName="cuenta_contable" readonly>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Tasa Fiscal</nz-form-label>
-                            <input type="text" placeholder="Tasa Fiscal" nz-input
-                            [(ngModel)]="tp.tasaFiscal" formControlName="af_tasa_depreciacion_fiscal" readonly>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Tasa Financiera</nz-form-label>
-                            <input type="text" placeholder="Tasa Financiera" nz-input
-                            [(ngModel)]="tp.tasaFinan" formControlName="af_tasa_depreciacion_financ" readonly>
-                        </div>
-
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="4">
-                            <nz-form-label nzRequired>Vida útil (Años)</nz-form-label>
-                            <input type="text" placeholder="Vida útil (Años)" nz-input
-                            [(ngModel)]="tp.vidaUtil" formControlName="af_vida_util" readonly>
-                        </div>
-                    </div>
-                    <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
-
-                </div>
-
-                <div nz-col nzSpan="24">
-                    <div nz-row style="margin-top: 20px !important;">
-                        <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>Tipo de partida</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de partida" formControlName="tipo_partida_id">
-                                <nz-option *ngFor="let tp of objTipoPartida" nzValue="{{tp.tipo_partida_id}}" nzLabel="{{tp.tipo_partida_descripcion}}"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                            <textarea rows="3" placeholder="Descripción del bien" nz-input formControlName="descripcion_bien" autocomplete="off"></textarea>
-                        </div>
-                        <div nz-col [nzSpan]="2"></div>
-                        <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>VNR - Tipo de activo fijo</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Tipo de activo fijo" formControlName="codigo_tipo_bien_vnr">
-                                <nz-option *ngFor="let tp of objTipoBienVNR" nzValue="{{tp.codigo_tipo_bien_vnr}}" nzLabel="{{tp.nombre_tipo_bien}}"></nz-option>
-                            </nz-select>
-                        </div>
-                    </div>
-                </div>
-
-                <div nz-col nzSpan="24">
-                    <div nz-row style="margin-top: 20px !important;">
-                        <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>VNR - Área ubicación del bien </nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Área ubicación del bien" formControlName="area_del_bien_vnr">
-                                <nz-option nzValue="General" nzLabel="General"></nz-option>
-                                <nz-option nzValue="Distribución" nzLabel="Distribución"></nz-option>
-                                <nz-option nzValue="Comercial" nzLabel="Comercial"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>VNR - Centro del costo del bien</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Centro del costo del bien" formControlName="ccosto_del_bien_vnr">
-                                <nz-option *ngFor="let tp of objCCostoBien" nzValue="{{tp.estructura11_id}}" nzLabel="{{tp.estructura11_nombre}}"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="2"></div>
-                        <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>Tipo Agd</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo Agd" formControlName="codigo_agd">
-                                <nz-option *ngFor="let tp of objClasificacionAgd" nzValue="{{tp.codigo_agd}}" nzLabel="{{tp.descripcion_agd}}"></nz-option>
-                            </nz-select>
-                        </div>
-                    </div>
-                </div>
-
-                <div nz-col nzSpan="24">
-                    <div nz-row style="margin-top: 20px !important;">
-                        <div nz-col [nzSpan]="10">
-                            <nz-form-label nzRequired>Bodega Asignada</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Bodega Asignada" formControlName="bodega_id">
-                                <nz-option *ngFor="let tp of objBodegas" nzValue="{{tp.bodega_id}}"
-                                nzLabel="{{tp.codigo}} -- {{tp.descripcion}}"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="6">
-                            <nz-form-label nzRequired>Marca del bien</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Marca del bien" (ngModelChange)="filtrarModelosEdicion()"
-                            formControlName="codigo_marca">
-                                <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
-                                <nz-option *ngFor="let tp of objMarcasActivosTbl" nzValue="{{tp.codigo_marca}}" nzLabel="{{tp.nombre_marca}}"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="6">
-                            <nz-form-label nzRequired>Modelo del bien</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Modelo del bien" formControlName="codigo_modelo">
-                                <nz-option nzValue="0" nzLabel="Selecciona una marca" *ngIf="validarModelo"></nz-option>
-                                <nz-option *ngFor="let tp of objModelosActivos" nzValue="{{tp.codigo_modelo}}" nzLabel="{{tp.nombre_modelo}}"></nz-option>
-                            </nz-select>
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-
-
-                <div nz-col nzSpan="24">
-                    <div nz-row style="margin-top: 20px !important;">
-                        <div nz-col [nzSpan]="3">
-                            <nz-form-label nzRequired>Serie</nz-form-label>
-                            <input type="text" nz-input placeHolder="Serie"  autocomplete="off" formControlName="af_serie"/>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="6">
-                            <nz-form-label nzRequired>Otras especificaciones</nz-form-label>
-                            <textarea rows="3" placeholder="Otras especificaciones" nz-input formControlName="otras_especificaciones" autocomplete="off"></textarea>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="4">
-                            <nz-form-label nzRequired>Fecha de compra</nz-form-label>
-                            <input type="date" formControlName="fechaCompra" nz-input>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="8">
-                            <nz-form-label nzRequired>Proveedor</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Proveedor" formControlName="codigo_proveedor">
-                                <nz-option *ngFor="let tp of objProveedores" nzValue="{{tp.entidad_id}}" nzLabel="{{tp.entidad_nombre}}"></nz-option>
-                            </nz-select>
-                        </div>
-                    </div>
-                </div>
-
-                <div nz-col nzSpan="24">
-                    <div nz-row style="margin-top: 20px !important;">
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Departamento</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Departamento" formControlName="cod_departamento"
-                            (ngModelChange)="filtrarMunicipiosEdicion()">
-                                <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
-                                <nz-option *ngFor="let tp of objDepartamentos" nzValue="{{tp.ID}}" nzLabel="{{tp.DepName}}"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Municipio</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Municipio" formControlName="cod_municipio">
-                                <nz-option nzValue="0" nzLabel="Selecciona un departamento" *ngIf="validarDepartamento"></nz-option>
-                                <nz-option *ngFor="let tp of objMunicipios" nzValue="{{tp.ID}}" nzLabel="{{tp.MunName}}"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="6">
-                            <nz-form-label nzRequired>Ubicación Física</nz-form-label>
-                            <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Ubicación Física" formControlName="codigo_sucursal">
-                                <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
-                                <nz-option *ngFor="let tp of objUbicacionFisica" nzValue="{{tp.NOMBRE}}" nzLabel="{{tp.NOMBRE}}"></nz-option>
-                            </nz-select>
-                        </div>
-
-                        <div nz-col [nzSpan]="1"></div>
-                        <div nz-col [nzSpan]="5">
-                            <nz-form-label nzRequired>Valor de compra (sin IVA)</nz-form-label>
-                            <input type="text" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="af_valor_compra_siva">
-                        </div>
-                    </div>
-                </div>
-
-                 <!--<div nz-col nzSpan="24">
-                    <div nz-row style="margin-top: 20px !important;">
-                        <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>Valor de compra (sin IVA)</nz-form-label>
-                            <input type="hidden"  formControlName="asignadoA" [(ngModel)]="user.id" readonly>
-                            <input type="text" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="valorSiva">
-                        </div>
-                        <div nz-col [nzSpan]="1"></div>
-                       <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>Valor residual</nz-form-label>
-                            <input type="text" nz-input placeholder="Valor residual" autocomplete="off">
-                        </div>
-                        <div nz-col [nzSpan]="2"></div>
-                        <div nz-col [nzSpan]="7">
-                            <nz-form-label nzRequired>Valor VNR</nz-form-label>
-                            <input type="text" nz-input placeholder="Valor VNR" autocomplete="off">
-                        </div>
-                    </div>
-                </div>-->
-
-                <div nz-col nzSpan="24">
-                    <div nz-row style="margin-top: 40px !important;">
-                        <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
-                        <button *ngIf="user.rol != 'Usuario'" (click)="guardarEdicionActivo()" [disabled] = "editarActivoForm.invalid" nz-button nzType="primary" nzBlock>Guardar datos</button>
-                    </div>
-                </div>
-
-            </nz-tab>
-            <nz-tab nzTitle="Historial del activo" style="width: 100% !important;">
-                <div nz-row style="width: 100% !important;">
-                    <nz-table nzShowPagination #rowSelectionTableHistorial
-                        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChangeHistorial($event)"
-                        [nzData]="listOfCurrentPageDataHistorial">
-                        <thead>
-                        <tr>
-
-                            <th><i nz-icon nzType="tool" nzTheme="outline"></i> Movimiento</th>
-                            <th><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha </th>
-                            <th><i nz-icon nzType="user" nzTheme="outline"></i> Usuario </th>
-                            <th><i nz-icon nzType="user" nzTheme="outline"></i> Aprobado por </th>
-                            <th><i nz-icon nzType="user" nzTheme="outline"></i> Usuario asignado </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let hist of rowSelectionTableHistorial.data">
-                            <td>{{ hist.movimiento }}</td>
-                            <td>{{ hist.fechaMovimiento }} {{hist.horaMovimiento}}</td>
-                            <td>{{ hist.usuario_movimiento }}</td>
-                            <td>{{ hist.usuario_aprobacion }}</td>
-                            <td>{{ hist.usuario_asignado }}</td>
-                        </tr>
-                        </tbody>
-                    </nz-table>
-                </div>
-
-            </nz-tab>
-        </nz-tabset>
-
-
-
-    </div>
-    </form>
-</nz-card>
-
-
-
-<nz-modal [(nzVisible)]="modalBajaConfirmacion"   [nzFooter]="modalFooterBaja" [nzContent]="modalContentBaja"
+<nz-modal  [(nzVisible)]="modalBajaConfirmacion"   [nzFooter]="modalFooterBaja" [nzContent]="modalContentBaja"
 (nzOnCancel)="cerrarModalActivacion()">
 
     <ng-template #modalContentBaja>

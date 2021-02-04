@@ -77,7 +77,7 @@ export class ActfijoGestionComponent implements OnInit {
   vista: string;
   modalBajaConfirmacion = false;
   modalFinalizarProcesoBaja = false;
-
+  modalDetallesActivo = false;
 
   listaAltasAdmin: ReadonlyArray<ActfijoGestion> = [];
   listaAltasAdminObj: ReadonlyArray<ActfijoGestion> = [];
@@ -122,13 +122,21 @@ export class ActfijoGestionComponent implements OnInit {
 
 
 
-  conteoAltas = null;
-  conteoBajas = null;
-  conteoTraslados = null;
- 
-  conteoAltasPen = null;
-  conteoBajasPen = null;
-  conteoTrasladosPen = null;
+  conteoAltas = 0;
+  conteoBajas = 0;
+  conteoTraslados = 0;
+  conteoAltasPen = 0;
+  conteoBajasPen = 0;
+  conteoTrasladosPen = 0;
+
+
+  conteoAltasUser = 0;
+  conteoBajasUser = 0;
+  conteoTrasladosUser = 0;
+  conteoAltasPenUser = 0;
+  conteoBajasPenUser = 0;
+  conteoTrasladosPenUser = 0;
+
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
@@ -213,6 +221,7 @@ export class ActfijoGestionComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem("usuario"));
 
      this.getAltasUser();
+     this.conteoUser();
 
 
     this.tipoActivo.getTipoActivo().subscribe(
@@ -277,6 +286,7 @@ export class ActfijoGestionComponent implements OnInit {
         this.mostrarSkeleton = false;
         this.datosCargados = true;
     });
+
   }
 
 
@@ -288,7 +298,6 @@ export class ActfijoGestionComponent implements OnInit {
 
     this.mostrarCardAgregar = true;
     this.mostrarCardListado = false;
-    this.mostrarCardEditar = false;
     this.validarPPYE = false;
 
     this.mostrarSkeletonTablaAdmin = false;
@@ -306,7 +315,6 @@ export class ActfijoGestionComponent implements OnInit {
     this.mostrarTablaCarga = false;
     this.mostrarCardAgregar = false;
     this.mostrarCardListado = true;
-    this.mostrarCardEditar = false;
 
     this.mostrarSkeletonTabla = true;
 
@@ -320,9 +328,7 @@ export class ActfijoGestionComponent implements OnInit {
    showCardListadoAdminActivos() : void{
     this.mostrarTablaCarga = false;
     this.mostrarCardAgregar = false;
-    this.mostrarCardEditar = false;
     this.mostrarCardListado = false;
-    this.mostrarCardEditar = false;
     this.validarPPYE = false;
 
     this.mostrarTablaCargaAdmin = false;
@@ -330,24 +336,13 @@ export class ActfijoGestionComponent implements OnInit {
     this.mostrarCardListadoAdmin = true;
 
 
-    this.gestionActFijo.getConteoAdmin().subscribe(
-      data => {
-        this.listaConteo = data;
-
-        data.forEach(element => {
-          this.conteoAltas = element["conteoAltas"];
-          this.conteoBajas = element["conteoBajas"];
-          this.conteoTraslados = element["conteoTraslados"];
-          this.conteoAltasPen = element["conteoAltasPen"];
-          this.conteoBajasPen = element["conteoTrasladosPen"];
-          this.conteoTrasladosPen = element["conteoBajasPen"];
-        });
-    });
+  
     this.getAltasAdmin();
-
+    this.conteoAdmin();
 
 
   }
+
 
   //metodo para filtrar modelos por marca seleccionada
 
@@ -555,12 +550,9 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
 editarActFijo(act, vis){
 
   this.editarActivoForm.reset();
-  this.mostrarSkeletonTablaAdmin = false;
-  this.mostrarCardListadoAdmin = false;
-  this.mostrarTablaCargaAdmin = false;
-  this.mostrarCardListado = false;
+  
 
-  this.mostrarCardEditar = true;
+  this.modalDetallesActivo = true;
   this.editarActivoForm.patchValue(act);
   this.datosCargadosEditar = true;
 
@@ -616,16 +608,13 @@ guardarEdicionActivo(){
 //metodo para cerrar edición de activo admin
 
 cerrarCardEditarAdmin(){
-  this.mostrarCardListadoAdmin = true;
-  this.mostrarTablaCargaAdmin = true;
+
   this.mostrarCardEditar = false;
 }
 
 //metodo para cerrar edición de activo ser
 cerrarCardEditar(){
-  this.mostrarCardEditar = false;
-  this.mostrarCardListado = true;
-  this.mostrarTablaCarga = true;
+  this.modalDetallesActivo = false;
 }
 
 
@@ -1018,12 +1007,6 @@ getTrasladosUser(){
     });
 }
 
-
-
-
-
-
-
 //metodo para paginación de tabla de altas por usuario
 paginacionTablaAltasPendientesUser(listaAltasPendienteUser: ReadonlyArray<Usuario>) {
   this.listaAltasPendienteUser  = listaAltasPendienteUser;
@@ -1094,6 +1077,43 @@ getTrasladosPendienteUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+}
+
+
+//metodo para obtener conteo de badges administrador
+conteoAdmin(){
+  this.gestionActFijo.getConteoAdmin().subscribe(
+    data => {
+      this.listaConteo = data;
+
+      data.forEach(element => {
+        this.conteoAltas = Number(element["conteoAltas"]);
+        this.conteoBajas = Number(element["conteoBajas"]);
+        this.conteoTraslados = Number(element["conteoTraslados"]);
+        this.conteoAltasPen = Number(element["conteoAltasPen"]);
+        this.conteoBajasPen = Number(element["conteoTrasladosPen"]);
+        this.conteoTrasladosPen = Number(element["conteoBajasPen"]);
+      });
+  });
+}
+
+//metodo para obtener conteo de badges usuario
+conteoUser(){
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getConteoUser(datosUsuario).subscribe(
+    data => {
+      data.forEach(element => {
+      this.conteoAltasUser = Number(element["conteoAltas"]);
+      this.conteoBajasUser = Number(element["conteoBajas"]);
+      this.conteoTrasladosUser = Number(element["conteoTraslados"]);
+      this.conteoAltasPenUser = Number(element["conteoAltasPen"]);
+      this.conteoBajasPenUser = Number(element["conteoTrasladosPen"]);
+      this.conteoTrasladosPenUser = Number(element["conteoBajasPen"]);
+    });
+  });
 }
 
 }
