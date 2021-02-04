@@ -423,6 +423,244 @@ class GestionActivoController extends Controller
         }
     }
     
+
+     //metodo para mostrar activos tipo alta para administradores en base de datos COMANDA
+     public function getAltasAdmin(){
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        inner join users u on u.id = af.codigo_asignado 
+        where af.estado = 'A' and af.estadoActivo = 'Activo'
+        order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+
+    //metodo para mostrar activos tipo baja para administradores en base de datos COMANDA
+    public function getBajasAdmin(){
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        inner join users u on u.id = af.codigo_asignado 
+        where af.estado = 'B' and af.estadoActivo = 'Activo'
+        order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+
+    //metodo para mostrar activos tipo traslado para administradores en base de datos COMANDA
+    public function getTrasladosAdmin(){
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        inner join users u on u.id = af.codigo_asignado 
+        where af.estado = 'T' and af.estadoActivo = 'Activo'
+        order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+
+
+      //metodo para mostrar activos tipo alta para administradores en base de datos COMANDA
+      public function getAltasPendientesAdmin(){
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        inner join users u on u.id = af.codigo_asignado 
+        where af.estado = 'A' and af.estadoActivo = 'Pendiente'
+        order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+
+    //metodo para mostrar activos tipo baja para administradores en base de datos COMANDA
+    public function getBajasPendientesAdmin(){
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        inner join users u on u.id = af.codigo_asignado 
+        where af.estado = 'B' and af.estadoActivo = 'Pendiente'
+        order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+
+    //metodo para mostrar activos tipo traslado para administradores en base de datos COMANDA
+    public function getTrasladosPendientesAdmin(){
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        inner join users u on u.id = af.codigo_asignado 
+        where af.estado = 'T' and af.estadoActivo = 'Pendiente'
+        order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+    //metodo para obtener conteo de badges en vista de administrador
+    public function getConteoAdmin(){
+        $getConteoAdmin = 
+        DB::connection('comanda')->select("select 
+        (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Activo') as conteoAltas,
+        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Activo') as conteoTraslados,
+        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Activo') as conteoBajas,
+        (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Pendiente') as conteoAltasPen,
+        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Pendiente') as conteoTrasladosPen,
+        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Pendiente') as conteoBajasPen");
+
+        return response()->json($getConteoAdmin);
+    }
+
+
+    //metodo para mostrar activos alta por usuario en base de datos COMANDA
+    public function getAltasUser(Request $request){
+        $idUsuario = $request["id"];
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        where af.codigo_asignado = ".$idUsuario ."
+        and af.estado = 'A' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+      //metodo para mostrar activos baja por usuario en base de datos COMANDA
+      public function getBajasUser(Request $request){
+        $idUsuario = $request["id"];
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        where af.codigo_asignado = ".$idUsuario ."
+        and af.estado = 'B' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+      //metodo para mostrar activos traslado por usuario en base de datos COMANDA
+      public function getTrasladosUser(Request $request){
+        $idUsuario = $request["id"];
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        where af.codigo_asignado = ".$idUsuario ."
+        and af.estado = 'T' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+      //metodo para mostrar activos altas pendientes por usuario en base de datos COMANDA
+      public function getAltasPendientesUser(Request $request){
+        $idUsuario = $request["id"];
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        where af.codigo_asignado = ".$idUsuario ."
+        and af.estado = 'A' and af.estadoActivo = 'Pendiente' order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+      //metodo para mostrar activos traslados pendintes por usuario en base de datos COMANDA
+      public function getTrasladosPendientesUser(Request $request){
+        $idUsuario = $request["id"];
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        where af.codigo_asignado = ".$idUsuario ."
+        and af.estado = 'T' and af.estadoActivo = 'Pendiente' order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+
+      //metodo para mostrar activos bajas pendientes por usuario en base de datos COMANDA
+      public function getBajasPendientesUser(Request $request){
+        $idUsuario = $request["id"];
+      
+        $getMisActivos = 
+        DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
+        '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        (select top 1 usuario_asignado from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as usuarioAnterior from af_maestro af
+        where af.codigo_asignado = ".$idUsuario ."
+        and af.estado = 'B' and af.estadoActivo = 'Pendiente' order by af_codigo_interno desc");
+
+        return response()->json($getMisActivos);
+    }
+    
     
 }
 

@@ -66,5 +66,18 @@ class VerifyCsrfToken extends BaseVerifier
         'guardarTraslado',
         'guardarAceptacionTraslado',
         'finalizacionprocesobaja',
+        'getAltasAdmin',
+        'getBajasAdmin',
+        'getTrasladosAdmin',
+        'getAltasPendientesAdmin',
+        'getBajasPendientesAdmin',
+        'getTrasladosPendientesAdmin',
+        'getConteoAdmin',
+        'getAltasUser',
+        'getBajasUser',
+        'getTrasladosUser',
+        'getAltasPendientesUser',
+        'getTrasladosPendientesUser',
+        'getBajasPendientesUser'
     ];
 }

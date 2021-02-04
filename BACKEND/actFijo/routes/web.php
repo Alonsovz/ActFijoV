@@ -94,3 +94,16 @@ Route::post('guardarTraslado', 'GestionActivoController@guardarTraslado');
 Route::post('guardarAceptacionTraslado', 'GestionActivoController@guardarAceptacionTraslado');
 Route::post('finalizacionprocesobaja', 'GestionActivoController@finalizarProcesoBaja');
 
+Route::get('getAltasAdmin', 'GestionActivoController@getAltasAdmin');
+Route::get('getBajasAdmin', 'GestionActivoController@getBajasAdmin');
+Route::get('getTrasladosAdmin', 'GestionActivoController@getTrasladosAdmin');
+Route::get('getAltasPendientesAdmin', 'GestionActivoController@getAltasPendientesAdmin');
+Route::get('getBajasPendientesAdmin', 'GestionActivoController@getBajasPendientesAdmin');
+Route::get('getTrasladosPendientesAdmin', 'GestionActivoController@getTrasladosPendientesAdmin');
+Route::get('getConteoAdmin', 'GestionActivoController@getConteoAdmin');
+Route::post('getAltasUser', 'GestionActivoController@getAltasUser');
+Route::post('getBajasUser', 'GestionActivoController@getBajasUser');
+Route::post('getTrasladosUser', 'GestionActivoController@getTrasladosUser');
+Route::post('getAltasPendientesUser', 'GestionActivoController@getAltasPendientesUser');
+Route::post('getBajasPendientesUser', 'GestionActivoController@getBajasPendientesUser');
+Route::post('getTrasladosPendientesUser', 'GestionActivoController@getTrasladosPendientesUser');

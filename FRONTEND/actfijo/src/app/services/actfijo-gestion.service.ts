@@ -132,4 +132,80 @@ finalizarProcesoBaja(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
 }
 
 
+ //metodo para obtener listado de activos de altas para administrador
+ public getAltasAdmin(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getAltasAdmin').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+ //metodo para obtener listado de activos de bajas para administrador
+ public getBajasAdmin(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getBajasAdmin').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+ //metodo para obtener listado de activos de traslados para administrador
+ public getTrasladosAdmin(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getTrasladosAdmin').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+
+ //metodo para obtener listado de activos de altas pendientes para administrador
+ public getAltasPendientesAdmin(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getAltasPendientesAdmin').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+ //metodo para obtener listado de activos de bajas pendientes para administrador
+ public getBajasPendientesAdmin(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getBajasPendientesAdmin').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+ //metodo para obtener listado de activos de traslados pendientes para administrador
+ public getTrasladosPendientesAdmin(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getTrasladosPendientesAdmin').pipe(map(data => data as ActfijoGestion[]));
+}
+
+  //metodo para obtener conteo de badges en vista de administrador
+ public getConteoAdmin(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getConteoAdmin').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+//metodo para obtener objeto de altas por usuario
+public getAltasUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getAltasUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
+
+//metodo para obtener objeto de bajas por usuario
+public getBajasUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getBajasUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
+//metodo para obtener objeto de traslados por usuario
+public getTrasladosUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
+
+
+//metodo para obtener objeto de altas pendientes por usuario
+public getAltasPendientesUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getAltasPendientesUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
+
+//metodo para obtener objeto de bajas pendientes por usuario
+public getBajasPendientesUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getBajasPendientesUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
+//metodo para obtener objeto de traslados pendientes por usuario
+public getTrasladosPendientesUser(usuario): Observable<Usuario[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosPendientesUser', usuario, httpOptions).pipe(map(data => data as Usuario[]));
+}
+
 }

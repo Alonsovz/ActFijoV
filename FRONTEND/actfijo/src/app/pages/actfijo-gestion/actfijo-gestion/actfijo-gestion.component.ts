@@ -79,6 +79,56 @@ export class ActfijoGestionComponent implements OnInit {
   modalFinalizarProcesoBaja = false;
 
 
+  listaAltasAdmin: ReadonlyArray<ActfijoGestion> = [];
+  listaAltasAdminObj: ReadonlyArray<ActfijoGestion> = [];
+
+  listaBajasAdmin: ReadonlyArray<ActfijoGestion> = [];
+  listaBajasAdminObj: ReadonlyArray<ActfijoGestion> = [];
+
+  listaTrasladosAdmin: ReadonlyArray<ActfijoGestion> = [];
+  listaTrasladosAdminObj: ReadonlyArray<ActfijoGestion> = [];
+
+
+  listaAltasPendienteAdmin: ReadonlyArray<ActfijoGestion> = [];
+  listaAltasPendienteAdminObj: ReadonlyArray<ActfijoGestion> = [];
+
+  listaBajasPendienteAdmin: ReadonlyArray<ActfijoGestion> = [];
+  listaBajasPendienteAdminObj: ReadonlyArray<ActfijoGestion> = [];
+
+  listaTrasladosPendienteAdmin: ReadonlyArray<ActfijoGestion> = [];
+  listaTrasladosPendienteAdminObj: ReadonlyArray<ActfijoGestion> = [];
+
+  listaConteo : ActfijoGestion[];
+
+
+  listaAltasUser:  ReadonlyArray<Usuario> = [];
+  listaAltasUserObj:  ReadonlyArray<Usuario> = [];
+
+  listaBajasUser:  ReadonlyArray<Usuario> = [];
+  listaBajasUserObj: ReadonlyArray<Usuario> = [];
+
+  listaTrasladosUser: ReadonlyArray<Usuario> = [];
+  listaTrasladosUserObj: ReadonlyArray<Usuario> = [];
+
+
+  listaAltasPendienteUser: ReadonlyArray<Usuario> = [];
+  listaAltasPendienteUserObj: ReadonlyArray<Usuario> = [];
+
+  listaBajasPendienteUser: ReadonlyArray<Usuario> = [];
+  listaBajasPendienteUserObj: ReadonlyArray<Usuario> = [];
+
+  listaTrasladosPendienteUser: ReadonlyArray<Usuario> = [];
+  listaTrasladosPendienteUserObj: ReadonlyArray<Usuario> = [];
+
+
+
+  conteoAltas = null;
+  conteoBajas = null;
+  conteoTraslados = null;
+ 
+  conteoAltasPen = null;
+  conteoBajasPen = null;
+  conteoTrasladosPen = null;
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
@@ -162,16 +212,7 @@ export class ActfijoGestionComponent implements OnInit {
 
     this.user = JSON.parse(localStorage.getItem("usuario"));
 
-      let datosUsuario : Usuario = new Usuario();
-
-      datosUsuario = this.user;
-
-      this.gestionActFijo.getMisActivos(datosUsuario).subscribe(
-        data => {
-          this.listOfData = data;
-          this.mostrarTablaCarga = true;
-          this.mostrarSkeletonTabla = false;
-        });
+     this.getAltasUser();
 
 
     this.tipoActivo.getTipoActivo().subscribe(
@@ -270,17 +311,7 @@ export class ActfijoGestionComponent implements OnInit {
     this.mostrarSkeletonTabla = true;
 
 
-      let datosUsuario : Usuario = new Usuario();
-
-      datosUsuario = this.user;
-
-      this.gestionActFijo.getMisActivos(datosUsuario).subscribe(
-        data => {
-          this.listOfData = data;
-          this.mostrarTablaCarga = true;
-          this.mostrarSkeletonTabla = false;
-        });
-
+  this.getAltasUser();
 
 
   }
@@ -298,12 +329,23 @@ export class ActfijoGestionComponent implements OnInit {
     this.mostrarSkeletonTablaAdmin = true;
     this.mostrarCardListadoAdmin = true;
 
-    this.gestionActFijo.getActivosAdmin().subscribe(
+
+    this.gestionActFijo.getConteoAdmin().subscribe(
       data => {
-        this.listOfDataAdmin = data;
-        this.mostrarTablaCargaAdmin = true;
-        this.mostrarSkeletonTablaAdmin = false;
-      });
+        this.listaConteo = data;
+
+        data.forEach(element => {
+          this.conteoAltas = element["conteoAltas"];
+          this.conteoBajas = element["conteoBajas"];
+          this.conteoTraslados = element["conteoTraslados"];
+          this.conteoAltasPen = element["conteoAltasPen"];
+          this.conteoBajasPen = element["conteoTrasladosPen"];
+          this.conteoTrasladosPen = element["conteoBajasPen"];
+        });
+    });
+    this.getAltasAdmin();
+
+
 
   }
 
@@ -775,6 +817,283 @@ finalizarProcesoBaja() {
 mostrarModalFinalizarProcesoBaja(obj) {
   this.modalFinalizarProcesoBaja = true;
   this.actFijoOb = obj;
+}
+
+
+
+
+//metodo para paginación de tabla de altas de activo para administador
+paginacionTablaAltasAdmin(listaAltasAdmin: ReadonlyArray<ActfijoGestion>) {
+  this.listaAltasAdmin  = listaAltasAdmin;
+
+}
+
+//metodo para obtener listado de altas para usuario administrador
+
+getAltasAdmin(){
+  this.mostrarTablaCargaAdmin = false;
+      this.mostrarSkeletonTablaAdmin = true;
+  this.gestionActFijo.getAltasAdmin().subscribe(
+    data => {
+      this.listaAltasAdminObj = data;
+      this.mostrarTablaCargaAdmin = true;
+      this.mostrarSkeletonTablaAdmin = false;
+    });
+}
+
+
+
+//metodo para paginación de tabla de abajas de activo para administador
+paginacionTablaBajasAdmin(listaBajasAdmin: ReadonlyArray<ActfijoGestion>) {
+  this.listaBajasAdmin  = listaBajasAdmin;
+
+}
+
+//metodo para obtener listado de bajas para usuario administrador
+
+getBajasAdmin(){
+  this.mostrarTablaCargaAdmin = false;
+      this.mostrarSkeletonTablaAdmin = true;
+      
+  this.gestionActFijo.getBajasAdmin().subscribe(
+    data => {
+      this.listaBajasAdminObj = data;
+      this.mostrarTablaCargaAdmin = true;
+      this.mostrarSkeletonTablaAdmin = false;
+    });
+}
+
+//metodo para paginación de tabla de traslados de activo para administador
+paginacionTablaTrasladoAdmin(listaTrasladosAdmin: ReadonlyArray<ActfijoGestion>) {
+  this.listaTrasladosAdmin  = listaTrasladosAdmin;
+
+}
+
+//metodo para obtener listado de traslados para usuario administrador
+getTrasladosAdmin(){
+  this.mostrarTablaCargaAdmin = false;
+      this.mostrarSkeletonTablaAdmin = true;
+      
+  this.gestionActFijo.getBajasAdmin().subscribe(
+    data => {
+      this.listaTrasladosAdminObj = data;
+      this.mostrarTablaCargaAdmin = true;
+      this.mostrarSkeletonTablaAdmin = false;
+    });
+}
+
+
+
+//metodo para paginación de tabla de altas pendientes de activo para administador
+paginacionTablaAltasPendientesAdmin(listaAltasPendienteAdmin: ReadonlyArray<ActfijoGestion>) {
+  this.listaAltasPendienteAdmin  = listaAltasPendienteAdmin;
+
+}
+
+//metodo para obtener listado de altas pendientes para usuario administrador
+
+getAltasPendientesAdmin(){
+  this.mostrarTablaCargaAdmin = false;
+      this.mostrarSkeletonTablaAdmin = true;
+  this.gestionActFijo.getAltasPendientesAdmin().subscribe(
+    data => {
+      this.listaAltasPendienteAdminObj = data;
+      this.mostrarTablaCargaAdmin = true;
+      this.mostrarSkeletonTablaAdmin = false;
+    });
+}
+
+
+
+//metodo para paginación de tabla de bajas pendientes de activo para administador
+paginacionTablaBajasPendienteAdmin(listaBajasPendienteAdmin: ReadonlyArray<ActfijoGestion>) {
+  this.listaBajasPendienteAdmin  = listaBajasPendienteAdmin;
+
+}
+
+//metodo para obtener listado de bajas pendientes para usuario administrador
+
+getBajasPendientesAdmin(){
+  this.mostrarTablaCargaAdmin = false;
+      this.mostrarSkeletonTablaAdmin = true;
+      
+  this.gestionActFijo.getBajasPendientesAdmin().subscribe(
+    data => {
+      this.listaBajasPendienteAdminObj = data;
+      this.mostrarTablaCargaAdmin = true;
+      this.mostrarSkeletonTablaAdmin = false;
+    });
+}
+
+//metodo para paginación de tabla de traslados pendientes de activo para administador
+paginacionTablaTrasladoPendienteAdmin(listaTrasladosPendienteAdmin: ReadonlyArray<ActfijoGestion>) {
+  this.listaTrasladosPendienteAdmin  = listaTrasladosPendienteAdmin;
+
+}
+
+//metodo para obtener listado de traslados pendiente para usuario administrador
+getTrasladosPendientesAdmin(){
+  this.mostrarTablaCargaAdmin = false;
+      this.mostrarSkeletonTablaAdmin = true;
+      
+  this.gestionActFijo.getTrasladosPendientesAdmin().subscribe(
+    data => {
+      this.listaTrasladosAdminObj = data;
+      this.mostrarTablaCargaAdmin = true;
+      this.mostrarSkeletonTablaAdmin = false;
+    });
+}
+
+
+
+//metodo para paginación de tabla de altas por usuario
+paginacionTablaAltasUser(listaAltasUser: ReadonlyArray<Usuario>) {
+  this.listaAltasUser  = listaAltasUser;
+
+}
+
+//metodo para obtener listado de altas por usuario
+getAltasUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getAltasUser(datosUsuario).subscribe(
+    data => {
+      this.listaAltasUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+
+
+//metodo para paginación de tabla de bajas por usuario
+paginacionTablaBajasUser(listaBajasUser: ReadonlyArray<Usuario>) {
+  this.listaBajasUser  = listaBajasUser;
+
+}
+
+//metodo para obtener listado de bajas por usuario
+getBajasUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getBajasUser(datosUsuario).subscribe(
+    data => {
+      this.listaBajasUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+
+//metodo para paginación de tabla de traslados por usuario
+paginacionTablaTrasladosUser(listaTrasladosUser: ReadonlyArray<Usuario>) {
+  this.listaTrasladosUser  = listaTrasladosUser;
+
+}
+
+//metodo para obtener listado de traslados por usuario
+getTrasladosUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getTrasladosUser(datosUsuario).subscribe(
+    data => {
+      this.listaTrasladosUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+
+
+
+
+
+
+//metodo para paginación de tabla de altas por usuario
+paginacionTablaAltasPendientesUser(listaAltasPendienteUser: ReadonlyArray<Usuario>) {
+  this.listaAltasPendienteUser  = listaAltasPendienteUser;
+
+}
+
+//metodo para obtener listado de altas pendientes por usuario
+getAltasPendientesUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getAltasPendientesUser(datosUsuario).subscribe(
+    data => {
+      this.listaAltasPendienteUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+
+
+//metodo para paginación de tabla de bajas pendientes por usuario
+paginacionTablaBajasPendientesUser(listaBajasPendienteUser: ReadonlyArray<Usuario>) {
+  this.listaBajasPendienteUser  = listaBajasPendienteUser;
+
+}
+
+//metodo para obtener listado de bajas pendientes por usuario
+getBajasPendientesUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getBajasPendientesUser(datosUsuario).subscribe(
+    data => {
+      this.listaBajasPendienteUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+
+//metodo para paginación de tabla de traslados pendiente por usuario
+paginacionTablaTrasladosPendientesUser(listaTrasladosPendienteUser: ReadonlyArray<Usuario>) {
+  this.listaTrasladosPendienteUser  = listaTrasladosPendienteUser;
+
+}
+
+//metodo para obtener listado de traslados por usuario
+getTrasladosPendienteUser(){
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datosUsuario : Usuario = new Usuario();
+
+  datosUsuario = this.user;
+  
+  this.gestionActFijo.getTrasladosUser(datosUsuario).subscribe(
+    data => {
+      this.listaTrasladosPendienteUserObj = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
 }
 
 }
