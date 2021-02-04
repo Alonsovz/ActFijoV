@@ -47,7 +47,7 @@
         
                         <th style="background-color: #007E61 !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #007E61 !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
-                        <th style="background-color: #007E61 !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
+                        <th style="background-color: #007E61 !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de alta</th>
                         <th style="background-color: #007E61 !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
                         <th style="background-color: #007E61 !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
                         <th style="background-color: #007E61 !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
@@ -57,7 +57,7 @@
                             <tr *ngFor="let ob of altasAdmin.data">
                             <td>{{ ob.af_codigo_interno }}</td>
                             <td>{{ ob.descripcion_bien }}</td>
-                            <td>{{ ob.fechaCompra }}</td>
+                            <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
                             <td>{{ ob.compraSiva }}</td>
                             <td>{{ ob.asignado }}</td>
                             <td  style="text-align: center; align-items: left;">
@@ -116,7 +116,7 @@
         
                         <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
-                        <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
+                        <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de traslado</th>
                         <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Usuario anterior </th>
                         <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
                         <th style="background-color: #1A3A78 !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
@@ -126,7 +126,7 @@
                             <tr *ngFor="let ob of trasladosAdmin.data">
                                 <td>{{ ob.af_codigo_interno }}</td>
                                 <td>{{ ob.descripcion_bien }}</td>
-                                <td>{{ ob.fechaCompra }}</td>
+                                <td>{{ ob.fechaTraslado }} {{ ob.horaTraslado }}</td>
                                 <td>{{ ob.usuarioAnterior }}</td>
                                 <td>{{ ob.asignado }}</td>
                                 <td  style="text-align: center; align-items: left;">
@@ -188,7 +188,7 @@
         
                         <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
-                        <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
+                        <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de baja</th>
                         <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
                         <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
                         <th style="background-color: #7B0505 !important;;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
@@ -198,7 +198,7 @@
                             <tr *ngFor="let ob of bajasAdmin.data">
                             <td>{{ ob.af_codigo_interno }}</td>
                             <td>{{ ob.descripcion_bien }}</td>
-                            <td>{{ ob.fechaCompra }}</td>
+                            <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
                             <td>{{ ob.compraSiva }}</td>
                             <td>{{ ob.asignado }}</td>
                             <td  style="text-align: center; align-items: left;">
@@ -427,7 +427,7 @@
         
                         <th style="background-color: #39136D !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #39136D !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
-                        <th style="background-color: #39136D !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
+                        <th style="background-color: #39136D !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de alta</th>
                         <th style="background-color: #39136D !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
                         <th style="background-color: #39136D !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                       </tr>
@@ -436,7 +436,7 @@
                       <tr  *ngFor="let ob of altasUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaCompra }}</td>
+                        <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
                         <td>{{ ob.compraSiva }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
@@ -570,7 +570,7 @@
         
                         <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
-                       <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
+                       <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de baja</th>
                         <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
                         <th style="background-color: #8E2B0E !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                       </tr>
@@ -579,7 +579,7 @@
                       <tr *ngFor="let ob of bajasUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaCompra }}</td>
+                        <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
                         <td>{{ ob.compraSiva }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"

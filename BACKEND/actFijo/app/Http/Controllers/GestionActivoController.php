@@ -401,6 +401,7 @@ class GestionActivoController extends Controller
                                                       ->update([
                                                       'estadoActivo' => 'Activo',
                                                       'estado' => 'B',
+                                                      'fecha_baja' => date('Ymd H:i:s'),
                                                     ]);
 
             $actualizar_History =DB::connection('comanda')->table('af_historial_activo')->insert([
@@ -432,6 +433,8 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar, af.fecha_alta, 103) as fechaAlta,
+         substring(convert(varchar,af.fecha_alta, 114),1,5) as horaAlta,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
@@ -451,6 +454,8 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar, af.fecha_baja, 103) as fechaBaja,
+         substring(convert(varchar,af.fecha_baja, 114),1,5) as horaBaja,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
@@ -467,15 +472,26 @@ class GestionActivoController extends Controller
     public function getTrasladosAdmin(){
       
         $getMisActivos = 
-        DB::connection('comanda')->select("select af.*,
+        DB::connection('comanda')->select("select distinct af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_movimiento from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
-        order by id desc ) as usuarioAnterior from af_maestro af
+        order by id desc ) as usuarioAnterior,
+        
+        (select top 1 convert(varchar, fecha_movimiento, 103) from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as fechaTraslado,
+        (select top 1 substring(convert(varchar,fecha_movimiento, 114),1,5) from af_historial_activo
+        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+        order by id desc ) as horaTraslado
+        
+         from af_maestro af
+      
         inner join users u on u.id = af.codigo_asignado 
         where af.estado = 'T' and af.estadoActivo = 'Activo'
+        
         order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -563,6 +579,8 @@ class GestionActivoController extends Controller
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        convert(varchar, af.fecha_alta, 103) as fechaAlta,
+         substring(convert(varchar,af.fecha_alta, 114),1,5) as horaAlta,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
@@ -581,6 +599,8 @@ class GestionActivoController extends Controller
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
+        convert(varchar, af.fecha_baja, 103) as fechaBaja,
+         substring(convert(varchar,af.fecha_baja, 114),1,5) as horaBaja,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
