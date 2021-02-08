@@ -1,4 +1,4 @@
-<div class="titulo"> 
+<div class="titulo">
     Gestión de usuarios
 
     <button nz-button nzType="primary" style="float: right;" (click)="showCardAgregar()"><i nz-icon nzType="user-add"></i>Agregar</button>
@@ -12,13 +12,13 @@
 <nz-card style="width:90%" class="cardShadow" *ngIf="mostrarCardListado">
 <div nz-row>
     <h2> <i nz-icon nzType="team" nzTheme="outline"></i> Listado de usuarios</h2><br>
-  
+
 
 </div>
 <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
 <div nz-row>
     <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
-
+    <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
     <nz-table nzShowPagination #rowSelectionTable
     nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
         <thead>
@@ -33,7 +33,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let us of rowSelectionTable.data">
+          <tr *ngFor="let us of rowSelectionTable.data | searchusuario: texto">
             <td>{{ us.nombre }}</td>
             <td>{{ us.apellido }}</td>
             <td>{{ us.alias }}</td>

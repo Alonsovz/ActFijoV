@@ -50,7 +50,11 @@ export class UsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.usuario.getRoles().subscribe(data => {this.objRoles = data;});
     this.usuario.getUsuariosTbl().subscribe(
+
       data => {
+        if(this.texto === '') {
+          this.listOfData = data;
+        }
         this.listOfData = data;
         this.mostrarTablaCarga = true;
         this.mostrarSkeleton = false;
@@ -228,4 +232,9 @@ export class UsuariosComponent implements OnInit {
 
   }
 
+
+  _texto:string;
+  ConvertToLower(evt) {
+      this.texto = evt.toLowerCase();
+  }
 }

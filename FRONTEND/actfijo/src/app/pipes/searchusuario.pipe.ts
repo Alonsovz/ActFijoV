@@ -6,7 +6,7 @@ import { Usuario } from '../models/usuario';
 })
 export class SearchusuarioPipe implements PipeTransform {
 
-  transform(arreglo: Usuario[], texto: any): any {
+  transform(arreglo: ReadonlyArray<Usuario>, texto: any): any {
     if(texto === '') {
       return arreglo;
     }
@@ -18,6 +18,8 @@ export class SearchusuarioPipe implements PipeTransform {
     return arreglo.filter(
       item => JSON.stringify(item).toLocaleLowerCase().includes(texto)
     );
+
+
   }
 
 }
