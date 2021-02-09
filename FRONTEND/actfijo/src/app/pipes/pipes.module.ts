@@ -8,6 +8,8 @@ import { SearchmodeloactivoPipe } from './searchmodeloactivo.pipe';
 import { SearchtipobienvnrPipe } from './searchtipobienvnr.pipe';
 import { SearchclasificacionagdPipe } from './searchclasificacionagd.pipe';
 import { SearchtipodocsPipe } from './searchtipodocs.pipe';
+import { SearchactgestionPipe } from './searchactgestion.pipe';
+import { SearchactgestionuserPipe } from './searchactgestionuser.pipe';
 
 
 
@@ -20,7 +22,9 @@ import { SearchtipodocsPipe } from './searchtipodocs.pipe';
     SearchmodeloactivoPipe,
     SearchtipobienvnrPipe, 
     SearchclasificacionagdPipe,
-    SearchtipodocsPipe
+    SearchtipodocsPipe,
+    SearchactgestionPipe,
+    SearchactgestionuserPipe
   ],
   imports: [
     CommonModule
@@ -32,6 +36,9 @@ import { SearchtipodocsPipe } from './searchtipodocs.pipe';
     SearchmodeloactivoPipe,
     SearchtipobienvnrPipe, 
     SearchclasificacionagdPipe,
-    SearchtipodocsPipe]
+    SearchtipodocsPipe,
+    SearchactgestionPipe,
+    SearchactgestionuserPipe
+  ]
 })
 export class PipesModule { }

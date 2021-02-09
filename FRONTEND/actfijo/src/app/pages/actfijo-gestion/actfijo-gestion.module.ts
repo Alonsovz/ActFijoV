@@ -5,6 +5,7 @@ import { ActfijoGestionRoutingModule } from './actfijo-gestion-routing.module';
 import { ActfijoGestionComponent } from './actfijo-gestion/actfijo-gestion.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ActfijoGestionRoutingModule,
     ZmoduleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class ActfijoGestionModule { }

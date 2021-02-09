@@ -637,7 +637,7 @@ class GestionActivoController extends Controller
         from af_historial_activo h
         inner join af_maestro af on af.af_codigo_interno = h.idActivo
         where h.usuario_asignado = '".$alias."'
-        and h.movimiento = 'Traslado' and af.estado != 'B' order by af_codigo_interno desc");
+        and h.movimiento = 'Traslado'  and af.estado != 'B' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
     }
@@ -702,7 +702,7 @@ class GestionActivoController extends Controller
         from af_historial_activo h
         inner join af_maestro af on af.af_codigo_interno = h.idActivo
         inner join users u on u.id = af.codigo_asignado 
-        where h.usuario_asignado = '".$idUsuario."' and af.estado != 'B' and af.estadoActivo = 'Pendiente' 
+        where h.usuario_asignado = '".$idUsuario."' and af.estado = 'T' and af.estadoActivo = 'Pendiente' 
         order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -790,12 +790,12 @@ class GestionActivoController extends Controller
          (select count(af.af_codigo_interno)
          from  af_maestro af 
          where af.codigo_asignado = ".$id." 
-         and af.estado != 'B' and af.estadoActivo = 'Pendiente' )  as conteoTrasladosRecibidosPendientesRecibir,
+         and af.estado = 'T' and af.estadoActivo = 'Pendiente' )  as conteoTrasladosRecibidosPendientesRecibir,
 
          (select count(af.af_codigo_interno)
          from  af_maestro af 
          inner join af_historial_activo h on h.idActivo = af.af_codigo_interno
-         where  af.estado != 'B' and af.estadoActivo = 'Pendiente' 
+         where  af.estado = 'T' and af.estadoActivo = 'Pendiente' 
          and h.usuario_asignado = '".$alias."') as conteoTrasladosHechosPendientesRecibir ");
 
         return response()->json($getConteoUser);

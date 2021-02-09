@@ -24,6 +24,8 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
   styleUrls: ['./actfijo-gestion.component.scss']
 })
 export class ActfijoGestionComponent implements OnInit {
+  texto: any;
+  textoUser: any;
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
@@ -1248,4 +1250,15 @@ ingresarOtroActivoMismoDoc(){
   
 }
 
+
+_texto:string;
+ConvertToLower(evt) {
+    this.texto = evt.toLowerCase();
+}
+
+
+_textoUser:string;
+ConvertToLowerUser(evt) {
+    this.textoUser = evt.toLowerCase();
+}
 }

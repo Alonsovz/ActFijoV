@@ -2,7 +2,7 @@
    Gestión de Activos
 
     <button nz-button nzType="primary" style="float: right;" (click)="showCardAgregar()">
-        <i nz-icon nzType="folder-add"></i>Alta de activo
+        <i nz-icon nzType="folder-add"></i>Nueva alta de activo
     </button>
     <button nz-button nzType="default" style="float: right;" (click)="showCardListado()">
         <i nz-icon nzType="bars"></i>Lista de mis activos
@@ -18,12 +18,18 @@
 
 <!--card para lista de activos administrador-->
 <nz-card style="width:95%" class="cardShadow" *ngIf="mostrarCardListadoAdmin">
-    <div nz-row>
-        <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de todos los activos </h2>
-    </div>
 
+        <div nz-row>
+            <div nz-col nzSpan="18">
+                <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de todos los activos </h2>
+            </div>
+            <div nz-col nzSpan="6">
+                <nz-form-label>Buscar </nz-form-label>
+                <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+            </div>
+        </div>
     
-    <nz-tabset nzTabPosition="left" style="height:500px;">
+    <nz-tabset nzTabPosition="left">
         
         
             <nz-tab [nzTitle]="tituloTabAltas" (nzClick)="getAltasAdmin()">
@@ -54,7 +60,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                            <tr *ngFor="let ob of altasAdmin.data">
+                            <tr *ngFor="let ob of altasAdmin.data | searchactgestion: texto">
                             <td>{{ ob.af_codigo_interno }}</td>
                             <td>{{ ob.descripcion_bien }}</td>
                             <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
@@ -123,7 +129,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                            <tr *ngFor="let ob of trasladosAdmin.data">
+                            <tr *ngFor="let ob of trasladosAdmin.data | searchactgestion: texto">
                                 <td>{{ ob.af_codigo_interno }}</td>
                                 <td>{{ ob.descripcion_bien }}</td>
                                 <td>{{ ob.fechaTraslado }} {{ ob.horaTraslado }}</td>
@@ -195,7 +201,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                            <tr *ngFor="let ob of bajasAdmin.data">
+                            <tr *ngFor="let ob of bajasAdmin.data | searchactgestion: texto">
                             <td>{{ ob.af_codigo_interno }}</td>
                             <td>{{ ob.descripcion_bien }}</td>
                             <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
@@ -248,7 +254,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                        <tr *ngFor="let ob of altasPendientesAdmin.data">
+                        <tr *ngFor="let ob of altasPendientesAdmin.data | searchactgestion: texto">
                           <td>{{ ob.af_codigo_interno }}</td>
                           <td>{{ ob.descripcion_bien }}</td>
                           <td>{{ ob.fechaCompra }}</td>
@@ -309,7 +315,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                        <tr  *ngFor="let ob of trasladosPendientesAdmin.data">
+                        <tr  *ngFor="let ob of trasladosPendientesAdmin.data | searchactgestion: texto">
                           <td>{{ ob.af_codigo_interno }}</td>
                           <td>{{ ob.descripcion_bien }}</td>
                           <td>{{ ob.fechaCompra }}</td>
@@ -368,7 +374,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                        <tr  *ngFor="let ob of bajasPendientesAdmin.data">
+                        <tr  *ngFor="let ob of bajasPendientesAdmin.data | searchactgestion: texto">
                           <td>{{ ob.af_codigo_interno }}</td>
                           <td>{{ ob.descripcion_bien }}</td>
                           <td>{{ ob.fechaCompra }}</td>
@@ -400,7 +406,13 @@
 <!--card para lista de mis activos-->
 <nz-card style="width:95%" class="cardShadow" *ngIf="mostrarCardListado">
     <div nz-row>
-        <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de mis de activos</h2>
+        <div nz-col nzSpan="18">
+            <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de mis de activos</h2>
+        </div>
+        <div nz-col nzSpan="6">
+            <nz-form-label>Buscar </nz-form-label>
+            <input nz-input [(ngModel)]="_textoUser" id="textoUser" name="textoUser" placeholder="Buscar" (ngModelChange)="ConvertToLowerUser($event)">
+        </div>
     </div>
     
     <nz-tabset nzTabPosition="left" style="height:550px;">
@@ -433,7 +445,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr  *ngFor="let ob of altasUser.data">
+                      <tr  *ngFor="let ob of altasUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
@@ -481,7 +493,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of trasladosRecibidosUser.data">
+                      <tr *ngFor="let ob of trasladosRecibidosUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaTraslado }} {{ob.horaTraslado}}</td>
@@ -531,7 +543,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let ob of trasladosHechosUser.data">
+                              <tr *ngFor="let ob of trasladosHechosUser.data | searchactgestionuser: textoUser">
                                 <td>{{ ob.af_codigo_interno }}</td>
                                 <td>{{ ob.descripcion_bien }}</td>
                                 <td>{{ ob.fechaTraslado }} {{ob.horaTraslado}}</td>
@@ -576,7 +588,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of bajasUser.data">
+                      <tr *ngFor="let ob of bajasUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
@@ -618,7 +630,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of altasPendientesUser.data">
+                      <tr *ngFor="let ob of altasPendientesUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompra }}</td>
@@ -661,7 +673,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of trasladosHechosPendientesUser.data">
+                      <tr *ngFor="let ob of trasladosHechosPendientesUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompra }}</td>
@@ -704,7 +716,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of trasladosPendientesRecibirUser.data">
+                      <tr *ngFor="let ob of trasladosPendientesRecibirUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompra }}</td>
@@ -747,7 +759,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of bajasPendientesUser.data">
+                      <tr *ngFor="let ob of bajasPendientesUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompra }}</td>
