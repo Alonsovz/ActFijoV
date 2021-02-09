@@ -5,6 +5,7 @@ import { TipoDocumentosRoutingModule } from './tipo-documentos-routing.module';
 import { TipoDocumentosComponent } from './tipo-documentos/tipo-documentos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ZmoduleModule } from 'src/app/zmodule.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ZmoduleModule } from 'src/app/zmodule.module';
     TipoDocumentosRoutingModule,
     ZmoduleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class TipoDocumentosModule { }

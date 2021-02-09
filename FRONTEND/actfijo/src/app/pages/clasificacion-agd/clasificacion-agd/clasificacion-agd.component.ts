@@ -10,6 +10,7 @@ import notie from 'notie';
   styleUrls: ['./clasificacion-agd.component.scss']
 })
 export class ClasificacionAgdComponent implements OnInit {
+  texto: any;
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
@@ -216,6 +217,11 @@ export class ClasificacionAgdComponent implements OnInit {
 onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<ClasificacionAgd>) {
   this.listOfCurrentPageData  = listOfCurrentPageData;
 
+}
+
+_texto:string;
+ConvertToLower(evt) {
+    this.texto = evt.toLowerCase();
 }
 
 

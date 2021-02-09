@@ -9,7 +9,7 @@ import { TipoDocumentos } from 'src/app/models/tipo-documentos';
   styleUrls: ['./tipo-documentos.component.scss']
 })
 export class TipoDocumentosComponent implements OnInit {
-
+  texto:any;
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
@@ -206,6 +206,11 @@ guardarEdicionTipoDocumento() {
 onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<TipoDocumentos>) {
   this.listOfCurrentPageData  = listOfCurrentPageData;
 
+}
+
+_texto:string;
+ConvertToLower(evt) {
+    this.texto = evt.toLowerCase();
 }
 
 

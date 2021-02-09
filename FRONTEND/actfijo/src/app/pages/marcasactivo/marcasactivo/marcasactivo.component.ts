@@ -10,6 +10,7 @@ import notie from 'notie';
   styleUrls: ['./marcasactivo.component.scss']
 })
 export class MarcasactivoComponent implements OnInit {
+  texto: any;
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
@@ -213,6 +214,11 @@ export class MarcasactivoComponent implements OnInit {
     this.listOfCurrentPageData  = listOfCurrentPageData;
 
   }
+
+  _texto:string;
+ConvertToLower(evt) {
+    this.texto = evt.toLowerCase();
+}
 
 
 }

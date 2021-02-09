@@ -5,6 +5,7 @@ import { TipoactivoRoutingModule } from './tipoactivo-routing.module';
 import { TipoactivoComponent } from './tipoactivo/tipoactivo.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [TipoactivoComponent],
@@ -13,7 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TipoactivoRoutingModule,
     ZmoduleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class TipoactivoModule {

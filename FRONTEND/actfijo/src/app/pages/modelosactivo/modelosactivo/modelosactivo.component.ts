@@ -12,6 +12,7 @@ import notie from 'notie';
   styleUrls: ['./modelosactivo.component.scss']
 })
 export class ModelosactivoComponent implements OnInit {
+  texto: any;
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
@@ -226,6 +227,11 @@ export class ModelosactivoComponent implements OnInit {
   onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Modelosactivo>) {
     this.listOfCurrentPageData  = listOfCurrentPageData;
 
+  }
+
+  _texto:string;
+  ConvertToLower(evt) {
+      this.texto = evt.toLowerCase();
   }
 
 }

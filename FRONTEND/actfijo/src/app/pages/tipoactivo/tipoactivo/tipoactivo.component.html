@@ -82,7 +82,13 @@
 <!--card para lista de tipoActivo-->
 <nz-card style="width:90%" class="cardShadow" *ngIf="mostrarCardListado">
     <div nz-row>
-        <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de tipos de activo</h2>
+        <div nz-col nzSpan="18">
+            <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de tipos de activo</h2>
+        </div>
+        <div nz-col nzSpan="6">
+            <nz-form-label>Buscar </nz-form-label>
+            <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+        </div>
     </div>
     <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
     <div nz-row>
@@ -104,7 +110,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ob of rowSelectionTable.data">
+              <tr *ngFor="let ob of rowSelectionTable.data | searchtipoactivo:texto">
                 <td>{{ ob.cod_ppye }}</td>
                 <td>{{ ob.descripcion_ppye  }}</td>
                 <td>{{ ob.cuenta_contable  }}</td>

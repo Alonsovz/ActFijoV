@@ -10,12 +10,19 @@
 <!--card para lista de roles-->
 <nz-card style="width:60%" class="cardShadow" *ngIf="mostrarCardListado">
     <div nz-row>
+      <div nz-col nzSpan="18">
         <h2> <i nz-icon nzType="tool" nzTheme="outline"></i> Listado de roles</h2>
+      </div>
+        <div nz-col nzSpan="6">
+          <nz-form-label>Buscar </nz-form-label>
+          <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+        </div>
     </div>
     <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
     <div nz-row>
         <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
     
+
         <nz-table nzShowPagination #rowSelectionTable
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
             <thead>
@@ -26,7 +33,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let roles of rowSelectionTable.data">
+              <tr *ngFor="let roles of rowSelectionTable.data | searchroles: texto">
                 <td>{{ roles.rol }}</td>
                 <td style="text-align: center; align-items: center;">
                     <button nz-button nzType="default" (click)="editarRolCard(roles)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>

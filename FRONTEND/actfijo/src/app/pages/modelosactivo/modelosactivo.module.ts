@@ -5,6 +5,7 @@ import { ModelosactivoRoutingModule } from './modelosactivo-routing.module';
 import { ModelosactivoComponent } from './modelosactivo/modelosactivo.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ModelosactivoRoutingModule,
     ZmoduleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class ModelosactivoModule { }

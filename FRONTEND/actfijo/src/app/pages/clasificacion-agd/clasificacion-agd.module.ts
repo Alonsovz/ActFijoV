@@ -5,6 +5,7 @@ import { ClasificacionAgdRoutingModule } from './clasificacion-agd-routing.modul
 import { ClasificacionAgdComponent } from './clasificacion-agd/clasificacion-agd.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ClasificacionAgdRoutingModule,
     ZmoduleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class ClasificacionAgdModule { }

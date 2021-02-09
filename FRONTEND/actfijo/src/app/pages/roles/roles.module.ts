@@ -5,6 +5,7 @@ import { RolesRoutingModule } from './roles-routing.module';
 import { RolesComponent } from './roles/roles.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RolesRoutingModule,
     ZmoduleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class RolesModule { }

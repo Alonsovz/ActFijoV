@@ -5,6 +5,7 @@ import { MarcasactivoRoutingModule } from './marcasactivo-routing.module';
 import { MarcasactivoComponent } from './marcasactivo/marcasactivo.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MarcasactivoRoutingModule,
     ZmoduleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class MarcasactivoModule { }

@@ -11,20 +11,18 @@
 <!--card para lista de usuarios-->
 <nz-card style="width:90%" class="cardShadow" *ngIf="mostrarCardListado">
 <div nz-row>
-    <h2> <i nz-icon nzType="team" nzTheme="outline"></i> Listado de usuarios</h2><br>
-
+    <div nz-col nzSpan="18">
+      <h2> <i nz-icon nzType="team" nzTheme="outline"></i> Listado de usuarios</h2>
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-form-label>Buscar </nz-form-label>
+      <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+    </div>
 
 </div>
 <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
 <div nz-row>
     <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
- 
-      <div nz-col nzSpan="6"  style="margin-bottom: 15px !important;">
-        <nz-form-label>Buscar </nz-form-label>
-        <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
-      </div>
-    
-   
     <nz-table nzShowPagination #rowSelectionTable
     nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
         <thead>

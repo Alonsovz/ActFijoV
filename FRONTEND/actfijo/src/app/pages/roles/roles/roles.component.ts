@@ -10,6 +10,10 @@ import notie from 'notie';
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
+
+  
+  texto: any;
+
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
@@ -212,4 +216,10 @@ export class RolesComponent implements OnInit {
 
   }
 
+
+  _texto:string;
+  ConvertToLower(evt) {
+      this.texto = evt.toLowerCase();
+  }
+  
 }

@@ -13,6 +13,7 @@ import { TipoactivoService } from 'src/app/services/tipoactivo.service';
 
 
 export class TipoactivoComponent implements OnInit {
+  texto: any;
   agregarTipoActivoForm : FormGroup;
   editarTipoActivoForm : FormGroup;
   mostrarCardAgregar = false;
@@ -231,5 +232,11 @@ export class TipoactivoComponent implements OnInit {
   onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<Tipoactivo>) {
     this.listOfCurrentPageData  = listOfCurrentPageData;
 
+  }
+
+
+  _texto:string;
+  ConvertToLower(evt) {
+      this.texto = evt.toLowerCase();
   }
 }

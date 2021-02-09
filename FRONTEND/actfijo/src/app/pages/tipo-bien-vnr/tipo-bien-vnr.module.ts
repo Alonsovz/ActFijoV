@@ -5,6 +5,7 @@ import { TipoBienVnrRoutingModule } from './tipo-bien-vnr-routing.module';
 import { TipoBienVnrComponent } from './tipo-bien-vnr/tipo-bien-vnr.component';
 import { ZmoduleModule } from 'src/app/zmodule.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TipoBienVnrRoutingModule,
     ZmoduleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ]
 })
 export class TipoBienVnrModule { }

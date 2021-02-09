@@ -9,6 +9,8 @@ import notie from 'notie';
   styleUrls: ['./tipo-bien-vnr.component.scss']
 })
 export class TipoBienVnrComponent implements OnInit {
+
+  texto: any;
   mostrarCardAgregar = false;
   mostrarCardListado = true;
   mostrarCardEditar = false;
@@ -215,5 +217,10 @@ export class TipoBienVnrComponent implements OnInit {
 onCurrentPageDataChange(listOfCurrentPageData: ReadonlyArray<TipoBienVnr>) {
   this.listOfCurrentPageData  = listOfCurrentPageData;
 
+}
+
+_texto:string;
+ConvertToLower(evt) {
+    this.texto = evt.toLowerCase();
 }
 }
