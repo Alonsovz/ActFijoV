@@ -72,6 +72,7 @@ export class ActfijoGestionComponent implements OnInit {
   modalActivacionVisible = false;
   modalTrasladoVisible = false;
   modalAceptarTrasladoVisible = false;
+  modalElegirMismoDocumento = false;
   user: Usuario = new Usuario();
   objUsuarios : Usuario[];
   vista: string;
@@ -439,12 +440,12 @@ export class ActfijoGestionComponent implements OnInit {
 
           notie.alert({
             type: 'success',
-            text: 'Alta registrada con éxito',
+            text: 'Proceso de alta registrado con éxito, pendiente de activación',
             stay: false,
-            time: 2,
+            time: 4,
             position: 'top'
           });
-        this.showCardListado();
+        this.modalElegirMismoDocumento = true;
         }
 
 
@@ -1207,6 +1208,44 @@ conteoUser(){
       this.conteoTrasladosHechosPendientesRecibir = Number(element["conteoTrasladosHechosPendientesRecibir"]);
     }); 
   });
+}
+
+
+
+//función para no ingresar otro activo sobre el mismo documento
+
+finalizarSoloUno(){
+  this.showCardListado();
+  this.modalElegirMismoDocumento = false;
+}
+
+
+//función para generar otro activo sobre el mismo documento
+
+ingresarOtroActivoMismoDoc(){
+  this.modalElegirMismoDocumento = false;
+  this.altaActivoForm.controls["codigoVNR"].setValue('');
+  this.altaActivoForm.controls["codigoContable"].setValue('');
+  this.altaActivoForm.controls["fechaRegistro"].setValue('');
+  this.altaActivoForm.controls["tipoPartida"].setValue('');
+  this.altaActivoForm.controls["descripcionBien"].setValue('');
+  this.altaActivoForm.controls["tipoActivoVNR"].setValue('');
+  this.altaActivoForm.controls["areaUbicacionVNR"].setValue('');
+  this.altaActivoForm.controls["ccCostoVnr"].setValue('');
+  this.altaActivoForm.controls["tipoAgd"].setValue('');
+  this.altaActivoForm.controls["bodegaAsignada"].setValue('');
+  this.altaActivoForm.controls["codigo_marca"].setValue(0);
+  this.altaActivoForm.controls["modeloBien"].setValue(0);
+  this.altaActivoForm.controls["serieBien"].setValue('');
+  this.altaActivoForm.controls["otrasEspecificaciones"].setValue('');
+  this.altaActivoForm.controls["fechaCompra"].setValue('');
+  this.altaActivoForm.controls["proveedor"].setValue('');
+  this.altaActivoForm.controls["cod_departamento"].setValue(0);
+  this.altaActivoForm.controls["municipio"].setValue(0);
+  this.altaActivoForm.controls["ubicacionFisica"].setValue(0);
+  this.altaActivoForm.controls["estadoActivo"].setValue('');
+  this.altaActivoForm.controls["valorSiva"].setValue('');
+  
 }
 
 }

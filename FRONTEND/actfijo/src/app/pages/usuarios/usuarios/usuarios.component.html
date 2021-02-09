@@ -18,7 +18,13 @@
 <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
 <div nz-row>
     <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
-    <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+ 
+      <div nz-col nzSpan="6"  style="margin-bottom: 15px !important;">
+        <nz-form-label>Buscar </nz-form-label>
+        <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+      </div>
+    
+   
     <nz-table nzShowPagination #rowSelectionTable
     nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
         <thead>

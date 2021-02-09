@@ -6,20 +6,20 @@ import { Usuario } from '../models/usuario';
 })
 export class SearchusuarioPipe implements PipeTransform {
 
-  transform(arreglo: ReadonlyArray<Usuario>, texto: any): any {
-    if(texto === '') {
-      return arreglo;
+ 
+    transform(arreglo: ReadonlyArray<Usuario>, texto: any): any {
+    
+      if(texto) {
+        return arreglo.filter(
+          item => JSON.stringify(item).toLocaleLowerCase().includes(texto)
+        );
+      }
+      else{
+        return arreglo;
+      }
+  
     }
-
-    if(!arreglo) {
-      return arreglo;
-    }
-
-    return arreglo.filter(
-      item => JSON.stringify(item).toLocaleLowerCase().includes(texto)
-    );
-
-
-  }
+  
+ 
 
 }
