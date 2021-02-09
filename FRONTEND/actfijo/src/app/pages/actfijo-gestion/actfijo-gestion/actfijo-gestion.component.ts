@@ -24,6 +24,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
   styleUrls: ['./actfijo-gestion.component.scss']
 })
 export class ActfijoGestionComponent implements OnInit {
+  dateFormat = 'dd/MM/yyyy';
   texto: any;
   textoUser: any;
   mostrarCardAgregar = false;
@@ -1228,7 +1229,6 @@ ingresarOtroActivoMismoDoc(){
   this.modalElegirMismoDocumento = false;
   this.altaActivoForm.controls["codigoVNR"].setValue('');
   this.altaActivoForm.controls["codigoContable"].setValue('');
-  this.altaActivoForm.controls["fechaRegistro"].setValue('');
   this.altaActivoForm.controls["tipoPartida"].setValue('');
   this.altaActivoForm.controls["descripcionBien"].setValue('');
   this.altaActivoForm.controls["tipoActivoVNR"].setValue('');
@@ -1240,10 +1240,6 @@ ingresarOtroActivoMismoDoc(){
   this.altaActivoForm.controls["modeloBien"].setValue(0);
   this.altaActivoForm.controls["serieBien"].setValue('');
   this.altaActivoForm.controls["otrasEspecificaciones"].setValue('');
-  this.altaActivoForm.controls["fechaCompra"].setValue('');
-  this.altaActivoForm.controls["proveedor"].setValue('');
-  this.altaActivoForm.controls["cod_departamento"].setValue(0);
-  this.altaActivoForm.controls["municipio"].setValue(0);
   this.altaActivoForm.controls["ubicacionFisica"].setValue(0);
   this.altaActivoForm.controls["estadoActivo"].setValue('');
   this.altaActivoForm.controls["valorSiva"].setValue('');

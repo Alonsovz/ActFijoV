@@ -19,6 +19,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 const zorromodules = [
   NzFormModule,
@@ -38,7 +39,8 @@ const zorromodules = [
   NzSkeletonModule,
   NzToolTipModule,
   NzTabsModule,
-  NzBadgeModule
+  NzBadgeModule,
+  NzDatePickerModule
 ]
 
 
