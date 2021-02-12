@@ -679,6 +679,8 @@ iniciarBaja() {
 
     this.getBajasUser();
     this.getAltasUser();
+    this.getTrasladosRecibidosUser();
+    this.getBajasPendientesUser();
     this.conteoUser();
     this.modalBajaConfirmacion = false;
 
@@ -728,6 +730,9 @@ guardarTraslado(){
         });
 
       this.getAltasUser();
+      this.getTrasladosRecibidosUser();
+      this.getAltasAdmin();
+      this.getTrasladosAdmin();
       this.conteoUser();
       this.modalTrasladoVisible = false;
       }
@@ -777,8 +782,11 @@ guardarAceptacionTraslado(){
           time: 2,
           position: 'top'
         });
-      this.getTrasladosPendientesAdmin();
-      this.conteoAdmin();
+      this.getTrasladosRecibidosPendientesUser();
+      this.getAltasAdmin();
+      this.getAltasUser();
+      this.getTrasladosAdmin();
+      this.conteoUser();
       this.modalAceptarTrasladoVisible = false;
       }
 

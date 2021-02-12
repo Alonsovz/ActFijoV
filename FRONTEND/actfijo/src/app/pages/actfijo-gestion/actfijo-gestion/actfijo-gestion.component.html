@@ -67,27 +67,13 @@
                             <td>{{ ob.compraSiva }}</td>
                             <td>{{ ob.asignado }}</td>
                             <td  style="text-align: center; align-items: left;">
-                                <button style="margin: 5px !important;" nz-button nzType="primary"
-                                *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='A'"
-                                nzTooltipTitle="Aceptar alta" nzTooltipPlacement="topCenter" nz-tooltip (click)="confimarActivacion(ob)"><i nz-icon nzType="check" nzTheme="outline"></i></button>
-            
-                                <button style="margin: 5px !important;" nz-button nzType="primary"
-                                *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='T'"
-                                nzTooltipTitle="Aceptar traslado" nzTooltipPlacement="topCenter" nz-tooltip (click)="confimarTraslado(ob)"><i nz-icon nzType="check" nzTheme="outline"></i></button>
-            
-            
-                                <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
+                                     <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
                                 nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
             
                                 <button style="margin: 5px !important;" nz-button nzType="default" (click)="trasladarActivo(ob)"
                                 *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
                                 nzTooltipTitle="Hacer traslado" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i> </button>
-                                
-                                <button style="margin: 5px !important;" nz-button nzType="primary"  *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='B'"
-                                (click)="mostrarModalFinalizarProcesoBaja(ob)"
-                                nzTooltipTitle="Finalizar proceso de baja" 
-                                nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="check" nzTheme="outline"></i></button>
-            
+                             
                                 <button style="margin: 5px !important;" nz-button nzType="danger"  
                                 *ngIf="ob.estadoActivo=='Activo' && user.rol != 'Usuario' && ob.estadoAc!='B'"
                                 (click)="mostrarModalFinalizarProcesoBaja(ob)"
@@ -140,11 +126,7 @@
                                     *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='A'"
                                     nzTooltipTitle="Aceptar alta" nzTooltipPlacement="topCenter" nz-tooltip (click)="confimarActivacion(ob)"><i nz-icon nzType="check" nzTheme="outline"></i></button>
                 
-                                    <button style="margin: 5px !important;" nz-button nzType="primary"
-                                    *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='T'"
-                                    nzTooltipTitle="Aceptar traslado" nzTooltipPlacement="topCenter" nz-tooltip (click)="confimarTraslado(ob)"><i nz-icon nzType="check" nzTheme="outline"></i></button>
-                
-                
+                            
                                     <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
                                     nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
                 
@@ -286,7 +268,7 @@
             
         </nz-tab>
 
-        <nz-tab [nzTitle]="tituloTabTrasladosPen" (nzClick)="getTrasladosPendientesAdmin()">
+        <!--<nz-tab [nzTitle]="tituloTabTrasladosPen" (nzClick)="getTrasladosPendientesAdmin()">
             <ng-template #tituloTabTrasladosPen>
                 Traslados pendientes de aceptación  <nz-badge [nzCount]="conteoTrasladosPen" nzShowZero
                 [nzStyle]="{ backgroundColor: '#10690A' }"></nz-badge>
@@ -341,7 +323,7 @@
                   
                 </tbody>
               </nz-table>
-        </nz-tab>
+        </nz-tab>-->
 
         <nz-tab [nzTitle]="tituloTabBajasPen" (nzClick)="getBajasPendientesAdmin()">
 
@@ -724,7 +706,12 @@
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
-                        
+                            
+                            <button style="margin: 5px !important;" nz-button nzType="primary"
+                            *ngIf="ob.estadoActivo=='Pendiente' && ob.estadoAc=='T'"
+                            nzTooltipTitle="Aceptar traslado" nzTooltipPlacement="topCenter" nz-tooltip (click)="confimarTraslado(ob)"><i nz-icon nzType="check" nzTheme="outline"></i></button>
+        
+        
                         </td>
                       </tr>
                     </tbody>
@@ -1400,6 +1387,8 @@
         <button nz-button nzType="primary" (click)="iniciarBaja()">Iniciar baja</button>
     </ng-template>
 </nz-modal>
+
+
 <!--Modal para asignar usuario de traslado-->
 <nz-modal [(nzVisible)]="modalTrasladoVisible"   [nzFooter]="modalFooterTraslado" [nzContent]="modalContentTraslado"
 (nzOnCancel)="cerrarModalTraslado()">
@@ -1431,14 +1420,14 @@
 </nz-modal>
 
 
-<!-- MODAL PARA EL INICIO DEL PROCESO DE BAJA -->
+<!-- MODAL PARA aceptar el proceso DE traslado -->
 <nz-modal [(nzVisible)]="modalAceptarTrasladoVisible"   [nzFooter]="modalFooterAceptarTraslado" [nzContent]="modalContentAceptarTraslado"
 (nzOnCancel)="cerrarModalAceptarTraslado()">
 
     <ng-template #modalContentAceptarTraslado>
         <h3 style="text-align: center !important;margin-top: 40px;">¿Desea aceptar el traslado del activo N°
             {{actFijoOb.af_codigo_interno}}
-            del usuario {{actFijoOb.usuarioAnterior}} a {{actFijoOb.asignado}}?</h3>
+            del usuario {{actFijoOb.usuarioAnterior}}?</h3>
     </ng-template>
 
     <ng-template #modalFooterAceptarTraslado>
@@ -1450,10 +1439,6 @@
 
 
 <!--Modal para elegir si se asginará otro activo sobre el documento-->
-
-
-
-<!-- MODAL PARA LA ACEPTACION DE BAJA POR PARTE DEL ADMINISTRADOR -->
 <nz-modal [(nzVisible)]="modalElegirMismoDocumento"   [nzFooter]="modalElegirMismoDocumentoFooter" [nzContent]="modalElegirMismoDocumentoContent">
 
     <ng-template #modalElegirMismoDocumentoContent>
@@ -1464,5 +1449,22 @@
     <ng-template #modalElegirMismoDocumentoFooter>
         <button nz-button nzType="danger" (click)="finalizarSoloUno()">No, ya he finalizado...</button>
         <button nz-button nzType="primary" (click)="ingresarOtroActivoMismoDoc()">Si, añadir otro...</button>
+    </ng-template>
+</nz-modal>
+
+
+
+<!-- MODAL PARA LA ACEPTACION DE BAJA POR PARTE DEL ADMINISTRADOR -->
+
+<nz-modal [(nzVisible)]="modalFinalizarProcesoBaja"  
+ [nzFooter]="modalprocesofinbajafooter" [nzContent]="modalprocesofinbajacontent"
+ (nzOnCancel)="cerrarModalAceptarTraslado()">
+    <ng-template #modalprocesofinbajacontent>
+        <h3 style="text-align: center !important;margin-top: 40px;">¿Desea finalizar el proceso de baja del activo N°
+            {{actFijoOb.af_codigo_interno}} asignado al usuario   {{actFijoOb.asignado}}?</h3>
+    </ng-template>
+    <ng-template #modalprocesofinbajafooter>
+        <button nz-button nzType="danger" (click)="cerrarModalFinalizarProcesoBaja()">Cancelar</button>
+        <button nz-button nzType="primary" (click)="finalizarProcesoBaja()">Finalizar proceso de baja</button>
     </ng-template>
 </nz-modal>
