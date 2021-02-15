@@ -824,8 +824,14 @@ finalizarProcesoBaja() {
         time: 4,
         position: 'top'
       });
-      this.getBajasPendientesAdmin();
       this.conteoAdmin();
+      this.getBajasPendientesAdmin();
+      this.getBajasPendientesAdmin();
+      this.getTrasladosAdmin();
+      this.getTrasladosPendientesAdmin();
+      this.getAltasAdmin();
+      this.getAltasPendientesAdmin();
+      
       this.modalFinalizarProcesoBaja = false;
     }
   )

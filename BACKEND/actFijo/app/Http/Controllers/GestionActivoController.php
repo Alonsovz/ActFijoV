@@ -368,7 +368,7 @@ class GestionActivoController extends Controller
     public function guardarAceptacionTraslado(Request $request){
         $id = $request["af_codigo_interno"];
         $usuarioAnterior = $request["usuarioAnterior"];
-        $userMovimiento = $request["asignado"];
+        $userMovimiento = $request["alias"];
         $userAprobacion = $request["alias"];
 
        $editar = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno ', $id)

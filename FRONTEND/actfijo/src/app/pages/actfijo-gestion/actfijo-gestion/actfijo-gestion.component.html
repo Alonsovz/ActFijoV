@@ -70,9 +70,6 @@
                                      <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
                                 nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
             
-                                <button style="margin: 5px !important;" nz-button nzType="default" (click)="trasladarActivo(ob)"
-                                *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                                nzTooltipTitle="Hacer traslado" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i> </button>
                              
                                 <button style="margin: 5px !important;" nz-button nzType="danger"  
                                 *ngIf="ob.estadoActivo=='Activo' && user.rol != 'Usuario' && ob.estadoAc!='B'"
@@ -130,22 +127,12 @@
                                     <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
                                     nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
                 
-                                    <button style="margin: 5px !important;" nz-button nzType="default" (click)="trasladarActivo(ob)"
-                                    *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                                    nzTooltipTitle="Hacer traslado" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i> </button>
-                                    
                                     <button style="margin: 5px !important;" nz-button nzType="primary"  *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='B'"
                                     (click)="mostrarModalFinalizarProcesoBaja(ob)"
-                                    nzTooltipTitle="Finalizar proceso de baja" 
+                                    nzTooltipTitle="Dar de baja" 
                                     nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="check" nzTheme="outline"></i></button>
                 
-                                    <button style="margin: 5px !important;" nz-button nzType="danger"  
-                                    *ngIf="ob.estadoActivo=='Activo' && user.rol != 'Usuario' && ob.estadoAc!='B'"
-                                    (click)="mostrarModalFinalizarProcesoBaja(ob)"
-                                    nzTooltipTitle="Dar de baja" 
-                                    nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="delete" nzTheme="outline"></i></button>
-                
-                                </td>
+                                  </td>
                             </tr>
                         
                         
@@ -253,7 +240,7 @@
                              
                               <button style="margin: 5px !important;" nz-button nzType="primary"  *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='B'"
                               (click)="mostrarModalFinalizarProcesoBaja(ob)"
-                              nzTooltipTitle="Finalizar proceso de baja" 
+                              nzTooltipTitle="Dar de baja" 
                               nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="check" nzTheme="outline"></i></button>
           
                         
@@ -268,7 +255,7 @@
             
         </nz-tab>
 
-        <!--<nz-tab [nzTitle]="tituloTabTrasladosPen" (nzClick)="getTrasladosPendientesAdmin()">
+        <nz-tab [nzTitle]="tituloTabTrasladosPen" (nzClick)="getTrasladosPendientesAdmin()">
             <ng-template #tituloTabTrasladosPen>
                 Traslados pendientes de aceptación  <nz-badge [nzCount]="conteoTrasladosPen" nzShowZero
                 [nzStyle]="{ backgroundColor: '#10690A' }"></nz-badge>
@@ -290,8 +277,8 @@
     
                     <th style="background-color: #10690A !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                     <th style="background-color: #10690A !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
-                    <th style="background-color: #10690A !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
                     <th style="background-color: #10690A !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
+                    <th style="background-color: #10690A !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Recibiendo de </th>
                     <th style="background-color: #10690A !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
                     <th style="background-color: #10690A !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                   </tr>
@@ -300,21 +287,18 @@
                         <tr  *ngFor="let ob of trasladosPendientesAdmin.data | searchactgestion: texto">
                           <td>{{ ob.af_codigo_interno }}</td>
                           <td>{{ ob.descripcion_bien }}</td>
-                          <td>{{ ob.fechaCompra }}</td>
                           <td>{{ ob.compraSiva }}</td>
+                          <td>{{ ob.usuarioAnterior }}</td>
                           <td>{{ ob.asignado }}</td>
                           <td  style="text-align: center; align-items: left;">
-                                <button style="margin: 5px !important;" nz-button nzType="primary"
-                              *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='T'"
-                              nzTooltipTitle="Aceptar traslado" nzTooltipPlacement="topCenter" nz-tooltip (click)="confimarTraslado(ob)"><i nz-icon nzType="check" nzTheme="outline"></i></button>
-          
+                    
           
                               <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
                               nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
           
                             <button style="margin: 5px !important;" nz-button nzType="primary"  *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='B'"
                               (click)="mostrarModalFinalizarProcesoBaja(ob)"
-                              nzTooltipTitle="Finalizar proceso de baja" 
+                              nzTooltipTitle="Dar de baja" 
                               nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="check" nzTheme="outline"></i></button>
           
                           </td>
@@ -323,7 +307,7 @@
                   
                 </tbody>
               </nz-table>
-        </nz-tab>-->
+        </nz-tab>
 
         <nz-tab [nzTitle]="tituloTabBajasPen" (nzClick)="getBajasPendientesAdmin()">
 
@@ -422,8 +406,7 @@
                         <th style="background-color: #39136D !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #39136D !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
                         <th style="background-color: #39136D !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de alta</th>
-                        <th style="background-color: #39136D !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
-                        <th style="background-color: #39136D !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+                          <th style="background-color: #39136D !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -431,7 +414,6 @@
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
-                        <td>{{ ob.compraSiva }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
@@ -565,7 +547,6 @@
                         <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
                        <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de baja</th>
-                        <th style="background-color: #8E2B0E !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
                         <th style="background-color: #8E2B0E !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                       </tr>
                     </thead>
@@ -574,7 +555,6 @@
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
-                        <td>{{ ob.compraSiva }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
@@ -607,8 +587,7 @@
                         <th style="background-color: #C8690A !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #C8690A !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
                        <th style="background-color: #C8690A !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
-                        <th style="background-color: #C8690A !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
-                        <th style="background-color: #C8690A !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+                       <th style="background-color: #C8690A !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -616,7 +595,6 @@
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompra }}</td>
-                        <td>{{ ob.compraSiva }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
@@ -741,7 +719,6 @@
                         <th style="background-color: #86001C !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #86001C !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
                        <th style="background-color: #86001C !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
-                        <th style="background-color: #86001C !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
                         <th style="background-color: #86001C !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                       </tr>
                     </thead>
@@ -750,8 +727,7 @@
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompra }}</td>
-                        <td>{{ ob.compraSiva }}</td>
-                        <td  style="text-align: center; align-items: center;">
+                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
                         
