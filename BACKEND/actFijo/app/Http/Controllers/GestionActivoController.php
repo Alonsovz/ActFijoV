@@ -97,7 +97,7 @@ class GestionActivoController extends Controller
 
      //metodo para insertar alta de activo en base de datos COMANDA
      public function guardarAltaActivo(Request $request){
-        $codigoVNR = $request["codigoVNR"];
+        //$codigoVNR = $request["codigoVNR"];
         $codigoContable = $request["codigoContable"];
         $tipoActivoPPYE = $request["codigo_ppye"];
         $fechaRegistro = $request["fechaRegistro"];
@@ -126,8 +126,12 @@ class GestionActivoController extends Controller
         $tipoDocumento = $request["tipoDocumento"];
         $numeroDocumento = $request["numeroDocumento"];
         $asignadoA = $request["asignadoA"];
+        $af_valor_residual = $request["af_valor_residual"];
+        $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
 
-        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+
+
+      $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
         $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
 
@@ -135,10 +139,32 @@ class GestionActivoController extends Controller
 
         $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
 
+        $getLastId = DB::connection('comanda')->table('af_maestro')->orderBy('af_codigo_interno', 'desc')->first();
+
+        $codVNR = '';
+
+        $insertId = $getLastId->af_codigo_interno + 1;
+        
+        if($insertId < 10){
+            $codVNR = 'VNR 0000'.$insertId.'';
+        }else if($insertId > 9 && $insertId < 100){
+            $codVNR = 'VNR 000'.$insertId.'';
+        }
+        else if($insertId > 99 && $insertId < 1000){
+            $codVNR = 'VNR 00'.$insertId.'';
+        }
+
+        else if($insertId > 999 && $insertId < 10000){
+            $codVNR = 'VNR 0'.$insertId.'';
+        }
+
+        else if($insertId > 9999){
+            $codVNR = 'VNR '.$insertId.'';
+        }
 
         $insertar =  DB::connection('comanda')->table('af_maestro')
         ->insert([
-            'af_codigo_vnr' => $codigoVNR,
+            'af_codigo_vnr' => $codVNR,
             'af_codigo_contable' => $codigoContable,
             'codigo_ppye' => $tipoActivoPPYE,
             'fecha_reg_contable' => $fechaRegistroConFormato,
@@ -168,7 +194,11 @@ class GestionActivoController extends Controller
             'fecha_alta' => date('Ymd H:i:s'),
             'codigo_sucursal' => $ubicacionFisica,
             'codigo_asignado' => $asignadoA,
-            'estadoActivo' => 'Pendiente'
+            'estadoActivo' => 'Pendiente',
+            'aplica_contabilidad' => 'S',
+            'solo_vnr' => 'N',
+            'af_valor_vnr_siva' => $af_valor_vnr_siva,
+            'af_valor_residual' => $af_valor_residual,
         ]);
 
         return response()->json($insertar);
@@ -264,6 +294,8 @@ class GestionActivoController extends Controller
         $numeroDocumento = $request["numero_documento"];
         $id = $request["af_codigo_interno"];
         $userModificacion = $request["alias"];
+        $af_valor_residual = $request["af_valor_residual"];
+        $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
 
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -305,6 +337,8 @@ class GestionActivoController extends Controller
             'codigo_sucursal' => $ubicacionFisica,
             'usuario_modificacion' => $userModificacion,
             'fecha_modificacion' => date('Ymd H:i:s'),
+            'af_valor_vnr_siva' => $af_valor_vnr_siva,
+            'af_valor_residual' => $af_valor_residual
         ]);
 
         return response()->json($insertar);

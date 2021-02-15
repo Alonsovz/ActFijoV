@@ -165,7 +165,7 @@ export class ActfijoGestionComponent implements OnInit {
     this.altaActivoForm = new FormGroup({
       'tipoDocumento': new FormControl('',[Validators.required]),
       'numeroDocumento': new FormControl('',[Validators.required]),
-      'codigoVNR': new FormControl('',[Validators.required]),
+      'codigoVNR': new FormControl(''),
       'codigoContable': new FormControl('',[Validators.required]),
       'codigo_ppye' : new FormControl('0',[Validators.required]),
       'fechaRegistro': new FormControl('',[Validators.required]),
@@ -192,6 +192,8 @@ export class ActfijoGestionComponent implements OnInit {
       'estadoActivo' : new FormControl('',[Validators.required]),
       'valorSiva': new FormControl('',[Validators.required]),
       'asignadoA': new FormControl('',[Validators.required]),
+      'af_valor_vnr_siva': new FormControl(''),
+      'af_valor_residual': new FormControl(''),
     });
 
 
@@ -226,6 +228,8 @@ export class ActfijoGestionComponent implements OnInit {
       'af_valor_compra_siva': new FormControl('',[Validators.required]),
       'codigo_asignado': new FormControl('',[Validators.required]),
       'asignado': new FormControl('',[Validators.required]),
+      'af_valor_residual': new FormControl(''),
+      'af_valor_vnr_siva': new FormControl(''),
     });
   }
 
