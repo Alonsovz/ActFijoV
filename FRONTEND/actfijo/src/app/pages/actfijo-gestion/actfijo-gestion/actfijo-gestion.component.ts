@@ -18,6 +18,8 @@ import notie from 'notie';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
+
+
 @Component({
   selector: 'app-actfijo-gestion',
   templateUrl: './actfijo-gestion.component.html',

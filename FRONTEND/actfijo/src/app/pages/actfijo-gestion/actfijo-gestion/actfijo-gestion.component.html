@@ -987,17 +987,17 @@
             <div nz-row style="margin-top: 20px !important;">
                 <div nz-col [nzSpan]="7">
                     <nz-form-label nzRequired>Valor de compra (sin IVA)</nz-form-label>
-                    <input type="text" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="valorSiva">
+                    <input type="number" step="0.01" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="valorSiva">
                 </div>
                 <div nz-col [nzSpan]="1"></div>
                 <div nz-col [nzSpan]="7" *ngIf="user.rol == 'Administrador Act. Contable'">
                      <nz-form-label nzRequired >Valor residual</nz-form-label>
-                     <input type="text" nz-input placeholder="Valor residual" autocomplete="off" formControlName="af_valor_residual">
+                     <input type="number" step="0.01"  nz-input placeholder="Valor residual" autocomplete="off" formControlName="af_valor_residual">
                  </div>
                  <div nz-col [nzSpan]="1"></div>
                  <div nz-col [nzSpan]="7" *ngIf="user.rol == 'Administrador Act. VNR'">
                      <nz-form-label nzRequired>Valor VNR</nz-form-label>
-                     <input type="text" nz-input placeholder="Valor VNR" autocomplete="off" formControlName="af_valor_vnr_siva">
+                     <input type="number" step="0.01"  nz-input placeholder="Valor VNR" autocomplete="off" formControlName="af_valor_vnr_siva">
                  </div>
             </div>
         </div>
@@ -1283,17 +1283,17 @@
                             <div nz-row style="margin-top: 20px !important;">
                                 <div nz-col [nzSpan]="5" *ngIf="user.rol != 'Usuario'">
                                     <nz-form-label nzRequired>Valor de compra (sin IVA)</nz-form-label>
-                                    <input type="text" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="af_valor_compra_siva">
+                                    <input type="number" step="0.01"  nz-input placeholder="Valor de compra" autocomplete="off" formControlName="af_valor_compra_siva">
                                 </div>
                                 <div nz-col [nzSpan]="1"></div>
                                <div nz-col [nzSpan]="7" *ngIf="user.rol == 'Administrador Act. Contable'">
                                     <nz-form-label nzRequired >Valor residual</nz-form-label>
-                                    <input type="text" nz-input placeholder="Valor residual" autocomplete="off" formControlName="af_valor_residual">
+                                    <input type="number" step="0.01"  nz-input placeholder="Valor residual" autocomplete="off" formControlName="af_valor_residual">
                                 </div>
                                 <div nz-col [nzSpan]="1"></div>
                                 <div nz-col [nzSpan]="7" *ngIf="user.rol == 'Administrador Act. VNR'">
                                     <nz-form-label nzRequired>Valor VNR</nz-form-label>
-                                    <input type="text" nz-input placeholder="Valor VNR" autocomplete="off" formControlName="af_valor_vnr_siva">
+                                    <input type="number" step="0.01"  nz-input placeholder="Valor VNR" autocomplete="off" formControlName="af_valor_vnr_siva">
                                 </div>
                                 
                             </div>
