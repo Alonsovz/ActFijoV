@@ -68,7 +68,7 @@
 
 <div style=" font-family: Tahoma, Helvetica, Arial">
     <div>
-        <img style="" src="C:\xampp\htdocs\COMANDA\public\images\edesal1.png" alt="">
+        <!--<img style="" src="C:\xampp\htdocs\COMANDA\public\images\edesal1.png" alt="">-->
     </div>
 
     <div style="margin-top: 14px; ">

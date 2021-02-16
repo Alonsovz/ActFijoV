@@ -17,6 +17,7 @@ import { TipoactivoService } from 'src/app/services/tipoactivo.service';
 import notie from 'notie';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 
 
@@ -154,15 +155,26 @@ export class ActfijoGestionComponent implements OnInit {
   conteoTrasladosRecibidosPendientesRecibir = 0;
   conteoTrasladosHechosPendientesRecibir = 0;
 
+  bajaActivoForm : FormGroup;
+  bajaActivoFormAdmin : FormGroup;
+
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
-    private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService) {
+    private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
+    private urlBackEnd: GlobalService,) {
 
       this.trasladoActivoForm = new FormGroup({
         'usuarioTrasladoNuevo': new FormControl('',[Validators.required]),
       });
 
+      this.bajaActivoForm = new FormGroup({
+        'motivoBajaInput': new FormControl('',[Validators.required]),
+      });
+
+      this.bajaActivoFormAdmin = new FormGroup({
+        'motivoBajaInput': new FormControl('',[Validators.required]),
+      });
 
     this.altaActivoForm = new FormGroup({
       'tipoDocumento': new FormControl('',[Validators.required]),
@@ -658,10 +670,12 @@ mostrarModalInicioBaja(obj) {
 }
 
 // iniciar baja
-iniciarBaja() {
+iniciarBaja(id) {
   let datosActivo : ActfijoGestion = new ActfijoGestion();
-  datosActivo = Object.assign(this.actFijoOb, this.user);
-  this.gestionActFijo.iniciarBaja(datosActivo).subscribe(
+  datosActivo = Object.assign(this.bajaActivoForm.value,this.actFijoOb, this.user);
+
+
+ this.gestionActFijo.iniciarBaja(datosActivo).subscribe(
     response => {
       console.log(response);
     },
@@ -691,8 +705,15 @@ iniciarBaja() {
     this.modalBajaConfirmacion = false;
 
     }
-  )
+  );
+
+  
+  /*var url = this.urlBackEnd.getUrlBackEnd()+'getHojaBaja';
+  window.open(url, '_blank');*/
 }
+
+
+
 //metodo para desplegar modal de traslado de activo
 
 trasladarActivo(actFijo){
@@ -808,8 +829,9 @@ cerrarModalFinalizarProcesoBaja(){
 
 // finalizar proceso de baja por parte del administrador
 finalizarProcesoBaja() {
+  
   let datosActivo : ActfijoGestion = new ActfijoGestion();
-  datosActivo = Object.assign(this.actFijoOb, this.user);
+  datosActivo = Object.assign(this.bajaActivoFormAdmin.value, this.actFijoOb, this.user);
 
   this.gestionActFijo.finalizarProcesoBaja(datosActivo).subscribe(
     response =>{},

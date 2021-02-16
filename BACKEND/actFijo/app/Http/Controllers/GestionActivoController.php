@@ -368,6 +368,7 @@ class GestionActivoController extends Controller
                 'estado' => 'B',
                 'fecha_baja' => date('Ymd H:i:s'),
                 'estadoActivo' => 'Pendiente',
+                'motivoBaja' => $request['motivoBajaInput']
             ]);
 
             return Response::json([
@@ -436,6 +437,7 @@ class GestionActivoController extends Controller
                                                       'estadoActivo' => 'Activo',
                                                       'estado' => 'B',
                                                       'fecha_baja' => date('Ymd H:i:s'),
+                                                      'motivoBaja' => $request['motivoBajaInput'],
                                                     ]);
 
             $actualizar_History =DB::connection('comanda')->table('af_historial_activo')->insert([
@@ -833,6 +835,17 @@ class GestionActivoController extends Controller
          and h.usuario_asignado = '".$alias."') as conteoTrasladosHechosPendientesRecibir ");
 
         return response()->json($getConteoUser);
+    }
+
+
+    public function getHojaBaja(Request $request){
+
+        $codigo = $request["id"];
+
+        $pdf = \PDF::loadView('Reportes.hoja_bajaActivo', compact('codigo'));
+        
+
+
     }
     
     

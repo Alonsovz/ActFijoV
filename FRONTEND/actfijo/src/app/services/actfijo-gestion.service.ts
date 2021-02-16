@@ -229,4 +229,9 @@ public getTrasladosHechosPendientesUser(usuario): Observable<Usuario[]> {
 }
 
 
+  //metodo para obtener objeto de centro de costos de bien VNR
+  public getHojaBaja(): Observable<ActfijoGestion[]> {
+    return this.http.get(this.globalservice.getUrlBackEnd() + 'getHojaBaja').pipe(map(data => data as ActfijoGestion[]));
+  }
+
 }

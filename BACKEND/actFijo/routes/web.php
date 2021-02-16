@@ -113,3 +113,4 @@ Route::post('getConteoUser', 'GestionActivoController@getConteoUser');
 Route::post('getTrasladosRecibidosPendientesUser', 'GestionActivoController@getTrasladosRecibidosPendientesUser');
 Route::post('getTrasladosHechosPendientesUser', 'GestionActivoController@getTrasladosHechosPendientesUser');
 
+Route::get('getHojaBaja', 'GestionActivoController@getHojaBaja');

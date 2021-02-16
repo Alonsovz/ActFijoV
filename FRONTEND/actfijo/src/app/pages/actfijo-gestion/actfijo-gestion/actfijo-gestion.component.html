@@ -1353,12 +1353,26 @@
 (nzOnCancel)="cerrarModalActivacion()">
 
     <ng-template #modalContentBaja>
-        <h3 style="text-align: center !important;">¿Desea iniciar el proceso de baja del artículo N° {{actFijoOb.af_codigo_interno}} ?</h3>
+       
+        <form nz-form  [formGroup]="bajaActivoForm">
+            <div nz-row>
+
+                <div nz-col nzSpan="24">
+                    <h3 style="text-align: center !important;">¿Desea iniciar el proceso de baja del artículo N° {{actFijoOb.af_codigo_interno}} ?</h3>
+
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <nz-form-label nzRequired>Motivo de la baja </nz-form-label>
+                    <textarea rows="3" placeholder="Motivo de baja" nz-input formControlName="motivoBajaInput" autocomplete="off"></textarea>
+                </div>
+            </div>
+        </form>
     </ng-template>
 
     <ng-template #modalFooterBaja>
         <button nz-button nzType="danger" (click)="cerrarModalBajaConfirmacion()">Cancelar</button>
-        <button nz-button nzType="primary" (click)="iniciarBaja()">Iniciar baja</button>
+        <button nz-button nzType="primary" [disabled] = "bajaActivoForm.invalid"  (click)="iniciarBaja()">Iniciar baja</button>
     </ng-template>
 </nz-modal>
 
@@ -1434,8 +1448,25 @@
  [nzFooter]="modalprocesofinbajafooter" [nzContent]="modalprocesofinbajacontent"
  (nzOnCancel)="cerrarModalAceptarTraslado()">
     <ng-template #modalprocesofinbajacontent>
-        <h3 style="text-align: center !important;margin-top: 40px;">¿Desea finalizar el proceso de baja del activo N°
-            {{actFijoOb.af_codigo_interno}} asignado al usuario   {{actFijoOb.asignado}}?</h3>
+
+        
+        <form nz-form  [formGroup]="bajaActivoFormAdmin">
+            <div nz-row>
+
+                <div nz-col nzSpan="24">
+                    <h3 style="text-align: center !important;margin-top: 40px;">¿Desea finalizar el proceso de baja del activo N°
+                        {{actFijoOb.af_codigo_interno}} asignado al usuario   {{actFijoOb.asignado}}?</h3>
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <nz-form-label nzRequired>Motivo de la baja </nz-form-label>
+                    <textarea rows="3" placeholder="Motivo de baja" nz-input formControlName="motivoBajaInput"
+                    [(ngModel)]="actFijoOb.motivoBaja" autocomplete="off"></textarea>
+                </div>
+            </div>
+        </form>
+
+        
     </ng-template>
     <ng-template #modalprocesofinbajafooter>
         <button nz-button nzType="danger" (click)="cerrarModalFinalizarProcesoBaja()">Cancelar</button>
