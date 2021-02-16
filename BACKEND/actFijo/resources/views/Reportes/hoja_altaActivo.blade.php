@@ -93,11 +93,11 @@
                 <tbody>
                 <tr>
                     <td  style="width: 75px"><b style="font-size: 9px; ">Codigo VNR</b></td>
-                    <td  style="width: 120px"><b style="font-size: 9px; ">{{$usuario->vnr}}</b></td>
+                    <td  style="width: 120px"><b style="font-size: 9px; ">{{$activo->af_codigo_vnr}}</b></td>
                 </tr>
                 <tr>
                     <td  style="width: 75px"><b style="font-size: 9px; ">Codigo Conta</b></td>
-                    <td  style="width: 120px"><b style="font-size: 9px; "></b></td>
+                    <td  style="width: 120px"><b style="font-size: 9px; ">{{$activo->af_codigo_contable}}</b></td>
                 </tr>
                 </tbody>
             </table>
@@ -126,7 +126,7 @@
 
                 <tr>
 
-                    <td style="font-size: 8px">{{$activo->tipo_activo}}</td>
+                    <td style="font-size: 8px">{{$activo->descripcion_bien}}</td>
                     <td style="font-size: 8px">{{$activo->marca}}</td>
                     <td style="font-size: 8px">{{$activo->modelo}}</td>
                     <td style="font-size: 8px"></td>

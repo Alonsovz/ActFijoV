@@ -234,4 +234,9 @@ public getTrasladosHechosPendientesUser(usuario): Observable<Usuario[]> {
     return this.http.get(this.globalservice.getUrlBackEnd() + 'getHojaBaja').pipe(map(data => data as ActfijoGestion[]));
   }
 
+  // generar hoja de activo
+  public generarHojaActivo(activo: ActfijoGestion): void {
+
+  }
+
 }

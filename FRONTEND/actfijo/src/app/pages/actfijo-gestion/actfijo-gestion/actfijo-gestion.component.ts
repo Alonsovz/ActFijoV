@@ -133,7 +133,7 @@ export class ActfijoGestionComponent implements OnInit {
   listaTrasladosRecibidosPendientesUser: ReadonlyArray<Usuario> = [];
   listaTrasladosRecibidosPendientesUserObj: ReadonlyArray<Usuario> = [];
 
-  
+
   listaTrasladosHechosPendientesUser: ReadonlyArray<Usuario> = [];
   listaTrasladosHechosPendientesUserObj: ReadonlyArray<Usuario> = [];
 
@@ -370,7 +370,7 @@ export class ActfijoGestionComponent implements OnInit {
     this.mostrarCardListadoAdmin = true;
 
 
-  
+
     this.getAltasAdmin();
     this.conteoAdmin();
 
@@ -467,6 +467,7 @@ export class ActfijoGestionComponent implements OnInit {
             position: 'top'
           });
         this.modalElegirMismoDocumento = true;
+        this.generarHojaActivo();
         }
 
 
@@ -585,7 +586,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
 editarActFijo(act, vis){
 
   this.editarActivoForm.reset();
-  
+
 
   this.modalDetallesActivo = true;
   this.editarActivoForm.patchValue(act);
@@ -707,8 +708,8 @@ iniciarBaja(id) {
     }
   );
 
-  
-  /*var url = this.urlBackEnd.getUrlBackEnd()+'getHojaBaja';
+
+  /*var url = this.urlBackEnd.getUrlBackEnd()+'getHojaBaja?objeto=';
   window.open(url, '_blank');*/
 }
 
@@ -829,7 +830,7 @@ cerrarModalFinalizarProcesoBaja(){
 
 // finalizar proceso de baja por parte del administrador
 finalizarProcesoBaja() {
-  
+
   let datosActivo : ActfijoGestion = new ActfijoGestion();
   datosActivo = Object.assign(this.bajaActivoFormAdmin.value, this.actFijoOb, this.user);
 
@@ -859,7 +860,7 @@ finalizarProcesoBaja() {
       this.getTrasladosPendientesAdmin();
       this.getAltasAdmin();
       this.getAltasPendientesAdmin();
-      
+
       this.modalFinalizarProcesoBaja = false;
     }
   )
@@ -907,7 +908,7 @@ paginacionTablaBajasAdmin(listaBajasAdmin: ReadonlyArray<ActfijoGestion>) {
 getBajasAdmin(){
   this.mostrarTablaCargaAdmin = false;
       this.mostrarSkeletonTablaAdmin = true;
-      
+
   this.gestionActFijo.getBajasAdmin().subscribe(
     data => {
       this.listaBajasAdminObj = data;
@@ -926,7 +927,7 @@ paginacionTablaTrasladoAdmin(listaTrasladosAdmin: ReadonlyArray<ActfijoGestion>)
 getTrasladosAdmin(){
   this.mostrarTablaCargaAdmin = false;
       this.mostrarSkeletonTablaAdmin = true;
-      
+
   this.gestionActFijo.getTrasladosAdmin().subscribe(
     data => {
       this.listaTrasladosAdminObj = data;
@@ -969,7 +970,7 @@ paginacionTablaBajasPendienteAdmin(listaBajasPendienteAdmin: ReadonlyArray<Actfi
 getBajasPendientesAdmin(){
   this.mostrarTablaCargaAdmin = false;
       this.mostrarSkeletonTablaAdmin = true;
-      
+
   this.gestionActFijo.getBajasPendientesAdmin().subscribe(
     data => {
       this.listaBajasPendienteAdminObj = data;
@@ -988,7 +989,7 @@ paginacionTablaTrasladoPendienteAdmin(listaTrasladosPendienteAdmin: ReadonlyArra
 getTrasladosPendientesAdmin(){
   this.mostrarTablaCargaAdmin = false;
       this.mostrarSkeletonTablaAdmin = true;
-      
+
   this.gestionActFijo.getTrasladosPendientesAdmin().subscribe(
     data => {
       this.listaTrasladosAdminObj = data;
@@ -1013,7 +1014,7 @@ getAltasUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getAltasUser(datosUsuario).subscribe(
     data => {
       this.listaAltasUserObj = data;
@@ -1038,7 +1039,7 @@ getBajasUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getBajasUser(datosUsuario).subscribe(
     data => {
       this.listaBajasUserObj = data;
@@ -1062,7 +1063,7 @@ getTrasladosRecibidosUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getTrasladosRecibidosUser(datosUsuario).subscribe(
     data => {
       this.listaTrasladosUserObj = data;
@@ -1087,7 +1088,7 @@ getTrasladosHechosUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getTrasladosHechosUser(datosUsuario).subscribe(
     data => {
       this.listaTrasladosHechosUserObj = data;
@@ -1111,7 +1112,7 @@ getTrasladosRecibidosPendientesUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getTrasladosRecibidosPendientesUser(datosUsuario).subscribe(
     data => {
       this.listaTrasladosRecibidosPendientesUserObj = data;
@@ -1134,7 +1135,7 @@ getTrasladosHechosPendientesUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getTrasladosHechosPendientesUser(datosUsuario).subscribe(
     data => {
       this.listaTrasladosHechosPendientesUserObj = data;
@@ -1157,7 +1158,7 @@ getAltasPendientesUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getAltasPendientesUser(datosUsuario).subscribe(
     data => {
       this.listaAltasPendienteUserObj = data;
@@ -1182,7 +1183,7 @@ getBajasPendientesUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getBajasPendientesUser(datosUsuario).subscribe(
     data => {
       this.listaBajasPendienteUserObj = data;
@@ -1206,7 +1207,7 @@ getTrasladosPendientesUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getTrasladosPendientesUser(datosUsuario).subscribe(
     data => {
       this.listaTrasladosPendienteUserObj = data;
@@ -1238,7 +1239,7 @@ conteoUser(){
   let datosUsuario : Usuario = new Usuario();
 
   datosUsuario = this.user;
-  
+
   this.gestionActFijo.getConteoUser(datosUsuario).subscribe(
     data => {
       data.forEach(element => {
@@ -1251,7 +1252,7 @@ conteoUser(){
       this.conteoBajasPenUser = Number(element["conteoBajasPen"]);
       this.conteoTrasladosRecibidosPendientesRecibir = Number(element["conteoTrasladosRecibidosPendientesRecibir"]);
       this.conteoTrasladosHechosPendientesRecibir = Number(element["conteoTrasladosHechosPendientesRecibir"]);
-    }); 
+    });
   });
 }
 
@@ -1285,7 +1286,7 @@ ingresarOtroActivoMismoDoc(){
   this.altaActivoForm.controls["ubicacionFisica"].setValue(0);
   this.altaActivoForm.controls["estadoActivo"].setValue('');
   this.altaActivoForm.controls["valorSiva"].setValue('');
-  
+
 }
 
 
@@ -1299,4 +1300,13 @@ _textoUser:string;
 ConvertToLowerUser(evt) {
     this.textoUser = evt.toLowerCase();
 }
+
+generarHojaActivo() {
+  const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?activo=' + this.actFijoOb;
+  window.open(ur, '_blank');
+
+}
+
+
+
 }

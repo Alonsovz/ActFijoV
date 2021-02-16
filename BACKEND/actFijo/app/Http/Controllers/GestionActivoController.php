@@ -843,9 +843,12 @@ class GestionActivoController extends Controller
         $codigo = $request["id"];
 
         $pdf = \PDF::loadView('Reportes.hoja_bajaActivo', compact('codigo'));
-        
 
+    }
 
+    // generar una hoja de activo
+    public function generarHojaActivo(Request $request) {
+        return response()->json($request['af_codigo_interno']);
     }
     
     
