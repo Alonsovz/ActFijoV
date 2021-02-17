@@ -590,7 +590,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
 editarActFijo(act, vis){
 
   this.editarActivoForm.reset();
-  
+
 
   this.modalDetallesActivo = true;
   this.editarActivoForm.patchValue(act);
@@ -636,7 +636,7 @@ guardarEdicionActivo(){
             time: 2,
             position: 'top'
           });
-        
+
           this.conteoAdmin();
           this.getBajasPendientesAdmin();
           this.getBajasPendientesAdmin();
@@ -1314,7 +1314,7 @@ ConvertToLowerUser(evt) {
 }
 
 generarHojaActivo() {
-  const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?activo=' + this.actFijoOb;
+  const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?activo=' + this.actFijoOb.af_codigo_interno;
   window.open(ur, '_blank');
 
 }

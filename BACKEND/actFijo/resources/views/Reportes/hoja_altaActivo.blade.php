@@ -84,7 +84,7 @@
     <div style="position: relative; bottom: 20px;  ">
 
         <div style="float: left">
-            <b style="font-size: 10px;">Fecha: </b> <small style="font-size: 10px"><?php $fecha = date_create($activo->fecha_compra); echo date_format($fecha,'d/m/Y'); ?></small>
+            <b style="font-size: 10px;">Fecha: </b> <small style="font-size: 10px"><?php $fecha = date_create($activo->fecha_alta); echo date_format($fecha,'d/m/Y'); ?></small>
         </div>
 
         <div style="position: relative; margin:0; margin-left: 450px">
@@ -127,8 +127,8 @@
                 <tr>
 
                     <td style="font-size: 8px">{{$activo->descripcion_bien}}</td>
-                    <td style="font-size: 8px">{{$activo->marca}}</td>
-                    <td style="font-size: 8px">{{$activo->modelo}}</td>
+                    <td style="font-size: 8px">{{$activo->nombre_marca}}</td>
+                    <td style="font-size: 8px">{{$activo->nombre_modelo}}</td>
                     <td style="font-size: 8px"></td>
                     <td style="font-size: 8px" class="cantidad">1</td>
                 </tr>
@@ -153,7 +153,7 @@
         <div id=div3>
             <b style="font-size: 10px;">Justificación para compra de activo:</b>
             <p style="font-family: Tahoma, Helvetica, Arial; font-size: 10px; height: 296px; margin-top: 14px; border: solid 1px black; padding: 2px">
-                <b>{{$activo->justificacion}}</b></p>
+                <b>{{$activo->descripcion_bien}}</b></p>
         </div>
         <div id=div1 style="margin-top: 0px">
             <b style="font-size: 10px;">Dependencia destino:</b>
@@ -167,24 +167,24 @@
 
                 <tr>
                     <td style="width: 300px"><b style="font-size: 10px">Para asignarse a:</b></td>
-                    <td><b style="font-size: 10px">{{$activo->nombre}} {{$activo->apellido}}</b></td>
+                    <td><b style="font-size: 10px">NO SE QUE PONER</b></td>
                 </tr>
                 <tr>
                     <td style="width: 300px"><b style="font-size: 10px">Ubicado en:</b></td>
-                    <td><b style="font-size: 10px">{{$activo->agencia}}</b></td>
+                    <td><b style="font-size: 10px">{{$activo->codigo_agd}}</b></td>
                 </tr>
                 <tr>
                     <td style="width: 300px"><b style="font-size: 10px">Centro de Costos:</b></td>
-                    <td><b style="font-size: 10px">{{$activo->centrocosto}}</b></td>
+                    <td><b style="font-size: 10px">{{$activo->ccosto_del_bien_vnr}}</b></td>
                 </tr>
                 <tr>
                     <td style="width: 300px"><b style="font-size: 10px">Depto EDESAL:</b></td>
-                    <td><b style="font-size: 10px">{{$activo->area}}</b></td>
+                    <td><b style="font-size: 10px">NO SE QUE PONER</b></td>
                 </tr>
                 <tr>
                         <td style="width: 300px"><b style="font-size: 10px">Bodega:</b></td>
                         @if($activo->bodega!="")
-                        <td><b style="font-size: 10px">{{$activo->bodega}}</b></td>
+                        <td><b style="font-size: 10px">{{$activo->bodega_id}}</b></td>
                             @else
                         <td><b style="font-size: 10px">N/A</b></td>
                         @endif
@@ -208,15 +208,15 @@
 
                 <tr>
                     <td style="width: 300px"><b style="font-size: 10px">Departamento:</b></td>
-                    <td><b style="font-size: 10px">{{$activo->departamento}}</b></td>
+                    <td><b style="font-size: 10px">{{$activo->DepName}}</b></td>
                 </tr>
                 <tr>
                     <td style="width: 300px"><b style="font-size: 10px">Municipio:</b></td>
-                    <td><b style="font-size: 10px">{{$activo->municipio}}</b></td>
+                    <td><b style="font-size: 10px">{{$activo->MunName}}</b></td>
                 </tr>
                 <tr>
                     <td style="width: 300px"><b style="font-size: 10px">Referencia:</b></td>
-                    <td>N/A</td>
+                    <td>NO SE QUE PONER</td>
                 </tr>
                 </tbody>
                 <tfoot>
@@ -235,7 +235,7 @@
                 <tbody>
 
                 <tr>
-                    <td style="width: 300px"><b style="font-size: 10px">{{$activo->finalidad}}</b></td>
+                    <td style="width: 300px"><b style="font-size: 10px">NO SE QUE PONER</b></td>
                 </tr>
 
                 </tbody>
@@ -259,15 +259,7 @@
         <div style="margin-top: 5px; font-size: 10px;  border:solid 1px black; height: 30px; width: 200px; padding: 15px">
 
             <b style="font-size: 10px;">Entregado de bodega:</b><br>
-           @if($activo->entrega_bodega)
-                <input type="checkbox" style="margin-top: 5px" checked >Si
 
-                <input type="checkbox" style="margin-top: 5px; margin-left: 10px" >No
-               @else
-                <input type="checkbox" style="margin-top: 5px" >Si
-
-                <input type="checkbox" checked style="margin-top: 5px; margin-left: 10px" >No
-               @endif
 
 
 
@@ -285,14 +277,9 @@
                     <td colspan="2" style="width: 150px"><b style="font-size: 10px">Nombre y firma de quien entrega</b></td>
                 </tr>
                 <tr>
-                    <td style="height: 25px;" colspan="2">{{$activo->nombre}} {{$activo->apellido}}</td>
+                    <td style="height: 25px;" colspan="2">NO SE QUE PONER</td>
                     <td style="height: 25px;" colspan="2">
-                        @if($activo->entrega_bodega)
-                            Juan Carlos Salazar
 
-                        @else
-                            <b>No aplica firma</b>
-                        @endif
                     </td>
                 </tr>
                 <tr >

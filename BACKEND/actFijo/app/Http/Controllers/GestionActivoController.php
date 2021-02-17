@@ -999,7 +999,19 @@ class GestionActivoController extends Controller
 
     // generar una hoja de activo
     public function generarHojaActivo(Request $request) {
-        return response()->json($request['af_codigo_interno']);
+        $id = DB::table('af_maestro')->max('af_codigo_interno');
+
+        $activo = DB::table('af_maestro as afm')
+                            ->join('af_marcas as marca','marca.codigo_marca','=','afm.codigo_marca')
+                            ->join('af_modelos as modelo', 'modelo.codigo_modelo','=','afm.codigo_modelo')
+                            ->join('DEPSV as departamento','departamento.ID','=','afm.cod_departamento')
+                            ->join('MUNSV as municipio','municipio.ID','=','afm.cod_municipio')
+                            ->select('afm.*','marca.nombre_marca','modelo.nombre_modelo','departamento.DepName','municipio.MunName')
+                            ->where('afm.af_codigo_interno',$id)
+                            ->get();
+
+        return response()->json($activo);
+          //$pdf = \PDF::loadView('Reportes.hoja_altaActivo', compact('activo'));
     }
     
     
