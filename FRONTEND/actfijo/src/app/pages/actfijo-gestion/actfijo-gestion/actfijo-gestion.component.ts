@@ -721,8 +721,8 @@ iniciarBaja(id) {
   );
 
 
-  /*var url = this.urlBackEnd.getUrlBackEnd()+'getHojaBaja?objeto=';
-  window.open(url, '_blank');*/
+  var url = this.urlBackEnd.getUrlBackEnd()+'getHojaBaja';
+  window.open(url, '_blank');
 }
 
 

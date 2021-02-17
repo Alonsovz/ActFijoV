@@ -73,7 +73,7 @@
     </div>
 
     <div style="margin-top: 10px; ">
-        <b style="margin-left: 225px;font-size: 14px;">SOLICITUD DE BAJA DE ACTIVO {{$codigo}}</b>
+        <b style="margin-left: 225px;font-size: 14px;">SOLICITUD DE BAJA DE ACTIVO </b>
     </div>
 
   

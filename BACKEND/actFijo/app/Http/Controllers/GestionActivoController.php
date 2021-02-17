@@ -989,19 +989,25 @@ class GestionActivoController extends Controller
     }
 
 
-    public function getHojaBaja(Request $request){
+    public function getHojaBaja(){
 
-        $codigo = $request["id"];
+        $pdf = \App::make('dompdf.wrapper');
 
-        $pdf = \PDF::loadView('Reportes.hoja_bajaActivo', compact('codigo'));
+        $view =  \View::make('Reportes.hoja_bajaActivo')->render();
+
+        $pdf->loadHTML($view);
+
+        return $pdf->stream('baja.pdf');
+
+      
 
     }
 
     // generar una hoja de activo
     public function generarHojaActivo(Request $request) {
-        $id = DB::table('af_maestro')->max('af_codigo_interno');
+        $id =  DB::connection('comanda')->table('af_maestro')->max('af_codigo_interno');
 
-        $activo = DB::table('af_maestro as afm')
+        $activo =  DB::connection('comanda')->table('af_maestro as afm')
                             ->join('af_marcas as marca','marca.codigo_marca','=','afm.codigo_marca')
                             ->join('af_modelos as modelo', 'modelo.codigo_modelo','=','afm.codigo_modelo')
                             ->join('DEPSV as departamento','departamento.ID','=','afm.cod_departamento')
@@ -1010,8 +1016,14 @@ class GestionActivoController extends Controller
                             ->where('afm.af_codigo_interno',$id)
                             ->get();
 
-        return response()->json($activo);
-          //$pdf = \PDF::loadView('Reportes.hoja_altaActivo', compact('activo'));
+         $pdf = \App::make('dompdf.wrapper');
+
+         $view =  \View::make('Reportes.hoja_altaActivo', compact('activo'))->render();
+                    
+         $pdf->loadHTML($view);
+                    
+         return $pdf->stream('alta.pdf');
+         // $pdf = \PDF::loadView('Reportes.hoja_altaActivo', compact('activo'));
     }
     
     
