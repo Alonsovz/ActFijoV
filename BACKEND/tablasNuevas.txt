@@ -26,7 +26,8 @@ tasa_fiscal float,
 tasa_financ float,
 siglas varchar(10),
 estado int,
-vidaUtil int
+vidaUtil int,
+tipo_bien varchar(10)
 );
 
 

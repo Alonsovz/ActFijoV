@@ -180,7 +180,7 @@ export class ActfijoGestionComponent implements OnInit {
       'tipoDocumento': new FormControl('',[Validators.required]),
       'numeroDocumento': new FormControl('',[Validators.required]),
       'codigoVNR': new FormControl(''),
-      'codigoContable': new FormControl('',[Validators.required]),
+      'codigoContable': new FormControl(''),
       'codigo_ppye' : new FormControl('0',[Validators.required]),
       'fechaRegistro': new FormControl('',[Validators.required]),
       'cuentaContable': new FormControl('',[Validators.required]),
@@ -208,6 +208,8 @@ export class ActfijoGestionComponent implements OnInit {
       'asignadoA': new FormControl('',[Validators.required]),
       'af_valor_vnr_siva': new FormControl(''),
       'af_valor_residual': new FormControl(''),
+      'siglas': new FormControl(''),
+      'tipo_bien': new FormControl(''),
     });
 
 
@@ -215,8 +217,8 @@ export class ActfijoGestionComponent implements OnInit {
       'af_codigo_interno': new FormControl('',[Validators.required]),
       'codigo_tipo_documento': new FormControl('',[Validators.required]),
       'numero_documento': new FormControl('',[Validators.required]),
-      'af_codigo_vnr': new FormControl('',[Validators.required]),
-      'af_codigo_contable': new FormControl('',[Validators.required]),
+      'af_codigo_vnr': new FormControl(''),
+      'af_codigo_contable': new FormControl(''),
       'codigo_ppye' : new FormControl('0',[Validators.required]),
       'tipo_partida_id': new FormControl('',[Validators.required]),
       'fechaRegistro': new FormControl('',[Validators.required]),
@@ -244,6 +246,8 @@ export class ActfijoGestionComponent implements OnInit {
       'asignado': new FormControl('',[Validators.required]),
       'af_valor_residual': new FormControl(''),
       'af_valor_vnr_siva': new FormControl(''),
+      'siglas': new FormControl(''),
+      'tipo_bien': new FormControl(''),
     });
   }
 
@@ -467,7 +471,7 @@ export class ActfijoGestionComponent implements OnInit {
             position: 'top'
           });
         this.modalElegirMismoDocumento = true;
-        this.generarHojaActivo();
+       // this.generarHojaActivo();
         }
 
 
@@ -586,7 +590,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
 editarActFijo(act, vis){
 
   this.editarActivoForm.reset();
-
+  
 
   this.modalDetallesActivo = true;
   this.editarActivoForm.patchValue(act);
@@ -632,7 +636,15 @@ guardarEdicionActivo(){
             time: 2,
             position: 'top'
           });
-        this.showCardListadoAdminActivos();
+        
+          this.conteoAdmin();
+          this.getBajasPendientesAdmin();
+          this.getBajasPendientesAdmin();
+          this.getTrasladosAdmin();
+          this.getTrasladosPendientesAdmin();
+          this.getAltasAdmin();
+          this.getAltasPendientesAdmin();
+
         }
 
 

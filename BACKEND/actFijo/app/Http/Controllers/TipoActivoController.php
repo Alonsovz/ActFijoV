@@ -46,6 +46,7 @@ class TipoActivoController extends Controller
         $tasaFinanciera = $request["tasaFinanciera"];
         $siglas = $request["siglas"];
         $vidaUtil = $request["vidaUtil"];
+        $tipo_bien = $request["tipo_bien"];
         
         $insertar =  DB::connection('comanda')->table('af_tipo_ppye')
         ->insert([
@@ -56,6 +57,7 @@ class TipoActivoController extends Controller
             'siglas' => $siglas,
             'estado'=> 1,
             'vidaUtil' => $vidaUtil,
+            'tipo_bien' => $tipo_bien,
         ]);
 
         return response()->json($insertar);
@@ -70,6 +72,7 @@ class TipoActivoController extends Controller
         $tasa_financ  = $request["tasa_financ"];
         $siglas = $request["siglas"];
         $vidaUtil = $request["vidaUtil"];
+        $tipo_bien = $request["tipo_bien"];
 
         $editar = DB::connection('comanda')->table('af_tipo_ppye')->where('cod_ppye', $id)
         ->update([
@@ -79,6 +82,7 @@ class TipoActivoController extends Controller
             'tasa_financ' => $tasa_financ , 
             'siglas' => $siglas ,
             'vidaUtil' => $vidaUtil,
+            'tipo_bien' => $tipo_bien,
         ]);
 
         return response()->json($editar);

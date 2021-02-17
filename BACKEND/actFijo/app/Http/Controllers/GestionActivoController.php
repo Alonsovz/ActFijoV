@@ -98,7 +98,7 @@ class GestionActivoController extends Controller
      //metodo para insertar alta de activo en base de datos COMANDA
      public function guardarAltaActivo(Request $request){
         //$codigoVNR = $request["codigoVNR"];
-        $codigoContable = $request["codigoContable"];
+        //$codigoContable = $request["codigoContable"];
         $tipoActivoPPYE = $request["codigo_ppye"];
         $fechaRegistro = $request["fechaRegistro"];
         $cuentaContable = $request["cuentaContable"];
@@ -129,9 +129,11 @@ class GestionActivoController extends Controller
         $af_valor_residual = $request["af_valor_residual"];
         $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
 
+        $siglas = $request["siglas"];
+        $tipo_bien = $request["tipo_bien"];
 
 
-      $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
         $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
 
@@ -142,30 +144,86 @@ class GestionActivoController extends Controller
         $getLastId = DB::connection('comanda')->table('af_maestro')->orderBy('af_codigo_interno', 'desc')->first();
 
         $codVNR = '';
+        $codConta = '';
 
         $insertId = $getLastId->af_codigo_interno + 1;
         
         if($insertId < 10){
             $codVNR = 'VNR 0000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
         }else if($insertId > 9 && $insertId < 100){
             $codVNR = 'VNR 000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
         }
         else if($insertId > 99 && $insertId < 1000){
             $codVNR = 'VNR 00'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
         }
 
         else if($insertId > 999 && $insertId < 10000){
             $codVNR = 'VNR 0'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
         }
 
         else if($insertId > 9999){
             $codVNR = 'VNR '.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
         }
+
+
+        $monthIniciaDepre = date("m",strtotime($fechaCompraConFormato));
+
+        $yearIniciaDepre = date("Y",strtotime($fechaCompraConFormato));
+
+        $mesInicial = '';
+
+        if($monthIniciaDepre == '01'){
+            $mesInicial = '02';
+        }else if($monthIniciaDepre == '02'){
+            $mesInicial = '03';
+        }
+        else if($monthIniciaDepre == '03'){
+            $mesInicial = '04';
+        }
+        else if($monthIniciaDepre == '04'){
+            $mesInicial = '05';
+        }
+        else if($monthIniciaDepre == '05'){
+            $mesInicial = '06';
+        }
+        else if($monthIniciaDepre == '06'){
+            $mesInicial = '07';
+        }
+        else if($monthIniciaDepre == '07'){
+            $mesInicial = '08';
+        }
+        else if($monthIniciaDepre == '08'){
+            $mesInicial = '09';
+        }
+        else if($monthIniciaDepre == '09'){
+            $mesInicial = '10';
+        }
+        else if($monthIniciaDepre == '10'){
+            $mesInicial = '11';
+        }
+        else if($monthIniciaDepre == '11'){
+            $mesInicial = '12';
+        }
+        else if($monthIniciaDepre == '12'){
+            $mesInicial = '01';
+        }
+
+        $anioFinalDepre = $yearIniciaDepre  + $vidaUtil;
+
+        $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
+        $periodoFinalDepre = $mesInicial.$anioFinalDepre;
+      
+        
 
         $insertar =  DB::connection('comanda')->table('af_maestro')
         ->insert([
             'af_codigo_vnr' => $codVNR,
-            'af_codigo_contable' => $codigoContable,
+            'af_codigo_contable' => $codConta,
             'codigo_ppye' => $tipoActivoPPYE,
             'fecha_reg_contable' => $fechaRegistroConFormato,
             'tipo_partida_id' => $tipoPartida,
@@ -199,6 +257,8 @@ class GestionActivoController extends Controller
             'solo_vnr' => 'N',
             'af_valor_vnr_siva' => $af_valor_vnr_siva,
             'af_valor_residual' => $af_valor_residual,
+            'periodo_inicial' => $periodoInicialDepre,
+            'periodo_final' => $periodoFinalDepre,
         ]);
 
         return response()->json($insertar);
@@ -296,6 +356,8 @@ class GestionActivoController extends Controller
         $userModificacion = $request["alias"];
         $af_valor_residual = $request["af_valor_residual"];
         $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
+        $siglas = $request["siglas"];
+        $tipo_bien = $request["tipo_bien"];
 
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -304,6 +366,83 @@ class GestionActivoController extends Controller
         $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
 
         $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
+
+        //$getLastId = DB::connection('comanda')->table('af_maestro')->orderBy('af_codigo_interno', 'desc')->first();
+
+        $codVNR = '';
+        $codConta = '';
+
+        $insertId = $id;
+        
+        if($insertId < 10){
+            $codVNR = 'VNR 0000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
+        }else if($insertId > 9 && $insertId < 100){
+            $codVNR = 'VNR 000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
+        }
+        else if($insertId > 99 && $insertId < 1000){
+            $codVNR = 'VNR 00'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
+        }
+
+        else if($insertId > 999 && $insertId < 10000){
+            $codVNR = 'VNR 0'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
+        }
+
+        else if($insertId > 9999){
+            $codVNR = 'VNR '.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
+        }
+
+
+        $monthIniciaDepre = date("m",strtotime($fechaCompraConFormato));
+
+        $yearIniciaDepre = date("Y",strtotime($fechaCompraConFormato));
+
+        $mesInicial = '';
+
+        if($monthIniciaDepre == '01'){
+            $mesInicial = '02';
+        }else if($monthIniciaDepre == '02'){
+            $mesInicial = '03';
+        }
+        else if($monthIniciaDepre == '03'){
+            $mesInicial = '04';
+        }
+        else if($monthIniciaDepre == '04'){
+            $mesInicial = '05';
+        }
+        else if($monthIniciaDepre == '05'){
+            $mesInicial = '06';
+        }
+        else if($monthIniciaDepre == '06'){
+            $mesInicial = '07';
+        }
+        else if($monthIniciaDepre == '07'){
+            $mesInicial = '08';
+        }
+        else if($monthIniciaDepre == '08'){
+            $mesInicial = '09';
+        }
+        else if($monthIniciaDepre == '09'){
+            $mesInicial = '10';
+        }
+        else if($monthIniciaDepre == '10'){
+            $mesInicial = '11';
+        }
+        else if($monthIniciaDepre == '11'){
+            $mesInicial = '12';
+        }
+        else if($monthIniciaDepre == '12'){
+            $mesInicial = '01';
+        }
+
+        $anioFinalDepre = $yearIniciaDepre  + $vidaUtil;
+
+        $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
+        $periodoFinalDepre = $mesInicial.$anioFinalDepre;
 
 
         $insertar =  DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $id)
@@ -338,7 +477,9 @@ class GestionActivoController extends Controller
             'usuario_modificacion' => $userModificacion,
             'fecha_modificacion' => date('Ymd H:i:s'),
             'af_valor_vnr_siva' => $af_valor_vnr_siva,
-            'af_valor_residual' => $af_valor_residual
+            'af_valor_residual' => $af_valor_residual,
+            'periodo_inicial' => $periodoInicialDepre,
+            'periodo_final' => $periodoFinalDepre,
         ]);
 
         return response()->json($insertar);
@@ -469,6 +610,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar, af.fecha_alta, 103) as fechaAlta,
          substring(convert(varchar,af.fecha_alta, 114),1,5) as horaAlta,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
@@ -490,6 +632,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar, af.fecha_baja, 103) as fechaBaja,
          substring(convert(varchar,af.fecha_baja, 114),1,5) as horaBaja,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
@@ -541,7 +684,7 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
-        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 23) as fechaCompra,convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
@@ -561,6 +704,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
@@ -614,6 +758,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         convert(varchar, af.fecha_alta, 103) as fechaAlta,
          substring(convert(varchar,af.fecha_alta, 114),1,5) as horaAlta,
@@ -634,6 +779,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         convert(varchar, af.fecha_baja, 103) as fechaBaja,
          substring(convert(varchar,af.fecha_baja, 114),1,5) as horaBaja,
@@ -655,6 +801,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         h.usuario_asignado as usuarioNuevo,
         h.usuario_movimiento as usuarioAnterior,
@@ -709,6 +856,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
          (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
@@ -730,6 +878,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         h.usuario_asignado as usuarioNuevo,
         convert(varchar, h.fecha_movimiento, 103) as fechaTraslado,
@@ -753,6 +902,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
@@ -789,6 +939,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+        convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno

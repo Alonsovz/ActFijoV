@@ -18,7 +18,7 @@
 
 
 <!--card para lista de activos administrador-->
-<nz-card style="width:95%" class="cardShadow" *ngIf="mostrarCardListadoAdmin">
+<nz-card style="width:98%" class="cardShadow" *ngIf="mostrarCardListadoAdmin">
 
         <div nz-row>
             <div nz-col nzSpan="18">
@@ -63,7 +63,7 @@
                     <tbody>
                             <tr *ngFor="let ob of altasAdmin.data | searchactgestion: texto">
                             <td>{{ ob.af_codigo_interno }}</td>
-                            <td>{{ ob.descripcion_bien }}</td>
+                            <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                             <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
                             <td>{{ ob.compraSiva }}</td>
                             <td>{{ ob.asignado }}</td>
@@ -115,7 +115,7 @@
                     <tbody>
                             <tr *ngFor="let ob of trasladosAdmin.data | searchactgestion: texto">
                                 <td>{{ ob.af_codigo_interno }}</td>
-                                <td>{{ ob.descripcion_bien }}</td>
+                                <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                                 <td>{{ ob.fechaTraslado }} {{ ob.horaTraslado }}</td>
                                 <td>{{ ob.usuarioAnterior }}</td>
                                 <td>{{ ob.asignado }}</td>
@@ -173,7 +173,7 @@
                     <tbody>
                             <tr *ngFor="let ob of bajasAdmin.data | searchactgestion: texto">
                             <td>{{ ob.af_codigo_interno }}</td>
-                            <td>{{ ob.descripcion_bien }}</td>
+                            <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                             <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
                             <td>{{ ob.compraSiva }}</td>
                             <td>{{ ob.asignado }}</td>
@@ -226,8 +226,8 @@
                 <tbody>
                         <tr *ngFor="let ob of altasPendientesAdmin.data | searchactgestion: texto">
                           <td>{{ ob.af_codigo_interno }}</td>
-                          <td>{{ ob.descripcion_bien }}</td>
-                          <td>{{ ob.fechaCompra }}</td>
+                          <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
+                          <td>{{ ob.fechaCompraT }}</td>
                           <td>{{ ob.compraSiva }}</td>
                           <td>{{ ob.asignado }}</td>
                           <td  style="text-align: center; align-items: left;">
@@ -278,7 +278,6 @@
     
                     <th style="background-color: #10690A !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                     <th style="background-color: #10690A !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
-                    <th style="background-color: #10690A !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
                     <th style="background-color: #10690A !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Recibiendo de </th>
                     <th style="background-color: #10690A !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
                     <th style="background-color: #10690A !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
@@ -287,8 +286,7 @@
                 <tbody>
                         <tr  *ngFor="let ob of trasladosPendientesAdmin.data | searchactgestion: texto">
                           <td>{{ ob.af_codigo_interno }}</td>
-                          <td>{{ ob.descripcion_bien }}</td>
-                          <td>{{ ob.compraSiva }}</td>
+                          <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                           <td>{{ ob.usuarioAnterior }}</td>
                           <td>{{ ob.asignado }}</td>
                           <td  style="text-align: center; align-items: left;">
@@ -335,7 +333,7 @@
                     <th style="background-color: #39136D !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                     <th style="background-color: #39136D !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
                     <th style="background-color: #39136D !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
-                    <th style="background-color: #39136D !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Valor de compra </th>
+                    <th style="background-color: #39136D !important;"><i nz-icon nzType="dollar" nzTheme="outline"></i> Motivo </th>
                     <th style="background-color: #39136D !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
                     <th style="background-color: #39136D !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                   </tr>
@@ -343,9 +341,9 @@
                 <tbody>
                         <tr  *ngFor="let ob of bajasPendientesAdmin.data | searchactgestion: texto">
                           <td>{{ ob.af_codigo_interno }}</td>
-                          <td>{{ ob.descripcion_bien }}</td>
-                          <td>{{ ob.fechaCompra }}</td>
-                          <td>{{ ob.compraSiva }}</td>
+                          <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
+                          <td>{{ ob.fechaCompraT }}</td>
+                          <td>{{ ob.motivoBaja }}</td>
                           <td>{{ ob.asignado }}</td>
                           <td  style="text-align: center; align-items: left;">
                         
@@ -371,7 +369,7 @@
 </nz-card>
 
 <!--card para lista de mis activos-->
-<nz-card style="width:95%" class="cardShadow" *ngIf="mostrarCardListado">
+<nz-card style="width:98%" class="cardShadow" *ngIf="mostrarCardListado">
     <div nz-row>
         <div nz-col nzSpan="18">
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de mis de activos</h2>
@@ -460,7 +458,7 @@
                     <tbody>
                       <tr *ngFor="let ob of trasladosRecibidosUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
-                        <td>{{ ob.descripcion_bien }}</td>
+                        <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaTraslado }} {{ob.horaTraslado}}</td>
                         <td>{{ ob.usuarioAnterior }}</td>
                         <td  style="text-align: center; align-items: center;">
@@ -510,7 +508,7 @@
                             <tbody>
                               <tr *ngFor="let ob of trasladosHechosUser.data | searchactgestionuser: textoUser">
                                 <td>{{ ob.af_codigo_interno }}</td>
-                                <td>{{ ob.descripcion_bien }}</td>
+                                <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                                 <td>{{ ob.fechaTraslado }} {{ob.horaTraslado}}</td>
                                 <td>{{ ob.usuarioNuevo }}</td>
                                 <td  style="text-align: center; align-items: center;">
@@ -595,7 +593,7 @@
                       <tr *ngFor="let ob of altasPendientesUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaCompra }}</td>
+                        <td>{{ ob.fechaCompraT }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
@@ -636,8 +634,8 @@
                     <tbody>
                       <tr *ngFor="let ob of trasladosHechosPendientesUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
-                        <td>{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaCompra }}</td>
+                        <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
+                        <td>{{ ob.fechaCompraT }}</td>
                         <td>{{ ob.asignado }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
@@ -679,8 +677,8 @@
                     <tbody>
                       <tr *ngFor="let ob of trasladosPendientesRecibirUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
-                        <td>{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaCompra }}</td>
+                        <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
+                        <td>{{ ob.fechaCompraT }}</td>
                         <td>{{ ob.usuarioAnterior }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
@@ -720,6 +718,7 @@
                         <th style="background-color: #86001C !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
                         <th style="background-color: #86001C !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
                        <th style="background-color: #86001C !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de compra</th>
+                       <th style="background-color: #86001C !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Motivo</th>
                         <th style="background-color: #86001C !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
                       </tr>
                     </thead>
@@ -727,7 +726,8 @@
                       <tr *ngFor="let ob of bajasPendientesUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaCompra }}</td>
+                        <td>{{ ob.fechaCompraT }}</td>
+                        <td>{{ ob.motivoBaja }}</td>
                          <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
@@ -762,25 +762,13 @@
                     </nz-select>
                 </div>
                 <div nz-col [nzSpan]="1"></div>
-                <div nz-col [nzSpan]="6">
+                <div nz-col [nzSpan]="5">
                     <nz-form-label nzRequired>N° de documento</nz-form-label>
                     <input type="text" nz-input placeholder="N° de documento" formControlName="numeroDocumento">
 
                     <input type="hidden"  formControlName="asignadoA" [(ngModel)]="user.id" readonly>
                 </div>
 
-
-
-            </div>
-        </div>
-
-
-        <div nz-col nzSpan="24" style="margin-top: 20px !important;">
-            <div nz-row>
-                <div nz-col [nzSpan]="5">
-                    <nz-form-label nzRequired>Código Contabilidad</nz-form-label>
-                    <input type="text" placeholder="Código Contabilidad" nz-input  formControlName="codigoContable" autocomplete="off">
-                </div>
                 <div nz-col [nzSpan]="1"></div>
                 <div nz-col [nzSpan]="5">
                     <nz-form-label nzRequired>Tipo de Activo</nz-form-label>
@@ -795,6 +783,14 @@
                     <nz-form-label nzRequired>Fecha de registro</nz-form-label>
                         <input type="date" nz-input formControlName="fechaRegistro">
                 </div>
+
+            </div>
+        </div>
+
+
+        <div nz-col nzSpan="24" style="margin-top: 20px !important;">
+            <div nz-row>
+              
             </div>
         </div>
         <div *ngIf="user.rol != 'Usuario'">
@@ -827,6 +823,20 @@
                         <nz-form-label nzRequired>Vida útil (Años)</nz-form-label>
                         <input type="text" placeholder="Vida útil (Años)" nz-input
                         [(ngModel)]="tp.vidaUtil" formControlName="vidaUtil">
+                    </div>
+                </div>
+
+                <div nz-row>
+                    <div nz-col [nzSpan]="1"></div>
+                    <div nz-col [nzSpan]="5">
+                        <nz-form-label nzRequired>Tipo de bien</nz-form-label>
+                        <input type="text" placeholder="Vida útil (Años)" nz-input
+                        [(ngModel)]="tp.tipo_bien" formControlName="tipo_bien">
+                    </div>
+                    <div nz-col [nzSpan]="1"></div>
+                    <div nz-col [nzSpan]="5">
+                        <nz-form-label nzRequired>Siglas</nz-form-label>
+                        <input type="text" nz-input [(ngModel)]="tp.siglas" formControlName="siglas">
                     </div>
                 </div>
                 <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
@@ -1068,6 +1078,8 @@
                                     <input type="text"  formControlName="asignado" readonly  nz-input>
                                 </div>
                             </div>
+
+
                         </div>
         
         
@@ -1128,6 +1140,19 @@
                                         <nz-form-label nzRequired>Vida útil (Años)</nz-form-label>
                                         <input type="text" placeholder="Vida útil (Años)" nz-input
                                         [(ngModel)]="tp.vidaUtil" formControlName="af_vida_util" readonly>
+                                    </div>
+                                </div>
+                                <div nz-row>
+                                    <div nz-col [nzSpan]="1"></div>
+                                    <div nz-col [nzSpan]="5">
+                                        <nz-form-label nzRequired>Tipo de bien</nz-form-label>
+                                        <input type="text" placeholder="Vida útil (Años)" nz-input
+                                        [(ngModel)]="tp.tipo_bien" formControlName="tipo_bien">
+                                    </div>
+                                    <div nz-col [nzSpan]="1"></div>
+                                    <div nz-col [nzSpan]="5">
+                                        <nz-form-label nzRequired>Siglas</nz-form-label>
+                                        <input type="text" nz-input [(ngModel)]="tp.siglas" formControlName="siglas">
                                     </div>
                                 </div>
                                 <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
@@ -1302,7 +1327,7 @@
                         <div nz-col nzSpan="24">
                             <div nz-row style="margin-top: 40px !important;">
                                 <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
-                                <button *ngIf="user.rol != 'Usuario'" (click)="guardarEdicionActivo()" [disabled] = "editarActivoForm.invalid" nz-button nzType="primary" nzBlock>Guardar datos</button>
+                                <button *ngIf="user.rol != 'Usuario' && vista == 1" (click)="guardarEdicionActivo()"  nz-button nzType="primary" nzBlock>Guardar datos</button>
                             </div>
                         </div>
         
