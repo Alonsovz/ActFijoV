@@ -471,7 +471,7 @@ export class ActfijoGestionComponent implements OnInit {
             position: 'top'
           });
         this.modalElegirMismoDocumento = true;
-       // this.generarHojaActivo();
+        this.generarHojaActivo();
         }
 
 
