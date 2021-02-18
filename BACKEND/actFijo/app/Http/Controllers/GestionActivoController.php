@@ -999,7 +999,7 @@ class GestionActivoController extends Controller
 
         return $pdf->stream('baja.pdf');
 
-      
+        
 
     }
 
@@ -1025,6 +1025,35 @@ class GestionActivoController extends Controller
          return $pdf->stream('alta.pdf');
          // $pdf = \PDF::loadView('Reportes.hoja_altaActivo', compact('activo'));
     }
+
+
+    // generar hoja de traslado
+    public function generarHojaTraslado(Request $request) {
+        $activo =  DB::connection('comanda')->select("select af.*,
+                                            '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+                                            convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+                                            convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+                                            (select top 1 usuario_asignado from af_historial_activo
+                                            INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+                                            INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
+                                            INNER JOIN DEPSV as departamento ON departamento.ID = af.cod_departamento
+                                            INNER JOIN MUNSV as municipio ON municipio.ID = af.cod_municipio
+                                            where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+                                            order by id desc ) as usuarioAnterior from af_maestro af
+                                            inner join users u on u.id = af.codigo_asignado 
+                                            where af.estado = 'T' and af.estadoActivo = 'Pendiente'
+                                            order by af_codigo_interno desc");
+
+                            $pdf = \App::make('dompdf.wrapper');
+
+                            $view =  \View::make('Reportes.hoja_trasladoActivo', compact('activo'))->render();
+                                       
+                            $pdf->loadHTML($view);
+                                       
+                            return $pdf->stream('trasladoActivo.pdf');
+    }
+
+
     
     
 }

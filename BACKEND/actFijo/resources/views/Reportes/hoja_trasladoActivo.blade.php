@@ -85,6 +85,7 @@
         <b style="margin-left: 175px;font-size: 14px;">Formato para movimiento de activo fijo</b>
     </div>
 
+    @foreach($activo as $act)
     <div style="position: relative; bottom: 20px;  ">
 
         <div style="float: left">
@@ -142,9 +143,9 @@
 
             <tr>
 
-                <td style="font-size: 8px">{{$traslado->activo}}</td>
-                <td style="font-size: 8px">{{$traslado->marca}}</td>
-                <td style="font-size: 8px">{{$traslado->modelo}}</td>
+                <td style="font-size: 8px">{{$act->descripcion_bien}}</td>
+                <td style="font-size: 8px">{{$act->nombre_marca}}</td>
+                <td style="font-size: 8px">{{$act->nombre_modelo}}</td>
                 <td style="font-size: 8px"></td>
                 <td style="font-size: 8px" class="cantidad">1</td>
             </tr>
@@ -362,6 +363,7 @@
 
 
 </div>
+@endforeach
 
 
 <div id="container" style="margin-top: 5px">
@@ -372,10 +374,12 @@
 
 </div>
 
+
+
 <div style="margin-top: 25px; font-size: 9px;font-family: Verdana, Arial, sans-serif;border: dotted black 1px; padding: 10px">
     <strong style="margin-left: 300px">Clausula de compromiso.</strong>
     <p style="text-align: justify">
-        Como representante de EDESAL por el cargo en funcion declaro que los activos relacionados en el presente documento estan bajo mi responsabilidad, po lo cual les dare
+        Como representante de EDESAL por el cargo en funcion declaro que los activos relacionados en el presente documento estan bajo mi responsabilidad, por lo cual les dare
         un uso adecuado al desempeño de mis funciones y a la destinación institucional prvista para cada uno de ellos. En consecuencia, seran asumidos por mi el daño o la perdida
         de los mismos debidos a mi negligencia o incumplimiento de los instructivos relacionados con uso y conservacion.
         Me comprometo a informar oportunamente al departamento de contabilidad sobre cualquier desplazamiento, traslado temporal o definitivo de dichos activos mediante la tramitacion

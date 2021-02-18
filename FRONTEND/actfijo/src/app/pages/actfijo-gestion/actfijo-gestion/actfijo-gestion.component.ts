@@ -775,6 +775,9 @@ guardarTraslado(){
       this.getTrasladosAdmin();
       this.conteoUser();
       this.modalTrasladoVisible = false;
+
+      // generar traslado de activo
+      this.generarHojaTrasladoActivo();
       }
 
 
@@ -1313,10 +1316,18 @@ ConvertToLowerUser(evt) {
     this.textoUser = evt.toLowerCase();
 }
 
+// generar hoja de activo
 generarHojaActivo() {
   const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?activo=' + this.actFijoOb.af_codigo_interno;
   window.open(ur, '_blank');
 
+}
+
+// generar hoja de traslado de activo
+generarHojaTrasladoActivo() {
+  let activo: ActfijoGestion = new ActfijoGestion();
+  activo = this.trasladoActivoForm.value;
+  const ur = this.urlBackEnd.getUrlBackEnd() + 'generarHojaTrasladoActivo?activo=' + activo.af_codigo_interno;
 }
 
 

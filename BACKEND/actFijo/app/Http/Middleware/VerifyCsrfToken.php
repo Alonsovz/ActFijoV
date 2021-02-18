@@ -82,6 +82,7 @@ class VerifyCsrfToken extends BaseVerifier
         'getBajasPendientesUser',
         'getConteoUser',
         'getTrasladosRecibidosPendientesUser',
-        'getTrasladosHechosPendientesUser'
+        'getTrasladosHechosPendientesUser',
+        'generarHojaTrasladoActivo'
     ];
 }

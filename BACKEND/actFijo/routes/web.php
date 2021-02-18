@@ -115,3 +115,4 @@ Route::post('getTrasladosHechosPendientesUser', 'GestionActivoController@getTras
 
 Route::get('getHojaBaja', 'GestionActivoController@getHojaBaja');
 Route::any('generarHojaActivo', 'GestionActivoController@generarHojaActivo');
+Route::any('generarHojaTrasladoActivo', 'GestionActivoController@generarHojaTraslado');
