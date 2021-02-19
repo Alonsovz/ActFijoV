@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActfijoGestion } from 'src/app/models/actfijo-gestion';
 import { ClasificacionAgd } from 'src/app/models/clasificacion-agd';
 import { Marcasactivo } from 'src/app/models/marcasactivo';
@@ -154,7 +154,7 @@ export class ActfijoGestionComponent implements OnInit {
   conteoTrasladosPenUser = 0;
   conteoTrasladosRecibidosPendientesRecibir = 0;
   conteoTrasladosHechosPendientesRecibir = 0;
-
+  frm_activoBaja : FormGroup;
   bajaActivoForm : FormGroup;
   bajaActivoFormAdmin : FormGroup;
 
@@ -162,7 +162,7 @@ export class ActfijoGestionComponent implements OnInit {
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
     private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
-    private urlBackEnd: GlobalService,) {
+    private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder) {
 
       this.trasladoActivoForm = new FormGroup({
         'usuarioTrasladoNuevo': new FormControl('',[Validators.required]),
@@ -252,7 +252,7 @@ export class ActfijoGestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
     this.usuario.getUsuarios().subscribe(data => {this.objUsuarios = data;});
 
     this.user = JSON.parse(localStorage.getItem("usuario"));
@@ -1329,6 +1329,30 @@ generarHojaTrasladoActivo() {
   activo = this.trasladoActivoForm.value;
   const ur = this.urlBackEnd.getUrlBackEnd() + 'generarHojaTrasladoActivo?activo=' + activo.af_codigo_interno;
 }
+
+
+//arreglo de activos para baja
+get actSeleccionadosBajas(){
+  return this.frm_activoBaja.get('actSeleccionadosBajas') as FormArray;
+}
+//seleccionar caso para baja 
+
+seleccionarActBaja(event, id){
+  if(event === true){
+   // console.log(id);
+    this.actSeleccionadosBajas.push(
+      this.fbBajasAct.group({
+        idActivo:id,
+      })
+    );
+   //console.log(this.frm_activoBaja.value);
+  }else{
+    //console.log("no");
+  }
+}
+
+
+
 
 
 

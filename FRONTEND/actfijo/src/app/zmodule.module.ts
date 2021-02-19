@@ -20,6 +20,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 const zorromodules = [
   NzFormModule,
@@ -40,7 +41,8 @@ const zorromodules = [
   NzToolTipModule,
   NzTabsModule,
   NzBadgeModule,
-  NzDatePickerModule
+  NzDatePickerModule,
+  NzCheckboxModule
 ]
 
 
