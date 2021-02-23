@@ -504,13 +504,23 @@ class GestionActivoController extends Controller
         try {
             //code...
             
-            $actualizar = DB::connection('comanda')->table
-            ('af_maestro')->where('af_codigo_interno', $request['af_codigo_interno'])->update([
-                'estado' => 'B',
-                'fecha_baja' => date('Ymd H:i:s'),
-                'estadoActivo' => 'Pendiente',
-                'motivoBaja' => $request['motivoBajaInput']
-            ]);
+            $act = json_encode($request["actSeleccionadosBajas"]);
+
+            $actBajas = json_decode($act);
+
+
+            $contador = 0;
+
+            foreach($actBajas as $bajas){
+                $actualizar = DB::connection('comanda')->table
+                ('af_maestro')->where('af_codigo_interno', $bajas->idActivo)->update([
+                    'estado' => 'B',
+                    'fecha_baja' => date('Ymd H:i:s'),
+                    'estadoActivo' => 'Pendiente',
+                    'motivoBaja' => $bajas->motivoBaja
+                ]);
+            }
+           
 
             return Response::json([
                 'success' => $actualizar
@@ -526,17 +536,45 @@ class GestionActivoController extends Controller
     }
 
     public function guardarTraslado(Request $request){
+
+
+        try {
+            //code...
+            
+            $act = json_encode($request["actSeleccionadosTraslados"]);
+
+            $actTraslados = json_decode($act);
+
+            $userTraslado = $request["usuarioTrasladoNuevo"];
+
+            $contador = 0;
+
+            foreach($actTraslados as $traslados){
+                $editar = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno ', $traslados->idActivo)
+                ->update([
+                    'estadoActivo' => 'Pendiente' , 
+                    'codigo_asignado' => $userTraslado, 
+                    'estado' => 'T', 
+                ]);
+            }
+           
+
+            return Response::json([
+                'success' => $editar
+            ], 200);
+
+        } catch (\Illuminate\Database\QueryException $ex) {
+            //throw $th;
+            return Response::json([
+                'error' => $ex->getMessage()
+            ], 201);
+
+        }
+
         $id = $request["af_codigo_interno"];
         $userTraslado = $request["usuarioTrasladoNuevo"];
 
-       $editar = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno ', $id)
-        ->update([
-            'estadoActivo' => 'Pendiente' , 
-            'codigo_asignado' => $userTraslado, 
-            'estado' => 'T', 
-        ]);
-
-        return response()->json($editar);
+       
 
     }
     
@@ -989,15 +1027,37 @@ class GestionActivoController extends Controller
     }
 
 
-    public function getHojaBaja(){
+    public function getHojaBaja(Request $request){
 
-        $pdf = \App::make('dompdf.wrapper');
+        $act = json_encode($request["actSeleccionadosBajas"]);
+
+        $actBajas = json_decode($act);
+
+        $getMisActivos = '';
+
+        foreach($actBajas as $bajas ){
+            $getMisActivos = DB::connection('comanda')->select("select af.*,
+            '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+            convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
+            convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
+            convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
+            (select top 1 usuario_asignado from af_historial_activo
+            where movimiento != 'Baja' and idActivo = af.af_codigo_interno
+            order by id desc ) as usuarioAnterior from af_maestro af
+            inner join users u on u.id = af.codigo_asignado 
+            where af.af_codigo_interno = ".$bajas->idActivo."");
+        }
+        
+
+        return response()->json($getMisActivos);
+
+       /* $pdf = \App::make('dompdf.wrapper');
 
         $view =  \View::make('Reportes.hoja_bajaActivo')->render();
 
         $pdf->loadHTML($view);
 
-        return $pdf->stream('baja.pdf');
+        return $pdf->stream('baja.pdf');*/
 
         
 

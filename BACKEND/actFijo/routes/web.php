@@ -113,6 +113,6 @@ Route::post('getConteoUser', 'GestionActivoController@getConteoUser');
 Route::post('getTrasladosRecibidosPendientesUser', 'GestionActivoController@getTrasladosRecibidosPendientesUser');
 Route::post('getTrasladosHechosPendientesUser', 'GestionActivoController@getTrasladosHechosPendientesUser');
 
-Route::get('getHojaBaja', 'GestionActivoController@getHojaBaja');
+Route::any('getHojaBaja', 'GestionActivoController@getHojaBaja');
 Route::any('generarHojaActivo', 'GestionActivoController@generarHojaActivo');
 Route::any('generarHojaTrasladoActivo', 'GestionActivoController@generarHojaTraslado');

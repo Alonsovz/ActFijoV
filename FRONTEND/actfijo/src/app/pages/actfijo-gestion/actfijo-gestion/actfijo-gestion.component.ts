@@ -18,7 +18,7 @@ import notie from 'notie';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { GlobalService } from 'src/app/services/global.service';
-
+import * as $ from 'jquery';
 
 
 @Component({
@@ -27,6 +27,8 @@ import { GlobalService } from 'src/app/services/global.service';
   styleUrls: ['./actfijo-gestion.component.scss']
 })
 export class ActfijoGestionComponent implements OnInit {
+  btnFinalizarBajas = false;
+  btnFinalizarTraslados = false;
   dateFormat = 'dd/MM/yyyy';
   texto: any;
   textoUser: any;
@@ -155,14 +157,18 @@ export class ActfijoGestionComponent implements OnInit {
   conteoTrasladosRecibidosPendientesRecibir = 0;
   conteoTrasladosHechosPendientesRecibir = 0;
   frm_activoBaja : FormGroup;
+  frm_activoTraslado : FormGroup;
   bajaActivoForm : FormGroup;
   bajaActivoFormAdmin : FormGroup;
+
+  modalListadoActivosBaja = false;
+  modalListadoActivosTraslados = false;
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
     private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
-    private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder) {
+    private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder) {
 
       this.trasladoActivoForm = new FormGroup({
         'usuarioTrasladoNuevo': new FormControl('',[Validators.required]),
@@ -253,6 +259,9 @@ export class ActfijoGestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+
+    this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
+
     this.usuario.getUsuarios().subscribe(data => {this.objUsuarios = data;});
 
     this.user = JSON.parse(localStorage.getItem("usuario"));
@@ -1036,6 +1045,12 @@ getAltasUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    
+  this.btnFinalizarTraslados = false;
+  this.btnFinalizarBajas = false;
+  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 }
 
 
@@ -1085,6 +1100,12 @@ getTrasladosRecibidosUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    
+  this.btnFinalizarTraslados = false;
+  this.btnFinalizarBajas = false;
+  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 }
 
 
@@ -1247,6 +1268,12 @@ conteoAdmin(){
         this.conteoTrasladosPen = Number(element["conteoTrasladosPen"]);
       });
   });
+
+  
+  this.btnFinalizarTraslados = false;
+  this.btnFinalizarBajas = false;
+  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 }
 
 //metodo para obtener conteo de badges usuario
@@ -1269,6 +1296,12 @@ conteoUser(){
       this.conteoTrasladosHechosPendientesRecibir = Number(element["conteoTrasladosHechosPendientesRecibir"]);
     });
   });
+
+
+  this.btnFinalizarTraslados = false;
+  this.btnFinalizarBajas = false;
+  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 }
 
 
@@ -1335,25 +1368,184 @@ generarHojaTrasladoActivo() {
 get actSeleccionadosBajas(){
   return this.frm_activoBaja.get('actSeleccionadosBajas') as FormArray;
 }
-//seleccionar caso para baja 
 
-seleccionarActBaja(event, id){
+
+//seleccionar caso para baja 
+seleccionarActBaja(event, obj){
+  this.actFijoOb= obj;
   if(event === true){
-   // console.log(id);
     this.actSeleccionadosBajas.push(
       this.fbBajasAct.group({
-        idActivo:id,
+        idActivo:this.actFijoOb.af_codigo_interno,
+        descripcion : this.actFijoOb.descripcion_bien,
+        motivoBaja: '',
       })
     );
-   //console.log(this.frm_activoBaja.value);
   }else{
-    //console.log("no");
+   $("#btnEliminarActBaja"+this.actFijoOb.af_codigo_interno).click();
   }
+
+  if(this.actSeleccionadosBajas.length > 0){
+    this.btnFinalizarBajas = true;
+  }else{
+    this.btnFinalizarBajas = false;
+  }
+}
+
+//eliminar elemento del arreglo de los activos para dar de baja
+public eliminarActBaja(i){
+  this.actSeleccionadosBajas.removeAt(i);
+}
+
+//metodo para abrir modal de listado de activos para baja
+finalizarListadoBajas(){
+  this.modalListadoActivosBaja = true;
+}
+
+//metodo para cerrar modal de listado de activos para baja
+cerrarModalListaActivoBajas(){
+  this.modalListadoActivosBaja = false;
+}
+
+
+
+// generar hoja de activo
+generarHojaActivoBaja() {
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+  datosActivo = this.frm_activoBaja.value;
+
+  const ur =  this.urlBackEnd.getUrlBackEnd() + 'getHojaBaja?activo[]=' + datosActivo;
+  window.open(ur, '_blank');
+
+}
+
+// iniciar baja
+iniciarProcesoBajaListado(id) {
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+  datosActivo = this.frm_activoBaja.value;
+
+
+  this.generarHojaActivoBaja();
+
+ /*this.gestionActFijo.iniciarBaja(datosActivo).subscribe(
+    response => {
+      console.log(response);
+    },
+    err => {
+      notie.alert({
+        type: 'error',
+        text: 'Error al iniciar proceso de baja',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+    },
+    () => {
+      notie.alert({
+        type: 'success',
+        text: 'Proceso de baja iniciado con éxito, pendiente de aprobación',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+
+    this.getBajasUser();
+    this.getAltasUser();
+    this.getTrasladosRecibidosUser();
+    this.getBajasPendientesUser();
+    this.conteoUser();
+    this.modalListadoActivosBaja = false;
+
+    }
+  );*/
 }
 
 
 
 
+//arreglo de activos para traslado
+get actSeleccionadosTraslados(){
+  return this.frm_activoTraslado.get('actSeleccionadosTraslados') as FormArray;
+}
+
+
+//seleccionar caso para baja 
+seleccionarActTraslado(event, obj){
+  this.actFijoOb= obj;
+  if(event === true){
+    this.actSeleccionadosTraslados.push(
+      this.fbTrasladosAct.group({
+        idActivo:this.actFijoOb.af_codigo_interno,
+        descripcion : this.actFijoOb.descripcion_bien,
+      })
+    );
+  }else{
+   $("#btnEliminarActTraslado"+this.actFijoOb.af_codigo_interno).click();
+  }
+
+  if(this.actSeleccionadosTraslados.length > 0){
+    this.btnFinalizarTraslados = true;
+  }else{
+    this.btnFinalizarTraslados = false;
+  }
+}
+
+//eliminar elemento del arreglo de los activos para traslado
+public eliminarActTraslado(i){
+  this.actSeleccionadosTraslados.removeAt(i);
+}
+
+//metodo para abrir modal de listado de activos para traslado
+finalizarListadoTraslados(){
+  this.modalListadoActivosTraslados = true;
+}
+
+cerrarModalListaActivoTraslados(){
+  this.modalListadoActivosTraslados = false;
+}
+
+
+
+// iniciar baja
+iniciarProcesoTrasaladoListado(id) {
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+  datosActivo =Object.assign(this.trasladoActivoForm.value, this.frm_activoTraslado.value);
+
+
+  //this.generarHojaActivoBaja();
+
+ this.gestionActFijo.guardarTraslado(datosActivo).subscribe(
+    response => {
+      console.log(response);
+    },
+    err => {
+      notie.alert({
+        type: 'error',
+        text: 'Error al iniciar proceso de traslado',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+    },
+    () => {
+      notie.alert({
+        type: 'success',
+        text: 'Proceso de traslado iniciado con éxito, pendiente de aprobación',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+
+    this.getBajasUser();
+    this.getAltasUser();
+    this.getTrasladosRecibidosUser();
+    this.getBajasPendientesUser();
+    this.conteoUser();
+    this.modalListadoActivosTraslados = false;
+
+    }
+  );
+}
 
 
 }

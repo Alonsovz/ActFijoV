@@ -79,6 +79,123 @@
   
 
 
+    <div style="margin-top: 20px; ">
+        <b style="font-size: 10px;">Fecha: </b> <small style="font-size: 10px"><?php echo date('d/m/Y'); ?></small>
+    </div>
+
+    <div style="margin-top: 5px"><b style="font-size: 10px">Por este medio solicito la baja de los siguientes activos:</b></div>
+
+    <div style="margin-top: 5px">
+        <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial">
+            <thead>
+            <tr>
+                <th style="width:160px">Código</th>
+                <th style="width:160px">Activo</th>
+                <th style="width:10px">Marca</th>
+                <th style="width:10px">Modelo</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>{{$a->tipo_activo}}</td>
+                    <td>{{$a->marca}}</td>
+                    <td>{{$a->modelo}}</td>
+                    <td>{{$a->color}}</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div style="margin-top: 5px">
+
+
+        <div id=div1 style="margin-top: 0px">
+            <b style="font-size: 10px;">Dependencia origen:</b>
+            <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial; margin-top: 15px; margin-bottom: 20px">
+                <thead>
+
+                </thead>
+
+                <tbody>
+
+
+                <tr>
+                    <td style="width: 300px"><b style="font-size: 10px">Se encontraba asignado a:</b></td>
+                    <td><b style="font-size: 10px">{{$a->nombre}} {{$a->apellido}}</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 300px"><b style="font-size: 10px">Agencia:</b></td>
+                    <td><b style="font-size: 10px">{{$a->agencia}}</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 300px"><b style="font-size: 10px">Centro de Costos:</b></td>
+                    <td><b style="font-size: 10px">{{$a->centrocosto}}</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 300px"><b style="font-size: 10px">Bodega:</b></td>
+                    <td><b style="font-size: 10px">{{$a->bodega}}</b></td>
+                </tr>
+
+                </tbody>
+                <tfoot>
+
+
+                </tfoot>
+
+            </table>
+        </div>
+
+
+   
+
+        <div style="width: 800px; margin-top: 0px">
+            <b style="font-size: 10px">Firmas y Sellos</b>
+
+            <table class="minimalistBlack" style="margin-top: 5px;width: 725px;" >
+
+                <tbody>
+                <tr >
+                    <td colspan="2" style="width: 150px"><b style="font-size: 10px">Nombre y firma de quien solicita la baja</b></td>
+                    <td colspan="2" style="width: 150px"><b style="font-size: 10px">Recibido por</b></td>
+                </tr>
+                <tr>
+                    <td style="height: 25px;" colspan="2"></td>
+                    <td style="height: 25px;" colspan="2"></td>
+                </tr>
+                <tr >
+                    <td colspan="2" style="width: 150px"><b style="font-size: 10px">Nombre y firma de quien autoriza la baja</b></td>
+                    <td colspan="2" style="width: 150px"><b style="font-size: 10px">V.B Administración y Finanzas</b></td>
+                </tr>
+                <tr >
+                    <td style="height: 25px;" colspan="2"></td>
+                    <td style="height: 25px;" colspan="2"></td>
+                </tr>
+                <tr >
+                    <td colspan="2" style="width: 150px"><b style="font-size: 10px">Recibido contabilidad para la baja de activo</b></td>
+                    <td colspan="2" style="width: 150px"><b style="font-size: 10px"></b></td>
+                </tr>
+                <tr >
+                    <td style="height: 25px;" colspan="2"></td>
+                    <td style="height: 25px;" colspan="2"></td>
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+        <b style="margin-left: 300px; font-size: 10px;margin-top: 0px;position: absolute">Solo presentar original</b>
+
+
+    </div>
+
+
 </div>
 
 

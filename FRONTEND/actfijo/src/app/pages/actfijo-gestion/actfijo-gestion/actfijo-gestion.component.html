@@ -16,6 +16,70 @@
     <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
 </div>
 
+<form [formGroup]="frm_activoBaja" style="margin-left: 30px;margin-right: 30px;display: none;">       
+
+    <table>
+        <thead>
+            <tr >
+                <th>
+                    Código
+                </th>
+                <th>
+                    Activo
+                </th>
+            </tr>
+        </thead>
+        <tbody  formArrayName="actSeleccionadosBajas">
+            <tr *ngFor="let item of actSeleccionadosBajas.controls; let pointIndex=index" [formGroupName]="pointIndex">
+                <td>
+                  <input nz-input type="text" formControlName="idActivo" readonly="true">
+                </td>
+               
+                <td>
+                    <input nz-input type="text" formControlName="descripcion" readonly="true">
+                  </td>
+               
+                <button id="btnEliminarActBaja{{item.value.idActivo}}"
+                (click)="eliminarActBaja(pointIndex)"><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+
+            </tr>
+        </tbody>
+    </table>
+  </form>
+
+
+  <form [formGroup]="frm_activoTraslado" style="margin-left: 30px;margin-right: 30px; display: none;">       
+
+    <table>
+        <thead>
+            <tr >
+                <th>
+                    Código
+                </th>
+                <th>
+                    Activo
+                </th>
+
+                
+            </tr>
+        </thead>
+        <tbody  formArrayName="actSeleccionadosTraslados">
+            <tr *ngFor="let item of actSeleccionadosTraslados.controls; let pointIndex=index" [formGroupName]="pointIndex">
+                <td>
+                  <input nz-input type="text" formControlName="idActivo" readonly="true">
+                </td>
+               
+                <td>
+                    <input nz-input type="text" formControlName="descripcion" readonly="true">
+                  </td>
+               
+                <button id="btnEliminarActTraslado{{item.value.idActivo}}"
+                (click)="eliminarActTraslado(pointIndex)"><i nz-icon nzType="rest" nzTheme="outline"></i></button>
+
+            </tr>
+        </tbody>
+    </table>
+  </form>
 
 <!--card para lista de activos administrador-->
 <nz-card style="width:98%" class="cardShadow" *ngIf="mostrarCardListadoAdmin">
@@ -371,9 +435,21 @@
 <!--card para lista de mis activos-->
 <nz-card style="width:98%" class="cardShadow" *ngIf="mostrarCardListado">
     <div nz-row>
-        <div nz-col nzSpan="18">
+        <div nz-col nzSpan="12">
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de mis de activos</h2>
         </div>
+
+        <div  nz-col [nzSpan]="6">
+            <button *ngIf="btnFinalizarBajas" (click)="finalizarListadoBajas()" nz-button nzType="default" 
+            style="float: right !important; margin-right: 10px !important; background-color: #AA0260 !important;
+            color:white; margin-top: 5px;">Finalizar selección de bajas</button>
+
+
+        <button *ngIf="btnFinalizarTraslados" (click)="finalizarListadoTraslados()" nz-button nzType="default" 
+            style="float: right !important; margin-right: 10px !important; background-color: #029BAA !important;
+            color:white; margin-top: 5px;">Finalizar selección de traslados</button>
+        </div>
+
         <div nz-col nzSpan="6">
             <nz-form-label>Buscar </nz-form-label>
             <input nz-input [(ngModel)]="_textoUser" id="textoUser" name="textoUser" placeholder="Buscar" (ngModelChange)="ConvertToLowerUser($event)">
@@ -390,11 +466,15 @@
               </ng-template>
 
             <div nz-row>
-                <h2 style="color: #39136D !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
-                    Mis Altas</h2>
+                <div nz-col [nzSpan]="12">
+                    <h2 style="color: #39136D !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i>
+                        Mis Altas</h2>
+                </div>
+                
+              
 
                     <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeletonTabla"></nz-skeleton>
-                
+                 
             </div>
                 <nz-table nzShowPagination #altasUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasUser($event)" 
@@ -427,15 +507,20 @@
                             <input type="checkbox"  value="ob.af_codigo_interno" nzTooltipTitle="Seleecionar para baja" 
                             nzTooltipPlacement="topCenter" nz-tooltip 
                             style="height: 20px !important; width: 20px !important; margin: auto; margin-right: 10px;"
-                            (change)="seleccionarActBaja($event.target.checked, ob.af_codigo_interno)">
+                            (change)="seleccionarActBaja($event.target.checked, ob)">
                                
                             <input type="checkbox" value="ob.af_codigo_interno" 
                             nzTooltipTitle="Seleecionar para traslado" nzTooltipPlacement="topCenter" nz-tooltip
-                            style="height: 20px !important; width: 20px !important; margin: auto;">
+                            style="height: 20px !important; width: 20px !important; margin: auto;"
+                            (change)="seleccionarActTraslado($event.target.checked, ob)">
                         </td>
                       </tr>
                     </tbody>
                 </nz-table>
+
+                
+               
+
         </nz-tab>
 
         <nz-tab [nzTitle]="trasladosRecibidosUserTab" (nzClick)="getTrasladosRecibidosUser()">
@@ -1412,7 +1497,7 @@
 
 
 <!--Modal para asignar usuario de traslado-->
-<nz-modal [(nzVisible)]="modalTrasladoVisible"   [nzFooter]="modalFooterTraslado" [nzContent]="modalContentTraslado"
+<!--<nz-modal [(nzVisible)]="modalTrasladoVisible"   [nzFooter]="modalFooterTraslado" [nzContent]="modalContentTraslado"
 (nzOnCancel)="cerrarModalTraslado()">
 
     <ng-template #modalContentTraslado>
@@ -1439,7 +1524,7 @@
         <button nz-button nzType="danger" (click)="cerrarModalTraslado()">Cancelar</button>
         <button nz-button nzType="primary" [disabled] = "trasladoActivoForm.invalid" (click)="guardarTraslado()">Hacer traslado</button>
     </ng-template>
-</nz-modal>
+</nz-modal>-->
 
 
 <!-- MODAL PARA aceptar el proceso DE traslado -->
@@ -1480,7 +1565,7 @@
 
 <nz-modal [(nzVisible)]="modalFinalizarProcesoBaja"  
  [nzFooter]="modalprocesofinbajafooter" [nzContent]="modalprocesofinbajacontent"
- (nzOnCancel)="cerrarModalAceptarTraslado()">
+ (nzOnCancel)="cerrarModalFinalizarProcesoBaja()">
     <ng-template #modalprocesofinbajacontent>
 
         
@@ -1505,5 +1590,131 @@
     <ng-template #modalprocesofinbajafooter>
         <button nz-button nzType="danger" (click)="cerrarModalFinalizarProcesoBaja()">Cancelar</button>
         <button nz-button nzType="primary" (click)="finalizarProcesoBaja()">Finalizar proceso de baja</button>
+    </ng-template>
+</nz-modal>
+
+
+<!--Modal para mostrar listado de activos a dar de baja-->
+
+
+
+<nz-modal [(nzVisible)]="modalListadoActivosBaja"  nzWidth="60%"  
+ [nzFooter]="modalListaBajafooter" [nzContent]="modalListaBajaContent" (nzOnCancel)="cerrarModalListaActivoBajas()">
+    <ng-template #modalListaBajaContent>
+        <br>
+        <h2 style="text-align: center !important;">Listado de activos de los que se iniciará el proceso de baja</h2>
+
+       
+                <form [formGroup]="frm_activoBaja" style="margin-left: 30px;margin-right: 30px;">       
+
+                    <nz-table [nzData]="['']" #basicTable [nzShowPagination]="false">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center !important; background-color: #7B0505 !important;
+                                color: white !important;">
+                                    Código
+                                </th>
+                                <th style="text-align: center !important; background-color: #7B0505 !important;
+                                color: white !important;">
+                                    Activo
+                                </th>
+                                <th style="text-align: center !important; background-color: #7B0505 !important;
+                                color: white !important;">
+                                    Motivo de baja
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody  formArrayName="actSeleccionadosBajas">
+                            <tr *ngFor="let item of actSeleccionadosBajas.controls; let pointIndex=index" [formGroupName]="pointIndex">
+                                <td>
+                                  <input nz-input type="text" formControlName="idActivo" readonly="true"
+                                  style="text-align: center !important;">
+                                </td>
+                               
+                                <td>
+                                    <input nz-input type="text" formControlName="descripcion" readonly="true"
+                                    style="text-align: center !important;">
+                                  </td>
+                                  <td>
+                                    <textarea nz-input type="text" formControlName="motivoBaja"
+                                    placeholder="Digita el motivo de la baja"></textarea>
+                                  </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                  </form>
+        
+    </ng-template>
+    <ng-template #modalListaBajafooter>
+        <button nz-button nzType="danger" (click)="cerrarModalListaActivoBajas()">Cancelar</button>
+        <button nz-button nzType="primary" (click)="iniciarProcesoBajaListado()"
+        *ngIf="user.rol != 'Administrador Act. Contable'">Iniciar proceso de baja</button>
+
+        <button nz-button nzType="primary" (click)="finalizarProcesoBajaListado()"
+        *ngIf="user.rol == 'Administrador Act. Contable'">Finalizar proceso de baja</button>
+    </ng-template>
+</nz-modal>
+
+
+
+<nz-modal [(nzVisible)]="modalListadoActivosTraslados"  nzWidth="60%"  
+ [nzFooter]="modalListaTrasladofooter" [nzContent]="modalListaTrasladoContent" (nzOnCancel)="cerrarModalListaActivoTraslados()">
+    <ng-template #modalListaTrasladoContent>
+        <br>
+        <h2 style="text-align: center !important;">Listado de activos de los que se iniciará el proceso de traslado</h2>
+        <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;
+        margin-left: 30px;margin-right: 30px"></nz-divider>
+       <br><br>
+        <form nz-form  [formGroup]="trasladoActivoForm" style="margin-left: 30px;margin-right: 30px;">
+            <div nz-row>
+
+                <div nz-col nzSpan="12">
+                    <nz-form-label nzRequired>Usuario a que se trasladará el activo</nz-form-label>
+                    <nz-select formControlName="usuarioTrasladoNuevo" nzShowSearch nzAllowClear nzPlaceHolder="Nombre de usuario">
+                        <nz-option *ngFor="let user of objUsuarios" nzValue="{{user.id}}" nzLabel="{{user.nombre}}"></nz-option>
+                      </nz-select>
+                </div>
+            </div>
+        </form>
+            <br><br>
+                <form [formGroup]="frm_activoTraslado" style="margin-left: 30px;margin-right: 30px;">       
+
+                    <nz-table [nzData]="['']" #basicTable [nzShowPagination]="false">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center !important; background-color: #7B0505 !important;
+                                color: white !important;">
+                                    Código
+                                </th>
+                                <th style="text-align: center !important; background-color: #7B0505 !important;
+                                color: white !important;">
+                                    Activo
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody  formArrayName="actSeleccionadosTraslados">
+                            <tr *ngFor="let item of actSeleccionadosTraslados.controls; let pointIndex=index" [formGroupName]="pointIndex">
+                                <td>
+                                  <input nz-input type="text" formControlName="idActivo" readonly="true"
+                                  style="text-align: center !important;">
+                                </td>
+                               
+                                <td>
+                                    <input nz-input type="text" formControlName="descripcion" readonly="true"
+                                    style="text-align: center !important;">
+                                  </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                  </form>
+        
+    </ng-template>
+    <ng-template #modalListaTrasladofooter>
+        <button nz-button nzType="danger" (click)="cerrarModalListaActivoTraslados()">Cancelar</button>
+        <button nz-button nzType="primary" (click)="iniciarProcesoTrasaladoListado()"
+        *ngIf="user.rol != 'Administrador Act. Contable'">Iniciar proceso de traslado</button>
+
+        <button nz-button nzType="primary" (click)="finalizarProcesoBajaListado()"
+        *ngIf="user.rol == 'Administrador Act. Contable'">Finalizar proceso de traslado</button>
     </ng-template>
 </nz-modal>
