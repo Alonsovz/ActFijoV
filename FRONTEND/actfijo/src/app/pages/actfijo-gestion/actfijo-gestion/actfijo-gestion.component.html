@@ -85,8 +85,19 @@
 <nz-card style="width:98%" class="cardShadow" *ngIf="mostrarCardListadoAdmin">
 
         <div nz-row>
-            <div nz-col nzSpan="18">
+            <div nz-col nzSpan="12">
                 <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Administrador de todos los activos </h2>
+            </div>
+
+            <div  nz-col [nzSpan]="6">
+                <button *ngIf="btnFinalizarBajasAdmin" (click)="finalizarListadoBajas()" nz-button nzType="default" 
+                style="float: right !important; margin-right: 10px !important; background-color: #AA0260 !important;
+                color:white; margin-top: 5px;">Finalizar selección de bajas</button>
+    
+    
+            <button *ngIf="btnFinalizarTrasladosAdmin" (click)="finalizarListadoTraslados()" nz-button nzType="default" 
+                style="float: right !important; margin-right: 10px !important; background-color: #029BAA !important;
+                color:white; margin-top: 5px;">Finalizar selección de traslados</button>
             </div>
             <div nz-col nzSpan="6">
                 <nz-form-label>Buscar </nz-form-label>
@@ -135,13 +146,15 @@
                                      <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
                                 nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
             
-                             
-                                <button style="margin: 5px !important;" nz-button nzType="danger"  
-                                *ngIf="ob.estadoActivo=='Activo' && user.rol != 'Usuario' && ob.estadoAc!='B'"
-                                (click)="mostrarModalFinalizarProcesoBaja(ob)"
-                                nzTooltipTitle="Dar de baja" 
-                                nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="delete" nzTheme="outline"></i></button>
-            
+                                <input type="checkbox"  value="ob.af_codigo_interno" nzTooltipTitle="Seleecionar para baja" 
+                            nzTooltipPlacement="topCenter" nz-tooltip 
+                            style="height: 20px !important; width: 20px !important; margin: auto; margin-right: 10px;"
+                            (change)="seleccionarActBaja($event.target.checked, ob)">
+                               
+                            <input type="checkbox" value="ob.af_codigo_interno" 
+                            nzTooltipTitle="Seleecionar para traslado" nzTooltipPlacement="topCenter" nz-tooltip
+                            style="height: 20px !important; width: 20px !important; margin: auto;"
+                            (change)="seleccionarActTraslado($event.target.checked, ob)">
                             </td>
                             </tr>
                     
@@ -184,19 +197,19 @@
                                 <td>{{ ob.usuarioAnterior }}</td>
                                 <td>{{ ob.asignado }}</td>
                                 <td  style="text-align: center; align-items: left;">
-                                    <button style="margin: 5px !important;" nz-button nzType="primary"
-                                    *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='A'"
-                                    nzTooltipTitle="Aceptar alta" nzTooltipPlacement="topCenter" nz-tooltip (click)="confimarActivacion(ob)"><i nz-icon nzType="check" nzTheme="outline"></i></button>
-                
-                            
+                              
                                     <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
                                     nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
                 
-                                    <button style="margin: 5px !important;" nz-button nzType="primary"  *ngIf="ob.estadoActivo=='Pendiente' && user.rol != 'Usuario' && ob.estadoAc=='B'"
-                                    (click)="mostrarModalFinalizarProcesoBaja(ob)"
-                                    nzTooltipTitle="Dar de baja" 
-                                    nzTooltipPlacement="topCenter" nz-tooltip> <i nz-icon nzType="check" nzTheme="outline"></i></button>
-                
+                                    <input type="checkbox"  value="ob.af_codigo_interno" nzTooltipTitle="Seleecionar para baja" 
+                                    nzTooltipPlacement="topCenter" nz-tooltip 
+                                    style="height: 20px !important; width: 20px !important; margin: auto; margin-right: 10px;"
+                                    (change)="seleccionarActBaja($event.target.checked, ob)">
+                                    
+                                    <input type="checkbox" value="ob.af_codigo_interno" 
+                                    nzTooltipTitle="Seleecionar para traslado" nzTooltipPlacement="topCenter" nz-tooltip
+                                    style="height: 20px !important; width: 20px !important; margin: auto;"
+                                    (change)="seleccionarActTraslado($event.target.checked, ob)">
                                   </td>
                             </tr>
                         
@@ -558,13 +571,16 @@
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
-                            <button nz-button nzType="default" (click)="trasladarActivo(ob)"
-                            *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                            nzTooltipTitle="Traslado de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="send" nzTheme="outline"></i></button>
-                            <button nz-button nzType="danger" (click)="mostrarModalInicioBaja(ob)"
-                            *ngIf="ob.estadoActivo=='Activo' && ob.estadoAc!='B'"
-                            nzTooltipTitle="Iniciar baja de activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="rest" nzTheme="outline"></i></button>
-        
+                                
+                            <input type="checkbox"  value="ob.af_codigo_interno" nzTooltipTitle="Seleecionar para baja" 
+                            nzTooltipPlacement="topCenter" nz-tooltip 
+                            style="height: 20px !important; width: 20px !important; margin: auto; margin-right: 10px;"
+                            (change)="seleccionarActBaja($event.target.checked, ob)">
+                               
+                            <input type="checkbox" value="ob.af_codigo_interno" 
+                            nzTooltipTitle="Seleecionar para traslado" nzTooltipPlacement="topCenter" nz-tooltip
+                            style="height: 20px !important; width: 20px !important; margin: auto;"
+                            (change)="seleccionarActTraslado($event.target.checked, ob)">
                         </td>
                       </tr>
                     </tbody>
@@ -1597,7 +1613,7 @@
 <!--Modal para mostrar listado de activos a dar de baja-->
 
 
-
+<!--modal para el listado de activos a dar de baja-->
 <nz-modal [(nzVisible)]="modalListadoActivosBaja"  nzWidth="60%"  
  [nzFooter]="modalListaBajafooter" [nzContent]="modalListaBajaContent" (nzOnCancel)="cerrarModalListaActivoBajas()">
     <ng-template #modalListaBajaContent>
@@ -1656,7 +1672,7 @@
 </nz-modal>
 
 
-
+<!--modal para el listado de activos a trasladar-->
 <nz-modal [(nzVisible)]="modalListadoActivosTraslados"  nzWidth="60%"  
  [nzFooter]="modalListaTrasladofooter" [nzContent]="modalListaTrasladoContent" (nzOnCancel)="cerrarModalListaActivoTraslados()">
     <ng-template #modalListaTrasladoContent>

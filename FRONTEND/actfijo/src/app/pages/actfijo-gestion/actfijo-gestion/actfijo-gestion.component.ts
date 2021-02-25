@@ -28,7 +28,9 @@ import * as $ from 'jquery';
 })
 export class ActfijoGestionComponent implements OnInit {
   btnFinalizarBajas = false;
+  btnFinalizarBajasAdmin = false;
   btnFinalizarTraslados = false;
+  btnFinalizarTrasladosAdmin = false;
   dateFormat = 'dd/MM/yyyy';
   texto: any;
   textoUser: any;
@@ -917,6 +919,7 @@ getAltasAdmin(){
       this.mostrarTablaCargaAdmin = true;
       this.mostrarSkeletonTablaAdmin = false;
     });
+    this.conteoAdmin();
 }
 
 
@@ -939,6 +942,7 @@ getBajasAdmin(){
       this.mostrarTablaCargaAdmin = true;
       this.mostrarSkeletonTablaAdmin = false;
     });
+    this.conteoAdmin();
 }
 
 //metodo para paginación de tabla de traslados de activo para administador
@@ -958,6 +962,7 @@ getTrasladosAdmin(){
       this.mostrarTablaCargaAdmin = true;
       this.mostrarSkeletonTablaAdmin = false;
     });
+    this.conteoAdmin();
 }
 
 
@@ -979,6 +984,7 @@ getAltasPendientesAdmin(){
       this.mostrarTablaCargaAdmin = true;
       this.mostrarSkeletonTablaAdmin = false;
     });
+    this.conteoAdmin();
 }
 
 
@@ -1001,6 +1007,7 @@ getBajasPendientesAdmin(){
       this.mostrarTablaCargaAdmin = true;
       this.mostrarSkeletonTablaAdmin = false;
     });
+    this.conteoAdmin();
 }
 
 //metodo para paginación de tabla de traslados pendientes de activo para administador
@@ -1020,6 +1027,7 @@ getTrasladosPendientesAdmin(){
       this.mostrarTablaCargaAdmin = true;
       this.mostrarSkeletonTablaAdmin = false;
     });
+    this.conteoAdmin();
 }
 
 
@@ -1047,10 +1055,7 @@ getAltasUser(){
     });
 
     
-  this.btnFinalizarTraslados = false;
-  this.btnFinalizarBajas = false;
-  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
-  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
+ this.conteoUser();
 }
 
 
@@ -1076,6 +1081,8 @@ getBajasUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    this.conteoUser();
 }
 
 
@@ -1102,10 +1109,7 @@ getTrasladosRecibidosUser(){
     });
 
     
-  this.btnFinalizarTraslados = false;
-  this.btnFinalizarBajas = false;
-  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
-  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
+    this.conteoUser();
 }
 
 
@@ -1131,6 +1135,8 @@ getTrasladosHechosUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    this.conteoUser();
 }
 
 
@@ -1155,6 +1161,8 @@ getTrasladosRecibidosPendientesUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    this.conteoUser();
 }
 
 
@@ -1178,6 +1186,8 @@ getTrasladosHechosPendientesUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    this.conteoUser();
 }
 
 //metodo para paginación de tabla de altas por usuario
@@ -1201,6 +1211,8 @@ getAltasPendientesUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    this.conteoUser();
 }
 
 
@@ -1226,6 +1238,8 @@ getBajasPendientesUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    this.conteoUser();
 }
 
 
@@ -1250,6 +1264,8 @@ getTrasladosPendientesUser(){
       this.mostrarTablaCarga = true;
       this.mostrarSkeletonTabla = false;
     });
+
+    this.conteoUser();
 }
 
 
@@ -1272,6 +1288,8 @@ conteoAdmin(){
   
   this.btnFinalizarTraslados = false;
   this.btnFinalizarBajas = false;
+  this.btnFinalizarTrasladosAdmin = false;
+  this.btnFinalizarBajasAdmin = false;
   this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
   this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 }
@@ -1382,13 +1400,16 @@ seleccionarActBaja(event, obj){
       })
     );
   }else{
+    
    $("#btnEliminarActBaja"+this.actFijoOb.af_codigo_interno).click();
   }
 
   if(this.actSeleccionadosBajas.length > 0){
     this.btnFinalizarBajas = true;
+    this.btnFinalizarBajasAdmin = true;
   }else{
     this.btnFinalizarBajas = false;
+    this.btnFinalizarBajasAdmin = false;
   }
 }
 
@@ -1485,8 +1506,10 @@ seleccionarActTraslado(event, obj){
 
   if(this.actSeleccionadosTraslados.length > 0){
     this.btnFinalizarTraslados = true;
+    this.btnFinalizarTrasladosAdmin = true;
   }else{
     this.btnFinalizarTraslados = false;
+    this.btnFinalizarTrasladosAdmin = false;
   }
 }
 
