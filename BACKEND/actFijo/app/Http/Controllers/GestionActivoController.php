@@ -710,7 +710,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_movimiento from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior,
-        
+        marca.nombre_marca as marcaAf, modelo.nombre_modelo as modeloAf,
         (select top 1 convert(varchar, fecha_movimiento, 103) from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as fechaTraslado,
@@ -720,6 +720,8 @@ class GestionActivoController extends Controller
         
          from af_maestro af
       
+         INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+         INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
         inner join users u on u.id = af.codigo_asignado 
         where af.estado = 'T' and af.estadoActivo = 'Activo'
         
@@ -861,6 +863,7 @@ class GestionActivoController extends Controller
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         h.usuario_asignado as usuarioNuevo,
         h.usuario_movimiento as usuarioAnterior,
+        marca.nombre_marca as marcaAf, modelo.nombre_modelo as modeloAf,
         convert(varchar, h.fecha_movimiento, 103) as fechaTraslado,
          substring(convert(varchar,h.fecha_movimiento, 114),1,5) as horaTraslado,
          case when af.estado = 'A'
@@ -875,6 +878,8 @@ class GestionActivoController extends Controller
          end as estadoActual
         from af_historial_activo h
         inner join af_maestro af on af.af_codigo_interno = h.idActivo
+        INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+        INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
         where h.usuario_asignado = '".$alias."'
         and h.movimiento = 'Traslado'  and af.estado != 'B' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
 
