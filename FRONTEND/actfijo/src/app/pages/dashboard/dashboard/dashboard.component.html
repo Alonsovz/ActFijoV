@@ -20,7 +20,8 @@
 
       <li nz-submenu nzTitle="Gestión de activos" nzIcon="snippets" nzSpin="true">
         <ul>
-          <li nz-menu-item routerLink="actfijoGestion">Gestión de Activos</li>
+          <li nz-menu-item routerLink="actfijoGestion">Gestión de mis Activos</li>
+          <li nz-menu-item routerLink="adminActivos" *ngIf="user.rol != 'Usuario'">Administrador de Activos</li>
         </ul>
       </li>
 

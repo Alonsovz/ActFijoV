@@ -29,9 +29,7 @@ import { JsonPipe } from '@angular/common';
 })
 export class ActfijoGestionComponent implements OnInit {
   btnFinalizarBajas = false;
-  btnFinalizarBajasAdmin = false;
   btnFinalizarTraslados = false;
-  btnFinalizarTrasladosAdmin = false;
   dateFormat = 'dd/MM/yyyy';
   texto: any;
   textoUser: any;
@@ -51,9 +49,6 @@ export class ActfijoGestionComponent implements OnInit {
   altaActivoForm : FormGroup;
   editarActivoForm : FormGroup;
   trasladoActivoForm : FormGroup;
-  mostrarCardListadoAdmin = false;
-  mostrarSkeletonTablaAdmin = false;
-  mostrarTablaCargaAdmin = false;
 
   objTipoActivosTbl : Tipoactivo[];
   objTipoBienVNR : TipoBienVnr[];
@@ -91,24 +86,7 @@ export class ActfijoGestionComponent implements OnInit {
   modalFinalizarProcesoBaja = false;
   modalDetallesActivo = false;
 
-  listaAltasAdmin: ReadonlyArray<ActfijoGestion> = [];
-  listaAltasAdminObj: ReadonlyArray<ActfijoGestion> = [];
 
-  listaBajasAdmin: ReadonlyArray<ActfijoGestion> = [];
-  listaBajasAdminObj: ReadonlyArray<ActfijoGestion> = [];
-
-  listaTrasladosAdmin: ReadonlyArray<ActfijoGestion> = [];
-  listaTrasladosAdminObj: ReadonlyArray<ActfijoGestion> = [];
-
-
-  listaAltasPendienteAdmin: ReadonlyArray<ActfijoGestion> = [];
-  listaAltasPendienteAdminObj: ReadonlyArray<ActfijoGestion> = [];
-
-  listaBajasPendienteAdmin: ReadonlyArray<ActfijoGestion> = [];
-  listaBajasPendienteAdminObj: ReadonlyArray<ActfijoGestion> = [];
-
-  listaTrasladosPendienteAdmin: ReadonlyArray<ActfijoGestion> = [];
-  listaTrasladosPendienteAdminObj: ReadonlyArray<ActfijoGestion> = [];
 
   listaConteo : ActfijoGestion[];
 
@@ -142,13 +120,6 @@ export class ActfijoGestionComponent implements OnInit {
   listaTrasladosHechosPendientesUser: ReadonlyArray<Usuario> = [];
   listaTrasladosHechosPendientesUserObj: ReadonlyArray<Usuario> = [];
 
-  conteoAltas = 0;
-  conteoBajas = 0;
-  conteoTraslados = 0;
-  conteoAltasPen = 0;
-  conteoBajasPen = 0;
-  conteoTrasladosPen = 0;
-
 
   conteoAltasUser = 0;
   conteoBajasUser = 0;
@@ -181,9 +152,7 @@ export class ActfijoGestionComponent implements OnInit {
         'motivoBajaInput': new FormControl('',[Validators.required]),
       });
 
-      this.bajaActivoFormAdmin = new FormGroup({
-        'motivoBajaInput': new FormControl('',[Validators.required]),
-      });
+     
 
     this.altaActivoForm = new FormGroup({
       'tipoDocumento': new FormControl('',[Validators.required]),
@@ -349,18 +318,12 @@ export class ActfijoGestionComponent implements OnInit {
     this.mostrarCardListado = false;
     this.validarPPYE = false;
 
-    this.mostrarSkeletonTablaAdmin = false;
-    this.mostrarCardListadoAdmin = false;
-    this.mostrarTablaCargaAdmin = false;
-    //this.agregarClasificacionAgdForm.reset();
   }
 
 
   //metodo para mostrar card para ver tabla de mis activos
   showCardListado() : void{
-    this.mostrarSkeletonTablaAdmin = false;
-    this.mostrarCardListadoAdmin = false;
-    this.mostrarTablaCargaAdmin = false;
+    
     this.mostrarTablaCarga = false;
     this.mostrarCardAgregar = false;
     this.mostrarCardListado = true;
@@ -374,24 +337,6 @@ export class ActfijoGestionComponent implements OnInit {
 
   }
 
-   //metodo para mostrar card para ver tabla de mis activos
-   showCardListadoAdminActivos() : void{
-    this.mostrarTablaCarga = false;
-    this.mostrarCardAgregar = false;
-    this.mostrarCardListado = false;
-    this.validarPPYE = false;
-
-    this.mostrarTablaCargaAdmin = false;
-    this.mostrarSkeletonTablaAdmin = true;
-    this.mostrarCardListadoAdmin = true;
-
-
-
-    this.getAltasAdmin();
-    this.conteoAdmin();
-
-
-  }
 
 
   //metodo para filtrar modelos por marca seleccionada
@@ -504,58 +449,6 @@ onCurrentPageDataChangeAdmin(listOfCurrentPageDataAdmin: ReadonlyArray<ActfijoGe
 
 
 
-//metodo para mostrar modal de confirmación para activar artículo
-confimarActivacion(actFijo) : void{
-  this.modalActivacionVisible = true;
-
-  this.actFijoOb = actFijo;
-}
-
-//metodo para guardar activación de artículo
-guardarActivacion(){
-
-  let datosActivo : ActfijoGestion = new ActfijoGestion();
-
-  datosActivo = Object.assign(this.actFijoOb, this.user);
-
-  this.gestionActFijo.guardarActivacionActivo(datosActivo).subscribe(
-    response => {
-
-    },
-    err => {
-      notie.alert({
-        type: 'error',
-        text: 'Error al guardar datos!',
-        stay: false,
-        time: 2,
-        position: 'top'
-      });
-    },
-    () => {
-
-        notie.alert({
-          type: 'success',
-          text: 'Artículo activo con éxito',
-          stay: false,
-          time: 2,
-          position: 'top'
-        });
-      this.getAltasPendientesAdmin();
-      this.conteoAdmin();
-      this.modalActivacionVisible = false;
-      }
-
-
-  );
-
-}
-
-//metodo para cancelar activación de artículo
-cerrarModalActivacion(){
-  this.modalActivacionVisible = false;
-}
-
-
 //metodo para filtrar municipios por departarmento en edición
 public filtrarMunicipiosEdicion(){
   let datosmarcaActivo : Marcasactivo = new Marcasactivo();
@@ -619,58 +512,10 @@ editarActFijo(act, vis){
     });
 }
 
- //metodo para guardar edición de activo
-
-guardarEdicionActivo(){
-    let datosActivo : ActfijoGestion = new ActfijoGestion();
-
-    datosActivo = Object.assign(this.editarActivoForm.value, this.user);
-
-    this.gestionActFijo.guardarEdicionActivo(datosActivo).subscribe(
-      response => {
-
-      },
-      err => {
-        notie.alert({
-          type: 'error',
-          text: 'Error al guardar datos!',
-          stay: false,
-          time: 2,
-          position: 'top'
-        });
-      },
-      () => {
-
-          notie.alert({
-            type: 'success',
-            text: 'Datos modificados con éxito',
-            stay: false,
-            time: 2,
-            position: 'top'
-          });
-
-          this.conteoAdmin();
-          this.getBajasPendientesAdmin();
-          this.getBajasPendientesAdmin();
-          this.getTrasladosAdmin();
-          this.getTrasladosPendientesAdmin();
-          this.getAltasAdmin();
-          this.getAltasPendientesAdmin();
-
-        }
-
-
-    );
-}
 
 
 
-//metodo para cerrar edición de activo admin
 
-cerrarCardEditarAdmin(){
-
-  this.mostrarCardEditar = false;
-}
 
 //metodo para cerrar edición de activo ser
 cerrarCardEditar(){
@@ -782,8 +627,6 @@ guardarTraslado(){
 
       this.getAltasUser();
       this.getTrasladosRecibidosUser();
-      this.getAltasAdmin();
-      this.getTrasladosAdmin();
       this.conteoUser();
       this.modalTrasladoVisible = false;
 
@@ -816,44 +659,7 @@ cerrarModalFinalizarProcesoBaja(){
   this.modalFinalizarProcesoBaja = false;
 }
 
-// finalizar proceso de baja por parte del administrador
-finalizarProcesoBaja() {
 
-  let datosActivo : ActfijoGestion = new ActfijoGestion();
-  datosActivo = Object.assign(this.bajaActivoFormAdmin.value, this.actFijoOb, this.user);
-
-  this.gestionActFijo.finalizarProcesoBaja(datosActivo).subscribe(
-    response =>{},
-    err => {
-      notie.alert({
-        type: 'error',
-        text: 'Error al finalizar proceso de baja',
-        stay: false,
-        time: 4,
-        position: 'top'
-      });
-    },
-    () => {
-      notie.alert({
-        type: 'success',
-        text: 'Proceso de baja finalizado con exito',
-        stay: false,
-        time: 4,
-        position: 'top'
-      });
-      this.conteoAdmin();
-      this.getBajasPendientesAdmin();
-      this.getBajasPendientesAdmin();
-      this.getTrasladosAdmin();
-      this.getTrasladosPendientesAdmin();
-      this.getAltasAdmin();
-      this.getAltasPendientesAdmin();
-
-      this.modalFinalizarProcesoBaja = false;
-    }
-  )
-
-}
 
 // mostrar modal para aceptacion de la finalizacion del proceso de baja
 mostrarModalFinalizarProcesoBaja(obj) {
@@ -862,143 +668,12 @@ mostrarModalFinalizarProcesoBaja(obj) {
 }
 
 
-
-
-//metodo para paginación de tabla de altas de activo para administador
-paginacionTablaAltasAdmin(listaAltasAdmin: ReadonlyArray<ActfijoGestion>) {
-  this.listaAltasAdmin  = listaAltasAdmin;
-
-}
-
-//metodo para obtener listado de altas para usuario administrador
-
-getAltasAdmin(){
-  this.mostrarTablaCargaAdmin = false;
-      this.mostrarSkeletonTablaAdmin = true;
-  this.gestionActFijo.getAltasAdmin().subscribe(
-    data => {
-      this.listaAltasAdminObj = data;
-      this.mostrarTablaCargaAdmin = true;
-      this.mostrarSkeletonTablaAdmin = false;
-    });
-    this.conteoAdmin();
-}
-
-
-
-//metodo para paginación de tabla de abajas de activo para administador
-paginacionTablaBajasAdmin(listaBajasAdmin: ReadonlyArray<ActfijoGestion>) {
-  this.listaBajasAdmin  = listaBajasAdmin;
-
-}
-
-//metodo para obtener listado de bajas para usuario administrador
-
-getBajasAdmin(){
-  this.mostrarTablaCargaAdmin = false;
-      this.mostrarSkeletonTablaAdmin = true;
-
-  this.gestionActFijo.getBajasAdmin().subscribe(
-    data => {
-      this.listaBajasAdminObj = data;
-      this.mostrarTablaCargaAdmin = true;
-      this.mostrarSkeletonTablaAdmin = false;
-    });
-    this.conteoAdmin();
-}
-
-//metodo para paginación de tabla de traslados de activo para administador
-paginacionTablaTrasladoAdmin(listaTrasladosAdmin: ReadonlyArray<ActfijoGestion>) {
-  this.listaTrasladosAdmin  = listaTrasladosAdmin;
-
-}
-
-//metodo para obtener listado de traslados para usuario administrador
-getTrasladosAdmin(){
-  this.mostrarTablaCargaAdmin = false;
-      this.mostrarSkeletonTablaAdmin = true;
-
-  this.gestionActFijo.getTrasladosAdmin().subscribe(
-    data => {
-      this.listaTrasladosAdminObj = data;
-      this.mostrarTablaCargaAdmin = true;
-      this.mostrarSkeletonTablaAdmin = false;
-    });
-    this.conteoAdmin();
-}
-
-
-
-//metodo para paginación de tabla de altas pendientes de activo para administador
-paginacionTablaAltasPendientesAdmin(listaAltasPendienteAdmin: ReadonlyArray<ActfijoGestion>) {
-  this.listaAltasPendienteAdmin  = listaAltasPendienteAdmin;
-
-}
-
-//metodo para obtener listado de altas pendientes para usuario administrador
-
-getAltasPendientesAdmin(){
-  this.mostrarTablaCargaAdmin = false;
-      this.mostrarSkeletonTablaAdmin = true;
-  this.gestionActFijo.getAltasPendientesAdmin().subscribe(
-    data => {
-      this.listaAltasPendienteAdminObj = data;
-      this.mostrarTablaCargaAdmin = true;
-      this.mostrarSkeletonTablaAdmin = false;
-    });
-    this.conteoAdmin();
-}
-
-
-
-//metodo para paginación de tabla de bajas pendientes de activo para administador
-paginacionTablaBajasPendienteAdmin(listaBajasPendienteAdmin: ReadonlyArray<ActfijoGestion>) {
-  this.listaBajasPendienteAdmin  = listaBajasPendienteAdmin;
-
-}
-
-//metodo para obtener listado de bajas pendientes para usuario administrador
-
-getBajasPendientesAdmin(){
-  this.mostrarTablaCargaAdmin = false;
-      this.mostrarSkeletonTablaAdmin = true;
-
-  this.gestionActFijo.getBajasPendientesAdmin().subscribe(
-    data => {
-      this.listaBajasPendienteAdminObj = data;
-      this.mostrarTablaCargaAdmin = true;
-      this.mostrarSkeletonTablaAdmin = false;
-    });
-    this.conteoAdmin();
-}
-
-//metodo para paginación de tabla de traslados pendientes de activo para administador
-paginacionTablaTrasladoPendienteAdmin(listaTrasladosPendienteAdmin: ReadonlyArray<ActfijoGestion>) {
-  this.listaTrasladosPendienteAdmin  = listaTrasladosPendienteAdmin;
-
-}
-
-//metodo para obtener listado de traslados pendiente para usuario administrador
-getTrasladosPendientesAdmin(){
-  this.mostrarTablaCargaAdmin = false;
-      this.mostrarSkeletonTablaAdmin = true;
-
-  this.gestionActFijo.getTrasladosPendientesAdmin().subscribe(
-    data => {
-      this.listaTrasladosAdminObj = data;
-      this.mostrarTablaCargaAdmin = true;
-      this.mostrarSkeletonTablaAdmin = false;
-    });
-    this.conteoAdmin();
-}
-
-
-
-//metodo para paginación de tabla de altas por usuario
-paginacionTablaAltasUser(listaAltasUser: ReadonlyArray<Usuario>) {
+//metodo para paginación de tabla de ALTAS por usuario
+paginacionTablaAltasUser (listaAltasUser: ReadonlyArray<Usuario>) {
   this.listaAltasUser  = listaAltasUser;
 
 }
+
 
 //metodo para obtener listado de altas por usuario
 getAltasUser(){
@@ -1231,30 +906,6 @@ getTrasladosPendientesUser(){
 }
 
 
-//metodo para obtener conteo de badges administrador
-conteoAdmin(){
-  this.gestionActFijo.getConteoAdmin().subscribe(
-    data => {
-      this.listaConteo = data;
-
-      data.forEach(element => {
-        this.conteoAltas = Number(element["conteoAltas"]);
-        this.conteoBajas = Number(element["conteoBajas"]);
-        this.conteoTraslados = Number(element["conteoTraslados"]);
-        this.conteoAltasPen = Number(element["conteoAltasPen"]);
-        this.conteoBajasPen = Number(element["conteoBajasPen"]);
-        this.conteoTrasladosPen = Number(element["conteoTrasladosPen"]);
-      });
-  });
-
-  
-  this.btnFinalizarTraslados = false;
-  this.btnFinalizarBajas = false;
-  this.btnFinalizarTrasladosAdmin = false;
-  this.btnFinalizarBajasAdmin = false;
-  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
-  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
-}
 
 //metodo para obtener conteo de badges usuario
 conteoUser(){
@@ -1365,10 +1016,8 @@ seleccionarActBaja(event, obj){
 
   if(this.actSeleccionadosBajas.length > 0){
     this.btnFinalizarBajas = true;
-    this.btnFinalizarBajasAdmin = true;
   }else{
     this.btnFinalizarBajas = false;
-    this.btnFinalizarBajasAdmin = false;
   }
 }
 
@@ -1511,10 +1160,8 @@ seleccionarActTraslado(event, obj){
 
   if(this.actSeleccionadosTraslados.length > 0){
     this.btnFinalizarTraslados = true;
-    this.btnFinalizarTrasladosAdmin = true;
   }else{
     this.btnFinalizarTraslados = false;
-    this.btnFinalizarTrasladosAdmin = false;
   }
 }
 
@@ -1623,9 +1270,7 @@ guardarTrasladoListado(){
           position: 'top'
         });
       this.getTrasladosRecibidosPendientesUser();
-      this.getAltasAdmin();
       this.getAltasUser();
-      this.getTrasladosAdmin();
       this.conteoUser();
       this.modalListadoActivosTraslados = false;
       this.generarHojaTrasladoActivo();
@@ -1666,9 +1311,7 @@ guardarAceptacionTraslado(){
           position: 'top'
         });
       this.getTrasladosRecibidosPendientesUser();
-      this.getAltasAdmin();
       this.getAltasUser();
-      this.getTrasladosAdmin();
       this.conteoUser();
       this.modalAceptarTrasladoVisible = false;
       }
