@@ -651,6 +651,10 @@ cerrarModalAceptarTraslado(){
 }
 
 
+cerrarModalActivacion(){
+  this.modalBajaConfirmacion = false;
+}
+
 
 
 
