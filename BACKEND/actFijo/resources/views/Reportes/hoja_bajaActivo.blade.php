@@ -89,67 +89,40 @@
         <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial">
             <thead>
             <tr>
-                <th style="width:160px">Código</th>
-                <th style="width:160px">Activo</th>
+                <th style="width:10px">Código</th>
+                <th style="width:70px">Activo</th>
                 <th style="width:10px">Marca</th>
                 <th style="width:10px">Modelo</th>
-
+                <th style="width:10px">Asignado a</th>
+                <th style="width:100px">Motivo Baja</th>
             </tr>
             </thead>
 
             <tbody>
-
+                <?php
+                $act = json_decode($actBajas);
+                ?>
+             @foreach($act as $a)
                 <tr>
 
-                    <td>{{$a->tipo_activo}}</td>
+                    <td>{{$a->idActivo}}</td>
+                    <td>{{$a->descripcion}}</td>
                     <td>{{$a->marca}}</td>
                     <td>{{$a->modelo}}</td>
-                    <td>{{$a->color}}</td>
+                    <td>{{$a->asignado}}</td>
+                    <td>{{$a->motivoBaja}}</td>
                 </tr>
-
+            @endforeach
             </tbody>
 
         </table>
+       
     </div>
 
     <div style="margin-top: 5px">
 
 
-        <div id=div1 style="margin-top: 0px">
-            <b style="font-size: 10px;">Dependencia origen:</b>
-            <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial; margin-top: 15px; margin-bottom: 20px">
-                <thead>
-
-                </thead>
-
-                <tbody>
-
-
-                <tr>
-                    <td style="width: 300px"><b style="font-size: 10px">Se encontraba asignado a:</b></td>
-                    <td><b style="font-size: 10px">{{$a->nombre}} {{$a->apellido}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 300px"><b style="font-size: 10px">Agencia:</b></td>
-                    <td><b style="font-size: 10px">{{$a->agencia}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 300px"><b style="font-size: 10px">Centro de Costos:</b></td>
-                    <td><b style="font-size: 10px">{{$a->centrocosto}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 300px"><b style="font-size: 10px">Bodega:</b></td>
-                    <td><b style="font-size: 10px">{{$a->bodega}}</b></td>
-                </tr>
-
-                </tbody>
-                <tfoot>
-
-
-                </tfoot>
-
-            </table>
-        </div>
+   
 
 
    

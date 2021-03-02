@@ -19,6 +19,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { GlobalService } from 'src/app/services/global.service';
 import * as $ from 'jquery';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
@@ -727,13 +728,12 @@ iniciarBaja(id) {
     this.getBajasPendientesUser();
     this.conteoUser();
     this.modalBajaConfirmacion = false;
-
+    this.generarHojaActivoBaja();
     }
   );
 
 
-  var url = this.urlBackEnd.getUrlBackEnd()+'getHojaBaja';
-  window.open(url, '_blank');
+
 }
 
 
@@ -808,45 +808,7 @@ cerrarModalAceptarTraslado(){
 }
 
 
-//metodo para aceptar traslado de artículo
-guardarAceptacionTraslado(){
-  let datosActivo : ActfijoGestion = new ActfijoGestion();
 
-  datosActivo = Object.assign(this.actFijoOb, this.user);
-
-  this.gestionActFijo.guardarAceptacionTraslado(datosActivo).subscribe(
-    response => {
-
-    },
-    err => {
-      notie.alert({
-        type: 'error',
-        text: 'Error al guardar datos!',
-        stay: false,
-        time: 2,
-        position: 'top'
-      });
-    },
-    () => {
-
-        notie.alert({
-          type: 'success',
-          text: 'Artículo trasladado con éxito',
-          stay: false,
-          time: 2,
-          position: 'top'
-        });
-      this.getTrasladosRecibidosPendientesUser();
-      this.getAltasAdmin();
-      this.getAltasUser();
-      this.getTrasladosAdmin();
-      this.conteoUser();
-      this.modalAceptarTrasladoVisible = false;
-      }
-
-
-  );
-}
 
 
 // cerrar modal para el proceso de finalizacion del activo
@@ -1374,12 +1336,6 @@ generarHojaActivo() {
 
 }
 
-// generar hoja de traslado de activo
-generarHojaTrasladoActivo() {
-  let activo: ActfijoGestion = new ActfijoGestion();
-  activo = this.trasladoActivoForm.value;
-  const ur = this.urlBackEnd.getUrlBackEnd() + 'generarHojaTrasladoActivo?activo=' + activo.af_codigo_interno;
-}
 
 
 //arreglo de activos para baja
@@ -1397,6 +1353,9 @@ seleccionarActBaja(event, obj){
         idActivo:this.actFijoOb.af_codigo_interno,
         descripcion : this.actFijoOb.descripcion_bien,
         motivoBaja: '',
+        marca: this.actFijoOb.marcaAf,
+        modelo: this.actFijoOb.modeloAf,
+        asignado: this.actFijoOb.asignado,
       })
     );
   }else{
@@ -1433,9 +1392,9 @@ cerrarModalListaActivoBajas(){
 // generar hoja de activo
 generarHojaActivoBaja() {
   let datosActivo : ActfijoGestion = new ActfijoGestion();
-  datosActivo = this.frm_activoBaja.value;
+  datosActivo = this.actSeleccionadosBajas.value;
 
-  const ur =  this.urlBackEnd.getUrlBackEnd() + 'getHojaBaja?activo[]=' + datosActivo;
+  const ur =  this.urlBackEnd.getUrlBackEnd() + 'getHojaBaja?activo=' + JSON.stringify(datosActivo);
   window.open(ur, '_blank');
 
 }
@@ -1446,9 +1405,8 @@ iniciarProcesoBajaListado(id) {
   datosActivo = this.frm_activoBaja.value;
 
 
-  this.generarHojaActivoBaja();
 
- /*this.gestionActFijo.iniciarBaja(datosActivo).subscribe(
+ this.gestionActFijo.iniciarBaja(datosActivo).subscribe(
     response => {
       console.log(response);
     },
@@ -1476,11 +1434,52 @@ iniciarProcesoBajaListado(id) {
     this.getBajasPendientesUser();
     this.conteoUser();
     this.modalListadoActivosBaja = false;
-
+    this.generarHojaActivoBaja();
     }
-  );*/
+  );
 }
 
+
+// finalizar baja admin
+finalizarProcesoBajaListado(id) {
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+
+  datosActivo = Object.assign(this.frm_activoBaja.value, this.actFijoOb, this.user);
+
+ 
+
+ this.gestionActFijo.finalizarProcesoBaja(datosActivo).subscribe(
+    response => {
+      console.log(response);
+    },
+    err => {
+      notie.alert({
+        type: 'error',
+        text: 'Error al iniciar proceso de baja',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+    },
+    () => {
+      notie.alert({
+        type: 'success',
+        text: 'Bajas guardadas con éxito',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+
+    this.getBajasUser();
+    this.getAltasUser();
+    this.getTrasladosRecibidosUser();
+    this.getBajasPendientesUser();
+    this.conteoUser();
+    this.modalListadoActivosBaja = false;
+    this.generarHojaActivoBaja();
+    }
+  );
+}
 
 
 
@@ -1490,14 +1489,20 @@ get actSeleccionadosTraslados(){
 }
 
 
+
+
 //seleccionar caso para baja 
 seleccionarActTraslado(event, obj){
   this.actFijoOb= obj;
+
   if(event === true){
     this.actSeleccionadosTraslados.push(
       this.fbTrasladosAct.group({
         idActivo:this.actFijoOb.af_codigo_interno,
         descripcion : this.actFijoOb.descripcion_bien,
+        marca: this.actFijoOb.marcaAf,
+        modelo: this.actFijoOb.modeloAf,
+        usuarioAnterior: this.actFijoOb.asignado,
       })
     );
   }else{
@@ -1529,13 +1534,29 @@ cerrarModalListaActivoTraslados(){
 
 
 
-// iniciar baja
+
+// generar hoja de traslado de activo
+generarHojaTrasladoActivo() {
+  let activo: ActfijoGestion = new ActfijoGestion();
+  activo = this.actSeleccionadosTraslados.value;
+
+  var userNuevo = document.getElementById("usuarioTrasladoNuevo").textContent;
+
+  //console.log();
+  const ur = this.urlBackEnd.getUrlBackEnd() + 'generarHojaTrasladoActivo?activo=' + JSON.stringify(activo)+'&usuarioNuevo='+userNuevo;
+
+  window.open(ur, '_blank');
+}
+
+
+
+// iniciar proceso de traslado
 iniciarProcesoTrasaladoListado(id) {
   let datosActivo : ActfijoGestion = new ActfijoGestion();
   datosActivo =Object.assign(this.trasladoActivoForm.value, this.frm_activoTraslado.value);
 
 
-  //this.generarHojaActivoBaja();
+  
 
  this.gestionActFijo.guardarTraslado(datosActivo).subscribe(
     response => {
@@ -1565,10 +1586,95 @@ iniciarProcesoTrasaladoListado(id) {
     this.getBajasPendientesUser();
     this.conteoUser();
     this.modalListadoActivosTraslados = false;
-
+    this.generarHojaTrasladoActivo();
     }
   );
 }
 
+
+
+//metodo para enviar listado de traslados
+guardarTrasladoListado(){
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+
+  datosActivo = Object.assign(this.frm_activoTraslado.value, this.user, this.trasladoActivoForm.value);
+
+  
+  this.gestionActFijo.guardarAceptacionTraslado(datosActivo).subscribe(
+    response => {
+
+    },
+    err => {
+      notie.alert({
+        type: 'error',
+        text: 'Error al guardar datos!',
+        stay: false,
+        time: 2,
+        position: 'top'
+      });
+    },
+    () => {
+
+        notie.alert({
+          type: 'success',
+          text: 'Artículo trasladado con éxito',
+          stay: false,
+          time: 2,
+          position: 'top'
+        });
+      this.getTrasladosRecibidosPendientesUser();
+      this.getAltasAdmin();
+      this.getAltasUser();
+      this.getTrasladosAdmin();
+      this.conteoUser();
+      this.modalListadoActivosTraslados = false;
+      this.generarHojaTrasladoActivo();
+      }
+
+
+  );
+}
+
+
+
+//metodo para aceptar traslado de artículo
+guardarAceptacionTraslado(){
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+
+  datosActivo = Object.assign(this.actFijoOb, this.user);
+
+  this.gestionActFijo.guardarAceptacionTraslado(datosActivo).subscribe(
+    response => {
+
+    },
+    err => {
+      notie.alert({
+        type: 'error',
+        text: 'Error al guardar datos!',
+        stay: false,
+        time: 2,
+        position: 'top'
+      });
+    },
+    () => {
+
+        notie.alert({
+          type: 'success',
+          text: 'Artículo trasladado con éxito',
+          stay: false,
+          time: 2,
+          position: 'top'
+        });
+      this.getTrasladosRecibidosPendientesUser();
+      this.getAltasAdmin();
+      this.getAltasUser();
+      this.getTrasladosAdmin();
+      this.conteoUser();
+      this.modalAceptarTrasladoVisible = false;
+      }
+
+
+  );
+}
 
 }

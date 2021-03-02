@@ -42,4 +42,6 @@ export class ActfijoGestion {
     public aplica_contabilidad : string;
     public solo_vnr : string;
     public estadoActivo : string;
+    public marcaAf : string;
+    public modeloAf : string;
 }

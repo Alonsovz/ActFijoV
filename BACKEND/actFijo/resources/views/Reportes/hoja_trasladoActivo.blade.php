@@ -85,8 +85,11 @@
         <b style="margin-left: 175px;font-size: 14px;">Formato para movimiento de activo fijo</b>
     </div>
 
-    @foreach($activo as $act)
-    <div style="position: relative; bottom: 20px;  ">
+    <?php
+                $actTraslado = json_decode($activoTraslado);
+                ?>
+    
+    <div style="bottom: 20px;">
 
         <div style="float: left">
             <table class="minimalistBlack" style="width: 10px;" >
@@ -96,72 +99,42 @@
                     <td  style="width: 75px"><b style="font-size: 9px; ">Fecha</b></td>
                     <td  style="width: 120px"><b style="font-size: 9px; ">{{date('d/m/Y H:i')}}</b></td>
                 </tr>
-                <tr>
-                    <td  style="width: 75px"><b style="font-size: 9px; ">Codigo</b></td>
-                    <td  style="width: 120px"><b style="font-size: 9px; "></b></td>
-                </tr>
+              
                 </tbody>
             </table>
         </div>
 
-        <div style="position: relative; margin:0; margin-left: 450px">
-            <table class="minimalistBlack" style="width: 10px;" >
-
-                <tbody>
-                <tr>
-                    <td  style="width: 75px"><b style="font-size: 9px; ">Factura No.</b></td>
-                    <td  style="width: 120px"><b style="font-size: 9px; "></b></td>
-                </tr>
-                <tr>
-                    <td  style="width: 75px"><b style="font-size: 9px; ">Cta. Contable</b></td>
-                    <td  style="width: 120px"><b style="font-size: 9px; "></b></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 
-    <div style="margin-top: 3px"><b style="font-size: 10px">Información basica de los activos fijos:</b></div>
+   
+    <div style="margin-top:10px; margin-bottom: 30px;">
+    <div style="margin-top: 30px; "><b style="font-size: 10px">Información basica de los activos fijos:</b></div>
 
-    <div style="margin-top: 3px">
         <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial">
             <thead>
             <tr>
-
-                <th style="width:150px">Insumo</th>
+                <th style="width:150px">Código</th>
+                <th style="width:150px">Activo</th>
                 <th style="width:10px">Marca</th>
                 <th style="width:10px">Modelo</th>
-                <th style="width:10px">Otras espec</th>
-                <th style="width:5px">Cant</th>
-
+                <th style="width:10px">Usuario Anterior</th>
 
 
             </tr>
             </thead>
 
             <tbody>
-
+            @foreach($actTraslado as $act)
             <tr>
-
-                <td style="font-size: 8px">{{$act->descripcion_bien}}</td>
-                <td style="font-size: 8px">{{$act->nombre_marca}}</td>
-                <td style="font-size: 8px">{{$act->nombre_modelo}}</td>
-                <td style="font-size: 8px"></td>
-                <td style="font-size: 8px" class="cantidad">1</td>
+                <td style="font-size: 8px">{{$act->idActivo}}</td>
+                <td style="font-size: 8px">{{$act->descripcion}}</td>
+                <td style="font-size: 8px">{{$act->marca}}</td>
+                <td style="font-size: 8px">{{$act->modelo}}</td>
+                <td style="width: 125px"><b style="font-size: 10px">{{$act->usuarioAnterior}}</b></td>
             </tr>
+            @endforeach
 
             </tbody>
-            <tfoot>
-            <tr>
-
-
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Total:</td>
-                <td class="total"><b style="font-size: 10px">1</b></td>
-            </tr>
-            </tfoot>
 
         </table>
     </div>
@@ -179,109 +152,21 @@
 
                 <tr>
                     <td style="width: 125px"><b style="font-size: 10px">Nuevo responsable:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$traslado->nombredestino}} {{$traslado->apellidodestino}}</b></td>
+                    <td style="width: 125px"><b style="font-size: 10px">{{$usuarioNuevo}}</b></td>
                 </tr>
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Agencia destino:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$traslado->agencia}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">CC destino:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$traslado->centro_costo_destino}}</b></td>
-                </tr>
+               
                 </tbody>
                 <tfoot>
                 </tfoot>
 
             </table>
         </div>
-        <div id=div1 style="margin-top: 0px;">
-            <b style="font-size: 10px;">Dependencia Origen:</b>
-            <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial; width: 125px; margin-top: 0px; margin-bottom: 20px">
-                <thead>
+    
 
-                </thead>
+        
+      
 
-                <tbody>
-
-
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Responsable actual:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$act->nombre}} {{$act->apellido}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Agencia actual:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$act->agencia}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">CC actual:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$act->centro_costo}}</b></td>
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-
-            </table>
-        </div>
-
-        <div id=div1 style="margin-top: -20px; position: absolute;margin-left: 450px">
-            <b style="font-size: 10px;">Ubicacion geografica destino:</b>
-            <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial; width: 125px; margin-top: 0px; margin-bottom: 20px">
-                <thead>
-
-                </thead>
-
-                <tbody>
-
-
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Departamento:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$traslado->departamento}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Municipio:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$traslado->municipio}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Referencia:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">N/A</b></td>
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-
-            </table>
-        </div>
-        <div id=div1 style="margin-top: 0px;">
-            <b style="font-size: 10px;">Ubicacion geografica anterior:</b>
-            <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial; width: 125px; margin-top: 0px; margin-bottom: 20px">
-                <thead>
-
-                </thead>
-
-                <tbody>
-
-
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Departamento:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$act->departamento}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Municipio:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">{{$act->municipio}}</b></td>
-                </tr>
-                <tr>
-                    <td style="width: 125px"><b style="font-size: 10px">Referencia:</b></td>
-                    <td style="width: 125px"><b style="font-size: 10px">N/A</b></td>
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-
-            </table>
-        </div>
-
-        <div id=div1 style="margin-top: 0px; position: absolute;margin-left: 450px">
+        <div id=div1 style="margin-top: 0px; position: absolute;margin-left: 200px">
             <b style="font-size: 10px;">Finalidad anterior del activo:</b>
             <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial; width: 125px; margin-top: 2px; margin-bottom: 20px">
                 <thead>
@@ -327,9 +212,7 @@
 
     <div style="margin-top: -10px; padding: 0" >
 
-        <b style="font-size: 10px;">Motivo del traslado:</b>
-        <p style="margin-top: 2px; border:solid 1px black; height: 25px; font-size: 10px">{{$traslado->observaciones}}</p>
-
+      
         <div style="width: 800px">
             <b style="font-size: 10px">Firmas y Sellos:</b>
 
@@ -363,7 +246,7 @@
 
 
 </div>
-@endforeach
+
 
 
 <div id="container" style="margin-top: 5px">

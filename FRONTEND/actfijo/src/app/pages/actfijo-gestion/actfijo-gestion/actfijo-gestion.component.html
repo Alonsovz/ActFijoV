@@ -146,7 +146,7 @@
                                      <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
                                 nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
             
-                                <input type="checkbox"  value="ob.af_codigo_interno" nzTooltipTitle="Seleecionar para baja" 
+                                <input type="checkbox"  value="ob.af_codigo_interno" nzTooltipTitle="Seleccionar para baja" 
                             nzTooltipPlacement="topCenter" nz-tooltip 
                             style="height: 20px !important; width: 20px !important; margin: auto; margin-right: 10px;"
                             (change)="seleccionarActBaja($event.target.checked, ob)">
@@ -1680,13 +1680,13 @@
         <h2 style="text-align: center !important;">Listado de activos de los que se iniciará el proceso de traslado</h2>
         <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;
         margin-left: 30px;margin-right: 30px"></nz-divider>
-       <br><br>
+       
         <form nz-form  [formGroup]="trasladoActivoForm" style="margin-left: 30px;margin-right: 30px;">
             <div nz-row>
-
                 <div nz-col nzSpan="12">
                     <nz-form-label nzRequired>Usuario a que se trasladará el activo</nz-form-label>
-                    <nz-select formControlName="usuarioTrasladoNuevo" nzShowSearch nzAllowClear nzPlaceHolder="Nombre de usuario">
+                    <nz-select formControlName="usuarioTrasladoNuevo"  id="usuarioTrasladoNuevo" 
+                    nzShowSearch nzAllowClear nzPlaceHolder="Nombre de usuario">
                         <nz-option *ngFor="let user of objUsuarios" nzValue="{{user.id}}" nzLabel="{{user.nombre}}"></nz-option>
                       </nz-select>
                 </div>
@@ -1730,7 +1730,7 @@
         <button nz-button nzType="primary" (click)="iniciarProcesoTrasaladoListado()"
         *ngIf="user.rol != 'Administrador Act. Contable'">Iniciar proceso de traslado</button>
 
-        <button nz-button nzType="primary" (click)="finalizarProcesoBajaListado()"
+        <button nz-button nzType="primary" (click)="guardarTrasladoListado()"
         *ngIf="user.rol == 'Administrador Act. Contable'">Finalizar proceso de traslado</button>
     </ng-template>
 </nz-modal>

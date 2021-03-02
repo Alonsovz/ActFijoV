@@ -611,21 +611,32 @@ class GestionActivoController extends Controller
     public function finalizarProcesoBaja(Request $request) {
         try {
             //code...
-            $actualizar_AFM = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $request['af_codigo_interno'])
-                                                      ->update([
-                                                      'estadoActivo' => 'Activo',
-                                                      'estado' => 'B',
-                                                      'fecha_baja' => date('Ymd H:i:s'),
-                                                      'motivoBaja' => $request['motivoBajaInput'],
-                                                    ]);
 
-            $actualizar_History =DB::connection('comanda')->table('af_historial_activo')->insert([
+            $act = json_encode($request["actSeleccionadosBajas"]);
+
+            $actBajas = json_decode($act);
+
+
+            $contador = 0;
+
+            foreach($actBajas as $bajas){
+                $actualizar_AFM = DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $bajas->idActivo)
+                ->update([
+                'estadoActivo' => 'Activo',
+                'estado' => 'B',
+                'fecha_baja' => date('Ymd H:i:s'),
+                'motivoBaja' => $request['motivoBajaInput'],
+              ]);
+
+                $actualizar_History =DB::connection('comanda')->table('af_historial_activo')->insert([
                 'idActivo' => $request['af_codigo_interno'],
                 'movimiento' => 'Baja',
                 'fecha_movimiento' => date('Ymd H:i:s'),
                 'usuario_movimiento' => $request['asignado'],
                 'usuario_aprobacion' => $request['alias'],
-            ]);
+                ]);
+            }
+           
 
             return Response::json([
                 'proceso de baja' => $actualizar_AFM,
@@ -651,11 +662,14 @@ class GestionActivoController extends Controller
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar, af.fecha_alta, 103) as fechaAlta,
          substring(convert(varchar,af.fecha_alta, 114),1,5) as horaAlta,
+        marca.nombre_marca as marcaAf, modelo.nombre_modelo as modeloAf,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
         inner join users u on u.id = af.codigo_asignado 
+        INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+        INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
         where af.estado = 'A' and af.estadoActivo = 'Activo'
         order by af_codigo_interno desc");
 
@@ -798,11 +812,15 @@ class GestionActivoController extends Controller
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
-        convert(varchar, af.fecha_alta, 103) as fechaAlta,
+        convert(varchar, af.fecha_alta, 103) as fechaAlta,u.alias as asignado,
+        marca.nombre_marca as marcaAf, modelo.nombre_modelo as modeloAf,
          substring(convert(varchar,af.fecha_alta, 114),1,5) as horaAlta,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
+        INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+        INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
+        inner join users u on u.id = af.codigo_asignado 
         where af.codigo_asignado = ".$idUsuario ."
         and af.estado = 'A' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
 
@@ -1029,35 +1047,16 @@ class GestionActivoController extends Controller
 
     public function getHojaBaja(Request $request){
 
-        $act = json_encode($request["actSeleccionadosBajas"]);
+       $actBajas = $request["activo"];
+            
 
-        $actBajas = json_decode($act);
+        $pdf = \App::make('dompdf.wrapper');
 
-        $getMisActivos = '';
-
-        foreach($actBajas as $bajas ){
-            $getMisActivos = DB::connection('comanda')->select("select af.*,
-            '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
-            convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
-            convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
-            convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
-            (select top 1 usuario_asignado from af_historial_activo
-            where movimiento != 'Baja' and idActivo = af.af_codigo_interno
-            order by id desc ) as usuarioAnterior from af_maestro af
-            inner join users u on u.id = af.codigo_asignado 
-            where af.af_codigo_interno = ".$bajas->idActivo."");
-        }
-        
-
-        return response()->json($getMisActivos);
-
-       /* $pdf = \App::make('dompdf.wrapper');
-
-        $view =  \View::make('Reportes.hoja_bajaActivo')->render();
+        $view =  \View::make('Reportes.hoja_bajaActivo',compact('actBajas'))->render();
 
         $pdf->loadHTML($view);
 
-        return $pdf->stream('baja.pdf');*/
+        return $pdf->stream('baja.pdf');
 
         
 
@@ -1089,28 +1088,15 @@ class GestionActivoController extends Controller
 
     // generar hoja de traslado
     public function generarHojaTraslado(Request $request) {
-        $activo =  DB::connection('comanda')->select("select af.*,
-                                            '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
-                                            convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
-                                            convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
-                                            (select top 1 usuario_asignado from af_historial_activo
-                                            INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
-                                            INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
-                                            INNER JOIN DEPSV as departamento ON departamento.ID = af.cod_departamento
-                                            INNER JOIN MUNSV as municipio ON municipio.ID = af.cod_municipio
-                                            where movimiento != 'Baja' and idActivo = af.af_codigo_interno
-                                            order by id desc ) as usuarioAnterior from af_maestro af
-                                            inner join users u on u.id = af.codigo_asignado 
-                                            where af.estado = 'T' and af.estadoActivo = 'Pendiente'
-                                            order by af_codigo_interno desc");
+        $activoTraslado =  $request["activo"];
+        $usuarioNuevo = $request["usuarioNuevo"];
+         $pdf = \App::make('dompdf.wrapper');
 
-                            $pdf = \App::make('dompdf.wrapper');
-
-                            $view =  \View::make('Reportes.hoja_trasladoActivo', compact('activo'))->render();
+        $view =  \View::make('Reportes.hoja_trasladoActivo', compact('activoTraslado', 'usuarioNuevo'))->render();
                                        
-                            $pdf->loadHTML($view);
+        $pdf->loadHTML($view);
                                        
-                            return $pdf->stream('trasladoActivo.pdf');
+        return $pdf->stream('trasladoActivo.pdf');
     }
 
 
