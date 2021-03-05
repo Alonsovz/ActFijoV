@@ -1,0 +1,202 @@
+<div style="color: #001529; font-size: 25px;" class="titulo">
+    Reportes de Activos
+     <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+ </div>
+
+
+ <nz-card class="cardShadow"  style="width:95%">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Depreciación Fiscal</h2>
+        </div>
+        <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+        <div nz-col nzSpan="12">
+            <h3> <i nz-icon nzType="bars" nzTheme="calendar"></i>Reporte mensual</h3>
+        </div>
+
+        <div nz-col nzSpan="12">
+            <h3> <i nz-icon nzType="bars" nzTheme="calendar"></i>Reporte anual</h3>
+        </div>
+
+        <div nz-col nzSpan="11">
+            <h4 style="text-align: center !important;">Seleccione el mes y el año a generar</h4>
+
+            <form nz-form  [formGroup]="formDepreciacionFiscalMensual">
+                <div nz-row>
+                    <div nz-col [nzSpan]="11">
+                        <nz-form-label nzRequired>Mes: </nz-form-label>
+                        <nz-select formControlName="mes" name="mes" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione el mes"
+                        style="width: 100% !important;">
+                            <nz-option  nzValue="01" nzLabel="Enero"></nz-option>
+                            <nz-option  nzValue="02" nzLabel="Febrero"></nz-option>
+                            <nz-option  nzValue="03" nzLabel="Marzo"></nz-option>
+                            <nz-option  nzValue="04" nzLabel="Abril"></nz-option>
+                            <nz-option  nzValue="05" nzLabel="Mayo"></nz-option>
+                            <nz-option  nzValue="06" nzLabel="Junio"></nz-option>
+                            <nz-option  nzValue="07" nzLabel="Julio"></nz-option>
+                            <nz-option  nzValue="08" nzLabel="Agosto"></nz-option>
+                            <nz-option  nzValue="09" nzLabel="Septiembre"></nz-option>
+                            <nz-option  nzValue="10" nzLabel="Octubre"></nz-option>
+                            <nz-option  nzValue="11" nzLabel="Noviembre"></nz-option>
+                            <nz-option  nzValue="12" nzLabel="Diciembre"></nz-option>
+                          </nz-select>  
+                    </div>
+                    <div nz-col [nzSpan]="2"></div>
+                    <div nz-col [nzSpan]="11">
+                        <nz-form-label nzRequired>Año</nz-form-label>
+                        <nz-select formControlName="anio" name="anio" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione el año"
+                        style="width: 100% !important;">
+                            <nz-option  nzValue="2020" nzLabel="2020"></nz-option>
+                            <nz-option  nzValue="2021" nzLabel="2021"></nz-option>
+                            <nz-option  nzValue="2022" nzLabel="2022"></nz-option>
+                            <nz-option  nzValue="2023" nzLabel="2023"></nz-option>
+                            <nz-option  nzValue="2024" nzLabel="2024"></nz-option>
+                            <nz-option  nzValue="2025" nzLabel="2025"></nz-option>
+                            <nz-option  nzValue="2026" nzLabel="2026"></nz-option>
+                            <nz-option  nzValue="2027" nzLabel="2027"></nz-option>
+                            <nz-option  nzValue="2028" nzLabel="2028"></nz-option>
+                          </nz-select>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+            <button [disabled] ="formDepreciacionFiscalMensual.invalid" nz-button nzType="primary"
+              (click)="generarDepreciacionFiscalMensual()" style="width: 100% !important;"><i nz-icon nzType="zoom-in"></i>
+                Generar
+            </button>
+        </div>
+
+
+        <div nz-col nzSpan="2"></div>
+        <div nz-col nzSpan="11">
+            <h4 style="text-align: center !important;">Seleccione el año a generar</h4>
+
+            <form nz-form  [formGroup]="formDepreciacionFiscalAnual">
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-label nzRequired>Año</nz-form-label>
+                        <nz-select formControlName="anio" name="anio" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione el año"
+                        style="width: 100% !important;">
+                            <nz-option  nzValue="2020" nzLabel="2020"></nz-option>
+                            <nz-option  nzValue="2021" nzLabel="2021"></nz-option>
+                            <nz-option  nzValue="2022" nzLabel="2022"></nz-option>
+                            <nz-option  nzValue="2023" nzLabel="2023"></nz-option>
+                            <nz-option  nzValue="2024" nzLabel="2024"></nz-option>
+                            <nz-option  nzValue="2025" nzLabel="2025"></nz-option>
+                            <nz-option  nzValue="2026" nzLabel="2026"></nz-option>
+                            <nz-option  nzValue="2027" nzLabel="2027"></nz-option>
+                            <nz-option  nzValue="2028" nzLabel="2028"></nz-option>
+                          </nz-select>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+            <button [disabled] ="formDepreciacionFiscalAnual.invalid" nz-button nzType="primary"
+              (click)="generarDepreciacionFiscalAnual()" style="width: 100% !important;"><i nz-icon nzType="zoom-in"></i>
+                Generar
+            </button>
+        </div>
+    </div>  
+ </nz-card>
+  
+ <nz-card class="cardShadow"  style="width:95%">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Depreciación Financiera</h2>
+        </div>
+        <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+        <div nz-col nzSpan="12">
+            <h3> <i nz-icon nzType="bars" nzTheme="calendar"></i>Reporte mensual</h3>
+        </div>
+
+        <div nz-col nzSpan="12">
+            <h3> <i nz-icon nzType="bars" nzTheme="calendar"></i>Reporte anual</h3>
+        </div>
+
+        <div nz-col nzSpan="11">
+            <h4 style="text-align: center !important;">Seleccione el mes y el año a generar</h4>
+
+            <form nz-form  [formGroup]="formDepreciacionFinancieraMensual">
+                <div nz-row>
+                    <div nz-col [nzSpan]="11">
+                        <nz-form-label nzRequired>Mes: </nz-form-label>
+                        <nz-select formControlName="mes" name="mes" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione el mes"
+                        style="width: 100% !important;">
+                            <nz-option  nzValue="01" nzLabel="Enero"></nz-option>
+                            <nz-option  nzValue="02" nzLabel="Febrero"></nz-option>
+                            <nz-option  nzValue="03" nzLabel="Marzo"></nz-option>
+                            <nz-option  nzValue="04" nzLabel="Abril"></nz-option>
+                            <nz-option  nzValue="05" nzLabel="Mayo"></nz-option>
+                            <nz-option  nzValue="06" nzLabel="Junio"></nz-option>
+                            <nz-option  nzValue="07" nzLabel="Julio"></nz-option>
+                            <nz-option  nzValue="08" nzLabel="Agosto"></nz-option>
+                            <nz-option  nzValue="09" nzLabel="Septiembre"></nz-option>
+                            <nz-option  nzValue="10" nzLabel="Octubre"></nz-option>
+                            <nz-option  nzValue="11" nzLabel="Noviembre"></nz-option>
+                            <nz-option  nzValue="12" nzLabel="Diciembre"></nz-option>
+                          </nz-select>  
+                    </div>
+                    <div nz-col [nzSpan]="2"></div>
+                    <div nz-col [nzSpan]="11">
+                        <nz-form-label nzRequired>Año</nz-form-label>
+                        <nz-select formControlName="anio" name="anio" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione el año"
+                        style="width: 100% !important;">
+                            <nz-option  nzValue="2020" nzLabel="2020"></nz-option>
+                            <nz-option  nzValue="2021" nzLabel="2021"></nz-option>
+                            <nz-option  nzValue="2022" nzLabel="2022"></nz-option>
+                            <nz-option  nzValue="2023" nzLabel="2023"></nz-option>
+                            <nz-option  nzValue="2024" nzLabel="2024"></nz-option>
+                            <nz-option  nzValue="2025" nzLabel="2025"></nz-option>
+                            <nz-option  nzValue="2026" nzLabel="2026"></nz-option>
+                            <nz-option  nzValue="2027" nzLabel="2027"></nz-option>
+                            <nz-option  nzValue="2028" nzLabel="2028"></nz-option>
+                          </nz-select>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+            <button [disabled] ="formDepreciacionFinancieraMensual.invalid" nz-button nzType="primary"
+              (click)="generarDepreciacionFinancieraMensual()" style="width: 100% !important;"><i nz-icon nzType="zoom-in"></i>
+                Generar
+            </button>
+        </div>
+
+        <div nz-col nzSpan="2"></div>
+        <div nz-col nzSpan="11">
+            <h4 style="text-align: center !important;">Seleccione el año a generar</h4>
+
+            <form nz-form  [formGroup]="formDepreciacionFinancieraAnual">
+                <div nz-row>
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-label nzRequired>Año</nz-form-label>
+                        <nz-select formControlName="anio" name="anio" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione el año"
+                        style="width: 100% !important;">
+                            <nz-option  nzValue="2020" nzLabel="2020"></nz-option>
+                            <nz-option  nzValue="2021" nzLabel="2021"></nz-option>
+                            <nz-option  nzValue="2022" nzLabel="2022"></nz-option>
+                            <nz-option  nzValue="2023" nzLabel="2023"></nz-option>
+                            <nz-option  nzValue="2024" nzLabel="2024"></nz-option>
+                            <nz-option  nzValue="2025" nzLabel="2025"></nz-option>
+                            <nz-option  nzValue="2026" nzLabel="2026"></nz-option>
+                            <nz-option  nzValue="2027" nzLabel="2027"></nz-option>
+                            <nz-option  nzValue="2028" nzLabel="2028"></nz-option>
+                          </nz-select>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+            <button [disabled] ="formDepreciacionFinancieraAnual.invalid" nz-button nzType="primary"
+              (click)="generarDepreciacionFinancieraAnual()" style="width: 100% !important;"><i nz-icon nzType="zoom-in"></i>
+                Generar
+            </button>
+        </div>
+    </div>  
+</nz-card>
+
+<nz-card class="cardShadow"  style="width:95%">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Reporte AGD</h2>
+        </div>
+    </div>  
+ </nz-card>

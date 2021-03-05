@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: () => import('./../activos-admin/activos-admin.module').then(m => m.ActivosAdminModule)
       },
       {
+        path: 'reportesActivos',
+        loadChildren: () => import('./../reportes-activos/reportes-activos.module').then(m => m.ReportesActivosModule)
+      },
+      {
         path: 'modelosactivo',
         loadChildren: () => import('./../modelosactivo/modelosactivo.module').then(m => m.ModelosactivoModule)
       },

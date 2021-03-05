@@ -22,6 +22,7 @@
         <ul>
           <li nz-menu-item routerLink="actfijoGestion">Gestión de mis Activos</li>
           <li nz-menu-item routerLink="adminActivos" *ngIf="user.rol != 'Usuario'">Administrador de Activos</li>
+          <li nz-menu-item routerLink="reportesActivos" *ngIf="user.rol != 'Usuario'">Reportes de Activos</li>
         </ul>
       </li>
 
