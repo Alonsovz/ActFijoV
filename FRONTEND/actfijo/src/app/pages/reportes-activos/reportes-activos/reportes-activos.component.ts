@@ -37,4 +37,23 @@ export class ReportesActivosComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  generarDepreciacionFiscalMensual(){
+
+  }
+
+
+  generarDepreciacionFiscalAnual(){
+
+  }
+
+
+  generarDepreciacionFinancieraMensual(){
+
+  }
+
+
+  generarDepreciacionFinancieraAnual(){
+    
+  }
+
 }

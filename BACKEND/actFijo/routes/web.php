@@ -74,6 +74,10 @@ Route::post('editarTipoDocumento', 'TipoDocumentosController@edit');
 Route::post('eliminartipodocumento', 'TipoDocumentosController@destroy');
 
 
+//rutas para supervisores de bodegas
+Route::get('getBodegasSupervisor', 'BodegasController@getBodegasSupervisor');
+Route::post('guardarSupervisorBodega', 'BodegasController@guardarSupervisorBodega');
+
 //rutas para gestión de activos
 Route::get('getCCostoBien', 'GestionActivoController@getCCostoBien');
 Route::get('getBodegas', 'GestionActivoController@getBodegas');

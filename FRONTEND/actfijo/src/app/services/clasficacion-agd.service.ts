@@ -11,7 +11,7 @@ const httpOptions = {
     'Content-Type':  'application/json',
     'Authorization': 'my-auth-token'
   })
-
+ 
 };
 
 @Injectable({

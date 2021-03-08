@@ -28,7 +28,7 @@ class GestionActivoController extends Controller
     public function getBodegas(){
 
         $getBodegas = 
-        DB::connection('comanda')->select("select * from bodegas");
+        DB::connection('comanda')->select("select * from saf_2011.dbo.inv_bodegas");
 
         return response()->json($getBodegas);
     }

@@ -51,6 +51,10 @@ const routes: Routes = [
         path: 'tiposdocumentos',
         loadChildren: () => import('./../tipo-documentos/tipo-documentos.module').then(m => m.TipoDocumentosModule)
       },
+      {
+        path: 'bodegas',
+        loadChildren: () => import('./../bodegas/bodegas.module').then(m => m.BodegasModule)
+      },
     ]
   }
 ];

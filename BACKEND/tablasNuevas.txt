@@ -156,3 +156,5 @@ usuario_asignado varchar(25)
 ALTER TABLE af_historial_activo
 ADD FOREIGN KEY (idActivo) REFERENCES  af_maestro(af_codigo_interno)
 
+
+ALTER TABLE inv_bodegas ADD supervisor_id int;
