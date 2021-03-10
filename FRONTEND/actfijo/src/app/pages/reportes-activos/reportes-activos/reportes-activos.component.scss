@@ -12,7 +12,11 @@
   margin-top: 25px;
 }
 nz-table{
-  width: 100%;
+  font-size: 10px !important;
+  overflow-x: scroll !important;
+  height: 100% !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
 }
 
 
@@ -24,3 +28,17 @@ h3{
     color: green !important;
     text-align: center !important;
 }
+
+
+th{
+  background-color: #007E61 !important;
+  font-size: 9px !important;
+}
+
+td{
+  font-size: 9px !important;
+  width:fit-content !important;
+}
+
+
+

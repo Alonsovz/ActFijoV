@@ -10,6 +10,7 @@ import { SearchclasificacionagdPipe } from './searchclasificacionagd.pipe';
 import { SearchtipodocsPipe } from './searchtipodocs.pipe';
 import { SearchactgestionPipe } from './searchactgestion.pipe';
 import { SearchactgestionuserPipe } from './searchactgestionuser.pipe';
+import { SearchreportesPipe } from './searchreportes.pipe';
 
 
 
@@ -24,7 +25,8 @@ import { SearchactgestionuserPipe } from './searchactgestionuser.pipe';
     SearchclasificacionagdPipe,
     SearchtipodocsPipe,
     SearchactgestionPipe,
-    SearchactgestionuserPipe
+    SearchactgestionuserPipe,
+    SearchreportesPipe
   ],
   imports: [
     CommonModule
@@ -38,7 +40,8 @@ import { SearchactgestionuserPipe } from './searchactgestionuser.pipe';
     SearchclasificacionagdPipe,
     SearchtipodocsPipe,
     SearchactgestionPipe,
-    SearchactgestionuserPipe
+    SearchactgestionuserPipe,
+    SearchreportesPipe
   ]
 })
 export class PipesModule { }
