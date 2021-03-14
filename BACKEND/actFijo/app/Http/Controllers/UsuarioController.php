@@ -24,7 +24,9 @@ class UsuarioController extends Controller
             if ($password=="12345") 
 			{     
                 $usuariosesion =  json_encode( DB::connection('comanda')->select("
-                select u.*, rs.rol as rol from users u
+                select u.*, rs.rol as rol,
+                (select count(b.bodega_id) from saf_2011.dbo.inv_bodegas b
+                where b.supervisor_id = u.id) as bodegasSupervisor from users u
                 inner join af_usuario_rol ur on ur.idUsuario = u.id
                 inner join af_roles_sistema rs on rs.id = ur.idRol 
                 where ur.estado = 1 and u.correo = '".$correo."'"));
@@ -40,7 +42,9 @@ class UsuarioController extends Controller
                 $passform = md5($password);
 
                 $usuariosesion =  json_encode( DB::connection('comanda')->select("
-                select u.*, rs.rol as rol from users u
+                select u.*, rs.rol as rol,
+                (select count(b.bodega_id) from saf_2011.dbo.inv_bodegas b
+                where b.supervisor_id = u.id) as bodegasSupervisor from users u
                 inner join af_usuario_rol ur on ur.idUsuario = u.id
                 inner join af_roles_sistema rs on rs.id = ur.idRol 
                 where ur.estado = 1 and u.correo = '".$correo."' and u.password = '".$passform."'"));

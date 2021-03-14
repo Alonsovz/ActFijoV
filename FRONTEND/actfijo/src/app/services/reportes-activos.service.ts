@@ -7,7 +7,6 @@ import { Reportes } from '../models/reportes';
 import { GlobalService } from './global.service';
 
 
-
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',

@@ -24,6 +24,7 @@
           <li nz-menu-item routerLink="actfijoGestion">Gestión de mis Activos</li>
           <li nz-menu-item routerLink="adminActivos" *ngIf="user.rol != 'Usuario'">Administrador de Activos</li>
           <li nz-menu-item routerLink="reportesActivos" *ngIf="user.rol != 'Usuario'">Reportes de Activos</li>
+          <li nz-menu-item routerLink="supervisoractivos" *ngIf="user.bodegasSupervisor > 0">Supervisor de Activos</li>
         </ul>
       </li>
 

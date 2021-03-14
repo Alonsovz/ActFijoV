@@ -55,6 +55,11 @@ const routes: Routes = [
         path: 'bodegas',
         loadChildren: () => import('./../bodegas/bodegas.module').then(m => m.BodegasModule)
       },
+      {
+        path: 'supervisoractivos',
+        loadChildren: () => import('./../supervisor-activos/supervisor-activos.module').then(m => m.SupervisorActivosModule)
+      },
+      
     ]
   }
 ];

@@ -124,3 +124,11 @@ Route::any('generarHojaTrasladoActivo', 'GestionActivoController@generarHojaTras
 //rutas para reportes
 Route::post('getCuadroDepreciacionFinancieraMensual', 'ReportesController@getCuadroDepreciacionFinancieraMensual');
 Route::post('getCuadroDepreciacionFiscalMensual', 'ReportesController@getCuadroDepreciacionFiscalMensual');
+
+
+
+//rutas para supervisor de activos
+Route::post('getAltasSupervisor', 'SupervisorActivosController@getAltasSupervisor');
+Route::post('getTrasladosSupervisor', 'SupervisorActivosController@getTrasladosSupervisor');
+Route::post('getBajasSupervisor', 'SupervisorActivosController@getBajasSupervisor');
+Route::post('getConteoSupervisor', 'SupervisorActivosController@getConteoSupervisor');

@@ -87,6 +87,10 @@ class VerifyCsrfToken extends BaseVerifier
         'getBodegasSupervisor',
         'guardarSupervisorBodega',
         'getCuadroDepreciacionFinancieraMensual',
-        'getCuadroDepreciacionFiscalMensual'
+        'getCuadroDepreciacionFiscalMensual',
+        'getBajasSupervisor',
+        'getTrasladosSupervisor',
+        'getAltasSupervisor',
+        'getConteoSupervisor'
     ];
 }
