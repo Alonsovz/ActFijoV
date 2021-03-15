@@ -671,6 +671,7 @@ class GestionActivoController extends Controller
         INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
         INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
         where af.estado = 'A' and af.estadoActivo = 'Activo'
+        and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -693,6 +694,7 @@ class GestionActivoController extends Controller
         order by id desc ) as usuarioAnterior from af_maestro af
         inner join users u on u.id = af.codigo_asignado 
         where af.estado = 'B' and af.estadoActivo = 'Activo'
+        and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -724,7 +726,7 @@ class GestionActivoController extends Controller
          INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
         inner join users u on u.id = af.codigo_asignado 
         where af.estado = 'T' and af.estadoActivo = 'Activo'
-        
+        and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -745,6 +747,7 @@ class GestionActivoController extends Controller
         order by id desc ) as usuarioAnterior from af_maestro af
         inner join users u on u.id = af.codigo_asignado 
         where af.estado = 'A' and af.estadoActivo = 'Pendiente'
+        and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -765,6 +768,7 @@ class GestionActivoController extends Controller
         order by id desc ) as usuarioAnterior from af_maestro af
         inner join users u on u.id = af.codigo_asignado 
         where af.estado = 'B' and af.estadoActivo = 'Pendiente'
+        and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -784,6 +788,7 @@ class GestionActivoController extends Controller
         order by id desc ) as usuarioAnterior from af_maestro af
         inner join users u on u.id = af.codigo_asignado 
         where af.estado = 'T' and af.estadoActivo = 'Pendiente'
+        and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
@@ -793,12 +798,18 @@ class GestionActivoController extends Controller
     public function getConteoAdmin(){
         $getConteoAdmin = 
         DB::connection('comanda')->select("select 
-        (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Activo') as conteoAltas,
-        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Activo') as conteoTraslados,
-        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Activo') as conteoBajas,
-        (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Pendiente') as conteoAltasPen,
-        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Pendiente') as conteoTrasladosPen,
-        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Pendiente') as conteoBajasPen");
+        (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Activo'
+        and aplica_contabilidad = 'S') as conteoAltas,
+        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Activo'
+        and aplica_contabilidad = 'S') as conteoTraslados,
+        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Activo'
+        and aplica_contabilidad = 'S') as conteoBajas,
+        (select count(af_codigo_interno) from af_maestro where estado = 'A' and estadoActivo = 'Pendiente'
+        and aplica_contabilidad = 'S') as conteoAltasPen,
+        (select count(af_codigo_interno) from af_maestro where estado = 'T' and estadoActivo = 'Pendiente'
+        and aplica_contabilidad = 'S') as conteoTrasladosPen,
+        (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Pendiente'
+        and aplica_contabilidad = 'S') as conteoBajasPen");
 
         return response()->json($getConteoAdmin);
     }

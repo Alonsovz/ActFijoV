@@ -132,3 +132,11 @@ Route::post('getAltasSupervisor', 'SupervisorActivosController@getAltasSuperviso
 Route::post('getTrasladosSupervisor', 'SupervisorActivosController@getTrasladosSupervisor');
 Route::post('getBajasSupervisor', 'SupervisorActivosController@getBajasSupervisor');
 Route::post('getConteoSupervisor', 'SupervisorActivosController@getConteoSupervisor');
+
+
+//rutas para administrador de activos VNR 
+
+Route::get('getAltasAdminVNR', 'AdministradorActivosVNRController@getAltasAdmin');
+Route::get('getBajasAdminVNR', 'AdministradorActivosVNRController@getBajasAdmin');
+Route::get('getTrasladosAdminVNR', 'AdministradorActivosVNRController@getTrasladosAdmin');
+Route::get('getConteoAdminVNR', 'AdministradorActivosVNRController@getConteoAdmin');

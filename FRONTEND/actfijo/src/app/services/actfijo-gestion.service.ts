@@ -239,4 +239,28 @@ public getTrasladosHechosPendientesUser(usuario): Observable<Usuario[]> {
 
   }
 
+
+   //metodo para obtener listado de activos de altas para administrador
+ public getAltasAdminVNR(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getAltasAdminVNR').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+ //metodo para obtener listado de activos de bajas para administrador
+ public getBajasAdminVNR(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getBajasAdminVNR').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+ //metodo para obtener listado de activos de traslados para administrador
+ public getTrasladosAdminVNR(): Observable<ActfijoGestion[]> {
+  return this.http.get(this.globalservice.getUrlBackEnd() + 'getTrasladosAdminVNR').pipe(map(data => data as ActfijoGestion[]));
+}
+
+
+  //metodo para obtener conteo de badges en vista de administrador
+  public getConteoAdminVNR(): Observable<ActfijoGestion[]> {
+    return this.http.get(this.globalservice.getUrlBackEnd() + 'getConteoAdminVNR').pipe(map(data => data as ActfijoGestion[]));
+  }
+
 }

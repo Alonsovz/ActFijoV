@@ -31,7 +31,8 @@ class SupervisorActivosController extends Controller
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
-        order by id desc ) as usuarioAnterior from af_maestro af
+        order by id desc ) as usuarioAnterior,
+        b.descripcion as nomBodega from af_maestro af
         inner join users u on u.id = af.codigo_asignado 
         INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
         INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
@@ -63,7 +64,8 @@ class SupervisorActivosController extends Controller
        order by id desc ) as fechaTraslado,
        (select top 1 substring(convert(varchar,fecha_movimiento, 114),1,5) from af_historial_activo
        where movimiento != 'Baja' and idActivo = af.af_codigo_interno
-       order by id desc ) as horaTraslado from af_maestro af
+       order by id desc ) as horaTraslado,
+       b.descripcion as nomBodega  from af_maestro af
        INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
        INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
         inner join users u on u.id = af.codigo_asignado 
@@ -89,7 +91,8 @@ class SupervisorActivosController extends Controller
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
-        order by id desc ) as usuarioAnterior from af_maestro af
+        order by id desc ) as usuarioAnterior,
+        b.descripcion as nomBodega  from af_maestro af
         inner join users u on u.id = af.codigo_asignado 
         inner join saf_2011.dbo.inv_bodegas as b on b.bodega_id = af.bodega_id
         where af.estado = 'B' and af.estadoActivo = 'Activo'
@@ -126,4 +129,8 @@ class SupervisorActivosController extends Controller
 
         return response()->json($getConteo);
     }
+
+
+
+  
 }

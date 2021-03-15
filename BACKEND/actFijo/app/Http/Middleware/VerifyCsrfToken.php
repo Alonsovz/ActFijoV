@@ -91,6 +91,10 @@ class VerifyCsrfToken extends BaseVerifier
         'getBajasSupervisor',
         'getTrasladosSupervisor',
         'getAltasSupervisor',
-        'getConteoSupervisor'
+        'getConteoSupervisor',
+        'getAltasAdminVNR',
+        'getBajasAdminVNR',
+        'getTrasladosAdminVNR',
+        'getConteoAdminVNR'
     ];
 }

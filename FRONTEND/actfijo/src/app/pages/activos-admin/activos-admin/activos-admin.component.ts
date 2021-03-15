@@ -59,7 +59,9 @@ export class ActivosAdminComponent implements OnInit {
   conteoAltasPen = 0;
   conteoBajasPen = 0;
   conteoTrasladosPen = 0;
-
+  conteoAltasVNR = 0;
+  conteoBajasVNR = 0;
+  conteoTrasladosVNR = 0;
   listaAltasAdminObj: ReadonlyArray<ActfijoGestion> = [];
   listaAltasAdmin: ReadonlyArray<ActfijoGestion> = [];
   listaTrasladosAdminObj: ReadonlyArray<ActfijoGestion> = [];
@@ -95,6 +97,12 @@ export class ActivosAdminComponent implements OnInit {
   modalFinalizarProcesoBaja = false;
   bajaActivoFormAdmin : FormGroup;
 
+  mostrarCardListadoAdminVNR = false;
+  mostrarSkeletonTablaAdminVNR = false;
+  mostrarTablaCargaAdminVNR = false;
+  listaAltasAdminObjVNR : ReadonlyArray<ActfijoGestion> = [];
+  listaTrasladosAdminObjVNR: ReadonlyArray<ActfijoGestion> = [];
+  listaBajasAdminObjVNR: ReadonlyArray<ActfijoGestion> = [];
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
@@ -420,7 +428,7 @@ showCardListadoAdminActivos() : void{
   this.validarPPYE = false;
   this.mostrarSkeletonTablaAdmin = true;
   this.mostrarCardListadoAdmin = true;
-
+  this.mostrarCardListadoAdminVNR = false;
   this.getAltasAdmin();
   this.conteoAdmin();
 
@@ -429,7 +437,7 @@ showCardListadoAdminActivos() : void{
  //metodo para mostrar card para alta de activo
 
  showCardAgregar() : void{
-
+  this.mostrarCardListadoAdminVNR = false;
   this.mostrarCardAgregar = true;
   this.validarPPYE = false;
   this.mostrarSkeletonTablaAdmin = false;
@@ -935,4 +943,74 @@ ConvertToLower(evt) {
     this.texto = evt.toLowerCase();
 }
 
+
+
+showCardListadoAdminActivosVNR(){
+  this.mostrarCardListadoAdminVNR = true;
+
+  this.mostrarCardAgregar = false;
+  this.validarPPYE = false;
+  this.mostrarSkeletonTablaAdmin = false;
+  this.mostrarCardListadoAdmin = false;
+  this.getAltasAdminVNR();
+}
+
+
+getAltasAdminVNR(){
+  this.mostrarTablaCargaAdminVNR = false;
+  this.mostrarSkeletonTablaAdminVNR = true;
+this.gestionActFijo.getAltasAdminVNR().subscribe(
+data => {
+  this.listaAltasAdminObjVNR = data;
+  this.mostrarTablaCargaAdminVNR = true;
+  this.mostrarSkeletonTablaAdminVNR = false;
+});
+this.conteoAdminVNR();
+}
+
+
+//metodo para obtener conteo de badges administrador
+conteoAdminVNR(){
+  this.gestionActFijo.getConteoAdminVNR().subscribe(
+    data => {
+      this.listaConteo = data;
+
+      data.forEach(element => {
+        this.conteoAltasVNR = Number(element["conteoAltas"]);
+        this.conteoBajasVNR = Number(element["conteoBajas"]);
+        this.conteoTrasladosVNR = Number(element["conteoTraslados"]);
+      });
+  });
+
+
+}
+
+
+//metodo para obtener listado de traslados para usuario administrador
+getTrasladosAdminVNR(){
+  this.mostrarTablaCargaAdminVNR = false;
+  this.mostrarSkeletonTablaAdminVNR = true;
+  this.gestionActFijo.getTrasladosAdminVNR().subscribe(
+    data => {
+      this.listaTrasladosAdminObjVNR = data;
+      this.mostrarTablaCargaAdminVNR = true;
+      this.mostrarSkeletonTablaAdminVNR = false;
+    });
+
+
+    this.conteoAdminVNR();
+}
+
+
+getBajasAdminVNR(){
+  this.mostrarTablaCargaAdminVNR = false;
+  this.mostrarSkeletonTablaAdminVNR = true;
+this.gestionActFijo.getBajasAdminVNR().subscribe(
+data => {
+  this.listaBajasAdminObjVNR = data;
+  this.mostrarTablaCargaAdminVNR = true;
+  this.mostrarSkeletonTablaAdminVNR = false;
+});
+this.conteoAdminVNR();
+}
 }
