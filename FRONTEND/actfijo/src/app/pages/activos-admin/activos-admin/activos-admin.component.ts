@@ -103,6 +103,9 @@ export class ActivosAdminComponent implements OnInit {
   listaAltasAdminObjVNR : ReadonlyArray<ActfijoGestion> = [];
   listaTrasladosAdminObjVNR: ReadonlyArray<ActfijoGestion> = [];
   listaBajasAdminObjVNR: ReadonlyArray<ActfijoGestion> = [];
+
+  editObj:  ActfijoGestion = new ActfijoGestion();
+
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
@@ -143,6 +146,8 @@ export class ActivosAdminComponent implements OnInit {
         'af_valor_vnr_siva': new FormControl(''),
         'siglas': new FormControl(''),
         'tipo_bien': new FormControl(''),
+        'solo_vnr': new FormControl(''),
+        'aplica_contabilidad': new FormControl(''),
       });
 
       this.trasladoActivoForm = new FormGroup({
@@ -418,8 +423,6 @@ conteoAdmin(){
 
   this.btnFinalizarTrasladosAdmin = false;
   this.btnFinalizarBajasAdmin = false;
-  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
-  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 }
 
    //metodo para mostrar card para ver tabla de mis activos
@@ -460,7 +463,7 @@ get actSeleccionadosBajas(){
   
 //metodo para mostrar card de edición de activo
 editarActFijo(act, vis){
-
+  this.editObj = act;
   this.editarActivoForm.reset();
 
 
@@ -478,6 +481,53 @@ editarActFijo(act, vis){
       this.listOfCurrentPageDataHistorial = data;
     });
 }
+
+
+ //metodo para obtener cuenta contable por codigo_PPYE
+
+ public getCuentaContablePPYE(){
+  let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+
+  datosmarcaActivo = this.altaActivoForm.value;
+
+this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
+  data => {
+  this.objTipoActivoPPYE = data;
+  this.validarPPYE = true;
+  });
+
+}
+
+
+ //metodo para filtrar municipios por departamento seleccionado
+
+ public filtrarMunicipios(){
+  let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+
+  datosmarcaActivo = this.altaActivoForm.value;
+
+this.gestionActFijo.getMunicipios(datosmarcaActivo).subscribe(
+  data => {
+    this.objMunicipios = data;
+    this.validarDepartamento = false;
+  });
+
+}
+
+  //metodo para filtrar modelos por marca seleccionada
+
+  public filtrarModelos(){
+    let datosmarcaActivo : Marcasactivo = new Marcasactivo();
+
+    datosmarcaActivo = this.altaActivoForm.value;
+
+  this.modelosactivo.getModelosByMarca(datosmarcaActivo).subscribe(
+    data => {
+      this.objModelosActivos = data;
+      this.validarModelo = false;
+    });
+
+  }
 
 //metodo para filtrar municipios por departarmento en edición
 public filtrarMunicipiosEdicion(){
@@ -521,6 +571,12 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
 
 }
 
+
+//metodo para paginación de tabla de todos los activos
+onCurrentPageDataChangeHistorial(listOfCurrentPageDataHistorial: ReadonlyArray<ActfijoGestion>) {
+  this.listOfCurrentPageDataHistorial  = listOfCurrentPageDataHistorial;
+
+}
 //metodo para cerrar edición de activo ser
 cerrarCardEditar(){
   this.modalDetallesActivo = false;
@@ -531,6 +587,9 @@ cerrarCardEditar(){
 
  guardarEdicionActivo(){
   let datosActivo : ActfijoGestion = new ActfijoGestion();
+  var soloVNR = '';
+  var soloConta = '';
+
 
   datosActivo = Object.assign(this.editarActivoForm.value, this.user);
 
@@ -564,7 +623,10 @@ cerrarCardEditar(){
         this.getTrasladosPendientesAdmin();
         this.getAltasAdmin();
         this.getAltasPendientesAdmin();
-
+        this.conteoAdminVNR();
+        this.getAltasAdminVNR();
+        this.getTrasladosAdminVNR();
+        this.getBajasAdminVNR();
       }
 
 
@@ -622,6 +684,10 @@ generarHojaActivoBaja() {
 
   const ur =  this.urlBackEnd.getUrlBackEnd() + 'getHojaBaja?activo=' + JSON.stringify(datosActivo);
   window.open(ur, '_blank');
+
+  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
+
 
 }
 
@@ -717,7 +783,12 @@ generarHojaTrasladoActivo() {
   const ur = this.urlBackEnd.getUrlBackEnd() + 'generarHojaTrasladoActivo?activo=' + JSON.stringify(activo)+'&usuarioNuevo='+userNuevo;
 
   window.open(ur, '_blank');
+  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
+
 }
+
+
 
 //metodo para enviar listado de traslados
 guardarTrasladoListado(){
@@ -725,6 +796,7 @@ guardarTrasladoListado(){
 
   datosActivo = Object.assign(this.frm_activoTraslado.value, this.user, this.trasladoActivoForm.value);
 
+  console.log(datosActivo);
   
   this.gestionActFijo.guardarAceptacionTraslado(datosActivo).subscribe(
     response => {
@@ -756,6 +828,46 @@ guardarTrasladoListado(){
       }
 
 
+  );
+}
+
+
+// iniciar proceso de traslado
+iniciarProcesoTrasaladoListado(id) {
+  let datosActivo : ActfijoGestion = new ActfijoGestion();
+  datosActivo =Object.assign(this.trasladoActivoForm.value, this.frm_activoTraslado.value);
+
+
+  
+
+ this.gestionActFijo.guardarTraslado(datosActivo).subscribe(
+    response => {
+      console.log(response);
+    },
+    err => {
+      notie.alert({
+        type: 'error',
+        text: 'Error al iniciar proceso de traslado',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+    },
+    () => {
+      notie.alert({
+        type: 'success',
+        text: 'Proceso de traslado iniciado con éxito, pendiente de aprobación',
+        stay: false,
+        time: 4,
+        position: 'top'
+      });
+
+      this.conteoAdmin();
+      this.getTrasladosAdmin();
+      this.getAltasAdmin();
+    this.modalListadoActivosTraslados = false;
+    this.generarHojaTrasladoActivo();
+    }
   );
 }
 
@@ -846,7 +958,7 @@ guardarActivacion(){
             position: 'top'
           });
         this.modalElegirMismoDocumento = true;
-        this.generarHojaActivo();
+        
         }
 
 
@@ -855,8 +967,11 @@ guardarActivacion(){
 
 
 // generar hoja de activo
+// generar hoja de activo
 generarHojaActivo() {
-  const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?activo=' + this.actFijoOb.af_codigo_interno;
+  var doc = this.altaActivoForm.controls["numeroDocumento"].value;
+
+  const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?doc=' + doc;
   window.open(ur, '_blank');
 
 }
@@ -864,6 +979,7 @@ generarHojaActivo() {
 //función para no ingresar otro activo sobre el mismo documento
 
 finalizarSoloUno(){
+  this.generarHojaActivo();
   this.showCardListadoAdminActivos();
   this.modalElegirMismoDocumento = false;
 }
@@ -1013,4 +1129,23 @@ data => {
 });
 this.conteoAdminVNR();
 }
+
+
+cambiarValoresVNR(){
+    var option = this.editarActivoForm.controls["solo_vnr"].value;
+    
+    if(option == 'S'){
+      this.editarActivoForm.controls["aplica_contabilidad"].setValue('N');
+    }else{
+      this.editarActivoForm.controls["aplica_contabilidad"].setValue('S');
+    }
+  }
+
+  cambiarValoresContabilidad(){
+    if(this.editarActivoForm.controls["aplica_contabilidad"].value == 'S'){
+      this.editarActivoForm.controls["solo_vnr"].patchValue('N',  {emitEvent: false} );
+    }else{
+      this.editarActivoForm.controls["solo_vnr"].patchValue('S',  {emitEvent: false} );
+    }
+  }
 }

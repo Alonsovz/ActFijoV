@@ -358,6 +358,8 @@ class GestionActivoController extends Controller
         $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
         $siglas = $request["siglas"];
         $tipo_bien = $request["tipo_bien"];
+        $solo_vnr = $request["solo_vnr"];
+        $aplica_contabilidad = $request["aplica_contabilidad"];
 
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -480,6 +482,8 @@ class GestionActivoController extends Controller
             'af_valor_residual' => $af_valor_residual,
             'periodo_inicial' => $periodoInicialDepre,
             'periodo_final' => $periodoFinalDepre,
+            'aplica_contabilidad' => $aplica_contabilidad,
+            'solo_vnr' => $solo_vnr,
         ]);
 
         return response()->json($insertar);
@@ -1080,15 +1084,23 @@ class GestionActivoController extends Controller
 
     // generar una hoja de activo
     public function generarHojaActivo(Request $request) {
-        $id =  DB::connection('comanda')->table('af_maestro')->max('af_codigo_interno');
 
+        $numDoc = $request["doc"];
+
+     
         $activo =  DB::connection('comanda')->table('af_maestro as afm')
                             ->join('af_marcas as marca','marca.codigo_marca','=','afm.codigo_marca')
                             ->join('af_modelos as modelo', 'modelo.codigo_modelo','=','afm.codigo_modelo')
                             ->join('DEPSV as departamento','departamento.ID','=','afm.cod_departamento')
                             ->join('MUNSV as municipio','municipio.ID','=','afm.cod_municipio')
-                            ->select('afm.*','marca.nombre_marca','modelo.nombre_modelo','departamento.DepName','municipio.MunName')
-                            ->where('afm.af_codigo_interno',$id)
+                            ->join('users as us','us.id','=','afm.codigo_asignado')
+                            ->join('af_tipos_documento as td','td.codigo_tipo_documento','=','afm.codigo_tipo_documento')
+                            ->join('saf_2011.dbo.inv_bodegas as b','b.bodega_id','=','afm.bodega_id')
+                            ->join('saf_2011.dbo.estructura11 as cc','cc.estructura11_id','=','afm.ccosto_del_bien_vnr')
+                            ->select('afm.*','marca.nombre_marca','modelo.nombre_modelo','departamento.DepName','municipio.MunName',
+                            'us.alias', 'b.descripcion as bodega', 'cc.estructura11_nombre as cc', 'us.nombre as nombreUs',
+                            'us.apellido as apellidoUs', 'td.descripcion_tipo_documento as descTipoDoc')
+                            ->where('afm.numero_documento',$numDoc)
                             ->get();
 
          $pdf = \App::make('dompdf.wrapper');

@@ -1285,10 +1285,7 @@
     </ng-template>
     <ng-template #modalListaTrasladofooter>
         <button nz-button nzType="danger" (click)="cerrarModalListaActivoTraslados()">Cancelar</button>
-        <button nz-button nzType="primary" (click)="iniciarProcesoTrasaladoListado()"
-        *ngIf="user.rol != 'Administrador Act. Contable'">Iniciar proceso de traslado</button>
+        <button nz-button nzType="primary" (click)="iniciarProcesoTrasaladoListado()">Iniciar proceso de traslado</button>
 
-        <button nz-button nzType="primary" (click)="guardarTrasladoListado()"
-        *ngIf="user.rol == 'Administrador Act. Contable'">Finalizar proceso de traslado</button>
     </ng-template>
 </nz-modal>

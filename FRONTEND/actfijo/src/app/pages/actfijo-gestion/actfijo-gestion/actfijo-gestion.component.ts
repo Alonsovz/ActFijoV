@@ -428,7 +428,7 @@ export class ActfijoGestionComponent implements OnInit {
             position: 'top'
           });
         this.modalElegirMismoDocumento = true;
-        this.generarHojaActivo();
+        
         }
 
 
@@ -571,9 +571,10 @@ iniciarBaja(id) {
     this.getAltasUser();
     this.getTrasladosRecibidosUser();
     this.getBajasPendientesUser();
-    this.conteoUser();
+    
     this.modalBajaConfirmacion = false;
     this.generarHojaActivoBaja();
+    this.conteoUser();
     }
   );
 
@@ -935,8 +936,7 @@ conteoUser(){
 
   this.btnFinalizarTraslados = false;
   this.btnFinalizarBajas = false;
-  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
-  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
+
 }
 
 
@@ -944,8 +944,10 @@ conteoUser(){
 //función para no ingresar otro activo sobre el mismo documento
 
 finalizarSoloUno(){
+  this.generarHojaActivo();
   this.showCardListado();
   this.modalElegirMismoDocumento = false;
+ 
 }
 
 
@@ -986,7 +988,9 @@ ConvertToLowerUser(evt) {
 
 // generar hoja de activo
 generarHojaActivo() {
-  const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?activo=' + this.actFijoOb.af_codigo_interno;
+  var doc = this.altaActivoForm.controls["numeroDocumento"].value;
+
+  const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?doc=' + doc;
   window.open(ur, '_blank');
 
 }
@@ -1050,6 +1054,8 @@ generarHojaActivoBaja() {
   const ur =  this.urlBackEnd.getUrlBackEnd() + 'getHojaBaja?activo=' + JSON.stringify(datosActivo);
   window.open(ur, '_blank');
 
+  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 }
 
 // iniciar baja
@@ -1197,6 +1203,9 @@ generarHojaTrasladoActivo() {
   const ur = this.urlBackEnd.getUrlBackEnd() + 'generarHojaTrasladoActivo?activo=' + JSON.stringify(activo)+'&usuarioNuevo='+userNuevo;
 
   window.open(ur, '_blank');
+
+  this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 }
 
 
@@ -1235,7 +1244,7 @@ iniciarProcesoTrasaladoListado(id) {
     this.getAltasUser();
     this.getTrasladosRecibidosUser();
     this.getBajasPendientesUser();
-    this.conteoUser();
+    
     this.modalListadoActivosTraslados = false;
     this.generarHojaTrasladoActivo();
     }
@@ -1275,9 +1284,9 @@ guardarTrasladoListado(){
         });
       this.getTrasladosRecibidosPendientesUser();
       this.getAltasUser();
-      this.conteoUser();
       this.modalListadoActivosTraslados = false;
       this.generarHojaTrasladoActivo();
+      this.conteoUser();
       }
 
 

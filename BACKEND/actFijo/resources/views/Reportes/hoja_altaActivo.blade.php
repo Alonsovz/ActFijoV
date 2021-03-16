@@ -80,80 +80,74 @@
     <div style="margin-top: 5px; ">
         <b style="margin-left: 350px;font-size: 14px;">Hoja de activo fijo</b>
     </div>
-        @foreach($activo as $act)
+      
             <div style="position: relative; bottom: 20px;  ">
 
                 <div style="float: left">
-                    <b style="font-size: 10px;">Fecha: </b> <small style="font-size: 10px"><?php $fecha = date_create($act->fecha_alta); echo date_format($fecha,'d/m/Y'); ?></small>
+                    <b style="font-size: 10px;">Fecha: </b> <small style="font-size: 10px"><?php echo date('d/m/Y'); ?></small>
                 </div>
 
-                <div style="position: relative; margin:0; margin-left: 450px">
-                    <table class="minimalistBlack" style="width: 10px;" >
-                        
-                        <tbody>
-                        <tr>
-                            <td  style="width: 75px"><b style="font-size: 9px; ">Codigo VNR</b></td>
-                            <td  style="width: 120px"><b style="font-size: 9px; ">{{$act->af_codigo_vnr}}</b></td>
-                        </tr>
-                        <tr>
-                            <td  style="width: 75px"><b style="font-size: 9px; ">Codigo Conta</b></td>
-                            <td  style="width: 120px"><b style="font-size: 9px; ">{{$act->af_codigo_contable}}</b></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
-
-            <div style="margin-top: 3px"><b style="font-size: 10px">Por este medio solicito la inclusión de los siguientes activos:</b></div>
+            <br><br>
+            <div style="margin-top: 5px"><b style="font-size: 10px">Por este medio solicito la inclusión de los siguientes activos:</b></div>
 
             <div style="margin-top: 3px">
                 <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial">
                     <thead>
                     <tr>
-
+                        <th style="width:150px">Cod VNR</th>
+                        <th style="width:150px">Cod Conta</th>
                         <th style="width:150px">Activo</th>
                         <th style="width:10px">Marca</th>
                         <th style="width:10px">Modelo</th>
-                        <th style="width:10px">Otras especifi</th>
-                        <th style="width:5px">Cant</th>
-
-
-
                     </tr>
                     </thead>
 
                     <tbody>
-
+                    @foreach($activo as $act)
                         <tr>
-
+                            <td style="font-size: 8px">{{$act->af_codigo_vnr}}</td>
+                            <td style="font-size: 8px">{{$act->af_codigo_contable}}</td>
                             <td style="font-size: 8px">{{$act->descripcion_bien}}</td>
                             <td style="font-size: 8px">{{$act->nombre_marca}}</td>
                             <td style="font-size: 8px">{{$act->nombre_modelo}}</td>
-                            <td style="font-size: 8px"></td>
-                            <td style="font-size: 8px" class="cantidad">1</td>
                         </tr>
-
+                    @endforeach
                     </tbody>
-                    <tfoot>
-                    <tr>
-
-
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>Total:</td>
-                        <td class="total"><b style="font-size: 10px">1</b></td>
-                    </tr>
-                    </tfoot>
+                  
 
                 </table>
             </div>
+          
 
             <div id=container style="margin-top: 0px">
                 <div id=div3>
                     <b style="font-size: 10px;">Justificación para compra de activo:</b>
                     <p style="font-family: Tahoma, Helvetica, Arial; font-size: 10px; height: 296px; margin-top: 14px; border: solid 1px black; padding: 2px">
-                        <b>{{$act->descripcion_bien}}</b></p>
+                      </p>
+                </div>
+                <div id=div1 style="margin-top: 0px">
+                <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial; margin-top: 15px; margin-bottom: 20px">
+                     
+                        <tbody>
+
+
+                        <tr>
+                            <td style="width: 300px"><b style="font-size: 10px">Documento:</b></td>
+                            <td>{{$act->descTipoDoc}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 300px"><b style="font-size: 10px">N ° Doc:</b></td>
+                            <td>{{$act->numero_documento}}</td>
+                        </tr>
+                    
+
+
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+
+                    </table>
                 </div>
                 <div id=div1 style="margin-top: 0px">
                     <b style="font-size: 10px;">Dependencia destino:</b>
@@ -167,20 +161,16 @@
 
                         <tr>
                             <td style="width: 300px"><b style="font-size: 10px">Para asignarse a:</b></td>
-                            <td><b style="font-size: 10px">NO SE QUE PONER</b></td>
+                            <td><b style="font-size: 10px">{{$act->alias}}</b></td>
                         </tr>
                         <tr>
                             <td style="width: 300px"><b style="font-size: 10px">Ubicado en:</b></td>
-                            <td><b style="font-size: 10px">{{$act->codigo_agd}}</b></td>
+                            <td><b style="font-size: 10px">{{$act->bodega}}</b></td>
                         </tr>
                         <tr>
                             <td style="width: 300px"><b style="font-size: 10px">Centro de Costos:</b></td>
-                            <td><b style="font-size: 10px">{{$act->ccosto_del_bien_vnr}}</b></td>
-                        </tr>
-                        <tr>
-                            <td style="width: 300px"><b style="font-size: 10px">Depto EDESAL:</b></td>
-                            <td><b style="font-size: 10px">NO SE QUE PONER</b></td>
-                        </tr>
+                            <td><b style="font-size: 10px">{{$act->cc}}</b></td>
+                        </tr>>
                     
 
 
@@ -207,10 +197,6 @@
                             <td style="width: 300px"><b style="font-size: 10px">Municipio:</b></td>
                             <td><b style="font-size: 10px">{{$act->MunName}}</b></td>
                         </tr>
-                        <tr>
-                            <td style="width: 300px"><b style="font-size: 10px">Referencia:</b></td>
-                            <td>NO SE QUE PONER</td>
-                        </tr>
                         </tbody>
                         <tfoot>
 
@@ -218,45 +204,12 @@
 
                     </table>
                 </div>
-                <div id="div4" style="margin-top: 0px; width: 200px">
-                    <b style="font-size: 10px;">Finalidad del Activo:</b>
-                    <table class="minimalistBlack" style="font-family: Tahoma, Helvetica, Arial; margin-top: 15px; margin-bottom: 20px">
-                        <thead>
-
-                        </thead>
-
-                        <tbody>
-
-                        <tr>
-                            <td style="width: 300px"><b style="font-size: 10px">NO SE QUE PONER</b></td>
-                        </tr>
-
-                        </tbody>
-                        <tfoot>
-
-                        </tfoot>
-
-                    </table>
-                </div>
-                <div id="div4" style="margin-top: 0px">
-
-
-                </div>
+                
             </div>
 
 
 
-            <div >
-
-                <b style="font-size: 10px;">Observaciones:</b>
-                <div style="margin-top: 5px; font-size: 10px;  border:solid 1px black; height: 30px; width: 200px; padding: 15px">
-
-                    <b style="font-size: 10px;">Entregado de bodega:</b><br>
-
-
-
-
-                </div>
+            <div>
 
                 <div style="width: 800px">
                     <b style="font-size: 10px">Nombre y firmas:</b>
@@ -270,19 +223,12 @@
                             <td colspan="2" style="width: 150px"><b style="font-size: 10px">Nombre y firma de quien entrega</b></td>
                         </tr>
                         <tr>
-                            <td style="height: 25px;" colspan="2">NO SE QUE PONER</td>
+                            <td style="height: 25px;" colspan="2">{{$act->nombreUs}} {{$act->apellidoUs}}</td>
                             <td style="height: 25px;" colspan="2">
 
                             </td>
                         </tr>
-                        <tr >
-                            <td colspan="2" style="width: 150px"><b style="font-size: 10px">Nombre y firma de quien autoriza</b></td>
-                            <td colspan="2" style="width: 150px"><b style="font-size: 10px">V.B Administración y Finanzas</b></td>
-                        </tr>
-                        <tr >
-                            <td style="height: 25px;" colspan="2"></td>
-                            <td style="height: 25px;" colspan="2">Rosa Angelica Rivera</td>
-                        </tr>
+                       
 
 
                         </tbody>
@@ -291,7 +237,7 @@
 
             </div>
 
-    @endforeach
+   
 </div>
 
 
