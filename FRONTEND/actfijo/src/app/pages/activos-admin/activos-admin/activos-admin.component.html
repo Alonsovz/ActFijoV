@@ -657,9 +657,17 @@
 
                     <input type="hidden"  formControlName="asignadoA" [(ngModel)]="user.id" readonly>
                 </div>
-
                 <div nz-col [nzSpan]="1"></div>
                 <div nz-col [nzSpan]="5">
+                    <nz-form-label nzRequired>Usuario responsable</nz-form-label>
+                    <nz-select formControlName="codigo_asignado"  
+                    nzShowSearch nzAllowClear nzPlaceHolder="Nombre de usuario">
+                        <nz-option *ngFor="let user of objUsuarios" nzValue="{{user.id}}" nzLabel="{{user.nombre}}"></nz-option>
+                      </nz-select>
+                </div>
+
+                <div nz-col [nzSpan]="1"></div>
+                <div nz-col [nzSpan]="6">
                     <nz-form-label nzRequired>Tipo de Activo</nz-form-label>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de activo" formControlName="codigo_ppye"
                     (ngModelChange)="getCuentaContablePPYE()">
@@ -667,11 +675,7 @@
                         <nz-option *ngFor="let tp of objTipoActivosTbl" nzValue="{{tp.cod_ppye}}" nzLabel="{{tp.descripcion_ppye}}"></nz-option>
                     </nz-select>
                 </div>
-                <div nz-col [nzSpan]="1"></div>
-                <div nz-col [nzSpan]="6">
-                    <nz-form-label nzRequired>Fecha de registro</nz-form-label>
-                        <input type="date" nz-input formControlName="fechaRegistro">
-                </div>
+              
 
             </div>
         </div>
@@ -736,23 +740,32 @@
 
         <div nz-col nzSpan="24">
             <div nz-row style="margin-top: 20px !important;">
-                <div nz-col [nzSpan]="7">
+                
+                <div nz-col [nzSpan]="5">
+                    <nz-form-label nzRequired>Fecha de registro</nz-form-label>
+                        <input type="date" nz-input formControlName="fechaRegistro">
+                </div>
+                <div nz-col [nzSpan]="1"></div>
+                <div nz-col [nzSpan]="6">
                     <nz-form-label nzRequired>Tipo de partida</nz-form-label>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de partida" formControlName="tipoPartida">
                         <nz-option *ngFor="let tp of objTipoPartida" nzValue="{{tp.tipo_partida_id}}" nzLabel="{{tp.tipo_partida_descripcion}}"></nz-option>
                     </nz-select>
                 </div>
+              
                 <div nz-col [nzSpan]="1"></div>
-                <div nz-col [nzSpan]="7">
-                    <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                    <textarea rows="3" placeholder="Descripción del bien" nz-input formControlName="descripcionBien" autocomplete="off"></textarea>
-                </div>
-                <div nz-col [nzSpan]="2"></div>
-                <div nz-col [nzSpan]="7">
+                <div nz-col [nzSpan]="5">
                     <nz-form-label nzRequired>VNR - Tipo de activo fijo</nz-form-label>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Tipo de activo fijo" formControlName="tipoActivoVNR">
                         <nz-option *ngFor="let tp of objTipoBienVNR" nzValue="{{tp.codigo_tipo_bien_vnr}}" nzLabel="{{tp.nombre_tipo_bien}}"></nz-option>
                     </nz-select>
+                </div>
+                <div nz-col [nzSpan]="1"></div>
+                <div nz-col [nzSpan]="5" *ngFor= "let name of descripcionActivo">
+                    <nz-form-label nzRequired>Descripción del bien</nz-form-label>
+                    <textarea rows="3" placeholder="Descripción del bien" nz-input 
+                    formControlName="descripcionBien" autocomplete="off" [(ngModel)]="name.descripcion_ppye"
+                    readonly></textarea>
                 </div>
             </div>
         </div>
@@ -947,9 +960,12 @@
                                     <input type="hidden" nz-input formControlName="af_codigo_interno">
                                 </div>
                                 <div nz-col [nzSpan]="1"></div>
-                                <div nz-col [nzSpan]="6" *ngIf="vista == '1'">
-                                    <nz-form-label nzRequired>Asignado  a: </nz-form-label>
-                                    <input type="text"  formControlName="asignado" readonly  nz-input>
+                                 <div nz-col [nzSpan]="6">
+                                        <nz-form-label nzRequired>Usuario responsable</nz-form-label>
+                                        <nz-select formControlName="codigo_asignado"  
+                                        nzShowSearch nzAllowClear nzPlaceHolder="Nombre de usuario">
+                                            <nz-option *ngFor="let user of objUsuarios" nzValue="{{user.id}}" nzLabel="{{user.nombre}}"></nz-option>
+                                          </nz-select>
                                 </div>
                             </div>
 
@@ -1044,17 +1060,19 @@
                                         <nz-option *ngFor="let tp of objTipoPartida" nzValue="{{tp.tipo_partida_id}}" nzLabel="{{tp.tipo_partida_descripcion}}"></nz-option>
                                     </nz-select>
                                 </div>
-                                <div nz-col [nzSpan]="1"></div>
-                                <div nz-col [nzSpan]="7">
-                                    <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                                    <textarea rows="3" placeholder="Descripción del bien" nz-input formControlName="descripcion_bien" autocomplete="off"></textarea>
-                                </div>
                                 <div nz-col [nzSpan]="2"></div>
                                 <div nz-col [nzSpan]="7">
                                     <nz-form-label nzRequired>VNR - Tipo de activo fijo</nz-form-label>
-                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Tipo de activo fijo" formControlName="codigo_tipo_bien_vnr">
+                                    <nz-select (ngModelChange)="getActivoNameEdicion()"  nzShowSearch nzAllowClear nzPlaceHolder="VNR - Tipo de activo fijo" formControlName="codigo_tipo_bien_vnr">
                                         <nz-option *ngFor="let tp of objTipoBienVNR" nzValue="{{tp.codigo_tipo_bien_vnr}}" nzLabel="{{tp.nombre_tipo_bien}}"></nz-option>
                                     </nz-select>
+                                </div>
+                                <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="7" *ngFor="let name of descripcionActivoEdicion">
+                                    <nz-form-label nzRequired>Descripción del bien</nz-form-label>
+                                    <textarea rows="3" placeholder="Descripción del bien" nz-input 
+                                    formControlName="descripcion_bien" autocomplete="off" [(ngModel)]="name.descripcion_ppye"
+                                    readonly></textarea>
                                 </div>
                             </div>
                         </div>

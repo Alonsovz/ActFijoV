@@ -140,3 +140,6 @@ Route::get('getAltasAdminVNR', 'AdministradorActivosVNRController@getAltasAdmin'
 Route::get('getBajasAdminVNR', 'AdministradorActivosVNRController@getBajasAdmin');
 Route::get('getTrasladosAdminVNR', 'AdministradorActivosVNRController@getTrasladosAdmin');
 Route::get('getConteoAdminVNR', 'AdministradorActivosVNRController@getConteoAdmin');
+Route::post('guardarAltaActivoAdmin', 'GestionActivoController@guardarAltaActivoAdmin');
+Route::post('guardarEdicionActivoAdmin', 'GestionActivoController@guardarEdicionActivoAdmin');
+Route::post('getNameActFijo', 'GestionActivoController@getNameActFijo');

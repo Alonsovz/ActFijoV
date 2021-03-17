@@ -1128,8 +1128,353 @@ class GestionActivoController extends Controller
     }
 
 
+      //metodo para insertar alta de activo en base de datos COMANDA
+      public function guardarAltaActivoAdmin(Request $request){
+        //$codigoVNR = $request["codigoVNR"];
+        //$codigoContable = $request["codigoContable"];
+        $tipoActivoPPYE = $request["codigo_ppye"];
+        $fechaRegistro = $request["fechaRegistro"];
+        $cuentaContable = $request["cuentaContable"];
+        $tasaFiscal = $request["tasaFiscal"];
+        $tasaFinanciera = $request["tasaFinanciera"];
+        $vidaUtil = $request["vidaUtil"];
+        $tipoPartida = $request["tipoPartida"];
+        $descripcionBien = $request["descripcionBien"];
+        $tipoActivoVNR = $request["tipoActivoVNR"];
+        $areaUbicacionVNR = $request["areaUbicacionVNR"];
+        $ccCostoVnr = $request["ccCostoVnr"];
+        $tipoAgd = $request["tipoAgd"];
+        $bodegaAsignada = $request["bodegaAsignada"];
+        $marcaBien = $request["codigo_marca"];
+        $modeloBien = $request["modeloBien"];
+        $serieBien = $request["serieBien"];
+        $otrasEspecificaciones = $request["otrasEspecificaciones"];
+        $fechaCompra = $request["fechaCompra"];
+        $proveedor = $request["proveedor"];
+        $departamento = $request["cod_departamento"];
+        $municipio = $request["municipio"];
+        $ubicacionFisica = $request["ubicacionFisica"];
+        $estadoActivo = $request["estadoActivo"];
+        $valorSiva = $request["valorSiva"];
+        $tipoDocumento = $request["tipoDocumento"];
+        $numeroDocumento = $request["numeroDocumento"];
+        $asignadoA = $request["codigo_asignado"];
+        $af_valor_residual = $request["af_valor_residual"];
+        $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
+
+        $siglas = $request["siglas"];
+        $tipo_bien = $request["tipo_bien"];
+
+
+        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+
+        $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+
+        $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
+
+        $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
+
+        $getLastId = DB::connection('comanda')->table('af_maestro')->orderBy('af_codigo_interno', 'desc')->first();
+
+        $codVNR = '';
+        $codConta = '';
+
+        $insertId = $getLastId->af_codigo_interno + 1;
+        
+        if($insertId < 10){
+            $codVNR = 'VNR 0000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
+        }else if($insertId > 9 && $insertId < 100){
+            $codVNR = 'VNR 000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
+        }
+        else if($insertId > 99 && $insertId < 1000){
+            $codVNR = 'VNR 00'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
+        }
+
+        else if($insertId > 999 && $insertId < 10000){
+            $codVNR = 'VNR 0'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
+        }
+
+        else if($insertId > 9999){
+            $codVNR = 'VNR '.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
+        }
+
+
+        $monthIniciaDepre = date("m",strtotime($fechaCompraConFormato));
+
+        $yearIniciaDepre = date("Y",strtotime($fechaCompraConFormato));
+
+        $mesInicial = '';
+
+        if($monthIniciaDepre == '01'){
+            $mesInicial = '02';
+        }else if($monthIniciaDepre == '02'){
+            $mesInicial = '03';
+        }
+        else if($monthIniciaDepre == '03'){
+            $mesInicial = '04';
+        }
+        else if($monthIniciaDepre == '04'){
+            $mesInicial = '05';
+        }
+        else if($monthIniciaDepre == '05'){
+            $mesInicial = '06';
+        }
+        else if($monthIniciaDepre == '06'){
+            $mesInicial = '07';
+        }
+        else if($monthIniciaDepre == '07'){
+            $mesInicial = '08';
+        }
+        else if($monthIniciaDepre == '08'){
+            $mesInicial = '09';
+        }
+        else if($monthIniciaDepre == '09'){
+            $mesInicial = '10';
+        }
+        else if($monthIniciaDepre == '10'){
+            $mesInicial = '11';
+        }
+        else if($monthIniciaDepre == '11'){
+            $mesInicial = '12';
+        }
+        else if($monthIniciaDepre == '12'){
+            $mesInicial = '01';
+        }
+
+        $anioFinalDepre = $yearIniciaDepre  + $vidaUtil;
+
+        $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
+        $periodoFinalDepre = $mesInicial.$anioFinalDepre;
+      
+        
+
+        $insertar =  DB::connection('comanda')->table('af_maestro')
+        ->insert([
+            'af_codigo_vnr' => $codVNR,
+            'af_codigo_contable' => $codConta,
+            'codigo_ppye' => $tipoActivoPPYE,
+            'fecha_reg_contable' => $fechaRegistroConFormato,
+            'tipo_partida_id' => $tipoPartida,
+            'cuenta_contable'=> $cuentaContable,
+            'estado' => $estadoActivo,
+            'descripcion_bien' => $descripcionBien,
+            'codigo_tipo_bien_vnr' => $tipoActivoVNR,
+            'area_del_bien_vnr' => $areaUbicacionVNR,
+            'ccosto_del_bien_vnr' => $ccCostoVnr,
+            'codigo_agd' => $tipoAgd,
+            'bodega_id' => $bodegaAsignada,
+            'codigo_marca' => $marcaBien,
+            'codigo_modelo' => $modeloBien,
+            'af_serie' => $serieBien,
+            'otras_especificaciones' => $otrasEspecificaciones,
+            'fecha_compra' => $fechaCompraConFormato,
+            'codigo_tipo_documento' => $tipoDocumento,
+            'numero_documento' => $numeroDocumento,
+            'codigo_proveedor' => $proveedor,
+            'af_valor_compra_siva' => $valorSiva,
+            'af_tasa_depreciacion_financ' => $tasaFinanciera,
+            'af_tasa_depreciacion_fiscal' => $tasaFiscal,
+            'af_vida_util' => $vidaUtil,
+            'cod_departamento' => $departamento,
+            'cod_municipio' => $municipio,
+            'fecha_alta' => date('Ymd H:i:s'),
+            'codigo_sucursal' => $ubicacionFisica,
+            'codigo_asignado' => $asignadoA,
+            'estadoActivo' => 'Pendiente',
+            'aplica_contabilidad' => 'S',
+            'solo_vnr' => 'N',
+            'af_valor_vnr_siva' => $af_valor_vnr_siva,
+            'af_valor_residual' => $af_valor_residual,
+            'periodo_inicial' => $periodoInicialDepre,
+            'periodo_final' => $periodoFinalDepre,
+        ]);
+
+        return response()->json($insertar);
+    }
+
+
+
+      //metodo para editar activo en base de datos COMANDA
+      public function guardarEdicionActivoAdmin(Request $request){
+        $codigoVNR = $request["af_codigo_vnr"];
+        $codigoContable = $request["af_codigo_contable"];
+        $tipoActivoPPYE = $request["codigo_ppye"];
+        $fechaRegistro = $request["fechaRegistro"];
+        $cuentaContable = $request["cuenta_contable"];
+        $tasaFiscal = $request["af_tasa_depreciacion_fiscal"];
+        $tasaFinanciera = $request["af_tasa_depreciacion_financ"];
+        $vidaUtil = $request["af_vida_util"];
+        $tipoPartida = $request["tipo_partida_id"];
+        $descripcionBien = $request["descripcion_bien"];
+        $tipoActivoVNR = $request["codigo_tipo_bien_vnr"];
+        $areaUbicacionVNR = $request["area_del_bien_vnr"];
+        $ccCostoVnr = $request["ccosto_del_bien_vnr"];
+        $tipoAgd = $request["codigo_agd"];
+        $bodegaAsignada = $request["bodega_id"];
+        $marcaBien = $request["codigo_marca"];
+        $modeloBien = $request["codigo_modelo"];
+        $serieBien = $request["af_serie"];
+        $otrasEspecificaciones = $request["otras_especificaciones"];
+        $fechaCompra = $request["fechaCompra"];
+        $proveedor = $request["codigo_proveedor"];
+        $departamento = $request["cod_departamento"];
+        $municipio = $request["cod_municipio"];
+        $ubicacionFisica = $request["codigo_sucursal"];
+        $valorSiva = $request["af_valor_compra_siva"];
+        $tipoDocumento = $request["codigo_tipo_documento"];
+        $numeroDocumento = $request["numero_documento"];
+        $id = $request["af_codigo_interno"];
+        $userModificacion = $request["alias"];
+        $af_valor_residual = $request["af_valor_residual"];
+        $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
+        $siglas = $request["siglas"];
+        $tipo_bien = $request["tipo_bien"];
+        $solo_vnr = $request["solo_vnr"];
+        $aplica_contabilidad = $request["aplica_contabilidad"];
+        $asignadoA = $request["codigo_asignado"];
+
+        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+
+        $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+
+        $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
+
+        $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
+
+        //$getLastId = DB::connection('comanda')->table('af_maestro')->orderBy('af_codigo_interno', 'desc')->first();
+
+        $codVNR = '';
+        $codConta = '';
+
+        $insertId = $id;
+        
+        if($insertId < 10){
+            $codVNR = 'VNR 0000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
+        }else if($insertId > 9 && $insertId < 100){
+            $codVNR = 'VNR 000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
+        }
+        else if($insertId > 99 && $insertId < 1000){
+            $codVNR = 'VNR 00'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
+        }
+
+        else if($insertId > 999 && $insertId < 10000){
+            $codVNR = 'VNR 0'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
+        }
+
+        else if($insertId > 9999){
+            $codVNR = 'VNR '.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
+        }
+
+
+        $monthIniciaDepre = date("m",strtotime($fechaCompraConFormato));
+
+        $yearIniciaDepre = date("Y",strtotime($fechaCompraConFormato));
+
+        $mesInicial = '';
+
+        if($monthIniciaDepre == '01'){
+            $mesInicial = '02';
+        }else if($monthIniciaDepre == '02'){
+            $mesInicial = '03';
+        }
+        else if($monthIniciaDepre == '03'){
+            $mesInicial = '04';
+        }
+        else if($monthIniciaDepre == '04'){
+            $mesInicial = '05';
+        }
+        else if($monthIniciaDepre == '05'){
+            $mesInicial = '06';
+        }
+        else if($monthIniciaDepre == '06'){
+            $mesInicial = '07';
+        }
+        else if($monthIniciaDepre == '07'){
+            $mesInicial = '08';
+        }
+        else if($monthIniciaDepre == '08'){
+            $mesInicial = '09';
+        }
+        else if($monthIniciaDepre == '09'){
+            $mesInicial = '10';
+        }
+        else if($monthIniciaDepre == '10'){
+            $mesInicial = '11';
+        }
+        else if($monthIniciaDepre == '11'){
+            $mesInicial = '12';
+        }
+        else if($monthIniciaDepre == '12'){
+            $mesInicial = '01';
+        }
+
+        $anioFinalDepre = $yearIniciaDepre  + $vidaUtil;
+
+        $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
+        $periodoFinalDepre = $mesInicial.$anioFinalDepre;
+
+
+        $insertar =  DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $id)
+        ->update([
+            'af_codigo_vnr' => $codigoVNR,
+            'af_codigo_contable' => $codigoContable,
+            'codigo_ppye' => $tipoActivoPPYE,
+            'fecha_reg_contable' => $fechaRegistroConFormato,
+            'tipo_partida_id' => $tipoPartida,
+            'cuenta_contable'=> $cuentaContable,
+            'descripcion_bien' => $descripcionBien,
+            'codigo_tipo_bien_vnr' => $tipoActivoVNR,
+            'area_del_bien_vnr' => $areaUbicacionVNR,
+            'ccosto_del_bien_vnr' => $ccCostoVnr,
+            'codigo_agd' => $tipoAgd,
+            'bodega_id' => $bodegaAsignada,
+            'codigo_marca' => $marcaBien,
+            'codigo_modelo' => $modeloBien,
+            'af_serie' => $serieBien,
+            'otras_especificaciones' => $otrasEspecificaciones,
+            'fecha_compra' => $fechaCompraConFormato,
+            'codigo_tipo_documento' => $tipoDocumento,
+            'numero_documento' => $numeroDocumento,
+            'codigo_proveedor' => $proveedor,
+            'af_valor_compra_siva' => $valorSiva,
+            'af_tasa_depreciacion_financ' => $tasaFinanciera,
+            'af_tasa_depreciacion_fiscal' => $tasaFiscal,
+            'af_vida_util' => $vidaUtil,
+            'cod_departamento' => $departamento,
+            'cod_municipio' => $municipio,
+            'codigo_sucursal' => $ubicacionFisica,
+            'usuario_modificacion' => $userModificacion,
+            'fecha_modificacion' => date('Ymd H:i:s'),
+            'af_valor_vnr_siva' => $af_valor_vnr_siva,
+            'af_valor_residual' => $af_valor_residual,
+            'periodo_inicial' => $periodoInicialDepre,
+            'periodo_final' => $periodoFinalDepre,
+            'aplica_contabilidad' => $aplica_contabilidad,
+            'solo_vnr' => $solo_vnr,
+            'codigo_asignado' => $asignadoA,
+        ]);
+
+        return response()->json($insertar);
+    }
     
+    public function getNameActFijo(Request $request){
+        $tipoActivoPPYE = $request["codigo_ppye"];
     
+        $getActivo = DB::connection('comanda')
+        ->select("SELECT  * from af_tipo_ppye where cod_ppye = ".$tipoActivoPPYE." ");
+    
+        return response()->json($getActivo);
+    }
 }
 
 

@@ -105,6 +105,8 @@ export class ActivosAdminComponent implements OnInit {
   listaBajasAdminObjVNR: ReadonlyArray<ActfijoGestion> = [];
 
   editObj:  ActfijoGestion = new ActfijoGestion();
+  descripcionActivo :  ActfijoGestion = new ActfijoGestion();
+  descripcionActivoEdicion :  ActfijoGestion = new ActfijoGestion();
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
@@ -119,7 +121,7 @@ export class ActivosAdminComponent implements OnInit {
         'af_codigo_contable': new FormControl(''),
         'codigo_ppye' : new FormControl('0',[Validators.required]),
         'tipo_partida_id': new FormControl('',[Validators.required]),
-        'fechaRegistro': new FormControl('',[Validators.required]),
+        'fechaRegistro': new FormControl(''),
         'cuenta_contable': new FormControl('',[Validators.required]),
         'af_tasa_depreciacion_fiscal': new FormControl('',[Validators.required]),
         'af_tasa_depreciacion_financ': new FormControl('',[Validators.required]),
@@ -160,7 +162,7 @@ export class ActivosAdminComponent implements OnInit {
         'codigoVNR': new FormControl(''),
         'codigoContable': new FormControl(''),
         'codigo_ppye' : new FormControl('0',[Validators.required]),
-        'fechaRegistro': new FormControl('',[Validators.required]),
+        'fechaRegistro': new FormControl(''),
         'cuentaContable': new FormControl('',[Validators.required]),
         'tasaFiscal': new FormControl('',[Validators.required]),
         'tasaFinanciera': new FormControl('',[Validators.required]),
@@ -188,6 +190,7 @@ export class ActivosAdminComponent implements OnInit {
         'af_valor_residual': new FormControl(''),
         'siglas': new FormControl(''),
         'tipo_bien': new FormControl(''),
+        'codigo_asignado': new FormControl('',[Validators.required]),
       });
   
       this.bajaActivoFormAdmin = new FormGroup({
@@ -496,6 +499,33 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   this.validarPPYE = true;
   });
 
+  this.getActivoName();
+}
+
+
+getActivoName(){
+  let datos : ActfijoGestion = new ActfijoGestion();
+
+  datos = this.altaActivoForm.value;
+
+  this.gestionActFijo.getNameActFijo(datos).subscribe(
+    data => {
+    this.descripcionActivo = data;
+    
+    });
+}
+
+
+getActivoNameEdicion(){
+  let datos : ActfijoGestion = new ActfijoGestion();
+
+  datos = this.editarActivoForm.value;
+
+  this.gestionActFijo.getNameActFijo(datos).subscribe(
+    data => {
+    this.descripcionActivoEdicion = data;
+    
+    });
 }
 
 
@@ -568,7 +598,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   this.objTipoActivoPPYEdicion = data;
   this.validarPPYEdicion = true;
   });
-
+  this.getActivoNameEdicion();
 }
 
 
@@ -593,7 +623,7 @@ cerrarCardEditar(){
 
   datosActivo = Object.assign(this.editarActivoForm.value, this.user);
 
-  this.gestionActFijo.guardarEdicionActivo(datosActivo).subscribe(
+  this.gestionActFijo.guardarEdicionActivoAdmin(datosActivo).subscribe(
     response => {
 
     },
@@ -935,7 +965,7 @@ guardarActivacion(){
 
     datosActivo = this.altaActivoForm.value;
 
-    this.gestionActFijo.guardarAltaActivo(datosActivo).subscribe(
+    this.gestionActFijo.guardarAltaActivoAdmin(datosActivo).subscribe(
       response => {
 
       },

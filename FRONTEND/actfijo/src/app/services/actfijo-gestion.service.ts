@@ -72,6 +72,14 @@ public getUbicacionFisica(): Observable<ActfijoGestion[]> {
     .pipe(map(data => data as ActfijoGestion ));
   }
 
+   // metodo para guardar alta de activo
+   public guardarAltaActivoAdmin(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+    return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarAltaActivoAdmin', activoDatos, httpOptions)
+    .pipe(map(data => data as ActfijoGestion ));
+  }
+
+
+  
 
   //metodo para obtener listado de activos
 public getActivosAdmin(): Observable<ActfijoGestion[]> {
@@ -103,6 +111,20 @@ public guardarActivacionActivo(activoDatos: ActfijoGestion): Observable<ActfijoG
     return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarEdicionActivo', activoDatos, httpOptions)
     .pipe(map(data => data as ActfijoGestion ));
   }
+ // metodo para guardar edición de activo
+ public guardarEdicionActivoAdmin(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+  return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'guardarEdicionActivoAdmin', activoDatos, httpOptions)
+  .pipe(map(data => data as ActfijoGestion ));
+}
+
+ // metodo para guardar edición de activo
+ public getNameActFijo(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {
+  return this.http.post<ActfijoGestion>(this.globalservice.getUrlBackEnd() + 'getNameActFijo', activoDatos, httpOptions)
+  .pipe(map(data => data as ActfijoGestion ));
+}
+
+
+  
 
   // metodo para iniciar la baja de un activo
   iniciarBaja(activoDatos: ActfijoGestion): Observable<ActfijoGestion> {

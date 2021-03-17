@@ -95,6 +95,9 @@ class VerifyCsrfToken extends BaseVerifier
         'getAltasAdminVNR',
         'getBajasAdminVNR',
         'getTrasladosAdminVNR',
-        'getConteoAdminVNR'
+        'getConteoAdminVNR',
+        'guardarAltaActivoAdmin',
+        'guardarEdicionActivoAdmin',
+        'getNameActFijo'
     ];
 }
