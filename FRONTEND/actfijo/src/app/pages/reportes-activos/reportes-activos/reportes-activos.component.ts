@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Reportes } from 'src/app/models/reportes';
+import { Usuario } from 'src/app/models/usuario';
 import { ReportesActivosService } from 'src/app/services/reportes-activos.service';
 
 @Component({
@@ -13,13 +14,16 @@ export class ReportesActivosComponent implements OnInit {
   formDepreciacionFinancieraMensual: FormGroup;
   formDepreciacionFiscalAnual: FormGroup;
   formDepreciacionFinancieraAnual: FormGroup;
+  formReporteAGD: FormGroup;
   cuadroMensual : Reportes[];
   modalDepreciacionMensusal = false;
+  modalAGD = false;
   periodoEvaluando : string;
   tipo : string;
-
+  user: Usuario = new Usuario();
   listOfDataCuadroFinancieroMensual: ReadonlyArray<Reportes> = [];
   listOfCurrentPageDataCuadroMensual: ReadonlyArray<Reportes> = [];
+  listOfDataCuadroAGD: ReadonlyArray<Reportes> = [];
 
   constructor(private reportesService: ReportesActivosService) { 
     this.formDepreciacionFiscalMensual = new FormGroup({
@@ -41,10 +45,15 @@ export class ReportesActivosComponent implements OnInit {
       'anio' : new FormControl('',[Validators.required]),
     });
 
+    this.formReporteAGD = new FormGroup({
+      'fechaInicioAGD' : new FormControl('',[Validators.required]),
+      'fechaFinAGD' : new FormControl('',[Validators.required]),
+    });
 
   }
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem("usuario"));
   }
 
   generarDepreciacionFiscalMensual(){
@@ -89,11 +98,28 @@ export class ReportesActivosComponent implements OnInit {
       });
   }
 
+
+  generarReporteAGD(){
+    let datos : Reportes = new Reportes();
+    datos = this.formReporteAGD.value;
+
+    this.reportesService.generarReporteAGD(datos).subscribe(
+      data => {
+        this.listOfDataCuadroAGD = data;
+        this.modalAGD = true;
+      });
+  }
   
   paginacionCuadroMenusal(listOfCurrentPageData: ReadonlyArray<Reportes>) {
     this.listOfCurrentPageDataCuadroMensual  = listOfCurrentPageData;
 
   }
+
+  paginacionCuadroAGD(listOfCurrentPageData: ReadonlyArray<Reportes>) {
+    this.listOfDataCuadroAGD  = listOfCurrentPageData;
+
+  }
+  
 
   texto: any;
   _texto:string;
@@ -110,4 +136,7 @@ export class ReportesActivosComponent implements OnInit {
     this.modalDepreciacionMensusal = false;
   }
 
+  cerrarmodalAGD(){
+    this.modalAGD = false;
+  }
 }

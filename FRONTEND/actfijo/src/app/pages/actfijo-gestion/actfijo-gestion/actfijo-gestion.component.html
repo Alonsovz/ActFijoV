@@ -598,9 +598,10 @@
                     </nz-select>
                 </div>
                 <div nz-col [nzSpan]="1"></div>
-                <div nz-col [nzSpan]="7">
+                <div nz-col [nzSpan]="7" *ngFor="let name of descripcionActivo">
                     <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                    <textarea rows="3" placeholder="Descripción del bien" nz-input formControlName="descripcionBien" autocomplete="off"></textarea>
+                    <textarea rows="3" placeholder="Descripción del bien" nz-input formControlName="descripcionBien"
+                     autocomplete="off" [(ngModel)]="name.descripcion_ppye" readonly></textarea>
                 </div>
                 <div nz-col [nzSpan]="2"></div>
                 <div nz-col [nzSpan]="7">
@@ -902,9 +903,10 @@
                                     </nz-select>
                                 </div>
                                 <div nz-col [nzSpan]="1"></div>
-                                <div nz-col [nzSpan]="7">
+                                <div nz-col [nzSpan]="7" *ngFor="let name of descripcionActivoEdicion">
                                     <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                                    <textarea rows="3" placeholder="Descripción del bien" nz-input formControlName="descripcion_bien" autocomplete="off"></textarea>
+                                    <textarea rows="3" placeholder="Descripción del bien" nz-input [(ngModel)]="name.descripcion_ppye"
+                                     formControlName="descripcion_bien" autocomplete="off" readonly></textarea>
                                 </div>
                                 <div nz-col [nzSpan]="2"></div>
                                 <div nz-col [nzSpan]="7">

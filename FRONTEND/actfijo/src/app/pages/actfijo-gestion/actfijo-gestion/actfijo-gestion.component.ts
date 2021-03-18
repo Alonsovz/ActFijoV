@@ -137,7 +137,10 @@ export class ActfijoGestionComponent implements OnInit {
 
   modalListadoActivosBaja = false;
   modalListadoActivosTraslados = false;
+  descripcionActivoEdicion :  ActfijoGestion = new ActfijoGestion();
+  descripcionActivo :  ActfijoGestion = new ActfijoGestion();
 
+  
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
@@ -383,7 +386,7 @@ export class ActfijoGestionComponent implements OnInit {
         this.objTipoActivoPPYE = data;
         this.validarPPYE = true;
         });
-
+        this.getActivoName();
       }
 
       //metodo para limpiar formulario de altas
@@ -488,7 +491,33 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   this.objTipoActivoPPYEdicion = data;
   this.validarPPYEdicion = true;
   });
+  this.getActivoNameEdicion();
+}
 
+
+getActivoName(){
+  let datos : ActfijoGestion = new ActfijoGestion();
+
+  datos = this.altaActivoForm.value;
+
+  this.gestionActFijo.getNameActFijo(datos).subscribe(
+    data => {
+    this.descripcionActivo = data;
+    
+    });
+}
+
+
+getActivoNameEdicion(){
+  let datos : ActfijoGestion = new ActfijoGestion();
+
+  datos = this.editarActivoForm.value;
+
+  this.gestionActFijo.getNameActFijo(datos).subscribe(
+    data => {
+    this.descripcionActivoEdicion = data;
+    
+    });
 }
 
 //metodo para mostrar card de edición de activo

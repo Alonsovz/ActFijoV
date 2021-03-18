@@ -124,6 +124,7 @@ Route::any('generarHojaTrasladoActivo', 'GestionActivoController@generarHojaTras
 //rutas para reportes
 Route::post('getCuadroDepreciacionFinancieraMensual', 'ReportesController@getCuadroDepreciacionFinancieraMensual');
 Route::post('getCuadroDepreciacionFiscalMensual', 'ReportesController@getCuadroDepreciacionFiscalMensual');
+Route::post('generarReporteAGD', 'ReportesController@generarReporteAGD');
 
 
 

@@ -4,7 +4,7 @@
  </div>
 
 
- <nz-card class="cardShadow"  style="width:95%">
+ <nz-card class="cardShadow"  style="width:95%" *ngIf="user.rol == 'Administrador Act. Contable'">
     <div nz-row>
         <div nz-col nzSpan="24">
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Depreciación Fiscal</h2>
@@ -99,7 +99,7 @@
     </div>  
  </nz-card>
   
- <nz-card class="cardShadow"  style="width:95%">
+ <nz-card class="cardShadow"  style="width:95%" *ngIf="user.rol == 'Administrador Act. Contable'">
     <div nz-row>
         <div nz-col nzSpan="24">
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Depreciación Financiera</h2>
@@ -193,13 +193,36 @@
     </div>  
 </nz-card>
 
-<!--<nz-card class="cardShadow"  style="width:95%">
+<nz-card class="cardShadow"  style="width:95%" *ngIf="user.rol == 'Administrador Act. VNR'">
     <div nz-row>
         <div nz-col nzSpan="24">
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Reporte AGD</h2>
         </div>
+
+        <div nz-col nzSpan="24">
+            <h4 style="text-align: center !important;">Seleccione el rango de fechas a generar</h4>
+
+            <form nz-form  [formGroup]="formReporteAGD">
+                <div nz-row>
+                    <div nz-col [nzSpan]="11">
+                        <nz-form-label nzRequired>Fecha Inicial: </nz-form-label>
+                        <input type="date" nz-input formControlName="fechaInicioAGD">
+                    </div>
+                    <div nz-col [nzSpan]="2"></div>
+                    <div nz-col [nzSpan]="11">
+                        <nz-form-label nzRequired>Fecha Final</nz-form-label>
+                        <input type="date" nz-input formControlName="fechaFinAGD">
+                    </div>
+                </div>
+            </form>
+            <br><br>
+            <button [disabled] ="formReporteAGD.invalid" nz-button nzType="primary"
+              (click)="generarReporteAGD()" style="width: 100% !important;"><i nz-icon nzType="zoom-in" nzTheme="outline"></i>
+                Generar
+            </button>
+        </div>
     </div>  
- </nz-card>-->
+ </nz-card>
 
 
  <!--Modal para mostrar cuadros mensuales financieros y fiscales-->
@@ -271,3 +294,52 @@
         <button nz-button nzType="danger" (click)="cerrarmodalDepreciacionMensusal()">Cancelar</button>
     </ng-template>
 </nz-modal>
+
+
+ <!--Modal para mostrar cuadros mensuales financieros y fiscales-->
+ <nz-modal nzWidth="80%" [(nzVisible)]="modalAGD" [nzStyle]="{ top: '10px' }"
+ [nzFooter]="modalFooterAGD" [nzContent]="modalContentAGD" 
+ (nzOnCancel)="cerrarmodalAGD()">
+     <ng-template #modalContentAGD>
+ 
+         <div nz-row>
+             <div nz-col nzSpan="24">
+                 <h2 style="text-align: center !important;">Reporte AGD</h2>
+             </div>
+         </div>
+           <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+     
+         <nz-table #cuadroAGD [nzData]="listOfDataCuadroAGD"  style="width: 100% !important;
+         font-size: 13px !important;"
+         nzShowPagination nzShowSizeChanger (nzCurrentPageDataChange)="paginacionCuadroAGD($event)">
+                 <thead>
+                 <tr>
+                     <th>Descripcion Bien</th>
+                     <th>Cantidad</th>
+                     <th>Código</th>
+                     <th>PU</th>
+                     <th>Monto</th>
+                     <th>N° Factura</th>
+                     <th>Cuenta Contable</th>
+                    </tr>
+                 </thead>
+                 <tbody>
+                         <tr *ngFor="let ob of cuadroAGD.data | searchreportes: texto">
+                         <td>{{ ob.descripcion }}</td>
+                         <td>{{ ob.cantidad}}</td>
+                         <td>{{ob.codigo}}</td>
+                         <td>{{ ob.PU}}</td>
+                         <td>{{ ob.monto}}</td>
+                         <td>{{ ob.numeroFactura}}</td>
+                         <td>{{ ob.cuenta}}</td>
+                         </tr>
+                 
+                 
+                 </tbody>
+             </nz-table>
+     </ng-template>
+ 
+     <ng-template #modalFooterAGD>
+         <button nz-button nzType="danger" (click)="cerrarmodalAGD()">Cancelar</button>
+     </ng-template>
+ </nz-modal>

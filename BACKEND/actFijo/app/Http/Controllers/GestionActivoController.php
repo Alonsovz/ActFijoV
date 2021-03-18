@@ -1426,8 +1426,8 @@ class GestionActivoController extends Controller
 
         $insertar =  DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $id)
         ->update([
-            'af_codigo_vnr' => $codigoVNR,
-            'af_codigo_contable' => $codigoContable,
+            'af_codigo_vnr' => $codVNR,
+            'af_codigo_contable' => $codConta,
             'codigo_ppye' => $tipoActivoPPYE,
             'fecha_reg_contable' => $fechaRegistroConFormato,
             'tipo_partida_id' => $tipoPartida,

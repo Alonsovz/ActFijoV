@@ -82,4 +82,31 @@ class ReportesController extends Controller
         return response()->json($getCuadro);
     }
     
+    public function generarReporteAGD(Request $request){
+        $fecha1= $request["fechaInicioAGD"];
+        $fecha2 = $request["fechaFinAGD"];
+
+        $fecha1SinFormato = date_create_from_format('Y-m-d',$fecha1);
+
+        $fecha1ConFormato = date_format($fecha1SinFormato,'Ymd');
+
+        $fecha2SinFormato = date_create_from_format('Y-m-d',$fecha2);
+
+        $fecha2ConFormato = date_format($fecha2SinFormato,'Ymd');
+
+
+        $getCuadro =  DB::connection('comanda')->select("select af.descripcion_bien as descripcion,
+        count (af.af_codigo_interno) as cantidad, atp.tipo_bien+' '+atp.siglas as codigo,
+        '$'+str((sum(af.af_valor_compra_siva) / count (af.af_codigo_interno)),12,2) as PU,
+        '$'+str(sum(af.af_valor_compra_siva),12,2) as monto, af.numero_documento as numeroFactura,
+        af.cuenta_contable as cuenta
+         from af_maestro af
+        inner join af_tipo_ppye atp on atp.cod_ppye = af.codigo_ppye
+        where af.estado != 'B' and af.estadoActivo  = 'Activo'
+        and af.fecha_compra between '".$fecha1ConFormato." 00:00:00' and '".$fecha2ConFormato." 23:59:59'
+        group by af.descripcion_bien, atp.tipo_bien, atp.siglas,af.numero_documento,
+        af.cuenta_contable");
+
+        return response()->json($getCuadro);
+    }
 }
