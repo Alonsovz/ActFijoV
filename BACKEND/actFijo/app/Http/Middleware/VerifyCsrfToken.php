@@ -99,6 +99,10 @@ class VerifyCsrfToken extends BaseVerifier
         'guardarAltaActivoAdmin',
         'guardarEdicionActivoAdmin',
         'getNameActFijo',
-        'generarReporteAGD'
+        'generarReporteAGD',
+        'getDescActivos',
+        'guardarDescActivo',
+        'guardarEdicionDescActivo',
+        'eliminarDescActivo'
     ];
 }

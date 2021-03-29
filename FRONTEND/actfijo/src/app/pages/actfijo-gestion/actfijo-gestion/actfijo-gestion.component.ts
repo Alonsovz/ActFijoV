@@ -20,6 +20,8 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { GlobalService } from 'src/app/services/global.service';
 import * as $ from 'jquery';
 import { JsonPipe } from '@angular/common';
+import { DescripcionActivoService } from 'src/app/services/descripcion-activo.service';
+import { DescripcionActivo } from 'src/app/models/descripcion-activo';
 
 
 @Component({
@@ -65,6 +67,8 @@ export class ActfijoGestionComponent implements OnInit {
   objTipoActivoPPYE : ActfijoGestion[];
   objTipoActivoPPYEdicion : ActfijoGestion[];
   objUbicacionFisica : ActfijoGestion[];
+  descActivos : DescripcionActivo[];
+
 
   actFijoOb: ActfijoGestion = new ActfijoGestion();
   listOfData: ReadonlyArray<Usuario> = [];
@@ -145,7 +149,8 @@ export class ActfijoGestionComponent implements OnInit {
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
     private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
-    private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder) {
+    private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder,
+    private descActivosService : DescripcionActivoService) {
 
       this.trasladoActivoForm = new FormGroup({
         'usuarioTrasladoNuevo': new FormControl('',[Validators.required]),
@@ -177,7 +182,7 @@ export class ActfijoGestionComponent implements OnInit {
       'bodegaAsignada': new FormControl('',[Validators.required]),
       'codigo_marca': new FormControl('0',[Validators.required]),
       'modeloBien': new FormControl('',[Validators.required]),
-      'serieBien': new FormControl('',[Validators.required]),
+      'serieBien': new FormControl(''),
       'otrasEspecificaciones': new FormControl('',[Validators.required]),
       'fechaCompra': new FormControl('',[Validators.required]),
       'proveedor': new FormControl('',[Validators.required]),
@@ -215,7 +220,7 @@ export class ActfijoGestionComponent implements OnInit {
       'bodega_id': new FormControl('',[Validators.required]),
       'codigo_marca': new FormControl('0',[Validators.required]),
       'codigo_modelo': new FormControl('',[Validators.required]),
-      'af_serie': new FormControl('',[Validators.required]),
+      'af_serie': new FormControl(''),
       'otras_especificaciones': new FormControl('',[Validators.required]),
       'fechaCompra': new FormControl('',[Validators.required]),
       'codigo_proveedor': new FormControl('',[Validators.required]),
@@ -300,6 +305,11 @@ export class ActfijoGestionComponent implements OnInit {
     });
 
 
+    this.descActivosService.getDescActivos().subscribe(
+      data => {
+        this.descActivos = data;
+      });
+      
     this.gestionActFijo.getUbicacionFisica().subscribe(
       data => {
         this.objUbicacionFisica = data;
@@ -307,6 +317,8 @@ export class ActfijoGestionComponent implements OnInit {
         this.mostrarSkeleton = false;
         this.datosCargados = true;
     });
+
+    
 
   }
 
@@ -386,7 +398,6 @@ export class ActfijoGestionComponent implements OnInit {
         this.objTipoActivoPPYE = data;
         this.validarPPYE = true;
         });
-        this.getActivoName();
       }
 
       //metodo para limpiar formulario de altas
@@ -491,7 +502,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   this.objTipoActivoPPYEdicion = data;
   this.validarPPYEdicion = true;
   });
-  this.getActivoNameEdicion();
+ // this.getActivoNameEdicion();
 }
 
 

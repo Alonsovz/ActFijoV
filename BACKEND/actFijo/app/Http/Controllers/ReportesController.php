@@ -95,17 +95,21 @@ class ReportesController extends Controller
         $fecha2ConFormato = date_format($fecha2SinFormato,'Ymd');
 
 
-        $getCuadro =  DB::connection('comanda')->select("select af.descripcion_bien as descripcion,
-        count (af.af_codigo_interno) as cantidad, atp.tipo_bien+' '+atp.siglas as codigo,
-        '$'+str((sum(af.af_valor_compra_siva) / count (af.af_codigo_interno)),12,2) as PU,
-        '$'+str(sum(af.af_valor_compra_siva),12,2) as monto, af.numero_documento as numeroFactura,
-        af.cuenta_contable as cuenta
-         from af_maestro af
+        $getCuadro =  DB::connection('comanda')->select("SELECT af.descripcion_bien as descripcion,
+        atp.tipo_bien+' '+atp.siglas as codigo,
+        (select count(af_codigo_interno) from af_maestro where codigo_ppye = atp.cod_ppye
+        and estado != 'B' and estadoActivo  = 'Activo') as cantidad,
+        '$'+''+str(sum(af.af_valor_compra_siva) /
+        (select count(af_codigo_interno) from af_maestro where codigo_ppye = atp.cod_ppye
+        and estado != 'B' and estadoActivo  = 'Activo'),12,2)
+        as PU,
+        '$'+''+str(sum(af.af_valor_compra_siva),12,2) as monto,
+        (select top 1 numero_documento from af_maestro where codigo_ppye = atp.cod_ppye)as numeroFactura
+        from af_maestro af
         inner join af_tipo_ppye atp on atp.cod_ppye = af.codigo_ppye
         where af.estado != 'B' and af.estadoActivo  = 'Activo'
         and af.fecha_compra between '".$fecha1ConFormato." 00:00:00' and '".$fecha2ConFormato." 23:59:59'
-        group by af.descripcion_bien, atp.tipo_bien, atp.siglas,af.numero_documento,
-        af.cuenta_contable");
+        group by af.descripcion_bien, atp.cod_ppye,  atp.tipo_bien,atp.siglas,af.codigo_ppye");
 
         return response()->json($getCuadro);
     }

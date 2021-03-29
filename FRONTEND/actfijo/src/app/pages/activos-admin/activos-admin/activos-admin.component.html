@@ -503,7 +503,7 @@
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
-                        <td>{{ ob.compraSiva }}</td>
+                        <td>{{ ob.valorVNR }}</td>
                         <td>{{ ob.asignado }}</td>
                         <td  style="text-align: center; align-items: left;">
                                  <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
@@ -609,7 +609,7 @@
                             <td>{{ ob.af_codigo_interno }}</td>
                             <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                             <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
-                            <td>{{ ob.compraSiva }}</td>
+                            <td>{{ ob.valorVNR }}</td>
                             <td>{{ ob.asignado }}</td>
                             <td  style="text-align: center; align-items: left;">
                            
@@ -761,11 +761,12 @@
                     </nz-select>
                 </div>
                 <div nz-col [nzSpan]="1"></div>
-                <div nz-col [nzSpan]="5" *ngFor= "let name of descripcionActivo">
+                <div nz-col [nzSpan]="5">
                     <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                    <textarea rows="3" placeholder="Descripción del bien" nz-input 
-                    formControlName="descripcionBien" autocomplete="off" [(ngModel)]="name.descripcion_ppye"
-                    readonly></textarea>
+                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Descripción del bien" formControlName="descripcionBien">
+                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+                        <nz-option *ngFor="let tp of descActivos" nzValue="{{tp.nombre}}" nzLabel="{{tp.nombre}}"></nz-option>
+                    </nz-select>
                 </div>
             </div>
         </div>
@@ -1068,11 +1069,12 @@
                                     </nz-select>
                                 </div>
                                 <div nz-col [nzSpan]="1"></div>
-                                <div nz-col [nzSpan]="7" *ngFor="let name of descripcionActivoEdicion">
+                                <div nz-col [nzSpan]="7">
                                     <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                                    <textarea rows="3" placeholder="Descripción del bien" nz-input 
-                                    formControlName="descripcion_bien" autocomplete="off" [(ngModel)]="name.descripcion_ppye"
-                                    readonly></textarea>
+                                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Descripción del bien" formControlName="descripcion_bien">
+                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+                                        <nz-option *ngFor="let tp of descActivos" nzValue="{{tp.nombre}}" nzLabel="{{tp.nombre}}"></nz-option>
+                                    </nz-select>
                                 </div>
                             </div>
                         </div>

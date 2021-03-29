@@ -90,7 +90,8 @@ class GestionActivoController extends Controller
     public function getUbicacionFisica(){
 
         $getUbicacionFisica = 
-        DB::connection('comanda')->select("select * from FACTURACION.dbo.fe_cta_sucursales");
+        DB::connection('comanda')->select("select * from FACTURACION.dbo.fe_cta_sucursales
+        where codigo_banco = 9900");
 
         return response()->json($getUbicacionFisica);
     }
@@ -662,6 +663,7 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        '$'+str(af.af_valor_vnr_siva,12,2) as valorVNR,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar, af.fecha_alta, 103) as fechaAlta,
@@ -711,6 +713,7 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select distinct af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        '$'+str(af.af_valor_vnr_siva,12,2) as valorVNR,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_movimiento from af_historial_activo
@@ -735,8 +738,6 @@ class GestionActivoController extends Controller
 
         return response()->json($getMisActivos);
     }
-
-
 
       //metodo para mostrar activos tipo alta para administradores en base de datos COMANDA
       public function getAltasPendientesAdmin(){

@@ -22,6 +22,7 @@ class AdministradorActivosVNRController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        '$'+str(af.af_valor_vnr_siva,12,2) as valorVNR,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar, af.fecha_alta, 103) as fechaAlta,
@@ -47,6 +48,7 @@ class AdministradorActivosVNRController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        '$'+str(af.af_valor_vnr_siva,12,2) as valorVNR,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar, af.fecha_baja, 103) as fechaBaja,
@@ -69,6 +71,7 @@ class AdministradorActivosVNRController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select distinct af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        '$'+str(af.af_valor_vnr_siva,12,2) as valorVNR,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_movimiento from af_historial_activo

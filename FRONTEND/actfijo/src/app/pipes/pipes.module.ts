@@ -11,6 +11,7 @@ import { SearchtipodocsPipe } from './searchtipodocs.pipe';
 import { SearchactgestionPipe } from './searchactgestion.pipe';
 import { SearchactgestionuserPipe } from './searchactgestionuser.pipe';
 import { SearchreportesPipe } from './searchreportes.pipe';
+import { SearchdescactivosPipe } from './searchdescactivos.pipe';
 
 
 
@@ -26,7 +27,8 @@ import { SearchreportesPipe } from './searchreportes.pipe';
     SearchtipodocsPipe,
     SearchactgestionPipe,
     SearchactgestionuserPipe,
-    SearchreportesPipe
+    SearchreportesPipe,
+    SearchdescactivosPipe
   ],
   imports: [
     CommonModule
@@ -41,7 +43,8 @@ import { SearchreportesPipe } from './searchreportes.pipe';
     SearchtipodocsPipe,
     SearchactgestionPipe,
     SearchactgestionuserPipe,
-    SearchreportesPipe
+    SearchreportesPipe,
+    SearchdescactivosPipe
   ]
 })
 export class PipesModule { }

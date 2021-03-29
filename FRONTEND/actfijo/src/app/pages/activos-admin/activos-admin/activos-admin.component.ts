@@ -19,6 +19,8 @@ import { TipoactivoService } from 'src/app/services/tipoactivo.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import notie from 'notie';
 import * as $ from 'jquery';
+import { DescripcionActivo } from 'src/app/models/descripcion-activo';
+import { DescripcionActivoService } from 'src/app/services/descripcion-activo.service';
 
 @Component({
   selector: 'app-activos-admin',
@@ -77,7 +79,7 @@ export class ActivosAdminComponent implements OnInit {
   listaConteo : ActfijoGestion[];
   btnFinalizarBajasAdmin = false;
   btnFinalizarTrasladosAdmin = false;
-
+  descActivos : DescripcionActivo[];
   modalDetallesActivo = false;
   editarActivoForm : FormGroup;
   datosCargadosEditar = false;
@@ -112,7 +114,8 @@ export class ActivosAdminComponent implements OnInit {
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
     private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
-    private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder) {
+    private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder,
+    private descActivosService : DescripcionActivoService) {
       this.editarActivoForm = new FormGroup({
         'af_codigo_interno': new FormControl('',[Validators.required]),
         'codigo_tipo_documento': new FormControl('',[Validators.required]),
@@ -134,7 +137,7 @@ export class ActivosAdminComponent implements OnInit {
         'bodega_id': new FormControl('',[Validators.required]),
         'codigo_marca': new FormControl('0',[Validators.required]),
         'codigo_modelo': new FormControl('',[Validators.required]),
-        'af_serie': new FormControl('',[Validators.required]),
+        'af_serie': new FormControl(''),
         'otras_especificaciones': new FormControl('',[Validators.required]),
         'fechaCompra': new FormControl('',[Validators.required]),
         'codigo_proveedor': new FormControl('',[Validators.required]),
@@ -176,7 +179,7 @@ export class ActivosAdminComponent implements OnInit {
         'bodegaAsignada': new FormControl('',[Validators.required]),
         'codigo_marca': new FormControl('0',[Validators.required]),
         'modeloBien': new FormControl('',[Validators.required]),
-        'serieBien': new FormControl('',[Validators.required]),
+        'serieBien': new FormControl(''),
         'otrasEspecificaciones': new FormControl('',[Validators.required]),
         'fechaCompra': new FormControl('',[Validators.required]),
         'proveedor': new FormControl('',[Validators.required]),
@@ -264,6 +267,11 @@ export class ActivosAdminComponent implements OnInit {
         this.objDepartamentos = data;
     });
 
+
+    this.descActivosService.getDescActivos().subscribe(
+      data => {
+        this.descActivos = data;
+      });
 
     this.gestionActFijo.getUbicacionFisica().subscribe(
       data => {
@@ -499,7 +507,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   this.validarPPYE = true;
   });
 
-  this.getActivoName();
+  //this.getActivoName();
 }
 
 
@@ -598,7 +606,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   this.objTipoActivoPPYEdicion = data;
   this.validarPPYEdicion = true;
   });
-  this.getActivoNameEdicion();
+  //this.getActivoNameEdicion();
 }
 
 

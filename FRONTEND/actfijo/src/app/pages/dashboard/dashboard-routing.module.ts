@@ -59,7 +59,10 @@ const routes: Routes = [
         path: 'supervisoractivos',
         loadChildren: () => import('./../supervisor-activos/supervisor-activos.module').then(m => m.SupervisorActivosModule)
       },
-      
+      {
+        path: 'descripcionactivo',
+        loadChildren: () => import('./../descripcion-activo/descripcion-activo.module').then(m => m.DescripcionActivoModule)
+      },
     ]
   }
 ];

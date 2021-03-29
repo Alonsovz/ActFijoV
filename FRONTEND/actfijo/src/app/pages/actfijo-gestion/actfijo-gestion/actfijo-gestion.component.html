@@ -598,10 +598,14 @@
                     </nz-select>
                 </div>
                 <div nz-col [nzSpan]="1"></div>
-                <div nz-col [nzSpan]="7" *ngFor="let name of descripcionActivo">
+                <div nz-col [nzSpan]="7">
                     <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                    <textarea rows="3" placeholder="Descripción del bien" nz-input formControlName="descripcionBien"
-                     autocomplete="off" [(ngModel)]="name.descripcion_ppye" readonly></textarea>
+
+                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Descripción del bien" formControlName="descripcionBien">
+                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+                        <nz-option *ngFor="let tp of descActivos" nzValue="{{tp.nombre}}" nzLabel="{{tp.nombre}}"></nz-option>
+                    </nz-select>
+
                 </div>
                 <div nz-col [nzSpan]="2"></div>
                 <div nz-col [nzSpan]="7">
@@ -903,10 +907,15 @@
                                     </nz-select>
                                 </div>
                                 <div nz-col [nzSpan]="1"></div>
-                                <div nz-col [nzSpan]="7" *ngFor="let name of descripcionActivoEdicion">
+                                <div nz-col [nzSpan]="7">
                                     <nz-form-label nzRequired>Descripción del bien</nz-form-label>
-                                    <textarea rows="3" placeholder="Descripción del bien" nz-input [(ngModel)]="name.descripcion_ppye"
-                                     formControlName="descripcion_bien" autocomplete="off" readonly></textarea>
+
+                                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Descripción del bien" formControlName="descripcion_bien">
+                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+                                        <nz-option *ngFor="let tp of descActivos" nzValue="{{tp.nombre}}" nzLabel="{{tp.nombre}}"></nz-option>
+                                    </nz-select>
+                                    
+                                   
                                 </div>
                                 <div nz-col [nzSpan]="2"></div>
                                 <div nz-col [nzSpan]="7">

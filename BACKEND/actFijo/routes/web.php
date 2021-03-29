@@ -144,3 +144,10 @@ Route::get('getConteoAdminVNR', 'AdministradorActivosVNRController@getConteoAdmi
 Route::post('guardarAltaActivoAdmin', 'GestionActivoController@guardarAltaActivoAdmin');
 Route::post('guardarEdicionActivoAdmin', 'GestionActivoController@guardarEdicionActivoAdmin');
 Route::post('getNameActFijo', 'GestionActivoController@getNameActFijo');
+
+
+//rutas para descripciones de activos
+Route::get('getDescActivos', 'DescripcionesActivoController@getDescActivos');
+Route::post('guardarDescActivo', 'DescripcionesActivoController@guardarDescActivo');
+Route::post('guardarEdicionDescActivo', 'DescripcionesActivoController@guardarEdicionDescActivo');
+Route::post('eliminarDescActivo', 'DescripcionesActivoController@eliminarDescActivo');
