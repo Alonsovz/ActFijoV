@@ -8,7 +8,7 @@ use DB;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Response as FacadeResponse;
 use Session;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 date_default_timezone_set("America/El_Salvador");
 
@@ -112,5 +112,27 @@ class ReportesController extends Controller
         group by af.descripcion_bien, atp.cod_ppye,  atp.tipo_bien,atp.siglas,af.codigo_ppye");
 
         return response()->json($getCuadro);
+    }
+
+
+    public function reporte_agd_excel(Request $request)
+    {
+
+
+
+        $queryrun = $request["activos_agd"];
+
+      
+        Excel::create('reporteAgd', function($excel) use($queryrun) {
+            $excel->sheet('detalles', function($sheet) use($queryrun) {
+
+
+
+                $sheet->loadView('Reportes.reporte_agd_excel')
+                    ->with('activos_agd',$queryrun);
+
+
+            });
+        })->export('xls');
     }
 }

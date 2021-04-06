@@ -45,6 +45,7 @@ export class ActivosAdminComponent implements OnInit {
   objClasificacionAgd : ClasificacionAgd[];
   objMarcasActivosTbl : Marcasactivo[];
   objTipoDocumentosTbl : TipoDocumentos[];
+  objCuentasHijas : ActfijoGestion[];
   objModelosActivos : Modelosactivo[];
   objCCostoBien : ActfijoGestion[];
   objBodegas : ActfijoGestion[];
@@ -147,6 +148,7 @@ export class ActivosAdminComponent implements OnInit {
         'af_valor_compra_siva': new FormControl('',[Validators.required]),
         'codigo_asignado': new FormControl('',[Validators.required]),
         'asignado': new FormControl('',[Validators.required]),
+        'cuenta_hija' : new FormControl(''),
         'af_valor_residual': new FormControl(''),
         'af_valor_vnr_siva': new FormControl(''),
         'siglas': new FormControl(''),
@@ -194,6 +196,7 @@ export class ActivosAdminComponent implements OnInit {
         'siglas': new FormControl(''),
         'tipo_bien': new FormControl(''),
         'codigo_asignado': new FormControl('',[Validators.required]),
+        'cuentaHija' : new FormControl(''),
       });
   
       this.bajaActivoFormAdmin = new FormGroup({
@@ -451,6 +454,7 @@ showCardListadoAdminActivos() : void{
  //metodo para mostrar card para alta de activo
 
  showCardAgregar() : void{
+  this.altaActivoForm.reset();
   this.mostrarCardListadoAdminVNR = false;
   this.mostrarCardAgregar = true;
   this.validarPPYE = false;
@@ -491,6 +495,12 @@ editarActFijo(act, vis){
     data => {
       this.listOfCurrentPageDataHistorial = data;
     });
+
+
+    this.gestionActFijo.getCuentasHijas(act).subscribe(
+      data => {
+        this.objCuentasHijas = data;
+      });
 }
 
 
@@ -506,6 +516,11 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   this.objTipoActivoPPYE = data;
   this.validarPPYE = true;
   });
+
+  this.gestionActFijo.getCuentasHijasPPYE(datosmarcaActivo).subscribe(
+    data => {
+      this.objCuentasHijas = data;
+    });
 
   //this.getActivoName();
 }
@@ -606,6 +621,12 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   this.objTipoActivoPPYEdicion = data;
   this.validarPPYEdicion = true;
   });
+
+
+  this.gestionActFijo.getCuentasHijasPPYE(datosmarcaActivo).subscribe(
+    data => {
+      this.objCuentasHijas = data;
+    });
   //this.getActivoNameEdicion();
 }
 
@@ -1010,6 +1031,7 @@ generarHojaActivo() {
   var doc = this.altaActivoForm.controls["numeroDocumento"].value;
 
   const ur =  this.urlBackEnd.getUrlBackEnd() + 'generarHojaActivo?doc=' + doc;
+  this.altaActivoForm.reset();
   window.open(ur, '_blank');
 
 }
@@ -1020,6 +1042,7 @@ finalizarSoloUno(){
   this.generarHojaActivo();
   this.showCardListadoAdminActivos();
   this.modalElegirMismoDocumento = false;
+
 }
 
 
@@ -1168,22 +1191,4 @@ data => {
 this.conteoAdminVNR();
 }
 
-
-cambiarValoresVNR(){
-    var option = this.editarActivoForm.controls["solo_vnr"].value;
-    
-    if(option == 'S'){
-      this.editarActivoForm.controls["aplica_contabilidad"].setValue('N');
-    }else{
-      this.editarActivoForm.controls["aplica_contabilidad"].setValue('S');
-    }
-  }
-
-  cambiarValoresContabilidad(){
-    if(this.editarActivoForm.controls["aplica_contabilidad"].value == 'S'){
-      this.editarActivoForm.controls["solo_vnr"].patchValue('N',  {emitEvent: false} );
-    }else{
-      this.editarActivoForm.controls["solo_vnr"].patchValue('S',  {emitEvent: false} );
-    }
-  }
 }

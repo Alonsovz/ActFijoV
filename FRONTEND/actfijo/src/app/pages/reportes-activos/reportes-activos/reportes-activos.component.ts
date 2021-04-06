@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Reportes } from 'src/app/models/reportes';
 import { Usuario } from 'src/app/models/usuario';
 import { ReportesActivosService } from 'src/app/services/reportes-activos.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-reportes-activos',
@@ -25,7 +26,7 @@ export class ReportesActivosComponent implements OnInit {
   listOfCurrentPageDataCuadroMensual: ReadonlyArray<Reportes> = [];
   listOfDataCuadroAGD: ReadonlyArray<Reportes> = [];
 
-  constructor(private reportesService: ReportesActivosService) { 
+  constructor(private reportesService: ReportesActivosService, private urlBackEnd: GlobalService) { 
     this.formDepreciacionFiscalMensual = new FormGroup({
       'mes' : new FormControl('',[Validators.required]),
       'anio' : new FormControl('',[Validators.required]),
@@ -108,6 +109,15 @@ export class ReportesActivosComponent implements OnInit {
         this.listOfDataCuadroAGD = data;
         this.modalAGD = true;
       });
+  }
+
+
+  exportarExcelAgd(){
+    let datos : Reportes = new Reportes();
+    datos = this.listOfDataCuadroAGD;
+
+    const ur =  this.urlBackEnd.getUrlBackEnd() + 'reporte_agd_excel?activos_agd=' + JSON.stringify(datos);
+    window.open(ur, '_blank');
   }
   
   paginacionCuadroMenusal(listOfCurrentPageData: ReadonlyArray<Reportes>) {

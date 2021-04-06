@@ -44,4 +44,5 @@ export class ActfijoGestion {
     public estadoActivo : string;
     public marcaAf : string;
     public modeloAf : string;
+    public cuenta_hija: string;
 }

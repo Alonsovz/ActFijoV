@@ -29,10 +29,8 @@ class TipoActivoController extends Controller
 
     //también funciona para obtener objeto de tabla en vista de roles
     public function getCuentas(){
-        $cuenta = 
-        DB::connection('comanda')->select("SELECT  cuenta, nombre
-        FROM  saf_2011.dbo.catalogo_completo
-        WHERE  (OPERABLE = 'S') 
+        $cuenta = DB::connection('comanda')->select("SELECT  cuenta, nombre
+        FROM  saf_2011.dbo.catalogo_completo where operable = 'N'
         ORDER BY CUENTA");
 
         return response()->json($cuenta);

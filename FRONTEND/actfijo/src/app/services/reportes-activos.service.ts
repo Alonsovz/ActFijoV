@@ -39,4 +39,7 @@ public getCuadroDepreciacionFinancieraMensual(periodo): Observable<Reportes[]> {
   public generarReporteAGD(periodo): Observable<Reportes[]> {
     return this.http.post(this.globalservice.getUrlBackEnd() + 'generarReporteAGD', periodo, httpOptions).pipe(map(data => data as Reportes[]));
   }
+ 
+
+  
 }

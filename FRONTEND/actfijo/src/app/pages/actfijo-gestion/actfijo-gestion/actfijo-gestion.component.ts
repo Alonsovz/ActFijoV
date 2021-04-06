@@ -328,7 +328,7 @@ export class ActfijoGestionComponent implements OnInit {
    //metodo para mostrar card para alta de activo
 
    showCardAgregar() : void{
-
+    this.altaActivoForm.reset();
     this.mostrarCardAgregar = true;
     this.mostrarCardListado = false;
     this.validarPPYE = false;

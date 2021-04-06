@@ -133,7 +133,6 @@ class GestionActivoController extends Controller
         $siglas = $request["siglas"];
         $tipo_bien = $request["tipo_bien"];
 
-
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
         $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
@@ -1166,6 +1165,7 @@ class GestionActivoController extends Controller
         $siglas = $request["siglas"];
         $tipo_bien = $request["tipo_bien"];
 
+        $cuentaHija = $request["cuentaHija"];
 
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -1293,6 +1293,7 @@ class GestionActivoController extends Controller
             'af_valor_residual' => $af_valor_residual,
             'periodo_inicial' => $periodoInicialDepre,
             'periodo_final' => $periodoFinalDepre,
+            'cuenta_hija' => $cuentaHija,
         ]);
 
         return response()->json($insertar);
@@ -1338,6 +1339,7 @@ class GestionActivoController extends Controller
         $solo_vnr = $request["solo_vnr"];
         $aplica_contabilidad = $request["aplica_contabilidad"];
         $asignadoA = $request["codigo_asignado"];
+        $cuentaHija  = $request["cuenta_hija"];
 
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -1462,6 +1464,7 @@ class GestionActivoController extends Controller
             'periodo_final' => $periodoFinalDepre,
             'aplica_contabilidad' => $aplica_contabilidad,
             'solo_vnr' => $solo_vnr,
+            'cuenta_hija' => $cuentaHija,
             'codigo_asignado' => $asignadoA,
         ]);
 
@@ -1475,6 +1478,34 @@ class GestionActivoController extends Controller
         ->select("SELECT  * from af_tipo_ppye where cod_ppye = ".$tipoActivoPPYE." ");
     
         return response()->json($getActivo);
+    }
+
+
+     //metodo para obtener el historial del activo
+     public function getCuentasHijas(Request $request){
+        $cuenta = $request["cuenta_contable"];
+
+        $getActivo = DB::connection('comanda')
+        ->select("SELECT  cuenta, nombre
+        FROM  saf_2011.dbo.catalogo_completo
+        where cuenta like '".$cuenta."%' and operable = 'S'");
+
+        return response()->json($getActivo);
+
+    }
+
+      //metodo para obtener el historial del activo
+      public function getCuentasHijasPPYE(Request $request){
+        $tipoActivo = $request["codigo_ppye"];
+
+        
+        $getActivo = DB::connection('comanda')
+        ->select("SELECT  c.cuenta, c.nombre FROM  saf_2011.dbo.catalogo_completo c
+        where c.cuenta like ''+LTRIM(RTRIM((select cuenta_contable from comanda_db.dbo.af_tipo_ppye where 
+        cod_ppye = ".$tipoActivo.")))+'%' and c.operable = 'S'");
+
+        return response()->json($getActivo);
+
     }
 }
 

@@ -307,6 +307,10 @@
                  <h2 style="text-align: center !important;">Reporte AGD</h2>
              </div>
          </div>
+         <button  nz-button nzType="primary"
+         (click)="exportarExcelAgd()"><i nz-icon nzType="zoom-in" nzTheme="outline"></i>
+           Generar excel
+       </button>
            <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
      
          <nz-table #cuadroAGD [nzData]="listOfDataCuadroAGD"  style="width: 100% !important;

@@ -97,6 +97,9 @@ Route::post('iniciarbajaactivo', 'GestionActivoController@iniciarBaja');
 Route::post('guardarTraslado', 'GestionActivoController@guardarTraslado');
 Route::post('guardarAceptacionTraslado', 'GestionActivoController@guardarAceptacionTraslado');
 Route::post('finalizacionprocesobaja', 'GestionActivoController@finalizarProcesoBaja');
+Route::post('getCuentasHijas', 'GestionActivoController@getCuentasHijas');
+Route::post('getCuentasHijasPPYE', 'GestionActivoController@getCuentasHijasPPYE');
+
 
 Route::get('getAltasAdmin', 'GestionActivoController@getAltasAdmin');
 Route::get('getBajasAdmin', 'GestionActivoController@getBajasAdmin');
@@ -125,6 +128,7 @@ Route::any('generarHojaTrasladoActivo', 'GestionActivoController@generarHojaTras
 Route::post('getCuadroDepreciacionFinancieraMensual', 'ReportesController@getCuadroDepreciacionFinancieraMensual');
 Route::post('getCuadroDepreciacionFiscalMensual', 'ReportesController@getCuadroDepreciacionFiscalMensual');
 Route::post('generarReporteAGD', 'ReportesController@generarReporteAGD');
+Route::any('reporte_agd_excel', 'ReportesController@reporte_agd_excel');
 
 
 
