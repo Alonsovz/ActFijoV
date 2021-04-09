@@ -161,7 +161,7 @@
 
                         <tr>
                             <td style="width: 300px"><b style="font-size: 10px">Para asignarse a:</b></td>
-                            <td><b style="font-size: 10px">{{$act->alias}}</b></td>
+                            <td><b style="font-size: 10px">{{$act->nombreUs}} {{$act->apellidoUs}}</b></td>
                         </tr>
                         <tr>
                             <td style="width: 300px"><b style="font-size: 10px">Ubicado en:</b></td>

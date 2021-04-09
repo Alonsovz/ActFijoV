@@ -19,7 +19,7 @@ class GestionActivoController extends Controller
 
         $getCCostoBien = 
         DB::connection('comanda')->select("select * from saf_2011.dbo.estructura11
-        where empresa_id = 1");
+        where empresa_id = 1 order by 3 asc");
 
         return response()->json($getCCostoBien);
     }
@@ -28,7 +28,8 @@ class GestionActivoController extends Controller
     public function getBodegas(){
 
         $getBodegas = 
-        DB::connection('comanda')->select("select * from saf_2011.dbo.inv_bodegas");
+        DB::connection('comanda')->select("SELECT * from saf_2011.dbo.inv_bodegas
+        where codigo like 'EQ%' or codigo = '1' order by 3 asc");
 
         return response()->json($getBodegas);
     }
@@ -37,7 +38,7 @@ class GestionActivoController extends Controller
     public function getProveedores(){
 
         $getProveedores = 
-        DB::connection('comanda')->select("select * from saf_2011.dbo.entidad");
+        DB::connection('comanda')->select("select * from saf_2011.dbo.entidad order by 2 asc");
 
         return response()->json($getProveedores);
     }
@@ -46,7 +47,7 @@ class GestionActivoController extends Controller
      public function getTipoPartida(){
 
         $getTipoPartida = 
-        DB::connection('comanda')->select("select * from saf_2011.dbo.tipo_partida");
+        DB::connection('comanda')->select("select * from saf_2011.dbo.tipo_partida order by 2 asc");
 
         return response()->json($getTipoPartida);
     }
@@ -56,7 +57,7 @@ class GestionActivoController extends Controller
       public function getDepartamentos(){
 
         $getDepartamentos = 
-        DB::connection('comanda')->select("select * from DEPSV");
+        DB::connection('comanda')->select("select * from DEPSV order by 2 asc");
 
         return response()->json($getDepartamentos);
     }
@@ -67,7 +68,8 @@ class GestionActivoController extends Controller
         $dep = $request["cod_departamento"];
 
         $getMunicipios = 
-        DB::connection('comanda')->select("select * from MUNSV where DEPSV_ID = ".$dep."");
+        DB::connection('comanda')->select("select * from MUNSV where DEPSV_ID = ".$dep."
+        order by 2 asc");
 
         return response()->json($getMunicipios);
     }
@@ -80,7 +82,7 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("SELECT *,LTRIM(str(tasa_fiscal,12,2)) as tasaFiscal,
         LTRIM(str(tasa_financ,12,2)) as tasaFinan
         from af_tipo_ppye
-        where cod_ppye = ".$tipoActivo."");
+        where cod_ppye = ".$tipoActivo." order by 2 asc");
 
         return response()->json($getCuentaContablePPYE);
     }
@@ -91,7 +93,7 @@ class GestionActivoController extends Controller
 
         $getUbicacionFisica = 
         DB::connection('comanda')->select("select * from FACTURACION.dbo.fe_cta_sucursales
-        where codigo_banco = 9900");
+        where codigo_banco = 9900 order by 3 asc");
 
         return response()->json($getUbicacionFisica);
     }
@@ -129,6 +131,9 @@ class GestionActivoController extends Controller
         $asignadoA = $request["asignadoA"];
         $af_valor_residual = $request["af_valor_residual"];
         $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
+
+        $picture = $request["imagenDoc"];
+
 
         $siglas = $request["siglas"];
         $tipo_bien = $request["tipo_bien"];
@@ -259,6 +264,7 @@ class GestionActivoController extends Controller
             'af_valor_residual' => $af_valor_residual,
             'periodo_inicial' => $periodoInicialDepre,
             'periodo_final' => $periodoFinalDepre,
+            'imagen_factura' => strtolower(date('Ymd').' '.substr($picture, 12)),
         ]);
 
         return response()->json($insertar);
@@ -1166,6 +1172,7 @@ class GestionActivoController extends Controller
         $tipo_bien = $request["tipo_bien"];
 
         $cuentaHija = $request["cuentaHija"];
+        $picture = $request["imagenDoc"];
 
         $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -1294,6 +1301,7 @@ class GestionActivoController extends Controller
             'periodo_inicial' => $periodoInicialDepre,
             'periodo_final' => $periodoFinalDepre,
             'cuenta_hija' => $cuentaHija,
+            'imagen_factura' => strtolower(date('Ymd').' '.substr($picture, 12)),
         ]);
 
         return response()->json($insertar);
@@ -1486,7 +1494,7 @@ class GestionActivoController extends Controller
         $cuenta = $request["cuenta_contable"];
 
         $getActivo = DB::connection('comanda')
-        ->select("SELECT  cuenta, nombre
+        ->select("SELECT  LTRIM(RTRIM(cuenta)) as cuenta, LTRIM(RTRIM(nombre)) as nombre
         FROM  saf_2011.dbo.catalogo_completo
         where cuenta like '".$cuenta."%' and operable = 'S'");
 
@@ -1500,15 +1508,44 @@ class GestionActivoController extends Controller
 
         
         $getActivo = DB::connection('comanda')
-        ->select("SELECT  c.cuenta, c.nombre FROM  saf_2011.dbo.catalogo_completo c
+        ->select("SELECT  LTRIM(RTRIM(cuenta)) as cuenta, LTRIM(RTRIM(nombre)) as nombre
+         FROM  saf_2011.dbo.catalogo_completo c
         where c.cuenta like ''+LTRIM(RTRIM((select cuenta_contable from comanda_db.dbo.af_tipo_ppye where 
         cod_ppye = ".$tipoActivo.")))+'%' and c.operable = 'S'");
 
         return response()->json($getActivo);
 
     }
+
+    
+public function moveDoc(Request $request){
+    
+      
+    $file = $request->file('file');
+
+    $nombreoriginal = strtolower($file->getClientOriginalName());
+    $file->move('documents/',date('Ymd').' '.(string)$nombreoriginal);
+
+    return response()->json($nombreoriginal);
+  
+  
+
 }
 
+
+public function descargarArchivo(Request $request){
+
+    $file = strtolower($request["ruta"]);
+
+    if(file_exists(public_path('documents/'.$file))){
+        return response()->download(public_path('documents/'.$file));
+    }else{
+        return response()->json('Archivo no encontrado');
+    }
+    
+}
+
+}
 
 
 

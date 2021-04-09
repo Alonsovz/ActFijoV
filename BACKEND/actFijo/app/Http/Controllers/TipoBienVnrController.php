@@ -18,7 +18,7 @@ class TipoBienVnrController extends Controller
     //obtener objeto de tabla en vista de tipos de bien VNR
     public function getTipoBienVNR(){
         $tiposBienVnr = 
-        DB::connection('comanda')->select("SELECT * from af_tipo_bien_vnr where estado = 1 order by 1 desc");
+        DB::connection('comanda')->select("SELECT * from af_tipo_bien_vnr where estado = 1 order by 2 asc");
 
         return response()->json($tiposBienVnr);
     }

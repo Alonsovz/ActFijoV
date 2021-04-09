@@ -63,6 +63,14 @@ const routes: Routes = [
         path: 'descripcionactivo',
         loadChildren: () => import('./../descripcion-activo/descripcion-activo.module').then(m => m.DescripcionActivoModule)
       },
+      {
+        path: 'ubiFisicas',
+        loadChildren: () => import('./../ubicacion-fisica/ubicacion-fisica.module').then(m => m.UbicacionFisicaModule)
+      },
+      {
+        path: 'ubiEspecificas',
+        loadChildren: () => import('./../ubicacion-especifica/ubicacion-especifica.module').then(m => m.UbicacionEspecificaModule)
+      },
     ]
   }
 ];

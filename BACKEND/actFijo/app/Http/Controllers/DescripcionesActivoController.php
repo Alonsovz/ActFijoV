@@ -19,7 +19,7 @@ class DescripcionesActivoController extends Controller
 
         $getDescActivos = 
         DB::connection('comanda')->select("select * from af_descripciones_activo where estado = 1
-        order by id desc");
+        order by 2 asc");
 
         return response()->json($getDescActivos);
     }

@@ -119,7 +119,8 @@ aplica_contabilidad char(1),
 solo_vnr char(1),
 estadoActivo varchar(10),
 motivoBaja varchar(100),
-cuenta_hija varchar(100)
+cuenta_hija varchar(100),
+imagen_factura varchar(100)
 );
 
 

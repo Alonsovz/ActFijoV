@@ -106,6 +106,8 @@ class VerifyCsrfToken extends BaseVerifier
         'eliminarDescActivo',
         'getCuentasHijas',
         'getCuentasHijasPPYE',
-        'reporte_agd_excel'
+        'reporte_agd_excel',
+        'moveDoc',
+        'descargarArchivo'
     ];
 }

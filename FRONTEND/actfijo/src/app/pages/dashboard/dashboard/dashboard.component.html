@@ -4,19 +4,21 @@
     <ul nz-menu nzTheme="dark" nzMode="inline" class="sidebar">
 
 
-      <div class="logo"><img src="./assets/img/blanco.png"  height=35
+      <div class="logo"><img src="./assets/img/blanco.png"  height=35 width="200"
         style="margin:auto;"></div>
 
       <li nz-submenu nzTitle="Gestiones" nzIcon="tool" *ngIf="user.rol != 'Usuario'">
         <ul style="align-items:left !important; float: left !important;">
           <li nz-menu-item routerLink="tipoactivo" > Tipo de activo</li>
-          <li nz-menu-item routerLink="descripcionactivo" > Descripciones de activos</li>
+          <li nz-menu-item routerLink="descripcionactivo" > Descrip. de activos</li>
           <li nz-menu-item routerLink="marcasactivo"> Marcas de activo</li>
           <li nz-menu-item routerLink="modelosactivo">Modelos de activo</li>
           <li nz-menu-item routerLink="tipoBienVnr">Tipo bien VNR</li>
           <li nz-menu-item routerLink="clasificacionAgd">Clasficaciones AGD</li>
           <li nz-menu-item routerLink="tiposdocumentos">Tipos de documentos</li>
-          <li nz-menu-item routerLink="bodegas">Supervisores de bodegas</li>
+          <li nz-menu-item routerLink="bodegas">Superv. de bodegas</li>
+          <li nz-menu-item routerLink="ubiFisicas">Ubicaciones físicas</li>
+          <li nz-menu-item routerLink="ubiEspecificas">Ubicaciones específicas</li>
         </ul>
       </li>
 

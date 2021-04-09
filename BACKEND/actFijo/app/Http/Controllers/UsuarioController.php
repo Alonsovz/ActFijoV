@@ -64,7 +64,8 @@ class UsuarioController extends Controller
         public function getUsuarios(){
             $usuarios = 
             DB::connection('comanda')->select("SELECT distinct id,
-             nombre+' '+apellido as nombre from users where (estado is null or estado = 1)");
+             nombre+' '+apellido as nombre from users where (estado is null or estado = 1)
+             order by 2 asc");
     
     
             return response()->json($usuarios);

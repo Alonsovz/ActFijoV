@@ -22,7 +22,7 @@ class TipoActivoController extends Controller
         DB::connection('comanda')->select("SELECT *,
         LTRIM(str(tasa_fiscal,12,2)) as tasaFiscal,
         LTRIM(str(tasa_financ,12,2)) as tasaFinan
-        from af_tipo_ppye where estado = 1 order by 1 desc");
+        from af_tipo_ppye where estado = 1 order by 2 asc");
 
         return response()->json($tipoActivo);
     }

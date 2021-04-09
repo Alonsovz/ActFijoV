@@ -11,6 +11,7 @@
                  <th style="border:black solid 0.5px; width: 20px">PU</th>
                  <th style="border:black solid 0.5px; width: 20px">Monto</th>
                  <th style="border:black solid 0.5px; width: 20px">N° Factura</th>
+                 <th style="border:black solid 0.5px; width: 20px">Cuenta</th>
             </tr>
 </thead>
 <tbody style="border:1px solid black">
@@ -27,7 +28,7 @@
         <td style="border:black solid 0.5px">{{$q->PU}}</td>
         <td style="border:black solid 0.5px">{{$q->monto}}</td>
         <td style="border:black solid 0.5px">{{$q->numeroFactura}}</td>
-
+        <td style="border:black solid 0.5px; text-align:left !important;">{{$q->cuenta}}</td>
     </tr>
 @endforeach
 </tbody>

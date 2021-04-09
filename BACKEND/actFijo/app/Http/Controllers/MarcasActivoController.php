@@ -20,7 +20,7 @@ class MarcasActivoController extends Controller
     public function getMarcasActivo(){
         $MarcasActivo = 
         DB::connection('comanda')->select("SELECT *
-        from af_marcas where estado = 1 order by 1 desc");
+        from af_marcas where estado = 1 order by 2 asc");
 
         return response()->json($MarcasActivo);
     }

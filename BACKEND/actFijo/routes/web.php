@@ -123,6 +123,8 @@ Route::post('getTrasladosHechosPendientesUser', 'GestionActivoController@getTras
 Route::any('getHojaBaja', 'GestionActivoController@getHojaBaja');
 Route::any('generarHojaActivo', 'GestionActivoController@generarHojaActivo');
 Route::any('generarHojaTrasladoActivo', 'GestionActivoController@generarHojaTraslado');
+Route::post('moveDoc', 'GestionActivoController@moveDoc');
+Route::any('descargarArchivo', 'GestionActivoController@descargarArchivo');
 
 //rutas para reportes
 Route::post('getCuadroDepreciacionFinancieraMensual', 'ReportesController@getCuadroDepreciacionFinancieraMensual');

@@ -18,7 +18,7 @@ class ClasificacionAgdController extends Controller
     //obtener objeto de tabla en vista de clasificacion AGD
     public function getClasificacionesAgd(){
         $clasficacionesAgd = 
-        DB::connection('comanda')->select("SELECT * from af_agd where estado = 1 order by 1 desc");
+        DB::connection('comanda')->select("SELECT * from af_agd where estado = 1 order by 2 asc");
 
         return response()->json($clasficacionesAgd);
     }

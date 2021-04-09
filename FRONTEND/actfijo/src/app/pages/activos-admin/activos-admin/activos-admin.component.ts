@@ -21,6 +21,7 @@ import notie from 'notie';
 import * as $ from 'jquery';
 import { DescripcionActivo } from 'src/app/models/descripcion-activo';
 import { DescripcionActivoService } from 'src/app/services/descripcion-activo.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-activos-admin',
@@ -46,6 +47,7 @@ export class ActivosAdminComponent implements OnInit {
   objMarcasActivosTbl : Marcasactivo[];
   objTipoDocumentosTbl : TipoDocumentos[];
   objCuentasHijas : ActfijoGestion[];
+  objCuentasHijasEdicion: ActfijoGestion[];
   objModelosActivos : Modelosactivo[];
   objCCostoBien : ActfijoGestion[];
   objBodegas : ActfijoGestion[];
@@ -110,13 +112,16 @@ export class ActivosAdminComponent implements OnInit {
   editObj:  ActfijoGestion = new ActfijoGestion();
   descripcionActivo :  ActfijoGestion = new ActfijoGestion();
   descripcionActivoEdicion :  ActfijoGestion = new ActfijoGestion();
+  imagen:  File;
+  rutaFile : string;
+  actFijoObDoc: string;
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
     private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
     private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder,
-    private descActivosService : DescripcionActivoService) {
+    private descActivosService : DescripcionActivoService,  private http: HttpClient) {
       this.editarActivoForm = new FormGroup({
         'af_codigo_interno': new FormControl('',[Validators.required]),
         'codigo_tipo_documento': new FormControl('',[Validators.required]),
@@ -165,6 +170,7 @@ export class ActivosAdminComponent implements OnInit {
         'tipoDocumento': new FormControl('',[Validators.required]),
         'numeroDocumento': new FormControl('',[Validators.required]),
         'codigoVNR': new FormControl(''),
+        imagenDoc: new FormControl(''),
         'codigoContable': new FormControl(''),
         'codigo_ppye' : new FormControl('0',[Validators.required]),
         'fechaRegistro': new FormControl(''),
@@ -207,6 +213,7 @@ export class ActivosAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+    this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'descargarArchivo?ruta=';
 
     this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 
@@ -285,7 +292,52 @@ export class ActivosAdminComponent implements OnInit {
     });
 
   }
+
+  actualizarListadoMarcas(){
+    this.marcasActivo.getMarcasActivo().subscribe(
+      data => {
+        this.objMarcasActivosTbl = data;
+    });
   
+  }
+  
+  actualizarListadoTipoDocs(){
+    this.tipodocumentoservice.getTipoDocumentos().subscribe(
+      data => {
+        this.objTipoDocumentosTbl = data;
+    });
+
+  }
+
+  actualizarListadoTipoActivoPPYE(){
+    this.tipoActivo.getTipoActivo().subscribe(
+      data => {
+        this.objTipoActivosTbl = data;
+    });
+
+  }
+
+  actualizarListadoTipoActivoVNR(){
+    this.tipoBienVnr.getTiposBienVnr().subscribe(
+      data => {
+        this.objTipoBienVNR = data;
+    });
+  }
+
+  actualizarListadoDescripcionBien(){
+    this.descActivosService.getDescActivos().subscribe(
+      data => {
+        this.descActivos = data;
+      });
+  }
+  
+  actualizarListadoAGD(){
+    this.clasificacionAgd.getClasificacionesAgd().subscribe(
+      data => {
+        this.objClasificacionAgd = data;
+    });
+
+  }
 
   //metodo para paginación de tabla de altas de activo para administador
 paginacionTablaAltasAdmin(listaAltasAdmin: ReadonlyArray<ActfijoGestion>) {
@@ -477,7 +529,7 @@ get actSeleccionadosBajas(){
 
   
 //metodo para mostrar card de edición de activo
-editarActFijo(act, vis){
+editarActFijo(act, vis ,archivo){
   this.editObj = act;
   this.editarActivoForm.reset();
 
@@ -490,6 +542,7 @@ editarActFijo(act, vis){
   this.filtrarModelosEdicion();
   this.getCuentaContablePPYEEdicion();
   this.vista = vis;
+  this.actFijoObDoc = this.rutaFile+archivo; 
 
   this.gestionActFijo.getHistorialActivo(act).subscribe(
     data => {
@@ -616,6 +669,11 @@ public getCuentaContablePPYEEdicion(){
 
   datosmarcaActivo = this.editarActivoForm.value;
 
+  this.gestionActFijo.getCuentasHijasPPYE(datosmarcaActivo).subscribe(
+    data => {
+      this.objCuentasHijasEdicion = data;
+    });
+
 this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   data => {
   this.objTipoActivoPPYEdicion = data;
@@ -623,10 +681,7 @@ this.gestionActFijo.getCuentaContablePPYE(datosmarcaActivo).subscribe(
   });
 
 
-  this.gestionActFijo.getCuentasHijasPPYE(datosmarcaActivo).subscribe(
-    data => {
-      this.objCuentasHijas = data;
-    });
+
   //this.getActivoNameEdicion();
 }
 
@@ -749,6 +804,11 @@ generarHojaActivoBaja() {
 
 
 }
+
+
+
+
+
 
 // finalizar baja admin
 finalizarProcesoBajaListado(id) {
@@ -1189,6 +1249,39 @@ data => {
   this.mostrarSkeletonTablaAdminVNR = false;
 });
 this.conteoAdminVNR();
+}
+
+
+//validacion del archivo seleccionado
+asignarImagen(fileInput: any) {
+  this.imagen = <File>fileInput.target.files[0];
+  this.subirImagen();
+}
+
+subirImagen(){
+
+
+  const formData = new FormData();
+  formData.append('file', this.imagen);
+
+  console.log(formData);
+
+  this.http.post(this.urlBackEnd.getUrlBackEnd() +'moveDoc', formData, {
+    reportProgress: true,
+    observe: 'events'   
+  })
+  .subscribe(
+    response => {
+
+    },
+    err => {
+    },
+    () => {
+    
+    });
+      
+
+
 }
 
 }

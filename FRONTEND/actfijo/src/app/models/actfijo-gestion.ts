@@ -45,4 +45,5 @@ export class ActfijoGestion {
     public marcaAf : string;
     public modeloAf : string;
     public cuenta_hija: string;
+    public imagen_factura: string;
 }

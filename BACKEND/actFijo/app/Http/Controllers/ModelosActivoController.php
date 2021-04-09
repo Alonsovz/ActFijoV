@@ -21,7 +21,7 @@ class ModelosActivoController extends Controller
         $ModelosActivo = 
         DB::connection('comanda')->select("SELECT af.*, am.nombre_marca as marca from af_modelos af
         inner join af_marcas am on am.codigo_marca = af.codigo_marca
-        where af.estado = 1 order by 1 desc");
+        where af.estado = 1 order by 2 asc");
 
         return response()->json($ModelosActivo);
     }

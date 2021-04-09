@@ -99,12 +99,20 @@ class ReportesController extends Controller
         atp.tipo_bien+' '+atp.siglas as codigo,
         (select count(af_codigo_interno) from af_maestro where codigo_ppye = atp.cod_ppye
         and estado != 'B' and estadoActivo  = 'Activo') as cantidad,
-        '$'+''+str(sum(af.af_valor_compra_siva) /
-        (select count(af_codigo_interno) from af_maestro where codigo_ppye = atp.cod_ppye
-        and estado != 'B' and estadoActivo  = 'Activo'),12,2)
+
+        '$'+''+str(
+        (select top 1 af_valor_vnr_siva from af_maestro where codigo_ppye = atp.cod_ppye
+        order by af_valor_vnr_siva desc),12,2)
         as PU,
-        '$'+''+str(sum(af.af_valor_compra_siva),12,2) as monto,
-        (select top 1 numero_documento from af_maestro where codigo_ppye = atp.cod_ppye)as numeroFactura
+
+        '$'+''+str(sum(af.af_valor_vnr_siva),12,2) as monto,
+
+        (select top 1 numero_documento from af_maestro where codigo_ppye = atp.cod_ppye
+        order by af_valor_vnr_siva desc)as numeroFactura,
+
+        (select top 1 cuenta_hija from af_maestro where codigo_ppye = atp.cod_ppye
+        order by af_valor_vnr_siva desc)as cuenta
+
         from af_maestro af
         inner join af_tipo_ppye atp on atp.cod_ppye = af.codigo_ppye
         where af.estado != 'B' and af.estadoActivo  = 'Activo'
