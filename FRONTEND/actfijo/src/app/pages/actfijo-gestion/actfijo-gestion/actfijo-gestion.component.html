@@ -624,7 +624,7 @@
             <div nz-row style="margin-top: 20px !important;">
                 
                 
-                <div nz-col [nzSpan]="4">
+                <div nz-col [nzSpan]="4" *ngIf="user.rol != 'Usuario'">
                     <nz-form-label nzRequired>Fecha de registro</nz-form-label>
                         <input type="date" nz-input formControlName="fechaRegistro">
                 </div>

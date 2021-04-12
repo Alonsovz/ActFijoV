@@ -12,6 +12,7 @@ import { SearchactgestionPipe } from './searchactgestion.pipe';
 import { SearchactgestionuserPipe } from './searchactgestionuser.pipe';
 import { SearchreportesPipe } from './searchreportes.pipe';
 import { SearchdescactivosPipe } from './searchdescactivos.pipe';
+import { SearchubicacionPipe } from './searchubicacion.pipe';
 
 
 
@@ -28,7 +29,8 @@ import { SearchdescactivosPipe } from './searchdescactivos.pipe';
     SearchactgestionPipe,
     SearchactgestionuserPipe,
     SearchreportesPipe,
-    SearchdescactivosPipe
+    SearchdescactivosPipe,
+    SearchubicacionPipe
   ],
   imports: [
     CommonModule
@@ -44,7 +46,8 @@ import { SearchdescactivosPipe } from './searchdescactivos.pipe';
     SearchactgestionPipe,
     SearchactgestionuserPipe,
     SearchreportesPipe,
-    SearchdescactivosPipe
+    SearchdescactivosPipe,
+    SearchubicacionPipe
   ]
 })
 export class PipesModule { }

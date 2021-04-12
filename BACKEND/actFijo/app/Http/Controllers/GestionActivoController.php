@@ -138,9 +138,14 @@ class GestionActivoController extends Controller
         $siglas = $request["siglas"];
         $tipo_bien = $request["tipo_bien"];
 
-        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+        if(is_null($fechaRegistro)){
+            $fechaRegistroConFormato = '';
+        }else{
+            $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
-        $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+            $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+        }
+        
 
         $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
 
@@ -367,9 +372,14 @@ class GestionActivoController extends Controller
         $solo_vnr = $request["solo_vnr"];
         $aplica_contabilidad = $request["aplica_contabilidad"];
 
-        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+        
+        if(is_null($fechaRegistro)){
+            $fechaRegistroConFormato = '';
+        }else{
+            $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
-        $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+            $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+        }
 
         $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
 
@@ -1174,9 +1184,14 @@ class GestionActivoController extends Controller
         $cuentaHija = $request["cuentaHija"];
         $picture = $request["imagenDoc"];
 
-        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+        
+        if(is_null($fechaRegistro)){
+            $fechaRegistroConFormato = '';
+        }else{
+            $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
-        $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+            $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+        }
 
         $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
 
@@ -1349,9 +1364,14 @@ class GestionActivoController extends Controller
         $asignadoA = $request["codigo_asignado"];
         $cuentaHija  = $request["cuenta_hija"];
 
-        $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
+      
+        if(is_null($fechaRegistro)){
+            $fechaRegistroConFormato = '';
+        }else{
+            $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
-        $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+            $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
+        }
 
         $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
 

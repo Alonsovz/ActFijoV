@@ -157,3 +157,16 @@ Route::get('getDescActivos', 'DescripcionesActivoController@getDescActivos');
 Route::post('guardarDescActivo', 'DescripcionesActivoController@guardarDescActivo');
 Route::post('guardarEdicionDescActivo', 'DescripcionesActivoController@guardarEdicionDescActivo');
 Route::post('eliminarDescActivo', 'DescripcionesActivoController@eliminarDescActivo');
+
+
+//rutas para ubicaciones 
+
+Route::get('getUbicacionesFisicas', 'UbicacionesController@getUbicacionesFisicas');
+Route::post('guardarUbicacionFisica', 'UbicacionesController@guardarUbicacionFisica');
+Route::post('editarUbicacionFisica', 'UbicacionesController@editarUbicacionFisica');
+Route::post('eliminarUbicacionFisica', 'UbicacionesController@eliminarUbicacionFisica');
+
+Route::get('getUbicacionesEspecificas', 'UbicacionesController@getUbicacionesEspecificas');
+Route::post('guardarUbicacionEspecifica', 'UbicacionesController@guardarUbicacionEspecifica');
+Route::post('editarUbicacionEspecifica', 'UbicacionesController@editarUbicacionEspecifica');
+Route::post('eliminarUbicacionEspecifica', 'UbicacionesController@eliminarUbicacionEspecifica');

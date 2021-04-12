@@ -108,6 +108,14 @@ class VerifyCsrfToken extends BaseVerifier
         'getCuentasHijasPPYE',
         'reporte_agd_excel',
         'moveDoc',
-        'descargarArchivo'
+        'descargarArchivo',
+        'getUbicacionesFisicas',
+        'guardarUbicacionFisica',
+        'editarUbicacionFisica',
+        'eliminarUbicacionFisica',
+        'getUbicacionesEspecificas',
+        'guardarUbicacionEspecifica',
+        'editarUbicacionEspecifica',
+        'eliminarUbicacionEspecifica',
     ];
 }
