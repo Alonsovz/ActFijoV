@@ -23,6 +23,9 @@ import { JsonPipe } from '@angular/common';
 import { DescripcionActivoService } from 'src/app/services/descripcion-activo.service';
 import { DescripcionActivo } from 'src/app/models/descripcion-activo';
 import { HttpClient } from '@angular/common/http';
+import { UbicacionFisicaService } from 'src/app/services/ubicacion-fisica.service';
+import { Ubicacion } from 'src/app/models/ubicacion';
+import { UbicacionEspecificaService } from 'src/app/services/ubicacion-especifica.service';
 
 
 @Component({
@@ -67,7 +70,9 @@ export class ActfijoGestionComponent implements OnInit {
   objMunicipios : ActfijoGestion[];
   objTipoActivoPPYE : ActfijoGestion[];
   objTipoActivoPPYEdicion : ActfijoGestion[];
-  objUbicacionFisica : ActfijoGestion[];
+  //objUbicacionFisica : ActfijoGestion[];
+  objUbicacionFisica: Ubicacion[];
+  objUbicacionEspecifica : Ubicacion[];
   descActivos : DescripcionActivo[];
 
 
@@ -155,7 +160,8 @@ export class ActfijoGestionComponent implements OnInit {
     private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
     private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder,
     private descActivosService : DescripcionActivoService,
-    private http: HttpClient) {
+    private http: HttpClient, private ubicacionFisicaService: UbicacionFisicaService,
+    private ubicacionEspecificaService: UbicacionEspecificaService) {
 
       this.trasladoActivoForm = new FormGroup({
         'usuarioTrasladoNuevo': new FormControl('',[Validators.required]),
@@ -195,6 +201,7 @@ export class ActfijoGestionComponent implements OnInit {
       'cod_departamento': new FormControl('0',[Validators.required]),
       'municipio': new FormControl('',[Validators.required]),
       'ubicacionFisica': new FormControl('',[Validators.required]),
+      'ubicacionEspecifica': new FormControl('',[Validators.required]),
       'estadoActivo' : new FormControl('',[Validators.required]),
       'valorSiva': new FormControl('',[Validators.required]),
       'asignadoA': new FormControl('',[Validators.required]),
@@ -232,7 +239,8 @@ export class ActfijoGestionComponent implements OnInit {
       'codigo_proveedor': new FormControl('',[Validators.required]),
       'cod_departamento': new FormControl('0',[Validators.required]),
       'cod_municipio': new FormControl('',[Validators.required]),
-      'codigo_sucursal': new FormControl('',[Validators.required]),
+      'ubicacion_fisica': new FormControl(''),
+      'ubicacion_especifica': new FormControl(''),
       'af_valor_compra_siva': new FormControl('',[Validators.required]),
       'codigo_asignado': new FormControl('',[Validators.required]),
       'asignado': new FormControl('',[Validators.required]),
@@ -240,6 +248,7 @@ export class ActfijoGestionComponent implements OnInit {
       'af_valor_vnr_siva': new FormControl(''),
       'siglas': new FormControl(''),
       'tipo_bien': new FormControl(''),
+
     });
   }
 
@@ -267,6 +276,8 @@ export class ActfijoGestionComponent implements OnInit {
         this.objTipoBienVNR = data;
     });
 
+    this.mostrarSkeleton = false;
+        this.datosCargados = true;
 
     this.clasificacionAgd.getClasificacionesAgd().subscribe(
       data => {
@@ -317,15 +328,20 @@ export class ActfijoGestionComponent implements OnInit {
         this.descActivos = data;
       });
       
-    this.gestionActFijo.getUbicacionFisica().subscribe(
+   
+
+    this.ubicacionFisicaService.getUbicacionesFisicas().subscribe(
       data => {
         this.objUbicacionFisica = data;
+        
+      });
 
-        this.mostrarSkeleton = false;
-        this.datosCargados = true;
-    });
 
-    
+      this.ubicacionEspecificaService.getUbicacionesEspecificas().subscribe(
+        data => {
+          this.objUbicacionEspecifica= data;
+          
+        });
 
   }
 

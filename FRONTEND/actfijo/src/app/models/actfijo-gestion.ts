@@ -46,4 +46,6 @@ export class ActfijoGestion {
     public modeloAf : string;
     public cuenta_hija: string;
     public imagen_factura: string;
+    public ubicacion_fisica: number;
+    public ubicacion_especifica: number;
 }

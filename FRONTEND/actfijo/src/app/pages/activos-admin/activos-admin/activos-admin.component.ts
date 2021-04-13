@@ -22,6 +22,9 @@ import * as $ from 'jquery';
 import { DescripcionActivo } from 'src/app/models/descripcion-activo';
 import { DescripcionActivoService } from 'src/app/services/descripcion-activo.service';
 import { HttpClient } from '@angular/common/http';
+import { UbicacionFisicaService } from 'src/app/services/ubicacion-fisica.service';
+import { UbicacionEspecificaService } from 'src/app/services/ubicacion-especifica.service';
+import { Ubicacion } from 'src/app/models/ubicacion';
 
 @Component({
   selector: 'app-activos-admin',
@@ -57,7 +60,8 @@ export class ActivosAdminComponent implements OnInit {
   objMunicipios : ActfijoGestion[];
   objTipoActivoPPYE : ActfijoGestion[];
   objTipoActivoPPYEdicion : ActfijoGestion[];
-  objUbicacionFisica : ActfijoGestion[];
+  objUbicacionFisica: Ubicacion[];
+  objUbicacionEspecifica : Ubicacion[];
   conteoAltas = 0;
   conteoBajas = 0;
   conteoTraslados = 0;
@@ -116,12 +120,16 @@ export class ActivosAdminComponent implements OnInit {
   rutaFile : string;
   actFijoObDoc: string;
 
+
+
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
     private tipodocumentoservice: TipoDocumentosService, private modelosactivo: ModelosactivoService,
     private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
     private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder,
-    private descActivosService : DescripcionActivoService,  private http: HttpClient) {
+    private descActivosService : DescripcionActivoService,  private http: HttpClient,
+  private ubicacionFisicaService: UbicacionFisicaService,
+    private ubicacionEspecificaService: UbicacionEspecificaService) {
       this.editarActivoForm = new FormGroup({
         'af_codigo_interno': new FormControl('',[Validators.required]),
         'codigo_tipo_documento': new FormControl('',[Validators.required]),
@@ -149,7 +157,8 @@ export class ActivosAdminComponent implements OnInit {
         'codigo_proveedor': new FormControl('',[Validators.required]),
         'cod_departamento': new FormControl('0',[Validators.required]),
         'cod_municipio': new FormControl('',[Validators.required]),
-        'codigo_sucursal': new FormControl('',[Validators.required]),
+        'ubicacion_fisica': new FormControl(''),
+        'ubicacion_especifica': new FormControl(''),
         'af_valor_compra_siva': new FormControl('',[Validators.required]),
         'codigo_asignado': new FormControl('',[Validators.required]),
         'asignado': new FormControl('',[Validators.required]),
@@ -194,6 +203,7 @@ export class ActivosAdminComponent implements OnInit {
         'cod_departamento': new FormControl('0',[Validators.required]),
         'municipio': new FormControl('',[Validators.required]),
         'ubicacionFisica': new FormControl('',[Validators.required]),
+        'ubicacionEspecifica': new FormControl('',[Validators.required]),
         'estadoActivo' : new FormControl('',[Validators.required]),
         'valorSiva': new FormControl('',[Validators.required]),
         'asignadoA': new FormControl('',[Validators.required]),
@@ -271,6 +281,8 @@ export class ActivosAdminComponent implements OnInit {
         this.objTipoPartida = data;
     });
 
+    this.mostrarSkeleton = false;
+    this.datosCargados = true;
 
     this.gestionActFijo.getDepartamentos().subscribe(
       data => {
@@ -283,13 +295,21 @@ export class ActivosAdminComponent implements OnInit {
         this.descActivos = data;
       });
 
-    this.gestionActFijo.getUbicacionFisica().subscribe(
+
+      
+    this.ubicacionFisicaService.getUbicacionesFisicas().subscribe(
       data => {
         this.objUbicacionFisica = data;
+        
+      });
 
-        this.mostrarSkeleton = false;
-        this.datosCargados = true;
-    });
+
+      this.ubicacionEspecificaService.getUbicacionesEspecificas().subscribe(
+        data => {
+          this.objUbicacionEspecifica= data;
+          
+        });
+
 
   }
 

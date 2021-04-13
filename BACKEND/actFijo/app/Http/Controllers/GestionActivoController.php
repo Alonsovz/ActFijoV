@@ -124,6 +124,7 @@ class GestionActivoController extends Controller
         $departamento = $request["cod_departamento"];
         $municipio = $request["municipio"];
         $ubicacionFisica = $request["ubicacionFisica"];
+        $ubicacionEspecifica = $request["ubicacionEspecifica"];
         $estadoActivo = $request["estadoActivo"];
         $valorSiva = $request["valorSiva"];
         $tipoDocumento = $request["tipoDocumento"];
@@ -260,7 +261,8 @@ class GestionActivoController extends Controller
             'cod_departamento' => $departamento,
             'cod_municipio' => $municipio,
             'fecha_alta' => date('Ymd H:i:s'),
-            'codigo_sucursal' => $ubicacionFisica,
+            'ubicacion_fisica' => $ubicacionFisica,
+            'ubicacion_especifica' => $ubicacionEspecifica,
             'codigo_asignado' => $asignadoA,
             'estadoActivo' => 'Pendiente',
             'aplica_contabilidad' => 'S',
@@ -359,7 +361,8 @@ class GestionActivoController extends Controller
         $proveedor = $request["codigo_proveedor"];
         $departamento = $request["cod_departamento"];
         $municipio = $request["cod_municipio"];
-        $ubicacionFisica = $request["codigo_sucursal"];
+        $ubicacionFisica = $request["ubicacion_fisica"];
+        $ubicacionEspecifica = $request["ubicacion_especifica"];
         $valorSiva = $request["af_valor_compra_siva"];
         $tipoDocumento = $request["codigo_tipo_documento"];
         $numeroDocumento = $request["numero_documento"];
@@ -491,7 +494,8 @@ class GestionActivoController extends Controller
             'af_vida_util' => $vidaUtil,
             'cod_departamento' => $departamento,
             'cod_municipio' => $municipio,
-            'codigo_sucursal' => $ubicacionFisica,
+            'ubicacion_fisica' => $ubicacionFisica,
+            'ubicacion_especifica' => $ubicacionEspecifica,
             'usuario_modificacion' => $userModificacion,
             'fecha_modificacion' => date('Ymd H:i:s'),
             'af_valor_vnr_siva' => $af_valor_vnr_siva,
@@ -1170,6 +1174,7 @@ class GestionActivoController extends Controller
         $departamento = $request["cod_departamento"];
         $municipio = $request["municipio"];
         $ubicacionFisica = $request["ubicacionFisica"];
+        $ubicacionEspecifica = $request["ubicacionEspecifica"];
         $estadoActivo = $request["estadoActivo"];
         $valorSiva = $request["valorSiva"];
         $tipoDocumento = $request["tipoDocumento"];
@@ -1306,7 +1311,8 @@ class GestionActivoController extends Controller
             'cod_departamento' => $departamento,
             'cod_municipio' => $municipio,
             'fecha_alta' => date('Ymd H:i:s'),
-            'codigo_sucursal' => $ubicacionFisica,
+            'ubicacion_fisica' => $ubicacionFisica,
+            'ubicacion_especifica' => $ubicacionEspecifica,
             'codigo_asignado' => $asignadoA,
             'estadoActivo' => 'Pendiente',
             'aplica_contabilidad' => 'S',
@@ -1349,7 +1355,8 @@ class GestionActivoController extends Controller
         $proveedor = $request["codigo_proveedor"];
         $departamento = $request["cod_departamento"];
         $municipio = $request["cod_municipio"];
-        $ubicacionFisica = $request["codigo_sucursal"];
+        $ubicacionFisica = $request["ubicacion_fisica"];
+        $ubicacionEspecifica = $request["ubicacion_especifica"];
         $valorSiva = $request["af_valor_compra_siva"];
         $tipoDocumento = $request["codigo_tipo_documento"];
         $numeroDocumento = $request["numero_documento"];
@@ -1483,7 +1490,8 @@ class GestionActivoController extends Controller
             'af_vida_util' => $vidaUtil,
             'cod_departamento' => $departamento,
             'cod_municipio' => $municipio,
-            'codigo_sucursal' => $ubicacionFisica,
+            'ubicacion_fisica' => $ubicacionFisica,
+            'ubicacion_especifica' => $ubicacionEspecifica,
             'usuario_modificacion' => $userModificacion,
             'fecha_modificacion' => date('Ymd H:i:s'),
             'af_valor_vnr_siva' => $af_valor_vnr_siva,

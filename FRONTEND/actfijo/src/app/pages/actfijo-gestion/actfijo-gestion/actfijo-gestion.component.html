@@ -559,7 +559,6 @@
                     </div>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de activo" formControlName="codigo_ppye"
                     (ngModelChange)="getCuentaContablePPYE()">
-                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
                         <nz-option *ngFor="let tp of objTipoActivosTbl" nzValue="{{tp.cod_ppye}}" nzLabel="{{tp.descripcion_ppye}}"></nz-option>
                     </nz-select>
                 </div>
@@ -651,7 +650,6 @@
                     </div>
 
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Descripción del bien" formControlName="descripcionBien">
-                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
                         <nz-option *ngFor="let tp of descActivos" nzValue="{{tp.nombre}}" nzLabel="{{tp.nombre}}"></nz-option>
                     </nz-select>
 
@@ -740,7 +738,6 @@
                     </div>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Marca del bien" (ngModelChange)="filtrarModelos()"
                     formControlName="codigo_marca">
-                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
                         <nz-option *ngFor="let tp of objMarcasActivosTbl" nzValue="{{tp.codigo_marca}}" nzLabel="{{tp.nombre_marca}}"></nz-option>
                     </nz-select>
                 </div>
@@ -792,7 +789,6 @@
                     <nz-form-label nzRequired>Departamento</nz-form-label>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Departamento" formControlName="cod_departamento"
                     (ngModelChange)="filtrarMunicipios()">
-                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
                         <nz-option *ngFor="let tp of objDepartamentos" nzValue="{{tp.ID}}" nzLabel="{{tp.DepName}}"></nz-option>
                     </nz-select>
                 </div>
@@ -808,16 +804,15 @@
                 <div nz-col [nzSpan]="6">
                     <nz-form-label nzRequired>Ubicación Física</nz-form-label>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Ubicación Física" formControlName="ubicacionFisica">
-                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
-                        <nz-option *ngFor="let tp of objUbicacionFisica" nzValue="{{tp.NOMBRE}}" nzLabel="{{tp.NOMBRE}}"></nz-option>
+                        <nz-option *ngFor="let tp of objUbicacionFisica" nzValue="{{tp.id}}" nzLabel="{{tp.ubicacion}}"></nz-option>
                     </nz-select>
                 </div>
 
                 <div nz-col [nzSpan]="1"></div>
                 <div nz-col [nzSpan]="5">
-                    <nz-form-label nzRequired>Estado del activo</nz-form-label>
-                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Estado del activo" formControlName="estadoActivo">
-                        <nz-option nzValue="A" nzLabel="Activo"></nz-option>
+                    <nz-form-label nzRequired>Ubicación específica</nz-form-label>
+                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Estado del activo" formControlName="ubicacionEspecifica">
+                        <nz-option *ngFor="let tp of objUbicacionEspecifica" nzValue="{{tp.id}}" nzLabel="{{tp.ubicacion}}"></nz-option>
                     </nz-select>
                 </div>
             </div>
@@ -825,6 +820,13 @@
 
         <div nz-col nzSpan="24">
             <div nz-row style="margin-top: 20px !important;">
+                <div nz-col [nzSpan]="5">
+                    <nz-form-label nzRequired>Estado del activo</nz-form-label>
+                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Estado del activo" formControlName="estadoActivo">
+                        <nz-option nzValue="A" nzLabel="Activo"></nz-option>
+                    </nz-select>
+                </div>
+                <div nz-col [nzSpan]="1"></div>
                 <div nz-col [nzSpan]="7">
                     <nz-form-label nzRequired>Valor de compra (sin IVA)</nz-form-label>
                     <input type="number" step="0.01" nz-input placeholder="Valor de compra" autocomplete="off" formControlName="valorSiva">
@@ -934,7 +936,7 @@
                                     </div>
                                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Tipo de activo" formControlName="codigo_ppye"
                                     (ngModelChange)="getCuentaContablePPYEEdicion()">
-                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+            
                                         <nz-option *ngFor="let tp of objTipoActivosTbl" nzValue="{{tp.cod_ppye}}" nzLabel="{{tp.descripcion_ppye}}"></nz-option>
                                     </nz-select>
                                 </div>
@@ -1016,7 +1018,7 @@
                                     </div>
 
                                     <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Descripción del bien" formControlName="descripcion_bien">
-                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+            
                                         <nz-option *ngFor="let tp of descActivos" nzValue="{{tp.nombre}}" nzLabel="{{tp.nombre}}"></nz-option>
                                     </nz-select>
                                     
@@ -1091,7 +1093,7 @@
                                     </div>
                                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Marca del bien" (ngModelChange)="filtrarModelosEdicion()"
                                     formControlName="codigo_marca">
-                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+            
                                         <nz-option *ngFor="let tp of objMarcasActivosTbl" nzValue="{{tp.codigo_marca}}" nzLabel="{{tp.nombre_marca}}"></nz-option>
                                     </nz-select>
                                 </div>
@@ -1143,7 +1145,7 @@
                                     <nz-form-label nzRequired>Departamento</nz-form-label>
                                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Departamento" formControlName="cod_departamento"
                                     (ngModelChange)="filtrarMunicipiosEdicion()">
-                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
+            
                                         <nz-option *ngFor="let tp of objDepartamentos" nzValue="{{tp.ID}}" nzLabel="{{tp.DepName}}"></nz-option>
                                     </nz-select>
                                 </div>
@@ -1158,13 +1160,18 @@
                                 <div nz-col [nzSpan]="1"></div>
                                 <div nz-col [nzSpan]="6">
                                     <nz-form-label nzRequired>Ubicación Física</nz-form-label>
-                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Ubicación Física" formControlName="codigo_sucursal">
-                                        <nz-option nzValue="0" nzLabel="Selecciona una opción"></nz-option>
-                                        <nz-option *ngFor="let tp of objUbicacionFisica" nzValue="{{tp.NOMBRE}}" nzLabel="{{tp.NOMBRE}}"></nz-option>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Ubicación Física" formControlName="ubicacion_fisica">
+                                        <nz-option *ngFor="let tp of objUbicacionFisica" nzValue="{{tp.id}}" nzLabel="{{tp.ubicacion}}"></nz-option>
                                     </nz-select>
                                 </div>
         
                                 <div nz-col [nzSpan]="1"></div>
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-label nzRequired>Ubicación específica</nz-form-label>
+                                    <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Ubicación específica" formControlName="ubicacion_especifica">
+                                        <nz-option *ngFor="let tp of objUbicacionEspecifica" nzValue="{{tp.id}}" nzLabel="{{tp.ubicacion}}"></nz-option>
+                                    </nz-select>
+                                </div>
                                 
                             </div>
                         </div>

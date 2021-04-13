@@ -120,7 +120,9 @@ solo_vnr char(1),
 estadoActivo varchar(10),
 motivoBaja varchar(100),
 cuenta_hija varchar(100),
-imagen_factura varchar(100)
+imagen_factura varchar(100), 
+ubicacion_fisica int, 
+ubicacion_especifica int
 );
 
 
@@ -179,3 +181,10 @@ create table af_ubicacion_especifica(
 id int IDENTITY(1,1) PRIMARY KEY,
 ubicacion varchar(100)
 );
+
+
+ALTER TABLE af_maestro
+ADD FOREIGN KEY (ubicacion_fisica ) REFERENCES  af_ubicacion_fisica(id);
+
+ALTER TABLE af_maestro
+ADD FOREIGN KEY (ubicacion_especifica ) REFERENCES  af_ubicacion_especifica(id);
