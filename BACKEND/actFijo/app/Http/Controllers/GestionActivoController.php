@@ -147,6 +147,12 @@ class GestionActivoController extends Controller
             $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
         }
         
+        $foto = '';
+        if(is_null($picture)){
+            $foto = '';
+        }else{
+            $foto = strtolower(date('Ymd').' '.substr($picture, 12));
+        }
 
         $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
 
@@ -271,7 +277,7 @@ class GestionActivoController extends Controller
             'af_valor_residual' => $af_valor_residual,
             'periodo_inicial' => $periodoInicialDepre,
             'periodo_final' => $periodoFinalDepre,
-            'imagen_factura' => strtolower(date('Ymd').' '.substr($picture, 12)),
+            'imagen_factura' => $foto,
         ]);
 
         return response()->json($insertar);
@@ -683,6 +689,9 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         '$'+str(af.af_valor_vnr_siva,12,2) as valorVNR,
+        LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar, af.fecha_alta, 103) as fechaAlta,
@@ -709,6 +718,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar, af.fecha_baja, 103) as fechaBaja,
@@ -733,6 +745,9 @@ class GestionActivoController extends Controller
         DB::connection('comanda')->select("select distinct af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
         '$'+str(af.af_valor_vnr_siva,12,2) as valorVNR,
+        LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_movimiento from af_historial_activo
@@ -764,6 +779,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
@@ -784,6 +802,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
@@ -805,6 +826,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+        LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro, u.alias as asignado, af.estado as estadoAc,
         (select top 1 usuario_asignado from af_historial_activo
@@ -846,6 +870,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
@@ -871,6 +898,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
@@ -893,6 +923,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
@@ -929,6 +962,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         h.usuario_asignado as usuarioNuevo,
@@ -951,6 +987,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
@@ -973,6 +1012,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
@@ -997,6 +1039,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
@@ -1016,6 +1061,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
         (select top 1 usuario_asignado from af_historial_activo
@@ -1034,6 +1082,9 @@ class GestionActivoController extends Controller
         $getMisActivos = 
         DB::connection('comanda')->select("select af.*,af.estado as estadoAc,
         '$'+str(af.af_valor_compra_siva,12,2) as compraSiva,
+         LTRIM(RTRIM(str(af.af_valor_compra_siva,12,2))) as compraSivaFormat,
+        LTRIM(RTRIM(str(af.af_valor_vnr_siva,12,2))) as valorVNRFormat,
+        LTRIM(RTRIM(str(af.af_valor_residual,12,2))) as valorResidualFormat,
         convert(varchar(10),af.fecha_compra, 23) as fechaCompra,
         convert(varchar(10),af.fecha_compra, 103) as fechaCompraT,
         convert(varchar(10),af.fecha_reg_contable, 23) as fechaRegistro,
@@ -1198,6 +1249,13 @@ class GestionActivoController extends Controller
             $fechaRegistroConFormato = date_format($fechaRegistroSinFormato,'Ymd');
         }
 
+        $foto = '';
+        if(is_null($picture)){
+            $foto = '';
+        }else{
+            $foto = strtolower(date('Ymd').' '.substr($picture, 12));
+        }
+
         $fechaCompraSinFormato = date_create_from_format('Y-m-d',$fechaCompra);
 
         $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
@@ -1322,7 +1380,7 @@ class GestionActivoController extends Controller
             'periodo_inicial' => $periodoInicialDepre,
             'periodo_final' => $periodoFinalDepre,
             'cuenta_hija' => $cuentaHija,
-            'imagen_factura' => strtolower(date('Ymd').' '.substr($picture, 12)),
+            'imagen_factura' =>  $foto,
         ]);
 
         return response()->json($insertar);

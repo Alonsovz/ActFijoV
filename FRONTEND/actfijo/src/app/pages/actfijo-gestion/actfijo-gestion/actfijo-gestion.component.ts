@@ -26,7 +26,7 @@ import { HttpClient } from '@angular/common/http';
 import { UbicacionFisicaService } from 'src/app/services/ubicacion-fisica.service';
 import { Ubicacion } from 'src/app/models/ubicacion';
 import { UbicacionEspecificaService } from 'src/app/services/ubicacion-especifica.service';
-
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-actfijo-gestion',
@@ -77,7 +77,7 @@ export class ActfijoGestionComponent implements OnInit {
 
 
   actFijoOb: ActfijoGestion = new ActfijoGestion();
-  actFijoObDoc: string;
+  
   listOfData: ReadonlyArray<Usuario> = [];
   listOfCurrentPageData: ReadonlyArray<ActfijoGestion> = [];
 
@@ -97,7 +97,7 @@ export class ActfijoGestionComponent implements OnInit {
   modalFinalizarProcesoBaja = false;
   modalDetallesActivo = false;
 
-  rutaFile : string;
+
 
   listaConteo : ActfijoGestion[];
 
@@ -151,8 +151,13 @@ export class ActfijoGestionComponent implements OnInit {
   descripcionActivoEdicion :  ActfijoGestion = new ActfijoGestion();
   descripcionActivo :  ActfijoGestion = new ActfijoGestion();
   imagen:  File;
+  rutaFile : string;
+  actFijoObDoc: string;
+ adjuntoVer : SafeResourceUrl;
+  extension : string;
+ modalVerArchivo = false;
 
-
+  editObj:  ActfijoGestion = new ActfijoGestion();
   
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
@@ -161,7 +166,7 @@ export class ActfijoGestionComponent implements OnInit {
     private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder,
     private descActivosService : DescripcionActivoService,
     private http: HttpClient, private ubicacionFisicaService: UbicacionFisicaService,
-    private ubicacionEspecificaService: UbicacionEspecificaService) {
+    private ubicacionEspecificaService: UbicacionEspecificaService, public sanitizer: DomSanitizer) {
 
       this.trasladoActivoForm = new FormGroup({
         'usuarioTrasladoNuevo': new FormControl('',[Validators.required]),
@@ -241,11 +246,11 @@ export class ActfijoGestionComponent implements OnInit {
       'cod_municipio': new FormControl('',[Validators.required]),
       'ubicacion_fisica': new FormControl(''),
       'ubicacion_especifica': new FormControl(''),
-      'af_valor_compra_siva': new FormControl('',[Validators.required]),
       'codigo_asignado': new FormControl('',[Validators.required]),
       'asignado': new FormControl('',[Validators.required]),
-      'af_valor_residual': new FormControl(''),
-      'af_valor_vnr_siva': new FormControl(''),
+      'compraSivaFormat': new FormControl('',[Validators.required]),
+      'valorResidualFormat': new FormControl(''),
+      'valorVNRFormat': new FormControl(''),
       'siglas': new FormControl(''),
       'tipo_bien': new FormControl(''),
 
@@ -254,6 +259,7 @@ export class ActfijoGestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.frm_activoBaja = this.fbBajasAct.group({actSeleccionadosBajas: this.fbBajasAct.array([]),});
+  this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'descargarArchivo?ruta=';
 
     this.frm_activoTraslado = this.fbTrasladosAct.group({actSeleccionadosTraslados: this.fbTrasladosAct.array([]),});
 
@@ -264,7 +270,7 @@ export class ActfijoGestionComponent implements OnInit {
      this.getAltasUser();
      this.conteoUser();
 
-     this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'descargarArchivo?ruta=';
+  
 
     this.tipoActivo.getTipoActivo().subscribe(
       data => {
@@ -602,7 +608,7 @@ getActivoNameEdicion(){
 //metodo para mostrar card de edición de activo
 editarActFijo(act, vis, archivo){
 
-  
+   this.editObj = act;
   this.editarActivoForm.reset();
 
 
@@ -614,7 +620,12 @@ editarActFijo(act, vis, archivo){
   this.filtrarModelosEdicion();
   this.getCuentaContablePPYEEdicion();
   this.vista = vis;
+ if(archivo === null){
+  this.actFijoObDoc = null; 
+  }else{
   this.actFijoObDoc = this.rutaFile+archivo; 
+  }
+
   this.gestionActFijo.getHistorialActivo(act).subscribe(
     data => {
       this.listOfCurrentPageDataHistorial = data;
@@ -622,6 +633,30 @@ editarActFijo(act, vis, archivo){
 }
 
 
+
+
+//método que obtiene la URL del archivo a ver y valida el tipo de extension
+  public verArchivo(archivo){
+
+    var url = this.urlBackEnd.getUrlBackEnd()+'documents/'+archivo+'';
+  
+    this.adjuntoVer =  this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+    var ext = archivo.substr(-3);
+
+    this.extension = ext;
+
+    this.modalVerArchivo = true;
+    this.modalDetallesActivo = false;
+   
+
+  }
+
+  //metodo para cancelar activación de artículo
+cerrarModalVerArchivo(){
+  this.modalVerArchivo = false;
+  this.modalDetallesActivo = true;
+}
 
 
 

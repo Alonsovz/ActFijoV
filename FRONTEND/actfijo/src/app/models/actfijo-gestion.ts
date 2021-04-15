@@ -48,4 +48,7 @@ export class ActfijoGestion {
     public imagen_factura: string;
     public ubicacion_fisica: number;
     public ubicacion_especifica: number;
+    public compraSivaFormat: number;
+    public valorVNRFormat: number;
+    public valorResidualFormat: number;
 }

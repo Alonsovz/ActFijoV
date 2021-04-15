@@ -25,7 +25,7 @@ import { HttpClient } from '@angular/common/http';
 import { UbicacionFisicaService } from 'src/app/services/ubicacion-fisica.service';
 import { UbicacionEspecificaService } from 'src/app/services/ubicacion-especifica.service';
 import { Ubicacion } from 'src/app/models/ubicacion';
-
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-activos-admin',
   templateUrl: './activos-admin.component.html',
@@ -88,6 +88,7 @@ export class ActivosAdminComponent implements OnInit {
   btnFinalizarTrasladosAdmin = false;
   descActivos : DescripcionActivo[];
   modalDetallesActivo = false;
+ 
   editarActivoForm : FormGroup;
   datosCargadosEditar = false;
   validarPPYE = false;
@@ -119,8 +120,9 @@ export class ActivosAdminComponent implements OnInit {
   imagen:  File;
   rutaFile : string;
   actFijoObDoc: string;
-
-
+ adjuntoVer : SafeResourceUrl;
+  extension : string;
+ modalVerArchivo = false;
 
   constructor(private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
@@ -128,8 +130,8 @@ export class ActivosAdminComponent implements OnInit {
     private gestionActFijo: ActfijoGestionService, private usuario: UsuariosService,
     private urlBackEnd: GlobalService, private fbBajasAct: FormBuilder,  private fbTrasladosAct: FormBuilder,
     private descActivosService : DescripcionActivoService,  private http: HttpClient,
-  private ubicacionFisicaService: UbicacionFisicaService,
-    private ubicacionEspecificaService: UbicacionEspecificaService) {
+    private ubicacionFisicaService: UbicacionFisicaService,
+    private ubicacionEspecificaService: UbicacionEspecificaService,  public sanitizer: DomSanitizer) {
       this.editarActivoForm = new FormGroup({
         'af_codigo_interno': new FormControl('',[Validators.required]),
         'codigo_tipo_documento': new FormControl('',[Validators.required]),
@@ -159,12 +161,12 @@ export class ActivosAdminComponent implements OnInit {
         'cod_municipio': new FormControl('',[Validators.required]),
         'ubicacion_fisica': new FormControl(''),
         'ubicacion_especifica': new FormControl(''),
-        'af_valor_compra_siva': new FormControl('',[Validators.required]),
         'codigo_asignado': new FormControl('',[Validators.required]),
         'asignado': new FormControl('',[Validators.required]),
         'cuenta_hija' : new FormControl(''),
-        'af_valor_residual': new FormControl(''),
-        'af_valor_vnr_siva': new FormControl(''),
+        'compraSivaFormat': new FormControl('',[Validators.required]),
+        'valorResidualFormat': new FormControl(''),
+        'valorVNRFormat': new FormControl(''),
         'siglas': new FormControl(''),
         'tipo_bien': new FormControl(''),
         'solo_vnr': new FormControl(''),
@@ -562,7 +564,11 @@ editarActFijo(act, vis ,archivo){
   this.filtrarModelosEdicion();
   this.getCuentaContablePPYEEdicion();
   this.vista = vis;
+   if(archivo === null){
+  this.actFijoObDoc = null; 
+  }else{
   this.actFijoObDoc = this.rutaFile+archivo; 
+  }
 
   this.gestionActFijo.getHistorialActivo(act).subscribe(
     data => {
@@ -576,6 +582,29 @@ editarActFijo(act, vis ,archivo){
       });
 }
 
+
+//método que obtiene la URL del archivo a ver y valida el tipo de extension
+  public verArchivo(archivo){
+
+    var url = this.urlBackEnd.getUrlBackEnd()+'documents/'+archivo+'';
+  
+    this.adjuntoVer =  this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+    var ext = archivo.substr(-3);
+
+    this.extension = ext;
+
+    this.modalVerArchivo = true;
+    this.modalDetallesActivo = false;
+   
+  }
+
+  
+//metodo para cancelar activación de artículo
+cerrarModalVerArchivo(){
+  this.modalVerArchivo = false;
+  this.modalDetallesActivo = true;
+}
 
  //metodo para obtener cuenta contable por codigo_PPYE
 
@@ -1303,5 +1332,8 @@ subirImagen(){
 
 
 }
+
+
+
 
 }
