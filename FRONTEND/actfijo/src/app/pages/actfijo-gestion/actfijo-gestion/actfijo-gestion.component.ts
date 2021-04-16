@@ -214,6 +214,7 @@ export class ActfijoGestionComponent implements OnInit {
       'af_valor_residual': new FormControl(''),
       'siglas': new FormControl(''),
       'tipo_bien': new FormControl(''),
+      'vidaUtilFinanciera': new FormControl(''),
     });
 
 
@@ -253,7 +254,7 @@ export class ActfijoGestionComponent implements OnInit {
       'valorVNRFormat': new FormControl(''),
       'siglas': new FormControl(''),
       'tipo_bien': new FormControl(''),
-
+      'vidaUtilFinanciera': new FormControl(''),
     });
   }
 

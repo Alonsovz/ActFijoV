@@ -171,6 +171,7 @@ export class ActivosAdminComponent implements OnInit {
         'tipo_bien': new FormControl(''),
         'solo_vnr': new FormControl(''),
         'aplica_contabilidad': new FormControl(''),
+        'vidaUtilFinanciera': new FormControl(''),
       });
 
       this.trasladoActivoForm = new FormGroup({
@@ -215,6 +216,7 @@ export class ActivosAdminComponent implements OnInit {
         'tipo_bien': new FormControl(''),
         'codigo_asignado': new FormControl('',[Validators.required]),
         'cuentaHija' : new FormControl(''),
+        'vidaUtilFinanciera': new FormControl(''),
       });
   
       this.bajaActivoFormAdmin = new FormGroup({

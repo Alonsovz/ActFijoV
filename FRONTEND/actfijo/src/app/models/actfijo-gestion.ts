@@ -51,4 +51,5 @@ export class ActfijoGestion {
     public compraSivaFormat: number;
     public valorVNRFormat: number;
     public valorResidualFormat: number;
+    public vidaUtilFinanciera: number;
 }

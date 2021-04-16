@@ -38,6 +38,7 @@ export class TipoactivoComponent implements OnInit {
       'siglas' : new FormControl('',[Validators.required]),
       'vidaUtil' : new FormControl('',[Validators.required]),
       'tipo_bien': new FormControl('',[Validators.required]),
+      'vidaUtilFinanciera': new FormControl('',[Validators.required]),
     });
 
 
@@ -50,6 +51,7 @@ export class TipoactivoComponent implements OnInit {
       'siglas' : new FormControl('',[Validators.required]),
       'vidaUtil' : new FormControl('',[Validators.required]),
       'tipo_bien': new FormControl('',[Validators.required]),
+      'vidaUtilFinanciera': new FormControl('',[Validators.required]),
     });
 
   }

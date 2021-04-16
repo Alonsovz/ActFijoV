@@ -27,7 +27,8 @@ tasa_financ float,
 siglas varchar(10),
 estado int,
 vidaUtil int,
-tipo_bien varchar(10)
+tipo_bien varchar(10),
+vidaUtilFinanciera int
 );
 
 
@@ -122,7 +123,9 @@ motivoBaja varchar(100),
 cuenta_hija varchar(100),
 imagen_factura varchar(100), 
 ubicacion_fisica int, 
-ubicacion_especifica int
+ubicacion_especifica int,
+vidaUtilFinanciera int,
+periodo_final_financiera varchar(6)
 );
 
 

@@ -5,5 +5,6 @@ export class Tipoactivo {
     public  tasaFiscal: number;
     public  tasaFinanciera: number;
     public  siglas: string;
-    public vidaUtil: string;
+    public vidaUtil: number;
+    public vidaUtilFinanciera: number;
 }

@@ -132,7 +132,7 @@ class GestionActivoController extends Controller
         $asignadoA = $request["asignadoA"];
         $af_valor_residual = $request["af_valor_residual"];
         $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
-
+        $vidaUtilFinanciera =  $request["vidaUtilFinanciera"];
         $picture = $request["imagenDoc"];
 
 
@@ -235,7 +235,8 @@ class GestionActivoController extends Controller
         $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
         $periodoFinalDepre = $mesInicial.$anioFinalDepre;
       
-        
+        $anioFinalFinaciero = $yearIniciaDepre + $vidaUtilFinanciera;
+        $periodoFinalFinanciero = $mesInicial.$anioFinalFinaciero;
 
         $insertar =  DB::connection('comanda')->table('af_maestro')
         ->insert([
@@ -278,6 +279,8 @@ class GestionActivoController extends Controller
             'periodo_inicial' => $periodoInicialDepre,
             'periodo_final' => $periodoFinalDepre,
             'imagen_factura' => $foto,
+            'vidaUtilFinanciera' =>  $vidaUtilFinanciera,
+            'periodo_final_financiera '=> $periodoFinalFinanciero
         ]);
 
         return response()->json($insertar);
@@ -369,18 +372,18 @@ class GestionActivoController extends Controller
         $municipio = $request["cod_municipio"];
         $ubicacionFisica = $request["ubicacion_fisica"];
         $ubicacionEspecifica = $request["ubicacion_especifica"];
-        $valorSiva = $request["af_valor_compra_siva"];
+        $valorSiva = $request["compraSivaFormat"];
         $tipoDocumento = $request["codigo_tipo_documento"];
         $numeroDocumento = $request["numero_documento"];
         $id = $request["af_codigo_interno"];
         $userModificacion = $request["alias"];
-        $af_valor_residual = $request["af_valor_residual"];
-        $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
+        $af_valor_residual = $request["valorResidualFormat"];
+        $af_valor_vnr_siva = $request["valorVNRFormat"];
         $siglas = $request["siglas"];
         $tipo_bien = $request["tipo_bien"];
         $solo_vnr = $request["solo_vnr"];
         $aplica_contabilidad = $request["aplica_contabilidad"];
-
+        $vidaUtilFinanciera =  $request["vidaUtilFinanciera"];
         
         if(is_null($fechaRegistro)){
             $fechaRegistroConFormato = '';
@@ -471,6 +474,8 @@ class GestionActivoController extends Controller
         $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
         $periodoFinalDepre = $mesInicial.$anioFinalDepre;
 
+        $anioFinalFinaciero = $yearIniciaDepre + $vidaUtilFinanciera;
+        $periodoFinalFinanciero = $mesInicial.$anioFinalFinaciero;
 
         $insertar =  DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $id)
         ->update([
@@ -510,6 +515,8 @@ class GestionActivoController extends Controller
             'periodo_final' => $periodoFinalDepre,
             'aplica_contabilidad' => $aplica_contabilidad,
             'solo_vnr' => $solo_vnr,
+            'vidaUtilFinanciera' =>  $vidaUtilFinanciera,
+            'periodo_final_financiera '=> $periodoFinalFinanciero
         ]);
 
         return response()->json($insertar);
@@ -1233,7 +1240,7 @@ class GestionActivoController extends Controller
         $asignadoA = $request["codigo_asignado"];
         $af_valor_residual = $request["af_valor_residual"];
         $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
-
+        $vidaUtilFinanciera =  $request["vidaUtilFinanciera"];
         $siglas = $request["siglas"];
         $tipo_bien = $request["tipo_bien"];
 
@@ -1337,7 +1344,8 @@ class GestionActivoController extends Controller
         $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
         $periodoFinalDepre = $mesInicial.$anioFinalDepre;
       
-        
+        $anioFinalFinaciero = $yearIniciaDepre + $vidaUtilFinanciera;
+        $periodoFinalFinanciero = $mesInicial.$anioFinalFinaciero;
 
         $insertar =  DB::connection('comanda')->table('af_maestro')
         ->insert([
@@ -1381,6 +1389,8 @@ class GestionActivoController extends Controller
             'periodo_final' => $periodoFinalDepre,
             'cuenta_hija' => $cuentaHija,
             'imagen_factura' =>  $foto,
+            'vidaUtilFinanciera' =>  $vidaUtilFinanciera,
+            'periodo_final_financiera '=> $periodoFinalFinanciero
         ]);
 
         return response()->json($insertar);
@@ -1415,20 +1425,20 @@ class GestionActivoController extends Controller
         $municipio = $request["cod_municipio"];
         $ubicacionFisica = $request["ubicacion_fisica"];
         $ubicacionEspecifica = $request["ubicacion_especifica"];
-        $valorSiva = $request["af_valor_compra_siva"];
+        $valorSiva = $request["compraSivaFormat"];
         $tipoDocumento = $request["codigo_tipo_documento"];
         $numeroDocumento = $request["numero_documento"];
         $id = $request["af_codigo_interno"];
         $userModificacion = $request["alias"];
-        $af_valor_residual = $request["af_valor_residual"];
-        $af_valor_vnr_siva = $request["af_valor_vnr_siva"];
+        $af_valor_residual = $request["valorResidualFormat"];
+        $af_valor_vnr_siva = $request["valorVNRFormat"];
         $siglas = $request["siglas"];
         $tipo_bien = $request["tipo_bien"];
         $solo_vnr = $request["solo_vnr"];
         $aplica_contabilidad = $request["aplica_contabilidad"];
         $asignadoA = $request["codigo_asignado"];
         $cuentaHija  = $request["cuenta_hija"];
-
+        $vidaUtilFinanciera =  $request["vidaUtilFinanciera"];
       
         if(is_null($fechaRegistro)){
             $fechaRegistroConFormato = '';
@@ -1520,6 +1530,9 @@ class GestionActivoController extends Controller
         $periodoFinalDepre = $mesInicial.$anioFinalDepre;
 
 
+        $anioFinalFinaciero = $yearIniciaDepre + $vidaUtilFinanciera;
+        $periodoFinalFinanciero = $mesInicial.$anioFinalFinaciero;
+
         $insertar =  DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $id)
         ->update([
             'af_codigo_vnr' => $codVNR,
@@ -1560,6 +1573,8 @@ class GestionActivoController extends Controller
             'solo_vnr' => $solo_vnr,
             'cuenta_hija' => $cuentaHija,
             'codigo_asignado' => $asignadoA,
+            'vidaUtilFinanciera' =>  $vidaUtilFinanciera,
+            'periodo_final_financiera'=> $periodoFinalFinanciero
         ]);
 
         return response()->json($insertar);
