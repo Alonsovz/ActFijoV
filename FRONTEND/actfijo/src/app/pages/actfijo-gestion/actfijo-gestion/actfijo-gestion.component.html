@@ -99,7 +99,8 @@
 
         <div nz-col nzSpan="6">
             <nz-form-label>Buscar </nz-form-label>
-            <input nz-input [(ngModel)]="_textoUser" id="textoUser" name="textoUser" placeholder="Buscar" (ngModelChange)="ConvertToLowerUser($event)">
+            <input nz-input [(ngModel)]="_textoUser" id="textoUser" name="textoUser"
+            autocomplete="off" placeholder="Buscar" (ngModelChange)="ConvertToLowerUser($event)">
         </div>
     </div>
     

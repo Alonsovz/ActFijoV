@@ -109,7 +109,8 @@
         </div>
         <div nz-col nzSpan="6">
             <nz-form-label>Buscar </nz-form-label>
-            <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+            <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar"
+            autocomplete="off"  (ngModelChange)="ConvertToLower($event)">
         </div>
     </div>
     <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
