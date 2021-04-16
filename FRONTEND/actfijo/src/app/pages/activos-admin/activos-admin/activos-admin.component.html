@@ -108,11 +108,12 @@
         </div>
         <div nz-col nzSpan="6">
             <nz-form-label>Buscar </nz-form-label>
-            <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+            <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" autocomplete="off"
+             (ngModelChange)="ConvertToLower($event)">
         </div>
     </div>
 
-<nz-tabset nzTabPosition="left">
+<nz-tabset nzTabPosition="top">
     
     
         <nz-tab [nzTitle]="tituloTabAltas" (nzClick)="getAltasAdmin()">
@@ -464,7 +465,8 @@
         </div>
         <div nz-col nzSpan="6">
             <nz-form-label>Buscar </nz-form-label>
-            <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+            <input nz-input [(ngModel)]="_texto" id="texto" name="texto" autocomplete="off"
+            placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
         </div>
     </div>
 
