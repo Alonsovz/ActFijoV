@@ -17,7 +17,7 @@ export class ReportesActivosComponent implements OnInit {
   formDepreciacionFinancieraAnual: FormGroup;
   formReporteAGD: FormGroup;
   cuadroMensual : Reportes[];
-  modalDepreciacionMensusal = false;
+  modalDepreciacionFinanciera = false;
   modalAGD = false;
   periodoEvaluando : string;
   tipo : string;
@@ -69,7 +69,7 @@ export class ReportesActivosComponent implements OnInit {
       data => {
         this.listOfDataCuadroFinancieroMensual = data;
 
-        this.modalDepreciacionMensusal = true;
+        this.modalDepreciacionFinanciera = true;
         this.periodoEvaluando = mes+anio;
         this.tipo =  'fiscal';
       });
@@ -89,14 +89,16 @@ export class ReportesActivosComponent implements OnInit {
     var anio = this.formDepreciacionFinancieraMensual.controls["anio"].value;
 
 
-    this.reportesService.getCuadroDepreciacionFinancieraMensual(datos).subscribe(
+    /*this.reportesService.getCuadroDepreciacionFinancieraMensual(datos).subscribe(
       data => {
         this.listOfDataCuadroFinancieroMensual = data;
 
-        this.modalDepreciacionMensusal = true;
+        this.modalDepreciacionFinanciera = true;
         this.periodoEvaluando = mes+anio;
         this.tipo =  'financiera';
-      });
+      });*/
+
+      this.modalDepreciacionFinanciera = true;
   }
 
 
@@ -142,8 +144,8 @@ export class ReportesActivosComponent implements OnInit {
   }
 
 
-  cerrarmodalDepreciacionMensusal(){
-    this.modalDepreciacionMensusal = false;
+  cerrarmodalDepreciacionFinanciera(){
+    this.modalDepreciacionFinanciera = false;
   }
 
   cerrarmodalAGD(){

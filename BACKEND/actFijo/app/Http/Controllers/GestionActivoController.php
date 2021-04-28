@@ -297,7 +297,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        inner join users u on u.id = af.codigo_asignado order by af_codigo_interno desc");
+        left join users u on u.id = af.codigo_asignado order by af_codigo_interno desc");
 
         return response()->json($getMisActivos);
     }
@@ -708,9 +708,9 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        inner join users u on u.id = af.codigo_asignado 
-        INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
-        INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
+        left join users u on u.id = af.codigo_asignado 
+        left JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+        left JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
         where af.estado = 'A' and af.estadoActivo = 'Activo'
         and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
@@ -736,7 +736,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        inner join users u on u.id = af.codigo_asignado 
+        left join users u on u.id = af.codigo_asignado 
         where af.estado = 'B' and af.estadoActivo = 'Activo'
         and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
@@ -770,9 +770,9 @@ class GestionActivoController extends Controller
         
          from af_maestro af
       
-         INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
-         INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
-        inner join users u on u.id = af.codigo_asignado 
+         left JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+         left JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
+        left join users u on u.id = af.codigo_asignado 
         where af.estado = 'T' and af.estadoActivo = 'Activo'
         and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
@@ -794,7 +794,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        inner join users u on u.id = af.codigo_asignado 
+        left join users u on u.id = af.codigo_asignado 
         where af.estado = 'A' and af.estadoActivo = 'Pendiente'
         and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
@@ -818,7 +818,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        inner join users u on u.id = af.codigo_asignado 
+        left join users u on u.id = af.codigo_asignado 
         where af.estado = 'B' and af.estadoActivo = 'Pendiente'
         and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
@@ -841,7 +841,7 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        inner join users u on u.id = af.codigo_asignado 
+        left join users u on u.id = af.codigo_asignado 
         where af.estado = 'T' and af.estadoActivo = 'Pendiente'
         and af.aplica_contabilidad = 'S'
         order by af_codigo_interno desc");
@@ -889,9 +889,9 @@ class GestionActivoController extends Controller
         (select top 1 usuario_asignado from af_historial_activo
         where movimiento != 'Baja' and idActivo = af.af_codigo_interno
         order by id desc ) as usuarioAnterior from af_maestro af
-        INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
-        INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
-        inner join users u on u.id = af.codigo_asignado 
+        left JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+        left JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
+        left join users u on u.id = af.codigo_asignado 
         where af.codigo_asignado = ".$idUsuario ."
         and af.estado = 'A' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
 
@@ -952,9 +952,9 @@ class GestionActivoController extends Controller
          'Traslado'
          end as estadoActual
         from af_historial_activo h
-        inner join af_maestro af on af.af_codigo_interno = h.idActivo
-        INNER JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
-        INNER JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
+        left join af_maestro af on af.af_codigo_interno = h.idActivo
+        left JOIN af_marcas as marca ON marca.codigo_marca = af.codigo_marca
+        left JOIN af_modelos as modelo ON modelo.codigo_modelo = af.codigo_modelo
         where h.usuario_asignado = '".$alias."'
         and h.movimiento = 'Traslado'  and af.estado != 'B' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
 
@@ -978,7 +978,7 @@ class GestionActivoController extends Controller
         convert(varchar, h.fecha_movimiento, 103) as fechaTraslado,
          substring(convert(varchar,h.fecha_movimiento, 114),1,5) as horaTraslado
         from af_historial_activo h
-        inner join af_maestro af on af.af_codigo_interno = h.idActivo
+        left join af_maestro af on af.af_codigo_interno = h.idActivo
         where h.usuario_movimiento = '".$idUsuario."'
         and h.movimiento = 'Traslado'  and af.estado != 'B' and af.estadoActivo = 'Activo' order by af_codigo_interno desc");
 
@@ -1030,8 +1030,8 @@ class GestionActivoController extends Controller
          substring(convert(varchar,h.fecha_movimiento, 114),1,5) as horaTraslado,
          u.alias as asignado
         from af_historial_activo h
-        inner join af_maestro af on af.af_codigo_interno = h.idActivo
-        inner join users u on u.id = af.codigo_asignado 
+        left join af_maestro af on af.af_codigo_interno = h.idActivo
+        left join users u on u.id = af.codigo_asignado 
         where h.usuario_asignado = '".$idUsuario."' and af.estado = 'T' and af.estadoActivo = 'Pendiente' 
         order by af_codigo_interno desc");
 
@@ -1119,12 +1119,12 @@ class GestionActivoController extends Controller
         (select count(af_codigo_interno) from af_maestro where estado = 'B' and estadoActivo = 'Pendiente' and codigo_asignado=".$id.") as conteoBajasPen,
         
         (select count(h.id) from af_historial_activo h
-        inner join af_maestro af on af.af_codigo_interno = h.idActivo
+        left join af_maestro af on af.af_codigo_interno = h.idActivo
          where h.usuario_asignado = '".$alias."' and h.movimiento = 'Traslado'
          and af.estado != 'B' and af.estadoActivo = 'Activo') as conteoTrasladosRecibidos,
 
          (select count(h.id) from af_historial_activo h
-        inner join af_maestro af on af.af_codigo_interno = h.idActivo
+        left join af_maestro af on af.af_codigo_interno = h.idActivo
          where h.usuario_movimiento = '".$alias."' and h.movimiento = 'Traslado'
          and af.estado != 'B' and af.estadoActivo = 'Activo')as conteoTrasladosHechos,
          
@@ -1135,7 +1135,7 @@ class GestionActivoController extends Controller
 
          (select count(af.af_codigo_interno)
          from  af_maestro af 
-         inner join af_historial_activo h on h.idActivo = af.af_codigo_interno
+         left join af_historial_activo h on h.idActivo = af.af_codigo_interno
          where  af.estado = 'T' and af.estadoActivo = 'Pendiente' 
          and h.usuario_asignado = '".$alias."') as conteoTrasladosHechosPendientesRecibir ");
 

@@ -225,11 +225,11 @@
  </nz-card>
 
 
- <!--Modal para mostrar cuadros mensuales financieros y fiscales-->
-<nz-modal nzWidth="80%" [(nzVisible)]="modalDepreciacionMensusal" [nzStyle]="{ top: '10px' }"
-[nzFooter]="modalFooterDepreciacionMensual" [nzContent]="modalContentDepreciacionMensual" 
-(nzOnCancel)="cerrarmodalDepreciacionMensusal()">
-    <ng-template #modalContentDepreciacionMensual>
+ <!--Modal para mostrar cuadros mensuales financieros-->
+<nz-modal nzWidth="80%" [(nzVisible)]="modalDepreciacionFinanciera" [nzStyle]="{ top: '10px' }"
+[nzFooter]="modalFooterDepreciacionFinanciera" [nzContent]="modalContentDepreciacionFinanciera" 
+(nzOnCancel)="cerrarmodalDepreciacionFinanciera()">
+    <ng-template #modalContentDepreciacionFinanciera>
 
         <div nz-row>
             <div nz-col nzSpan="18">
@@ -291,8 +291,8 @@
             </nz-table>
     </ng-template>
 
-    <ng-template #modalFooterDepreciacionMensual>
-        <button nz-button nzType="danger" (click)="cerrarmodalDepreciacionMensusal()">Cancelar</button>
+    <ng-template #modalFooterDepreciacionFinanciera>
+        <button nz-button nzType="danger" (click)="cerrarmodalDepreciacionFinanciera()">Cancelar</button>
     </ng-template>
 </nz-modal>
 
