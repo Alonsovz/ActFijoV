@@ -2207,3 +2207,45 @@ insert into af_maestro (af_codigo_contable,codigo_ppye, descripcion_bien, fecha_
 insert into af_maestro (af_codigo_contable,codigo_ppye, descripcion_bien, fecha_compra, numero_documento, af_valor_compra_siva) values('BNE PYS 000048',24,'Licencia para respaldo de grabación y llamadas en NAS','20191028 12:00:00','4838',399.00);
 insert into af_maestro (af_codigo_contable,codigo_ppye, descripcion_bien, fecha_compra, numero_documento, af_valor_compra_siva) values('BNE PYS 000049',24,'Licencia ESET Mail ','20191130 12:00:00','438',1080.00);
 insert into af_maestro (af_codigo_contable,codigo_ppye, descripcion_bien, fecha_compra, numero_documento, af_valor_compra_siva) values('BNE PYS 000050',24,'Sistema de Gestion de Postes y Luminarias','20201230 12:00:00','resumen ',34626.76);
+
+
+
+update af_maestro set aplica_contabilidad = 'S' where af_codigo_interno > 0
+update af_maestro set estadoActivo = 'Activo' where af_codigo_interno > 0
+update af_maestro set estado = 'A' where af_codigo_interno > 0
+update af_maestro set solo_vnr = 'N' where af_codigo_interno > 0
+
+update af_maestro  set 
+af_tasa_depreciacion_financ = at.tasa_financ,
+af_tasa_depreciacion_fiscal = at.tasa_fiscal,
+af_vida_util = at.vidaUtil,
+vidaUtilFinanciera = at.vidaUtilFinanciera
+from af_maestro af
+inner join af_tipo_ppye at on at.cod_ppye = af.codigo_ppye
+where af.af_codigo_interno > 0 and af.codigo_ppye = at.cod_ppye
+
+
+
+
+update af_maestro  set 
+periodo_inicial =
+SUBSTRING(CONVERT(nvarchar(6),DATEADD(month, 1, fecha_compra), 112),5,2)+''+
+LTRIM(STR(YEAR(DATEADD(month, 1, fecha_compra)))),
+periodo_final = 
+SUBSTRING(CONVERT(nvarchar(6), DATEADD(month, (af_vida_util * 12), DATEADD(month, 1, fecha_compra)), 112),5,2)+''+
+LTRIM(STR(YEAR(DATEADD(month, (af_vida_util * 12), DATEADD(month, 1, fecha_compra))))),
+periodo_final_financiera = 
+SUBSTRING(CONVERT(nvarchar(6), DATEADD(month, (vidaUtilFinanciera * 12), DATEADD(month, 1, fecha_compra)), 112),5,2)+''+
+LTRIM(STR(YEAR(DATEADD(month, (vidaUtilFinanciera * 12), DATEADD(month, 1, fecha_compra)))))
+where af_codigo_interno > 0
+
+
+
+create table af_auxiliar(
+af_codigo_contable varchar(25),
+depre_anual_fiscal float,
+depre_acum_fiscal float,
+depre_acum_financ float,
+depre_anual_financ float,
+valor_libros float
+);
