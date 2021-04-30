@@ -1,0 +1,38 @@
+Declare @codigo varchar(25);
+Declare @valor_compra float;
+Declare @depreciacionAnualFinanciera float;
+Declare @depreciacionMensualFinanciera float;
+Declare @tasaFinanciera float;
+Declare @vidaUtil int;
+
+DECLARE depreciacionFinanciera cursor scroll
+
+for
+
+select codigo, valor_compra, depreciacion_acumulada, depreciacion_mensual,tasa_financiera,
+vida_util_finan from af_auxiliar
+
+open depreciacionFinanciera
+
+fetch next from depreciacionFinanciera into
+@codigo, @valor_compra, @depreciacionAnualFinanciera, @depreciacionMensualFinanciera,
+@tasaFinanciera, @vidaUtil
+
+	while (@@fetch_status = 0)
+		begin
+			Insert into af_depreciaciones (af_codigo_contable,valor_compra,depre_financ,depre_financ_acumulada,
+			periodo, saldo_formula, saldo_cuadre, valor_libros)
+			
+			select af_codigo_contable = @codigo, valor_compra = @valor_compra,
+			depre_financ = @depreciacionMensualFinanciera, depre_financ_acumulada = @depreciacionAnualFinanciera,
+			periodo = '122020',  saldo_formula = , saldo_cuadre = ,
+			valor_libros = ,
+    
+		 fetch next from depreciacionFinanciera into
+		 @codigo, @valor_compra, @depreciacionAnualFinanciera, @depreciacionMensualFinanciera,
+		 @tasaFinanciera, @vidaUtil
+              
+              
+         END
+    CLOSE depreciacionFinanciera
+DEALLOCATE depreciacionFinanciera
