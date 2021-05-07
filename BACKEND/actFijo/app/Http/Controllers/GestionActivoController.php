@@ -280,7 +280,8 @@ class GestionActivoController extends Controller
             'periodo_final' => $periodoFinalDepre,
             'imagen_factura' => $foto,
             'vidaUtilFinanciera' =>  $vidaUtilFinanciera,
-            'periodo_final_financiera '=> $periodoFinalFinanciero
+            'periodo_final_financiera '=> $periodoFinalFinanciero,
+            'tipo_carga '=> 'sistema'
         ]);
 
         return response()->json($insertar);
@@ -1390,7 +1391,8 @@ class GestionActivoController extends Controller
             'cuenta_hija' => $cuentaHija,
             'imagen_factura' =>  $foto,
             'vidaUtilFinanciera' =>  $vidaUtilFinanciera,
-            'periodo_final_financiera '=> $periodoFinalFinanciero
+            'periodo_final_financiera '=> $periodoFinalFinanciero,
+            'tipo_carga '=> 'sistema'
         ]);
 
         return response()->json($insertar);
