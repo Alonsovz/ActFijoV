@@ -1,38 +1,41 @@
-Declare @codigo varchar(25);
-Declare @valor_compra float;
-Declare @depreciacionAnualFinanciera float;
-Declare @depreciacionMensualFinanciera float;
-Declare @tasaFinanciera float;
-Declare @vidaUtil int;
+Declare @af_codigo_contable varchar(25);
+Declare @af_codigo_interno int;
+Declare @depre_financ_anual float;
+Declare @depre_financ_acumulada float;
+Declare @valor_libros_financ float;
+Declare @periodoEvaluado varchar(6);
+Declare @periodoAnterior varchar(6);
+
+set @periodoAnterior = '122020';
+set @periodoEvaluado = '012021';
 
 DECLARE depreciacionFinanciera cursor scroll
 
 for
 
-select codigo, valor_compra, depreciacion_acumulada, depreciacion_mensual,tasa_financiera,
-vida_util_finan from af_auxiliar
+select af_codigo_interno,af_codigo_contable, depre_financ_anual, depre_financ_acumulada,
+ valor_libros_financ from af_depreciacion_financiera where periodo = @periodoAnterior
 
 open depreciacionFinanciera
 
 fetch next from depreciacionFinanciera into
-@codigo, @valor_compra, @depreciacionAnualFinanciera, @depreciacionMensualFinanciera,
-@tasaFinanciera, @vidaUtil
+@af_codigo_interno, @af_codigo_contable, @depre_financ_anual, @depre_financ_acumulada,
+@valor_libros_financ
 
 	while (@@fetch_status = 0)
 		begin
-			Insert into af_depreciaciones (af_codigo_contable,valor_compra,depre_financ,depre_financ_acumulada,
-			periodo, saldo_formula, saldo_cuadre, valor_libros)
+			Insert into af_depreciacion_financiera (af_codigo_interno, af_codigo_contable,
+			depre_financ_anual,depre_financ_acumulada,valor_libros_financ,periodo)
 			
-			select af_codigo_contable = @codigo, valor_compra = @valor_compra,
-			depre_financ = @depreciacionMensualFinanciera, depre_financ_acumulada = @depreciacionAnualFinanciera,
-			periodo = '122020',  saldo_formula = , saldo_cuadre = ,
-			valor_libros = ,
-    
-		 fetch next from depreciacionFinanciera into
-		 @codigo, @valor_compra, @depreciacionAnualFinanciera, @depreciacionMensualFinanciera,
-		 @tasaFinanciera, @vidaUtil
-              
-              
+			select af_codigo_interno = @af_codigo_interno, af_codigo_contable = @af_codigo_contable,
+			depre_financ_anual = @depre_financ_anual, 
+			depre_financ_acumulada = @depreciacionAnualFinanciera,
+			valor_libros_financ = 0,
+			periodo = @periodoEvaluado
+			
+			fetch next from depreciacionFinanciera into
+			@af_codigo_interno, @af_codigo_contable, @depre_financ_anual, @depre_financ_acumulada,
+			@valor_libros_financ
          END
     CLOSE depreciacionFinanciera
 DEALLOCATE depreciacionFinanciera

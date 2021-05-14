@@ -196,16 +196,10 @@ ADD FOREIGN KEY (ubicacion_especifica ) REFERENCES  af_ubicacion_especifica(id);
 
 
 
-create table af_depreciaciones(
+create table af_depreciacion_fiscal(
 id int IDENTITY(1,1) PRIMARY KEY,
 af_codigo_interno int,
-af_codigo_vnr varchar(10),
 af_codigo_contable varchar(25),
-depre_financ_anual float,
-depre_financ_acumulada float,
-saldo_formula_financ float,
-saldo_cuadre_financ float,
-valor_libros_financ float,
 depre_fiscal_anual float,
 depre_fiscal_acumulada float,
 saldo_formula_fiscal float,
@@ -213,4 +207,19 @@ saldo_cuadre_fiscal float,
 valor_libros_fiscal float,
 periodo varchar(6),
 );
+
+
+create table af_depreciacion_financiera(
+id int IDENTITY(1,1) PRIMARY KEY,
+af_codigo_interno int,
+af_codigo_contable varchar(25),
+depre_financ_anual float,
+depre_financ_acumulada float,
+saldo_formula_financ float,
+saldo_cuadre_financ float,
+valor_libros_financ float,
+periodo varchar(6),
+);
+
+
 
