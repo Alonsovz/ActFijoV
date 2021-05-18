@@ -23,6 +23,9 @@ import { TipoactivoService } from 'src/app/services/tipoactivo.service';
   styleUrls: ['./supervisor-activos.component.scss']
 })
 export class SupervisorActivosComponent implements OnInit {
+  mostrarCardBodegas = true;
+  mostrarCardActivos = false;
+
   user : Usuario = new Usuario();
   listaAltasSupervisor: ReadonlyArray<ActfijoGestion> = [];
   listaTrasladosSupervisor: ReadonlyArray<ActfijoGestion> = [];
@@ -169,6 +172,21 @@ export class SupervisorActivosComponent implements OnInit {
       data => {
         this.objUbicacionFisica = data;
     });
+  }
+
+  showCardBodegas(){
+    this.mostrarCardActivos = false;
+    this.mostrarCardBodegas = true;
+    this.mostrarSkeletonTabla = true;
+    this.mostrarTablaCarga = false;
+  }
+
+  
+  showCardActivos(){
+    this.mostrarCardActivos = true;
+    this.mostrarCardBodegas = false;
+    this.mostrarSkeletonTabla = true;
+    this.mostrarTablaCarga = false;
   }
 
   getAltasSupervisor(){

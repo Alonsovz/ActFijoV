@@ -385,6 +385,8 @@ class GestionActivoController extends Controller
         $solo_vnr = $request["solo_vnr"];
         $aplica_contabilidad = $request["aplica_contabilidad"];
         $vidaUtilFinanciera =  $request["vidaUtilFinanciera"];
+        $carga = $request["tipo_carga"] ;
+
         
         if(is_null($fechaRegistro)){
             $fechaRegistroConFormato = '';
@@ -403,30 +405,35 @@ class GestionActivoController extends Controller
         $codVNR = '';
         $codConta = '';
 
-        $insertId = $id;
+        if($carga === "excel"){
+            $codVNR =  $codigoVNR;
+            $codConta = $codigoContable;
+    
+        }else{
+            $insertId = $id;
         
-        if($insertId < 10){
-            $codVNR = 'VNR 0000'.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
-        }else if($insertId > 9 && $insertId < 100){
-            $codVNR = 'VNR 000'.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
+            if($insertId < 10){
+                $codVNR = 'VNR 0000'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
+            }else if($insertId > 9 && $insertId < 100){
+                $codVNR = 'VNR 000'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
+            }
+            else if($insertId > 99 && $insertId < 1000){
+                $codVNR = 'VNR 00'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
+            }
+    
+            else if($insertId > 999 && $insertId < 10000){
+                $codVNR = 'VNR 0'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
+            }
+    
+            else if($insertId > 9999){
+                $codVNR = 'VNR '.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
+            }
         }
-        else if($insertId > 99 && $insertId < 1000){
-            $codVNR = 'VNR 00'.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
-        }
-
-        else if($insertId > 999 && $insertId < 10000){
-            $codVNR = 'VNR 0'.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
-        }
-
-        else if($insertId > 9999){
-            $codVNR = 'VNR '.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
-        }
-
 
         $monthIniciaDepre = date("m",strtotime($fechaCompraConFormato));
 
@@ -1441,9 +1448,12 @@ class GestionActivoController extends Controller
         $asignadoA = $request["codigo_asignado"];
         $cuentaHija  = $request["cuenta_hija"];
         $vidaUtilFinanciera =  $request["vidaUtilFinanciera"];
-      
+        $carga = $request["tipo_carga"] ;
+
+        $fechaRegistroConFormato = null;
+
         if(is_null($fechaRegistro)){
-            $fechaRegistroConFormato = '';
+            $fechaRegistroConFormato = null;
         }else{
             $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -1459,28 +1469,34 @@ class GestionActivoController extends Controller
         $codVNR = '';
         $codConta = '';
 
-        $insertId = $id;
+        if($carga === "excel"){
+            $codVNR =  $codigoVNR;
+            $codConta = $codigoContable;
+    
+        }else{
+            $insertId = $id;
         
-        if($insertId < 10){
-            $codVNR = 'VNR 0000'.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
-        }else if($insertId > 9 && $insertId < 100){
-            $codVNR = 'VNR 000'.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
-        }
-        else if($insertId > 99 && $insertId < 1000){
-            $codVNR = 'VNR 00'.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
-        }
-
-        else if($insertId > 999 && $insertId < 10000){
-            $codVNR = 'VNR 0'.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
-        }
-
-        else if($insertId > 9999){
-            $codVNR = 'VNR '.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
+            if($insertId < 10){
+                $codVNR = 'VNR 0000'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
+            }else if($insertId > 9 && $insertId < 100){
+                $codVNR = 'VNR 000'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
+            }
+            else if($insertId > 99 && $insertId < 1000){
+                $codVNR = 'VNR 00'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
+            }
+    
+            else if($insertId > 999 && $insertId < 10000){
+                $codVNR = 'VNR 0'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
+            }
+    
+            else if($insertId > 9999){
+                $codVNR = 'VNR '.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
+            }
         }
 
 

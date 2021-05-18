@@ -255,6 +255,7 @@ export class ActfijoGestionComponent implements OnInit {
       'siglas': new FormControl(''),
       'tipo_bien': new FormControl(''),
       'vidaUtilFinanciera': new FormControl(''),
+      'tipo_carga': new FormControl(''),
     });
   }
 

@@ -2268,3 +2268,27 @@ update af_maestro set tipo_carga = 'excel' where af_codigo_interno > 0
 
 
 
+Declare @descripcion varchar(100);
+DECLARE descripciones cursor scroll
+
+for
+
+select descripcion_bien from af_maestro where descripcion_bien not in(
+select nombre from af_descripciones_activo)
+
+open descripciones
+
+fetch next from descripciones into
+@descripcion
+
+	while (@@fetch_status = 0)
+		begin
+			Insert into af_descripciones_activo (nombre, estado)
+			
+			select nombre = @descripcion, estado = 1
+			
+			fetch next from descripciones into
+			@descripcion
+         END
+    CLOSE descripciones
+DEALLOCATE descripciones

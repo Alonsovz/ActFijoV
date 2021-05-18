@@ -52,4 +52,5 @@ export class ActfijoGestion {
     public valorVNRFormat: number;
     public valorResidualFormat: number;
     public vidaUtilFinanciera: number;
+    public tipo_carga: string;
 }

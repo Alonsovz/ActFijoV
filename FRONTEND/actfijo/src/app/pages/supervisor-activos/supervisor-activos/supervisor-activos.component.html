@@ -1,17 +1,27 @@
 <div class="titulo"> 
     Supervisor de activos
+    <button nz-button nzType="primary" style="float: right;" (click)="showCardBodegas()">
+        <i nz-icon nzType="home"></i>Bodegas
+    </button>
+    <button nz-button nzType="danger" style="float: right;" (click)="showCardActivos()">
+        <i nz-icon nzType="tool"></i>Activos
+    </button>
+
     <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
+
+  
 </div>
 
 
 
-  <!--card para lista de activos supervisor-->
-<nz-card style="width:98%" class="cardShadow">
+  <!--card para lista de activos supervisor de bodegas-->
+<nz-card style="width:98%" class="cardShadow"  *ngIf="mostrarCardBodegas">
 
     <div nz-row>
-        <div nz-col [nzSpan]="18">
+        <div nz-col nzSpan="19">
+            <h2> <i nz-icon nzType="home"></i> Listado de bodegas que superviso</h2>
         </div>
-        <div nz-col nzSpan="6">
+        <div nz-col nzSpan="5">
             <nz-form-label>Buscar </nz-form-label>
             <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar"
             autocomplete="off"  (ngModelChange)="ConvertToLower($event)">
@@ -161,6 +171,163 @@
 
 </nz-card>
 
+
+  <!--card para lista de activos supervisor de activo-->
+  <nz-card style="width:98%" class="cardShadow"  *ngIf="mostrarCardActivos">
+
+    <div nz-row>
+        <div nz-col nzSpan="19">
+            <h2> <i nz-icon nzType="tool"></i> Listado de activos que superviso</h2>
+        </div>
+        <div nz-col nzSpan="5">
+            <nz-form-label>Buscar </nz-form-label>
+            <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar"
+            autocomplete="off"  (ngModelChange)="ConvertToLower($event)">
+        </div>
+    </div>
+
+<nz-tabset>
+    
+    
+    <nz-tab [nzTitle]="altas" (nzClick)="getAltasSupervisor()">
+
+        <ng-template #altas>
+             Altas <nz-badge  [nzCount]="conteoAltas"  nzShowZero
+            [nzStyle]="{ backgroundColor: '#007E61', color: 'white' }"></nz-badge>
+        </ng-template>
+
+        <h2 style="color: #007E61 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i> Altas</h2>
+        
+        <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeletonTabla"></nz-skeleton>
+
+        <nz-table nzShowPagination #altasSupervisor
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasSupervisor($event)" 
+        [nzData]="listaAltasSupervisor" *ngIf="mostrarTablaCarga">
+            <thead>
+              <tr>
+
+                <th style="background-color: #007E61 !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
+                <th style="background-color: #007E61 !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
+                <th style="background-color: #007E61 !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de alta</th>
+                <th style="background-color: #007E61 !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado</th>
+                <th style="background-color: #007E61 !important;"><i nz-icon nzType="home" nzTheme="outline"></i> Bodega</th>
+                <th style="background-color: #007E61 !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+              
+            </tr>
+            </thead>
+            <tbody>
+              <tr  *ngFor="let ob of altasSupervisor.data | searchactgestion: texto">
+                <td>{{ ob.af_codigo_interno }}</td>
+                <td>{{ ob.descripcion_bien }}</td>
+                <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
+                <td>{{ ob.asignado }}</td>
+                <td>{{ ob.nomBodega }}</td>
+                <td  style="text-align: center; align-items: center;">
+                    <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
+                    nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                </td>
+              </tr>
+            </tbody>
+        </nz-table>
+    </nz-tab>
+    
+    <nz-tab [nzTitle]="traslados" (nzClick)="getTrasladosSupervisor()">
+
+        <ng-template #traslados>
+             Traslados <nz-badge  [nzCount]="conteoTraslados"  nzShowZero
+            [nzStyle]="{ backgroundColor: '#1A3A78', color: 'white' }"></nz-badge>
+        </ng-template>
+
+        <h2 style="color: #1A3A78 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i> Traslados</h2>
+
+
+        <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeletonTabla"></nz-skeleton>
+        
+        <nz-table nzShowPagination #trasladosSupervisor
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosSupervisor($event)" 
+        [nzData]="listaTrasladosSupervisor" *ngIf="mostrarTablaCarga">
+        <thead>
+            <tr>
+
+            <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
+            <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
+            <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de traslado</th>
+            <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Usuario anterior </th>
+            <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
+            <th style="background-color: #1A3A78 !important;"><i nz-icon nzType="home" nzTheme="outline"></i>Bodega</th>
+            <th style="background-color: #1A3A78 !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr *ngFor="let ob of trasladosSupervisor.data | searchactgestion: texto">
+                    <td>{{ ob.af_codigo_interno }}</td>
+                    <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
+                    <td>{{ ob.fechaTraslado }} {{ ob.horaTraslado }}</td>
+                    <td>{{ ob.usuarioAnterior }}</td>
+                    <td>{{ ob.asignado }}</td>
+                    <td>{{ ob.nomBodega }}</td>
+                    <td  style="text-align: center; align-items: left;">
+                        <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
+                        nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                      </td>
+                </tr>
+            
+            
+        </tbody>
+        </nz-table>
+        
+    </nz-tab>
+
+    <nz-tab [nzTitle]="bajas" (nzClick)="getBajasSupervisor()">
+
+        
+        <ng-template #bajas>
+            Bajas  <nz-badge [nzCount]="conteoBajas" nzShowZero
+            [nzStyle]="{ backgroundColor: '#7B0505' }"></nz-badge>
+          </ng-template>
+        <h2 style="color: #7B0505 !important;"> <i nz-icon nzType="bars" nzTheme="outline"></i> Bajas</h2>
+
+        <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeletonTabla"></nz-skeleton>
+
+        <nz-table nzShowPagination #bajasSupervisor
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasSupervisor($event)" 
+        [nzData]="listaBajasSupervisor" *ngIf="mostrarTablaCarga">
+        <thead>
+            <tr>
+
+                <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="barcode" nzTheme="outline"></i> Código</th>
+                <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
+                <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de baja</th>
+                <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado a </th>
+                <th style="background-color: #7B0505 !important;;"><i nz-icon nzType="home" nzTheme="outline"></i> Bodega </th>
+                <th style="background-color: #7B0505 !important;;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+                    <tr *ngFor="let ob of bajasSupervisor.data | searchactgestion: texto">
+                    <td>{{ ob.af_codigo_interno }}</td>
+                    <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
+                    <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
+                    <td>{{ ob.asignado }}</td>
+                    <td>{{ ob.nomBodega }}</td>
+                    <td  style="text-align: center; align-items: left;">
+                   
+                        <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1)"
+                        nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+    
+                   
+                    </td>
+                    </tr>
+            
+            
+            </tbody>
+        </nz-table>
+
+    </nz-tab>
+
+</nz-tabset>
+
+</nz-card>
 
 <!--Modal para mostrar formulario de edición de activo-->
 <nz-modal nzWidth="90%" [(nzVisible)]="modalDetallesActivo" *ngIf="datosCargadosEditar"

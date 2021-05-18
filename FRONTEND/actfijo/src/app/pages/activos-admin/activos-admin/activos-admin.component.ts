@@ -172,6 +172,7 @@ export class ActivosAdminComponent implements OnInit {
         'solo_vnr': new FormControl(''),
         'aplica_contabilidad': new FormControl(''),
         'vidaUtilFinanciera': new FormControl(''),
+        'tipo_carga': new FormControl(''),
       });
 
       this.trasladoActivoForm = new FormGroup({
