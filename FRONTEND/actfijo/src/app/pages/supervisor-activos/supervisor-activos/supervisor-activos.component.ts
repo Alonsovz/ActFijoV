@@ -16,6 +16,7 @@ import { SupervisorActivosService } from 'src/app/services/supervisor-activos.se
 import { TipoBienVnrService } from 'src/app/services/tipo-bien-vnr.service';
 import { TipoDocumentosService } from 'src/app/services/tipo-documentos.service';
 import { TipoactivoService } from 'src/app/services/tipoactivo.service';
+import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-supervisor-activos',
@@ -23,13 +24,18 @@ import { TipoactivoService } from 'src/app/services/tipoactivo.service';
   styleUrls: ['./supervisor-activos.component.scss']
 })
 export class SupervisorActivosComponent implements OnInit {
-  mostrarCardBodegas = true;
-  mostrarCardActivos = false;
+  mostrarCardBodegas = false;
+  mostrarCardActivos = true;
 
   user : Usuario = new Usuario();
   listaAltasSupervisor: ReadonlyArray<ActfijoGestion> = [];
   listaTrasladosSupervisor: ReadonlyArray<ActfijoGestion> = [];
   listaBajasSupervisor: ReadonlyArray<ActfijoGestion> = [];
+
+
+  listaAltasSupervisorActivos: ReadonlyArray<ActfijoGestion> = [];
+  listaTrasladosSupervisorActivos: ReadonlyArray<ActfijoGestion> = [];
+  listaBajasSupervisorActivos: ReadonlyArray<ActfijoGestion> = [];
 
   mostrarTablaCarga = false;
   mostrarSkeletonTabla = false;
@@ -39,6 +45,13 @@ export class SupervisorActivosComponent implements OnInit {
   listaTrasladosSupervisorPag:  ReadonlyArray<ActfijoGestion> = [];
   listaBajasSupervisorPag : ReadonlyArray<ActfijoGestion> = [];
   listOfCurrentPageDataHistorial : ReadonlyArray<ActfijoGestion> = [];
+
+
+  listaAltasSupervisorPagActivos:  ReadonlyArray<ActfijoGestion> = [];
+  listaTrasladosSupervisorPagActivos:  ReadonlyArray<ActfijoGestion> = [];
+  listaBajasSupervisorPagActivos : ReadonlyArray<ActfijoGestion> = [];
+
+
   modalDetallesActivo = false;
   datosCargadosEditar = false;
   objMunicipios : ActfijoGestion[];
@@ -64,6 +77,14 @@ export class SupervisorActivosComponent implements OnInit {
   conteoBajas = 0;
   conteoTraslados = 0;
   listaConteo : ActfijoGestion[];
+
+
+  conteoAltasActivos = 0;
+  conteoBajasActivos = 0;
+  conteoTrasladosActivos = 0;
+  listaConteoActivos : ActfijoGestion[];
+
+
   constructor(private activosSupervisorService: SupervisorActivosService,
     private tipoActivo: TipoactivoService, private tipoBienVnr: TipoBienVnrService,
     private clasificacionAgd: ClasficacionAgdService, private marcasActivo: MarcasactivoService,
@@ -110,8 +131,9 @@ export class SupervisorActivosComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem("usuario"));
-    this.conteoSupervisor();
-    this.getAltasSupervisor();
+ 
+    this.getAltasSupervisorActivos();
+    this.conteoSupervisorActivos();
 
     this.tipoActivo.getTipoActivo().subscribe(
       data => {
@@ -179,6 +201,8 @@ export class SupervisorActivosComponent implements OnInit {
     this.mostrarCardBodegas = true;
     this.mostrarSkeletonTabla = true;
     this.mostrarTablaCarga = false;
+
+    this.getAltasSupervisor();
   }
 
   
@@ -187,6 +211,8 @@ export class SupervisorActivosComponent implements OnInit {
     this.mostrarCardBodegas = false;
     this.mostrarSkeletonTabla = true;
     this.mostrarTablaCarga = false;
+
+    this.getAltasSupervisorActivos();
   }
 
   getAltasSupervisor(){
@@ -361,4 +387,92 @@ conteoSupervisor(){
 
 }
 
+
+
+//metodo para obtener conteo de badges administrador
+conteoSupervisorActivos(){
+  let datos : Usuario = new Usuario();
+  datos = this.user;
+  this.activosSupervisorService.getConteoSupervisorActivos(datos).subscribe(
+    data => {
+      this.listaConteoActivos = data;
+
+      data.forEach(element => {
+        this.conteoAltasActivos = Number(element["conteoAltas"]);
+        this.conteoBajasActivos = Number(element["conteoBajas"]);
+        this.conteoTrasladosActivos = Number(element["conteoTraslados"]);
+      });
+  });
+
+}
+
+getAltasSupervisorActivos(){
+  this.conteoSupervisorActivos();
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+
+  let datos : Usuario = new Usuario();
+  datos = this.user;
+
+
+  this.activosSupervisorService.getAltasSupervisorActivos(datos).subscribe(
+    data => {
+      this.listaAltasSupervisorActivos = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+getTrasladosSupervisorActivos(){
+  this.conteoSupervisor();
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datos : Usuario = new Usuario();
+  datos = this.user;
+
+
+  this.activosSupervisorService.getTrasladosSupervisorActivos(datos).subscribe(
+    data => {
+      this.listaTrasladosSupervisorActivos = data;
+
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+getBajasSupervisorActivos(){
+  this.conteoSupervisor();
+  this.mostrarTablaCarga = false;
+  this.mostrarSkeletonTabla = true;
+
+  let datos : Usuario = new Usuario();
+  datos = this.user;
+
+
+  this.activosSupervisorService.getBajasSupervisorActivos(datos).subscribe(
+    data => {
+      this.listaBajasSupervisorActivos = data;
+      this.mostrarTablaCarga = true;
+      this.mostrarSkeletonTabla = false;
+    });
+}
+
+
+  //metodo para paginación de tabla de ALTAS de supervisor
+  paginacionTablaAltasSupervisorActivos (listaAltasSupervisorPag: ReadonlyArray<ActfijoGestion>) {
+    this.listaAltasSupervisorPagActivos  = listaAltasSupervisorPag;
+  
+  }
+  
+    //metodo para paginación de tabla de traslados de supervisor
+    paginacionTablaTrasladosSupervisorActivos (listaTrasladosSupervisorPag: ReadonlyArray<ActfijoGestion>) {
+      this.listaTrasladosSupervisorPagActivos  = listaTrasladosSupervisorPag;
+    }
+  
+     //metodo para paginación de tabla de bajas de supervisor
+     paginacionTablaBajasSupervisorActivos (listaBajasSupervisorPag: ReadonlyArray<ActfijoGestion>) {
+      this.listaBajasSupervisorPagActivos  = listaBajasSupervisorPag;
+    }
 }

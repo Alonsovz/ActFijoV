@@ -9,4 +9,5 @@ export class Usuario {
     public  rol: string;
     public  correo: string;
     public bodegasSupervisor: number;
+    public conteoActivos: number;
 }

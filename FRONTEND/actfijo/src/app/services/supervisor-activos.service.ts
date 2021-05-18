@@ -43,6 +43,26 @@ public getConteoSupervisor(usuario): Observable<ActfijoGestion[]> {
   return this.http.post(this.globalservice.getUrlBackEnd() + 'getConteoSupervisor', usuario, httpOptions).pipe(map(data => data as ActfijoGestion[]));
 }
 
+  //metodo para obtener conteo de badges en vista de supervisor
+  public getConteoSupervisorActivos(usuario): Observable<ActfijoGestion[]> {
+    return this.http.post(this.globalservice.getUrlBackEnd() + 'getConteoSupervisorActivos', usuario, httpOptions).pipe(map(data => data as ActfijoGestion[]));
+  }
+
+
+  //metodo para obtener altas de activos para supervisores
+public getAltasSupervisorActivos(usuario): Observable<ActfijoGestion[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getAltasSupervisorActivos', usuario, httpOptions).pipe(map(data => data as ActfijoGestion[]));
+}
+
+//metodo para obtener traslados de activos para supervisores
+public getTrasladosSupervisorActivos(usuario): Observable<ActfijoGestion[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getTrasladosSupervisorActivos', usuario, httpOptions).pipe(map(data => data as ActfijoGestion[]));
+}
+
+//metodo para obtener bajas de activos para supervisores
+public getBajasSupervisorActivos(usuario): Observable<ActfijoGestion[]> {
+  return this.http.post(this.globalservice.getUrlBackEnd() + 'getBajasSupervisorActivos', usuario, httpOptions).pipe(map(data => data as ActfijoGestion[]));
+}
 
   
 }

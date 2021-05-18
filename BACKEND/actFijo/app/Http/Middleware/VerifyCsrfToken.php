@@ -117,5 +117,9 @@ class VerifyCsrfToken extends BaseVerifier
         'guardarUbicacionEspecifica',
         'editarUbicacionEspecifica',
         'eliminarUbicacionEspecifica',
+        'getAltasSupervisorActivos',
+        'getTrasladosSupervisorActivos',
+        'getBajasSupervisorActivos',
+        'getConteoSupervisorActivos'
     ];
 }

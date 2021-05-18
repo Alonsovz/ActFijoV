@@ -26,10 +26,14 @@ class UsuarioController extends Controller
                 $usuariosesion =  json_encode( DB::connection('comanda')->select("
                 select u.*, rs.rol as rol,
                 (select count(b.bodega_id) from saf_2011.dbo.inv_bodegas b
-                where b.supervisor_id = u.id) as bodegasSupervisor from users u
+                where b.supervisor_id = u.id) as bodegasSupervisor,
+                (select count(af.af_codigo_interno) from af_maestro af
+				inner join users us on us.id = af.codigo_asignado
+				inner join users uj on uj.id = us.jefe_inmediato
+				where uj.correo = u.correo) as conteoActivos from users u
                 inner join af_usuario_rol ur on ur.idUsuario = u.id
                 inner join af_roles_sistema rs on rs.id = ur.idRol 
-                where ur.estado = 1 and u.correo = '".$correo."'"));
+                where ur.estado = 1 and u.correo = '". $correo."'"));
 
                 $arrayJson = [];
                 foreach (json_decode($usuariosesion, true) as $value){
