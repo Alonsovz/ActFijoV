@@ -1,0 +1,115 @@
+create procedure af_depre_fiscal_mensual @periodoEvaluado varchar(6), @periodoAnterior varchar(6)
+
+	as
+	begin
+
+		DECLARE @mes varchar(2);
+
+		DECLARE @anio varchar(4);
+
+
+		SET @mes =  SUBSTRING (@periodoEvaluado, 1, 2);
+
+		SET @anio =  SUBSTRING (@periodoEvaluado, 3, 4);
+
+		delete from af_depreciacion_fiscal where periodo = @periodoEvaluado;
+
+
+		DECLARE @af_codigo_contable varchar(25);
+		DECLARE @af_codigo_interno int;
+		DECLARE @depre_fiscal_anual float;
+		DECLARE @depre_fiscal_acumulada float;
+		DECLARE @valor_libros_fiscal float;
+
+
+		--- CURSOR PARA OBTENER DEPRECIACION DEL PERIODO EVALUADO----
+
+		DECLARE depreciacionFiscal cursor scroll
+
+		for
+
+		select af_codigo_interno,af_codigo_contable, depre_fiscal_anual, depre_fiscal_acumulada,
+		 valor_libros_fiscal from af_depreciacion_fiscal where periodo = @periodoAnterior
+
+		open depreciacionFiscal
+
+		fetch next from depreciacionFiscal into
+		@af_codigo_interno, @af_codigo_contable, @depre_fiscal_anual, @depre_fiscal_acumulada,
+		@valor_libros_fiscal
+
+			while (@@fetch_status = 0)
+				begin
+					Insert into af_depreciacion_fiscal (af_codigo_interno, af_codigo_contable,
+					depre_fiscal_anual,depre_fiscal_acumulada,valor_libros_fiscal,periodo)
+					
+					select af_codigo_interno = @af_codigo_interno, af_codigo_contable = @af_codigo_contable,
+					depre_fiscal_anual = @depre_fiscal_anual, 
+					depre_fiscal_acumulada = 
+					
+					case when (@depre_fiscal_anual/ 12) < @valor_libros_fiscal
+					then
+					(@depre_fiscal_acumulada) + (@depre_fiscal_anual/ 12)
+					else
+					(@depre_fiscal_acumulada) + @valor_libros_fiscal
+					end,
+					
+					valor_libros_fiscal = 
+					case when (@depre_fiscal_anual/ 12) < @valor_libros_fiscal
+					then
+					(@valor_libros_fiscal)- (@depre_fiscal_anual/ 12)
+					else
+					0.00
+					end,
+					
+					periodo = @periodoEvaluado
+					from af_depreciacion_fiscal
+					inner join af_maestro af on af.af_codigo_interno = @af_codigo_interno
+					where af.estado != 'B' and estadoActivo = 'Activo'
+					and af_depreciacion_fiscal.af_codigo_interno = @af_codigo_interno
+					
+					fetch next from depreciacionFiscal into
+					
+					@af_codigo_interno, @af_codigo_contable, @depre_fiscal_anual, @depre_fiscal_acumulada,
+					@valor_libros_fiscal
+				 END
+			CLOSE depreciacionFiscal
+		DEALLOCATE depreciacionFiscal
+
+
+		--- FORMULA PARA OBTENER VALOR REAL QUE DEBERIA SER----
+			
+				
+		update af_depreciacion_fiscal
+		set saldo_formula_fiscal =
+			case when valor_libros_fiscal > 0
+				then
+					case when 
+					(af.af_tasa_depreciacion_fiscal * af.af_valor_compra_siva) < ad.valor_libros_fiscal
+					then
+					round((DATEDIFF(MONTH, af.fecha_compra, @anio+''+@mes+'01 00:00:00')) *  ((af.af_tasa_depreciacion_fiscal/12) * af.af_valor_compra_siva),2,0)
+					else
+					round(af.af_valor_compra_siva - ad.valor_libros_fiscal,2,0)
+					end
+				else
+					0.00
+			end
+		from af_maestro af
+		inner join af_depreciacion_fiscal ad on ad.af_codigo_interno = af.af_codigo_interno
+		where ad.periodo = @periodoEvaluado
+
+
+		--- FORMULA PARA CUADRE----
+		
+		update af_depreciacion_fiscal
+		set saldo_cuadre_fiscal =
+			case when
+			depre_fiscal_acumulada > saldo_formula_fiscal
+			then
+			round(depre_fiscal_acumulada - saldo_formula_fiscal,2,0)
+			else
+			0.00
+			end
+		where id > 0 and periodo = @periodoEvaluado
+
+
+	end

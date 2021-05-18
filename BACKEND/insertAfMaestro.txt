@@ -2292,3 +2292,10 @@ fetch next from descripciones into
          END
     CLOSE descripciones
 DEALLOCATE descripciones
+
+
+
+
+update af_maestro set fecha_alta = (select fecha_compra from af_maestro where 
+af_codigo_interno = af.af_codigo_interno)
+from af_maestro af

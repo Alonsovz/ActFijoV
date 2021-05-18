@@ -63,7 +63,7 @@
               <tr  *ngFor="let ob of altasSupervisor.data | searchactgestion: texto">
                 <td>{{ ob.af_codigo_interno }}</td>
                 <td>{{ ob.descripcion_bien }}</td>
-                <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
+                <td>{{ ob.fechaAlta }}</td>
                 <td>{{ ob.asignado }}</td>
                 <td>{{ ob.nomBodega }}</td>
                 <td  style="text-align: center; align-items: center;">
@@ -212,7 +212,6 @@
                 <th style="background-color: #007E61 !important;"><i nz-icon nzType="edit" nzTheme="outline"></i> Descripción</th>
                 <th style="background-color: #007E61 !important;"><i nz-icon nzType="calendar" nzTheme="outline"></i> Fecha de alta</th>
                 <th style="background-color: #007E61 !important;"><i nz-icon nzType="user" nzTheme="outline"></i> Asignado</th>
-                <th style="background-color: #007E61 !important;"><i nz-icon nzType="home" nzTheme="outline"></i> Bodega</th>
                 <th style="background-color: #007E61 !important;text-align: center;"><i nz-icon nzType="bars" nzTheme="outline"></i> Acciones</th>
               
             </tr>
@@ -221,9 +220,8 @@
               <tr  *ngFor="let ob of altasSupervisorActivos.data | searchactgestion: texto">
                 <td>{{ ob.af_codigo_interno }}</td>
                 <td>{{ ob.descripcion_bien }}</td>
-                <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
+                <td>{{ ob.fechaAlta }}</td>
                 <td>{{ ob.asignado }}</td>
-                <td>{{ ob.nomBodega }}</td>
                 <td  style="text-align: center; align-items: center;">
                     <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,2)"
                     nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>

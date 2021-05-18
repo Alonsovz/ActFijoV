@@ -140,7 +140,7 @@
                       <tr  *ngFor="let ob of altasUser.data | searchactgestionuser: textoUser">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
+                        <td>{{ ob.fechaAlta }}</td>
                         <td  style="text-align: center; align-items: center;">
                             <button style="margin: 5px !important;" nz-button nzType="primary" (click)="editarActFijo(ob,2, ob.imagen_factura)"
                             nzTooltipTitle="Detalles del activo" nzTooltipPlacement="topCenter" nz-tooltip><i nz-icon nzType="edit" nzTheme="outline"></i></button>

@@ -147,7 +147,7 @@
                         <tr *ngFor="let ob of altasAdmin.data | searchactgestion: texto">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
+                        <td>{{ ob.fechaAlta }}</td>
                         <td>{{ ob.compraSiva }}</td>
                         <td>{{ ob.asignado }}</td>
                         <td  style="text-align: center; align-items: left;">
@@ -504,7 +504,7 @@
                         <tr *ngFor="let ob of altasAdminVNR.data | searchactgestion: texto">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
-                        <td>{{ ob.fechaAlta }} {{ ob.horaAlta }}</td>
+                        <td>{{ ob.fechaAlta }}</td>
                         <td>{{ ob.valorVNR }}</td>
                         <td>{{ ob.asignado }}</td>
                         <td  style="text-align: center; align-items: left;">
