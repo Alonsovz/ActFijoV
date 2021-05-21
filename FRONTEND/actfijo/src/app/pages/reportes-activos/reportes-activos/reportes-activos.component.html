@@ -4,21 +4,21 @@
  </div>
 
 
- <nz-card class="cardShadow"  style="width:95%" *ngIf="user.rol == 'Administrador Act. Contable'">
+ <nz-card class="cardShadow1"  style="width:45%; float: left !important;" *ngIf="user.rol == 'Administrador Act. Contable'">
     <div nz-row>
         <div nz-col nzSpan="24">
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Depreciación Fiscal</h2>
         </div>
         <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
-        <div nz-col nzSpan="12">
+        <div nz-col nzSpan="24">
             <h3> <i nz-icon nzType="calendar" nzTheme="outline"></i>Reporte mensual</h3>
         </div>
 
-        <div nz-col nzSpan="12">
+        <!--<div nz-col nzSpan="12">
             <h3> <i nz-icon nzType="calendar" nzTheme="outline"></i>Reporte anual</h3>
-        </div>
+        </div>-->
 
-        <div nz-col nzSpan="11">
+        <div nz-col nzSpan="24">
             <h4 style="text-align: center !important;">Seleccione el mes y el año a generar</h4>
 
             <form nz-form  [formGroup]="formDepreciacionFiscalMensual">
@@ -67,7 +67,7 @@
         </div>
 
 
-        <div nz-col nzSpan="2"></div>
+        <!--<div nz-col nzSpan="2"></div>
         <div nz-col nzSpan="11">
             <h4 style="text-align: center !important;">Seleccione el año a generar</h4>
 
@@ -95,25 +95,25 @@
               (click)="generarDepreciacionFiscalAnual()" style="width: 100% !important;"><i nz-icon nzType="zoom-in" nzTheme="outline"></i>
                 Generar
             </button>
-        </div>
+        </div>-->
     </div>  
  </nz-card>
   
- <nz-card class="cardShadow"  style="width:95%" *ngIf="user.rol == 'Administrador Act. Contable'">
+ <nz-card class="cardShadow2"  style="width:45%; float: right !important;" *ngIf="user.rol == 'Administrador Act. Contable'">
     <div nz-row>
         <div nz-col nzSpan="24">
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Depreciación Financiera</h2>
         </div>
         <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
-        <div nz-col nzSpan="12">
+        <div nz-col nzSpan="24">
             <h3> <i nz-icon nzType="calendar" nzTheme="outline"></i>Reporte mensual</h3>
         </div>
 
-        <div nz-col nzSpan="12">
+        <!--<div nz-col nzSpan="12">
             <h3> <i nz-icon nzType="calendar" nzTheme="outline"></i>Reporte anual</h3>
-        </div>
+        </div>-->
 
-        <div nz-col nzSpan="11">
+        <div nz-col nzSpan="24">
             <h4 style="text-align: center !important;">Seleccione el mes y el año a generar</h4>
 
             <form nz-form  [formGroup]="formDepreciacionFinancieraMensual">
@@ -161,7 +161,7 @@
             </button>
         </div>
 
-        <div nz-col nzSpan="2"></div>
+        <!--<div nz-col nzSpan="2"></div>
         <div nz-col nzSpan="11">
             <h4 style="text-align: center !important;">Seleccione el año a generar</h4>
 
@@ -189,11 +189,11 @@
               (click)="generarDepreciacionFinancieraAnual()" style="width: 100% !important;"><i nz-icon nzType="zoom-in" nzTheme="outline"></i>
                 Generar
             </button>
-        </div>
+        </div>-->
     </div>  
 </nz-card>
 
-<nz-card class="cardShadow"  style="width:95%" *ngIf="user.rol == 'Administrador Act. VNR'">
+<nz-card class="cardShadow"  style="width:93%" *ngIf="user.rol == 'Administrador Act. VNR'">
     <div nz-row>
         <div nz-col nzSpan="24">
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Reporte AGD</h2>
@@ -226,7 +226,7 @@
 
 
  <!--Modal para mostrar cuadros mensuales financieros-->
-<nz-modal nzWidth="80%" [(nzVisible)]="modalDepreciacionFinanciera" [nzStyle]="{ top: '10px' }"
+<nz-modal nzWidth="95%" [(nzVisible)]="modalDepreciacionFinanciera" [nzStyle]="{ top: '10px' }"
 [nzFooter]="modalFooterDepreciacionFinanciera" [nzContent]="modalContentDepreciacionFinanciera" 
 (nzOnCancel)="cerrarmodalDepreciacionFinanciera()">
     <ng-template #modalContentDepreciacionFinanciera>
@@ -235,21 +235,22 @@
             <div nz-col nzSpan="18">
                 <h2 style="text-align: center !important;">Depreciación {{tipo}} mensual  del período {{periodoEvaluando}}</h2>
             </div>
-              <div nz-col nzSpan="6">
-                <nz-form-label>Buscar </nz-form-label>
-                <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" 
-                autocomplete="off" (ngModelChange)="ConvertToLower($event)">
-              </div>
         </div>
           <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>
     
         <nz-table #cuadroMensual [nzData]="listOfDataCuadroFinancieroMensual" 
-        nzShowPagination nzShowSizeChanger (nzCurrentPageDataChange)="paginacionCuadroMenusal($event)">
+        nzShowPagination nzShowSizeChanger (nzCurrentPageDataChange)="paginacionCuadroMenusal($event)"
+        style="
+        overflow-x: scroll;  
+        height: 100%;
+        display: inline-block;
+        white-space: nowrap;
+        ">
                 <thead>
                 <tr>
                     <th nzLeft>Código VNR</th>
                     <th nzLeft>Código Contable</th>
-                    <th>rupo</th>
+                    <th>Grupo</th>
                     <th>Fecha Registro</th>
                     <th>Tipo partida</th>
                     <th>Cuenta Contable</th>
@@ -262,11 +263,14 @@
                     <th>Valor residual</th>
                     <th>Tasa de Depreciación</th>
                     <th>Vida Útil</th>
-                    <th nzRight>Municipio</th>
+                    <th>Municipio</th>
+                    <th>Depreciación acumulada</th>
+                    <th>Depreciación del mes</th>
+                    <th>Valor en libros</th>
                    </tr>
                 </thead>
                 <tbody>
-                        <tr *ngFor="let ob of cuadroMensual.data | searchreportes: texto">
+                        <tr *ngFor="let ob of cuadroMensual.data">
                         <td nzLeft>{{ ob.af_codigo_vnr }}</td>
                         <td nzLeft>{{ ob.af_codigo_contable}}</td>
                         <td>{{ob.grupo}}</td>
@@ -282,7 +286,10 @@
                         <td>{{ ob.valor_residual}}</td>
                         <td>{{ ob.tasa_depreciacion}}</td>
                         <td>{{ ob.vida_util}}</td>  
-                        <td nzRight>{{ ob.municipio}}</td>
+                        <td>{{ ob.municipio}}</td>
+                        <td>{{ ob.depreciacion_acumulada}}</td>
+                        <td>{{ ob.depreciacion_mes}}</td>
+                        <td>{{ ob.valor_libros}}</td>
 
                         </tr>
                 

@@ -89,14 +89,14 @@ export class ReportesActivosComponent implements OnInit {
     var anio = this.formDepreciacionFinancieraMensual.controls["anio"].value;
 
 
-    /*this.reportesService.getCuadroDepreciacionFinancieraMensual(datos).subscribe(
+    this.reportesService.getCuadroDepreciacionFinancieraMensual(datos).subscribe(
       data => {
         this.listOfDataCuadroFinancieroMensual = data;
 
         this.modalDepreciacionFinanciera = true;
         this.periodoEvaluando = mes+anio;
         this.tipo =  'financiera';
-      });*/
+      });
 
       this.modalDepreciacionFinanciera = true;
   }

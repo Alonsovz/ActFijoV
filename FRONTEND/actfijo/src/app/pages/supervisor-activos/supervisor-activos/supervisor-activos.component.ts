@@ -16,7 +16,7 @@ import { SupervisorActivosService } from 'src/app/services/supervisor-activos.se
 import { TipoBienVnrService } from 'src/app/services/tipo-bien-vnr.service';
 import { TipoDocumentosService } from 'src/app/services/tipo-documentos.service';
 import { TipoactivoService } from 'src/app/services/tipoactivo.service';
-import { runInThisContext } from 'vm';
+
 
 @Component({
   selector: 'app-supervisor-activos',

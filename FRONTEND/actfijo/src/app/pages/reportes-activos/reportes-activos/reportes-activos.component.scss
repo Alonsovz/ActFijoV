@@ -1,8 +1,31 @@
-.cardShadow{
+.cardShadow1{
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-    margin: auto;
+    width:45%; 
+    float: left !important;
     background-color: #fcfcfc !important;
     margin-bottom: 50px !important;
+    margin-left: 50px !important;
+}
+
+
+
+
+.cardShadow2{
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  width:45%; 
+  float: right !important;
+  background-color: #fcfcfc !important;
+  margin-bottom: 50px !important;
+  margin-right: 50px !important;
+}
+
+
+
+.cardShadow{
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  float: left !important;
+  background-color: #fcfcfc !important;
+  margin-left: 50px !important;
 }
 
 .imgCenter {
@@ -11,12 +34,9 @@
   margin-right: auto;
   margin-top: 25px;
 }
-nz-table{
-  overflow-x: scroll !important;
-  height: 100% !important;
-  display: inline-block !important;
-  white-space: nowrap !important;
-}
+
+
+
 
 
 nz-form-label{
@@ -29,6 +49,8 @@ h3{
 }
 
 
+
+
 th{
   background-color: #007E61 !important;
   font-size: 10px !important;
@@ -36,7 +58,6 @@ th{
 
 td{
   font-size: 10px !important;
-  width:fit-content !important;
 }
 
 
