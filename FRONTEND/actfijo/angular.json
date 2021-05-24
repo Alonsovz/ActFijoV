@@ -134,5 +134,8 @@
       }
     }
   },
-  "defaultProject": "actfijo"
+  "defaultProject": "actfijo",
+  "cli": {
+    "analytics": "f798d5b7-f044-42e6-9e1a-f27713ce4b89"
+  }
 }
