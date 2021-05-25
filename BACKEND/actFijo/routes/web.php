@@ -129,8 +129,13 @@ Route::any('descargarArchivo', 'GestionActivoController@descargarArchivo');
 //rutas para reportes
 Route::post('getCuadroDepreciacionFinancieraMensual', 'ReportesController@getCuadroDepreciacionFinancieraMensual');
 Route::post('getCuadroDepreciacionFiscalMensual', 'ReportesController@getCuadroDepreciacionFiscalMensual');
+Route::any('getDatosCuadroFiscal', 'ReportesController@getDatosCuadroFiscal');
 Route::post('generarReporteAGD', 'ReportesController@generarReporteAGD');
 Route::any('reporte_agd_excel', 'ReportesController@reporte_agd_excel');
+Route::any('exportar_excel_fiscal', 'ReportesController@exportar_excel_fiscal');
+Route::any('exportar_excel_financiera', 'ReportesController@exportar_excel_financiera');
+
+
 
 
 

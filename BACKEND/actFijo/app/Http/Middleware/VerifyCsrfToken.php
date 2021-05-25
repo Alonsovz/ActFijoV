@@ -107,6 +107,8 @@ class VerifyCsrfToken extends BaseVerifier
         'getCuentasHijas',
         'getCuentasHijasPPYE',
         'reporte_agd_excel',
+        'exportar_excel_fiscal',
+        'exportar_excel_financiera',
         'moveDoc',
         'descargarArchivo',
         'getUbicacionesFisicas',
@@ -120,6 +122,7 @@ class VerifyCsrfToken extends BaseVerifier
         'getAltasSupervisorActivos',
         'getTrasladosSupervisorActivos',
         'getBajasSupervisorActivos',
-        'getConteoSupervisorActivos'
+        'getConteoSupervisorActivos',
+        'getDatosCuadroFiscal'
     ];
 }

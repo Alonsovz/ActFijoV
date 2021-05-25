@@ -1,4 +1,4 @@
-<h3 style="text-align:center !important; ">Reporte AGD</h3>
+<h3 style="text-align:center !important; ">Reporte Fiscal</h3>
 
 <table style="border: 0.5px solid black;color: black;">
 
@@ -16,7 +16,7 @@
 </thead>
 <tbody style="border:1px solid black">
 
-<?php $act = json_decode($activos_agd); ?>
+<?php $act = $activos_agd; ?>
 
 
 @foreach($act as $q)

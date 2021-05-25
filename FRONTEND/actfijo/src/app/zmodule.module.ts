@@ -21,6 +21,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 const zorromodules = [
   NzFormModule,
@@ -42,7 +43,8 @@ const zorromodules = [
   NzTabsModule,
   NzBadgeModule,
   NzDatePickerModule,
-  NzCheckboxModule
+  NzCheckboxModule,
+  NzSpinModule
 ]
 
 

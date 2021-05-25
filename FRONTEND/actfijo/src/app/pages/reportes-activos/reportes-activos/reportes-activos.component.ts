@@ -18,13 +18,21 @@ export class ReportesActivosComponent implements OnInit {
   formReporteAGD: FormGroup;
   cuadroMensual : Reportes[];
   modalDepreciacionFinanciera = false;
+  modalCarga = false;
   modalAGD = false;
   periodoEvaluando : string;
   tipo : string;
   user: Usuario = new Usuario();
   listOfDataCuadroFinancieroMensual: ReadonlyArray<Reportes> = [];
   listOfCurrentPageDataCuadroMensual: ReadonlyArray<Reportes> = [];
+
+  listOfCurrentPageData: ReadonlyArray<Reportes> = [];
+
+
   listOfDataCuadroAGD: ReadonlyArray<Reportes> = [];
+  rutaFile : string;
+  mesVista : string;
+  anioVista : string;
 
   constructor(private reportesService: ReportesActivosService, private urlBackEnd: GlobalService) { 
     this.formDepreciacionFiscalMensual = new FormGroup({
@@ -55,9 +63,11 @@ export class ReportesActivosComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem("usuario"));
+  
   }
 
   generarDepreciacionFiscalMensual(){
+    this.modalCarga = true;
     let datos : Reportes = new Reportes();
     datos = this.formDepreciacionFiscalMensual.value;
 
@@ -66,22 +76,23 @@ export class ReportesActivosComponent implements OnInit {
 
 
     this.reportesService.getCuadroDepreciacionFiscalMensual(datos).subscribe(
+      
       data => {
         this.listOfDataCuadroFinancieroMensual = data;
 
         this.modalDepreciacionFinanciera = true;
         this.periodoEvaluando = mes+anio;
         this.tipo =  'fiscal';
+        this.modalCarga = false;
+        this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'exportar_excel_fiscal?mes=' + JSON.stringify(mes) +'&anio='+ JSON.stringify(anio);
       });
   }
 
 
-  generarDepreciacionFiscalAnual(){
-
-  }
 
 
   generarDepreciacionFinancieraMensual(){
+    this.modalCarga = true;
     let datos : Reportes = new Reportes();
     datos = this.formDepreciacionFinancieraMensual.value;
 
@@ -96,20 +107,28 @@ export class ReportesActivosComponent implements OnInit {
         this.modalDepreciacionFinanciera = true;
         this.periodoEvaluando = mes+anio;
         this.tipo =  'financiera';
+        this.modalCarga = false;
+        this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'exportar_excel_financiera?mes=' + JSON.stringify(mes) +'&anio='+ JSON.stringify(anio);
       });
 
-      this.modalDepreciacionFinanciera = true;
+      
   }
 
 
   generarReporteAGD(){
+    this.modalCarga = true;
     let datos : Reportes = new Reportes();
     datos = this.formReporteAGD.value;
+
+    var fechaInicioAGD = this.formReporteAGD.controls["fechaInicioAGD"].value;
+    var fechaFinAGD = this.formReporteAGD.controls["fechaFinAGD"].value;
 
     this.reportesService.generarReporteAGD(datos).subscribe(
       data => {
         this.listOfDataCuadroAGD = data;
         this.modalAGD = true;
+        this.modalCarga = false;
+        this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'reporte_agd_excel?fechaInicioAGD=' + JSON.stringify(fechaInicioAGD) +'&fechaFinAGD='+ JSON.stringify(fechaFinAGD);
       });
   }
 
@@ -119,29 +138,19 @@ export class ReportesActivosComponent implements OnInit {
     datos = this.listOfDataCuadroAGD;
 
     const ur =  this.urlBackEnd.getUrlBackEnd() + 'reporte_agd_excel?activos_agd=' + JSON.stringify(datos);
-    window.open(ur, '_blank');
+    window.open(ur);
   }
   
+
   paginacionCuadroMenusal(listOfCurrentPageData: ReadonlyArray<Reportes>) {
     this.listOfCurrentPageDataCuadroMensual  = listOfCurrentPageData;
 
   }
 
   paginacionCuadroAGD(listOfCurrentPageData: ReadonlyArray<Reportes>) {
-    this.listOfDataCuadroAGD  = listOfCurrentPageData;
-
+    this.listOfCurrentPageData  = listOfCurrentPageData;
   }
   
-
-  texto: any;
-  _texto:string;
-  ConvertToLower(evt) {
-      this.texto = evt.toLowerCase();
-  }
-
-  generarDepreciacionFinancieraAnual(){
-    
-  }
 
 
   cerrarmodalDepreciacionFinanciera(){
@@ -151,4 +160,8 @@ export class ReportesActivosComponent implements OnInit {
   cerrarmodalAGD(){
     this.modalAGD = false;
   }
+
+
+
+
 }

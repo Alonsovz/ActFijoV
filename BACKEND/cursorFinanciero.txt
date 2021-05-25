@@ -2,7 +2,7 @@ create procedure af_depre_financ_mensual @periodoEvaluado varchar(6), @periodoAn
 
 	as
 	begin
-
+		SET NOCOUNT ON;
 		DECLARE @mes varchar(2);
 
 		DECLARE @anio varchar(4);
