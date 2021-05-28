@@ -72,7 +72,7 @@ class ReportesController extends Controller
         '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
         '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
         str(af.af_tasa_depreciacion_financ,12,2) + '%' as tasa_depreciacion,
-        af.af_vida_util as vida_util,
+        af.vidaUtilFinanciera as vida_util,
         mun.munName as municipio,
         '$ ' + LTRIM(str(df.depre_financ_acumulada,12,2)) as depreciacion_acumulada,
         '$ ' + LTRIM(str(

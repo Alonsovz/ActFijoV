@@ -74,13 +74,13 @@ class GestionActivoController extends Controller
         return response()->json($getMunicipios);
     }
 
-    //metodo para obtener departamentos
-    public function getCuentaContablePPYE(Request $request){
+     //metodo para obtener departamentos
+     public function getCuentaContablePPYE(Request $request){
         $tipoActivo = $request["codigo_ppye"];
 
         $getCuentaContablePPYE = 
-        DB::connection('comanda')->select("SELECT *,LTRIM(str(tasa_fiscal,12,2)) as tasaFiscal,
-        LTRIM(str(tasa_financ,12,2)) as tasaFinan
+        DB::connection('comanda')->select("SELECT *,LTRIM(tasa_fiscal) as tasaFiscal,
+        LTRIM(tasa_financ) as tasaFinan
         from af_tipo_ppye
         where cod_ppye = ".$tipoActivo." order by 2 asc");
 
