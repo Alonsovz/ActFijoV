@@ -787,7 +787,7 @@
                 <div nz-col [nzSpan]="8">
                     <nz-form-label nzRequired>Proveedor</nz-form-label>
                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Proveedor" formControlName="proveedor">
-                        <nz-option *ngFor="let tp of objProveedores" nzValue="{{tp.entidad_id}}" nzLabel="{{tp.entidad_nombre}}"></nz-option>
+                        <nz-option *ngFor="let tp of objProveedores" nzValue="{{tp.entidad_id}}" nzLabel="{{tp.NOMBRE}}"></nz-option>
                     </nz-select>
                 </div>
             </div>
@@ -1157,7 +1157,7 @@
                                 <div nz-col [nzSpan]="8">
                                     <nz-form-label nzRequired>Proveedor</nz-form-label>
                                     <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Proveedor" formControlName="codigo_proveedor">
-                                        <nz-option *ngFor="let tp of objProveedores" nzValue="{{tp.entidad_id}}" nzLabel="{{tp.entidad_nombre}}"></nz-option>
+                                        <nz-option *ngFor="let tp of objProveedores" nzValue="{{tp.entidad_id}}" nzLabel="{{tp.NOMBRE}}"></nz-option>
                                     </nz-select>
                                 </div>
                             </div>
