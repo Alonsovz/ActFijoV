@@ -46,7 +46,7 @@
 
         <nz-table nzShowPagination #altasSupervisor
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasSupervisor($event)" 
-        [nzData]="listaAltasSupervisor" *ngIf="mostrarTablaCarga">
+        [nzData]="listaAltasSupervisor | searchactgestion: texto" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
 
@@ -60,7 +60,7 @@
             </tr>
             </thead>
             <tbody>
-              <tr  *ngFor="let ob of altasSupervisor.data | searchactgestion: texto">
+              <tr  *ngFor="let ob of altasSupervisor.data">
                 <td>{{ ob.af_codigo_interno }}</td>
                 <td>{{ ob.descripcion_bien }}</td>
                 <td>{{ ob.fechaAlta }}</td>
@@ -89,7 +89,7 @@
         
         <nz-table nzShowPagination #trasladosSupervisor
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosSupervisor($event)" 
-        [nzData]="listaTrasladosSupervisor" *ngIf="mostrarTablaCarga">
+        [nzData]="listaTrasladosSupervisor  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
         <thead>
             <tr>
 
@@ -103,7 +103,7 @@
             </tr>
         </thead>
         <tbody>
-                <tr *ngFor="let ob of trasladosSupervisor.data | searchactgestion: texto">
+                <tr *ngFor="let ob of trasladosSupervisor.data">
                     <td>{{ ob.af_codigo_interno }}</td>
                     <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                     <td>{{ ob.fechaTraslado }} {{ ob.horaTraslado }}</td>
@@ -135,7 +135,7 @@
 
         <nz-table nzShowPagination #bajasSupervisor
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasSupervisor($event)" 
-        [nzData]="listaBajasSupervisor" *ngIf="mostrarTablaCarga">
+        [nzData]="listaBajasSupervisor  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
         <thead>
             <tr>
 
@@ -148,7 +148,7 @@
             </tr>
             </thead>
             <tbody>
-                    <tr *ngFor="let ob of bajasSupervisor.data | searchactgestion: texto">
+                    <tr *ngFor="let ob of bajasSupervisor.data">
                     <td>{{ ob.af_codigo_interno }}</td>
                     <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                     <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
@@ -204,7 +204,7 @@
 
         <nz-table nzShowPagination #altasSupervisorActivos
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasSupervisorActivos($event)" 
-        [nzData]="listaAltasSupervisorActivos" *ngIf="mostrarTablaCarga">
+        [nzData]="listaAltasSupervisorActivos  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
 
@@ -217,7 +217,7 @@
             </tr>
             </thead>
             <tbody>
-              <tr  *ngFor="let ob of altasSupervisorActivos.data | searchactgestion: texto">
+              <tr  *ngFor="let ob of altasSupervisorActivos.data">
                 <td>{{ ob.af_codigo_interno }}</td>
                 <td>{{ ob.descripcion_bien }}</td>
                 <td>{{ ob.fechaAlta }}</td>
@@ -245,7 +245,7 @@
         
         <nz-table nzShowPagination #trasladosSupervisorActivos
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosSupervisorActivos($event)" 
-        [nzData]="listaTrasladosSupervisorActivos" *ngIf="mostrarTablaCarga">
+        [nzData]="listaTrasladosSupervisorActivos  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
         <thead>
             <tr>
 
@@ -259,7 +259,7 @@
             </tr>
         </thead>
         <tbody>
-                <tr *ngFor="let ob of trasladosSupervisorActivos.data | searchactgestion: texto">
+                <tr *ngFor="let ob of trasladosSupervisorActivos.data">
                     <td>{{ ob.af_codigo_interno }}</td>
                     <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                     <td>{{ ob.fechaTraslado }} {{ ob.horaTraslado }}</td>
@@ -291,7 +291,7 @@
 
         <nz-table nzShowPagination #bajasSupervisorActivos
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasSupervisorActivos($event)" 
-        [nzData]="listaBajasSupervisorActivos" *ngIf="mostrarTablaCarga">
+        [nzData]="listaBajasSupervisorActivos  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
         <thead>
             <tr>
 
@@ -304,7 +304,7 @@
             </tr>
             </thead>
             <tbody>
-                    <tr *ngFor="let ob of bajasSupervisorActivos.data | searchactgestion: texto">
+                    <tr *ngFor="let ob of bajasSupervisorActivos.data">
                     <td>{{ ob.af_codigo_interno }}</td>
                     <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                     <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>

@@ -20,7 +20,7 @@ class TipoActivoController extends Controller
     public function getTipoActivo(){
         $tipoActivo = 
         DB::connection('comanda')->select("SELECT *,
-        LTRIM(tasa_fiscal)) as tasaFiscal,
+        LTRIM(tasa_fiscal) as tasaFiscal,
         LTRIM(tasa_financ) as tasaFinan
         from af_tipo_ppye where estado = 1 order by 2 asc");
 

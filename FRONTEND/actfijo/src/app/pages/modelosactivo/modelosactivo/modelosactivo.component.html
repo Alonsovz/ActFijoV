@@ -72,7 +72,8 @@
         <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
     
         <nz-table nzShowPagination #rowSelectionTable
-        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+         [nzData]="listOfData  | searchmodeloactivo: texto" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
                
@@ -83,7 +84,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ob of rowSelectionTable.data | searchmodeloactivo: texto">
+              <tr *ngFor="let ob of rowSelectionTable.data">
                 <td>{{ ob.codigo_modelo }}</td>
                 <td>{{ ob.nombre_modelo }}</td>
                 <td>{{ ob.marca }}</td>

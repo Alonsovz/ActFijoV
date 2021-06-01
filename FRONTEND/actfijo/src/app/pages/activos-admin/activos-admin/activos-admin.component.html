@@ -131,7 +131,7 @@
 
             <nz-table nzShowPagination #altasAdmin
             nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasAdmin($event)"
-            [nzData]="listaAltasAdminObj" *ngIf="mostrarTablaCargaAdmin">
+            [nzData]="listaAltasAdminObj  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
                 <thead>
                 <tr>
     
@@ -144,7 +144,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                        <tr *ngFor="let ob of altasAdmin.data | searchactgestion: texto">
+                        <tr *ngFor="let ob of altasAdmin.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaAlta }}</td>
@@ -185,7 +185,7 @@
 
             <nz-table nzShowPagination #trasladosAdmin
             nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladoAdmin($event)"
-            [nzData]="listaTrasladosAdminObj" *ngIf="mostrarTablaCargaAdmin">
+            [nzData]="listaTrasladosAdminObj | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
                 <thead>
                     <tr>
     
@@ -198,7 +198,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                        <tr *ngFor="let ob of trasladosAdmin.data | searchactgestion: texto">
+                        <tr *ngFor="let ob of trasladosAdmin.data">
                             <td>{{ ob.af_codigo_interno }}</td>
                             <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                             <td>{{ ob.fechaTraslado }} {{ ob.horaTraslado }}</td>
@@ -243,7 +243,7 @@
 
             <nz-table nzShowPagination #bajasAdmin
             nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasAdmin($event)"
-            [nzData]="listaBajasAdminObj" *ngIf="mostrarTablaCargaAdmin">
+            [nzData]="listaBajasAdminObj | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
                 <thead>
                 <tr>
     
@@ -256,7 +256,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                        <tr *ngFor="let ob of bajasAdmin.data | searchactgestion: texto">
+                        <tr *ngFor="let ob of bajasAdmin.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
@@ -296,7 +296,7 @@
 
             <nz-table nzShowPagination #altasPendientesAdmin
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasPendientesAdmin($event)"
-        [nzData]="listaAltasPendienteAdminObj" *ngIf="mostrarTablaCargaAdmin">
+        [nzData]="listaAltasPendienteAdminObj | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
             <thead>
               <tr>
 
@@ -309,7 +309,7 @@
               </tr>
             </thead>
             <tbody>
-                    <tr *ngFor="let ob of altasPendientesAdmin.data | searchactgestion: texto">
+                    <tr *ngFor="let ob of altasPendientesAdmin.data">
                       <td>{{ ob.af_codigo_interno }}</td>
                       <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                       <td>{{ ob.fechaCompraT }}</td>
@@ -357,7 +357,7 @@
         </div>
         <nz-table nzShowPagination #trasladosPendientesAdmin
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladoPendienteAdmin($event)"
-        [nzData]="listaTrasladosPendienteAdminObj" *ngIf="mostrarTablaCargaAdmin">
+        [nzData]="listaTrasladosPendienteAdminObj  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
             <thead>
               <tr>
 
@@ -369,7 +369,7 @@
               </tr>
             </thead>
             <tbody>
-                    <tr  *ngFor="let ob of trasladosPendientesAdmin.data | searchactgestion: texto">
+                    <tr  *ngFor="let ob of trasladosPendientesAdmin.data">
                       <td>{{ ob.af_codigo_interno }}</td>
                       <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                       <td>{{ ob.usuarioAnterior }}</td>
@@ -411,7 +411,7 @@
         </div>
         <nz-table nzShowPagination #bajasPendientesAdmin
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasPendienteAdmin($event)"
-        [nzData]="listaBajasPendienteAdminObj" *ngIf="mostrarTablaCargaAdmin">
+        [nzData]="listaBajasPendienteAdminObj  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
             <thead>
               <tr>
 
@@ -424,7 +424,7 @@
               </tr>
             </thead>
             <tbody>
-                    <tr  *ngFor="let ob of bajasPendientesAdmin.data | searchactgestion: texto">
+                    <tr  *ngFor="let ob of bajasPendientesAdmin.data">
                       <td>{{ ob.af_codigo_interno }}</td>
                       <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                       <td>{{ ob.fechaCompraT }}</td>
@@ -488,7 +488,7 @@
 
             <nz-table nzShowPagination #altasAdminVNR
             nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasAdmin($event)"
-            [nzData]="listaAltasAdminObjVNR" *ngIf="mostrarTablaCargaAdminVNR">
+            [nzData]="listaAltasAdminObjVNR  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdminVNR">
                 <thead>
                 <tr>
     
@@ -501,7 +501,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                        <tr *ngFor="let ob of altasAdminVNR.data | searchactgestion: texto">
+                        <tr *ngFor="let ob of altasAdminVNR.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaAlta }}</td>
@@ -535,7 +535,7 @@
     
                 <nz-table nzShowPagination #trasladosAdminVNR
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladoAdmin($event)"
-                [nzData]="listaTrasladosAdminObjVNR" *ngIf="mostrarTablaCargaAdminVNR">
+                [nzData]="listaTrasladosAdminObjVNR  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdminVNR">
                     <thead>
                         <tr>
         
@@ -548,7 +548,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                            <tr *ngFor="let ob of trasladosAdminVNR.data | searchactgestion: texto">
+                            <tr *ngFor="let ob of trasladosAdminVNR.data">
                                 <td>{{ ob.af_codigo_interno }}</td>
                                 <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                                 <td>{{ ob.fechaTraslado }} {{ ob.horaTraslado }}</td>
@@ -594,7 +594,7 @@
     
                 <nz-table nzShowPagination #bajasAdminVNR
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasAdmin($event)"
-                [nzData]="listaBajasAdminObjVNR" *ngIf="mostrarTablaCargaAdminVNR">
+                [nzData]="listaBajasAdminObjVNR  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdminVNR">
                     <thead>
                     <tr>
         
@@ -607,7 +607,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                            <tr *ngFor="let ob of bajasAdminVNR.data | searchactgestion: texto">
+                            <tr *ngFor="let ob of bajasAdminVNR.data">
                             <td>{{ ob.af_codigo_interno }}</td>
                             <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                             <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>

@@ -118,7 +118,8 @@
         <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
     
         <nz-table nzShowPagination #rowSelectionTable
-        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" 
+        [nzData]="listOfData | searchtipoactivo:texto" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
                
@@ -133,7 +134,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ob of rowSelectionTable.data | searchtipoactivo:texto">
+              <tr *ngFor="let ob of rowSelectionTable.data">
                 <td>{{ ob.descripcion_ppye  }}</td>
                 <td>{{ ob.cuenta_contable  }}</td>
                 <td>{{ ob.tasaFiscal  }}</td>

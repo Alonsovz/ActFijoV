@@ -126,7 +126,7 @@
             </div>
                 <nz-table nzShowPagination #altasUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasUser($event)" 
-                [nzData]="listaAltasUserObj" *ngIf="mostrarTablaCarga">
+                [nzData]="listaAltasUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -137,7 +137,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr  *ngFor="let ob of altasUser.data | searchactgestionuser: textoUser">
+                      <tr  *ngFor="let ob of altasUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaAlta }}</td>
@@ -186,7 +186,7 @@
             </div>
                 <nz-table nzShowPagination #trasladosRecibidosUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosRecibidosUser($event)"
-                 [nzData]="listaTrasladosUserObj" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaTrasladosUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -198,7 +198,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of trasladosRecibidosUser.data | searchactgestionuser: textoUser">
+                      <tr *ngFor="let ob of trasladosRecibidosUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaTraslado }} {{ob.horaTraslado}}</td>
@@ -239,7 +239,7 @@
                     </div>
                         <nz-table nzShowPagination #trasladosHechosUser
                         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosRecibidosUser($event)"
-                         [nzData]="listaTrasladosHechosUserObj" *ngIf="mostrarTablaCarga">
+                         [nzData]="listaTrasladosHechosUserObj  | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
                             <thead>
                               <tr>
                 
@@ -251,7 +251,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let ob of trasladosHechosUser.data | searchactgestionuser: textoUser">
+                              <tr *ngFor="let ob of trasladosHechosUser.data">
                                 <td>{{ ob.af_codigo_interno }}</td>
                                 <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                                 <td>{{ ob.fechaTraslado }} {{ob.horaTraslado}}</td>
@@ -284,7 +284,7 @@
             </div>
             <nz-table nzShowPagination #bajasUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasUser($event)"
-                 [nzData]="listaBajasUserObj" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaBajasUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -295,7 +295,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of bajasUser.data | searchactgestionuser: textoUser">
+                      <tr *ngFor="let ob of bajasUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaBaja }} {{ ob.horaBaja }}</td>
@@ -324,7 +324,7 @@
             </div>
             <nz-table nzShowPagination #altasPendientesUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasPendientesUser($event)"
-                 [nzData]="listaAltasPendienteUserObj" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaAltasPendienteUserObj  | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -335,7 +335,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of altasPendientesUser.data | searchactgestionuser: textoUser">
+                      <tr *ngFor="let ob of altasPendientesUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompraT }}</td>
@@ -365,7 +365,7 @@
             </div>
             <nz-table nzShowPagination #trasladosHechosPendientesUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosHechosPendientesUser($event)"
-                 [nzData]="listaTrasladosHechosPendientesUserObj" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaTrasladosHechosPendientesUserObj  | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -377,7 +377,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of trasladosHechosPendientesUser.data | searchactgestionuser: textoUser">
+                      <tr *ngFor="let ob of trasladosHechosPendientesUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompraT }}</td>
@@ -408,7 +408,7 @@
             </div>
             <nz-table nzShowPagination #trasladosPendientesRecibirUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosRecibidosPendientesUser($event)"
-                 [nzData]="listaTrasladosRecibidosPendientesUserObj" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaTrasladosRecibidosPendientesUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -420,7 +420,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of trasladosPendientesRecibirUser.data | searchactgestionuser: textoUser">
+                      <tr *ngFor="let ob of trasladosPendientesRecibirUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompraT }}</td>
@@ -456,7 +456,7 @@
             </div>
             <nz-table nzShowPagination #bajasPendientesUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasPendientesUser($event)"
-                 [nzData]="listaBajasPendienteUserObj" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaBajasPendienteUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -468,7 +468,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let ob of bajasPendientesUser.data | searchactgestionuser: textoUser">
+                      <tr *ngFor="let ob of bajasPendientesUser.data">
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td>{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaCompraT }}</td>

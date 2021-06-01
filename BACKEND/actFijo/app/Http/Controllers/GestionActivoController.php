@@ -38,7 +38,8 @@ class GestionActivoController extends Controller
     public function getProveedores(){
 
         $getProveedores = 
-        DB::connection('comanda')->select("select * from saf_2011.dbo.entidades order by 2 asc");
+        DB::connection('comanda')->select("select entidad_id as entidad_id, entidad_nombre + ' ' + entidad_apellido as NOMBRE from saf_2011.dbo.entidad
+        order by 2 asc");
 
         return response()->json($getProveedores);
     }

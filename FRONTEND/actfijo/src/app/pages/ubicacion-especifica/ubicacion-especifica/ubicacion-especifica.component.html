@@ -62,7 +62,8 @@
         <nz-skeleton [nzActive]="true"  *ngIf="mostrarSkeleton"></nz-skeleton>
     
         <nz-table nzShowPagination #rowSelectionTable
-        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" 
+        [nzData]="listOfData | searchubicacion: texto" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
                
@@ -72,7 +73,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ob of rowSelectionTable.data| searchubicacion: texto">
+              <tr *ngFor="let ob of rowSelectionTable.data">
                 <td>{{ ob.id }}</td>
                 <td>{{ ob.ubicacion }}</td>
                 <td style="text-align: center; align-items: center;">

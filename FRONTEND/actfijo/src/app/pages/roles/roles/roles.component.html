@@ -25,7 +25,8 @@
     
 
         <nz-table nzShowPagination #rowSelectionTable
-        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzData]="listOfData" *ngIf="mostrarTablaCarga">
+        nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+         [nzData]="listOfData  | searchroles: texto" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
                
@@ -34,7 +35,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let roles of rowSelectionTable.data | searchroles: texto">
+              <tr *ngFor="let roles of rowSelectionTable.data">
                 <td>{{ roles.rol }}</td>
                 <td style="text-align: center; align-items: center;">
                     <button nz-button nzType="default" (click)="editarRolCard(roles)"><i nz-icon nzType="edit" nzTheme="outline"></i> Editar</button>
