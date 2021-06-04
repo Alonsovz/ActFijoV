@@ -72,7 +72,7 @@ export class SupervisorActivosComponent implements OnInit {
   objTipoPartida : ActfijoGestion[];
   objUbicacionFisica : ActfijoGestion[];
   texto: any;
-
+  texto2: any;
   conteoAltas = 0;
   conteoBajas = 0;
   conteoTraslados = 0;
@@ -130,7 +130,7 @@ export class SupervisorActivosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem("usuario"));
+    this.user = JSON.parse(localStorage.getItem("usuario_af"));
  
     this.getAltasSupervisorActivos();
     this.conteoSupervisorActivos();
@@ -369,7 +369,10 @@ ConvertToLower(evt) {
     this.texto = evt.toLowerCase();
 }
 
-
+_texto2:string;
+ConvertToLower2(evt) {
+    this.texto2 = evt.toLowerCase();
+}
 //metodo para obtener conteo de badges administrador
 conteoSupervisor(){
   let datos : Usuario = new Usuario();

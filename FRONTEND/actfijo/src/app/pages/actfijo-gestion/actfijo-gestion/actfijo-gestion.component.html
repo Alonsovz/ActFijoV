@@ -86,7 +86,7 @@
             <h2> <i nz-icon nzType="bars" nzTheme="outline"></i> Listado de mis de activos</h2>
         </div>
 
-        <div  nz-col [nzSpan]="6">
+        <div  nz-col [nzSpan]="4">
             <button *ngIf="btnFinalizarBajas" (click)="finalizarListadoBajas()" nz-button nzType="default" 
             style="float: right !important; margin-right: 10px !important; background-color: #AA0260 !important;
             color:white; margin-top: 5px;">Finalizar selección de bajas</button>
@@ -97,11 +97,18 @@
             color:white; margin-top: 5px;">Finalizar selección de traslados</button>
         </div>
 
-        <div nz-col nzSpan="6">
+        <div nz-col nzSpan="4">
             <nz-form-label>Buscar </nz-form-label>
             <input nz-input [(ngModel)]="_textoUser" id="textoUser" name="textoUser"
             autocomplete="off" placeholder="Buscar" (ngModelChange)="ConvertToLowerUser($event)">
         </div>
+
+        <div nz-col nzSpan="4">
+            <nz-form-label>Buscar por código</nz-form-label>
+            <input nz-input [(ngModel)]="_texto2" id="texto2" name="texto2" placeholder="Buscar" autocomplete="off"
+             (ngModelChange)="ConvertToLower2($event)">
+        </div>
+
     </div>
     
     <nz-tabset nzTabPosition="left">
@@ -126,7 +133,7 @@
             </div>
                 <nz-table nzShowPagination #altasUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasUser($event)" 
-                [nzData]="listaAltasUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
+                [nzData]="listaAltasUserObj | searchactgestionuser: textoUser | searchafCode: texto2" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -186,7 +193,7 @@
             </div>
                 <nz-table nzShowPagination #trasladosRecibidosUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosRecibidosUser($event)"
-                 [nzData]="listaTrasladosUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaTrasladosUserObj | searchactgestionuser: textoUser | searchafCode: texto2" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -239,7 +246,7 @@
                     </div>
                         <nz-table nzShowPagination #trasladosHechosUser
                         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosRecibidosUser($event)"
-                         [nzData]="listaTrasladosHechosUserObj  | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
+                         [nzData]="listaTrasladosHechosUserObj  | searchactgestionuser: textoUser | searchafCode: texto2" *ngIf="mostrarTablaCarga">
                             <thead>
                               <tr>
                 
@@ -284,7 +291,7 @@
             </div>
             <nz-table nzShowPagination #bajasUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasUser($event)"
-                 [nzData]="listaBajasUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaBajasUserObj | searchactgestionuser: textoUser | searchafCode: texto2" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -324,7 +331,7 @@
             </div>
             <nz-table nzShowPagination #altasPendientesUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasPendientesUser($event)"
-                 [nzData]="listaAltasPendienteUserObj  | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaAltasPendienteUserObj  | searchactgestionuser: textoUser | searchafCode: texto2" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -365,7 +372,7 @@
             </div>
             <nz-table nzShowPagination #trasladosHechosPendientesUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosHechosPendientesUser($event)"
-                 [nzData]="listaTrasladosHechosPendientesUserObj  | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaTrasladosHechosPendientesUserObj  | searchactgestionuser: textoUser | searchafCode: texto2" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -408,7 +415,7 @@
             </div>
             <nz-table nzShowPagination #trasladosPendientesRecibirUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosRecibidosPendientesUser($event)"
-                 [nzData]="listaTrasladosRecibidosPendientesUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaTrasladosRecibidosPendientesUserObj | searchactgestionuser: textoUser | searchafCode: texto2" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         
@@ -456,7 +463,7 @@
             </div>
             <nz-table nzShowPagination #bajasPendientesUser
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasPendientesUser($event)"
-                 [nzData]="listaBajasPendienteUserObj | searchactgestionuser: textoUser" *ngIf="mostrarTablaCarga">
+                 [nzData]="listaBajasPendienteUserObj | searchactgestionuser: textoUser | searchafCode: texto2" *ngIf="mostrarTablaCarga">
                     <thead>
                       <tr>
         

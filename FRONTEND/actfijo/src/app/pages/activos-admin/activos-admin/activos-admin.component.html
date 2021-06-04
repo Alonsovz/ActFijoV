@@ -96,7 +96,7 @@
         <div nz-col [nzSpan]="12">
         </div>
 
-        <div  nz-col [nzSpan]="6">
+        <div  nz-col [nzSpan]="4">
             <button *ngIf="btnFinalizarBajasAdmin" (click)="finalizarListadoBajas()" nz-button nzType="default" 
             style="float: right !important; margin-right: 10px !important; background-color: #AA0260 !important;
             color:white; margin-top: 5px;">Finalizar selección de bajas</button>
@@ -106,10 +106,15 @@
             style="float: right !important; margin-right: 10px !important; background-color: #029BAA !important;
             color:white; margin-top: 5px;">Finalizar selección de traslados</button>
         </div>
-        <div nz-col nzSpan="6">
+        <div nz-col nzSpan="4">
             <nz-form-label>Buscar </nz-form-label>
             <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar" autocomplete="off"
              (ngModelChange)="ConvertToLower($event)">
+        </div>
+        <div nz-col nzSpan="4">
+            <nz-form-label>Buscar por código</nz-form-label>
+            <input nz-input [(ngModel)]="_texto2" id="texto2" name="texto2" placeholder="Buscar" autocomplete="off"
+             (ngModelChange)="ConvertToLower2($event)">
         </div>
     </div>
 
@@ -131,7 +136,7 @@
 
             <nz-table nzShowPagination #altasAdmin
             nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasAdmin($event)"
-            [nzData]="listaAltasAdminObj  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
+            [nzData]="listaAltasAdminObj  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdmin">
                 <thead>
                 <tr>
     
@@ -148,7 +153,7 @@
                         <td>{{ ob.af_codigo_interno }}</td>
                         <td style="width: 20% !important;">{{ ob.descripcion_bien }}</td>
                         <td>{{ ob.fechaAlta }}</td>
-                        <td>{{ ob.compraSiva }}</td>
+                        <td>{{ ob.compraSiva}}</td>
                         <td>{{ ob.asignado }}</td>
                         <td  style="text-align: center; align-items: left;">
                                  <button style="margin: 5px !important;" nz-button nzType="default" nzDanger (click)="editarActFijo(ob,1, ob.imagen_factura)"
@@ -185,7 +190,7 @@
 
             <nz-table nzShowPagination #trasladosAdmin
             nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladoAdmin($event)"
-            [nzData]="listaTrasladosAdminObj | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
+            [nzData]="listaTrasladosAdminObj | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdmin">
                 <thead>
                     <tr>
     
@@ -243,7 +248,7 @@
 
             <nz-table nzShowPagination #bajasAdmin
             nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasAdmin($event)"
-            [nzData]="listaBajasAdminObj | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
+            [nzData]="listaBajasAdminObj | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdmin">
                 <thead>
                 <tr>
     
@@ -296,7 +301,7 @@
 
             <nz-table nzShowPagination #altasPendientesAdmin
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasPendientesAdmin($event)"
-        [nzData]="listaAltasPendienteAdminObj | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
+        [nzData]="listaAltasPendienteAdminObj | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdmin">
             <thead>
               <tr>
 
@@ -357,7 +362,7 @@
         </div>
         <nz-table nzShowPagination #trasladosPendientesAdmin
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladoPendienteAdmin($event)"
-        [nzData]="listaTrasladosPendienteAdminObj  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
+        [nzData]="listaTrasladosPendienteAdminObj  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdmin">
             <thead>
               <tr>
 
@@ -411,7 +416,7 @@
         </div>
         <nz-table nzShowPagination #bajasPendientesAdmin
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasPendienteAdmin($event)"
-        [nzData]="listaBajasPendienteAdminObj  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdmin">
+        [nzData]="listaBajasPendienteAdminObj  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdmin">
             <thead>
               <tr>
 
@@ -461,12 +466,18 @@
         <div nz-col [nzSpan]="12">
         </div>
 
-        <div  nz-col [nzSpan]="6">
+        <div  nz-col [nzSpan]="4">
         </div>
-        <div nz-col nzSpan="6">
+        <div nz-col nzSpan="4">
             <nz-form-label>Buscar </nz-form-label>
             <input nz-input [(ngModel)]="_texto" id="texto" name="texto" autocomplete="off"
             placeholder="Buscar" (ngModelChange)="ConvertToLower($event)">
+        </div>
+
+        <div nz-col nzSpan="4">
+            <nz-form-label>Buscar por código</nz-form-label>
+            <input nz-input [(ngModel)]="_texto2" id="texto2" name="texto2" placeholder="Buscar" autocomplete="off"
+             (ngModelChange)="ConvertToLower2($event)">
         </div>
     </div>
 
@@ -488,7 +499,7 @@
 
             <nz-table nzShowPagination #altasAdminVNR
             nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasAdmin($event)"
-            [nzData]="listaAltasAdminObjVNR  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdminVNR">
+            [nzData]="listaAltasAdminObjVNR  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdminVNR">
                 <thead>
                 <tr>
     
@@ -535,7 +546,7 @@
     
                 <nz-table nzShowPagination #trasladosAdminVNR
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladoAdmin($event)"
-                [nzData]="listaTrasladosAdminObjVNR  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdminVNR">
+                [nzData]="listaTrasladosAdminObjVNR  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdminVNR">
                     <thead>
                         <tr>
         
@@ -594,7 +605,7 @@
     
                 <nz-table nzShowPagination #bajasAdminVNR
                 nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasAdmin($event)"
-                [nzData]="listaBajasAdminObjVNR  | searchactgestion: texto" *ngIf="mostrarTablaCargaAdminVNR">
+                [nzData]="listaBajasAdminObjVNR  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCargaAdminVNR">
                     <thead>
                     <tr>
         

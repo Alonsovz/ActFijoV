@@ -51,43 +51,81 @@ class ReportesController extends Controller
 
         $periodoEvaluado = $mes.$anio;
 
-        $execProcedure =  DB::connection('comanda')->statement(
-        "exec  [dbo].[af_depre_financ_mensual] '".$periodoEvaluado."','".$periodoAnterior."'");
+        $getCuadro = '';
+        if($periodoEvaluado == '122020'){
+            $getCuadro =  DB::connection('comanda')->select("
+            DECLARE @periodoEvaluado varchar(6);
+            DECLARE @periodoAnterior varchar(6);
+    
+            set @periodoEvaluado= '".$periodoEvaluado."';
+    
+    
+            select distinct af.af_codigo_interno as codigo_interno, af.af_codigo_vnr, af.af_codigo_contable,
+            descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
+            tp.tipo_partida_descripcion as tipo_partida,
+            af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
+            convert(varchar, af.fecha_compra, 103) as fecha_compra,
+            af.numero_documento, pro.entidad_nombre + ' ' + pro.entidad_apellido as proveedor,
+            '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
+            '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
+            str(af.af_tasa_depreciacion_financ,12,2) + '%' as tasa_depreciacion,
+            af.vidaUtilFinanciera as vida_util,
+            mun.munName as municipio,
+            '$ ' + LTRIM(str(df.depre_financ_acumulada,12,2)) as depreciacion_acumulada,
+            '$ ' + LTRIM(str(0.00,12,2)) as depreciacion_mes,
+            '$' + LTRIM(str(df.valor_libros_financ,12,2)) as valor_libros
+            from af_depreciacion_financiera df
+            inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
+            left join af_agd agd on agd.codigo_agd = af.codigo_agd
+            left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
+            left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
+            left join MUNSV as mun on mun.ID = af.cod_municipio
+            where df.periodo = @periodoEvaluado
+            ");
+        }
+        else{
 
+            $execProcedure =  DB::connection('comanda')->statement(
+                "exec  [dbo].[af_depre_financ_mensual] '".$periodoEvaluado."','".$periodoAnterior."'");
+        
+        
+                $getCuadro =  DB::connection('comanda')->select("
+                DECLARE @periodoEvaluado varchar(6);
+                DECLARE @periodoAnterior varchar(6);
+        
+                set @periodoEvaluado= '".$periodoEvaluado."';
+                set @periodoAnterior= '".$periodoAnterior."';
+        
+        
+                select distinct af.af_codigo_interno as codigo_interno, af.af_codigo_vnr, af.af_codigo_contable,
+                descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
+                tp.tipo_partida_descripcion as tipo_partida,
+                af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
+                convert(varchar, af.fecha_compra, 103) as fecha_compra,
+                af.numero_documento, pro.entidad_nombre + ' ' + pro.entidad_apellido as proveedor,
+                '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
+                '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
+                str(af.af_tasa_depreciacion_financ,12,2) + '%' as tasa_depreciacion,
+                af.vidaUtilFinanciera as vida_util,
+                mun.munName as municipio,
+                '$ ' + LTRIM(str(df.depre_financ_acumulada,12,2)) as depreciacion_acumulada,
+                '$ ' + LTRIM(str(
+                (select top 1  (df.depre_financ_acumulada) - (depre_financ_acumulada) from af_depreciacion_financiera
+                where periodo = @periodoAnterior and af_codigo_interno = df.af_codigo_interno
+                order by id desc),12,2)) as depreciacion_mes,
+                '$' + LTRIM(str(df.valor_libros_financ,12,2)) as valor_libros
+                from af_depreciacion_financiera df
+                inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
+                left join af_agd agd on agd.codigo_agd = af.codigo_agd
+                left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
+                left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
+                left join MUNSV as mun on mun.ID = af.cod_municipio
+                where df.periodo = @periodoEvaluado
+                ");
 
-        $getCuadro =  DB::connection('comanda')->select("
-        DECLARE @periodoEvaluado varchar(6);
-        DECLARE @periodoAnterior varchar(6);
+        }
 
-        set @periodoEvaluado= '".$periodoEvaluado."';
-        set @periodoAnterior= '".$periodoAnterior."';
-
-
-        select distinct af.af_codigo_interno as codigo_interno, af.af_codigo_vnr, af.af_codigo_contable,
-        descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
-        tp.tipo_partida_descripcion as tipo_partida,
-        af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
-        convert(varchar, af.fecha_compra, 103) as fecha_compra,
-        af.numero_documento, pro.entidad_nombre as proveedor,
-        '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
-        '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
-        str(af.af_tasa_depreciacion_financ,12,2) + '%' as tasa_depreciacion,
-        af.vidaUtilFinanciera as vida_util,
-        mun.munName as municipio,
-        '$ ' + LTRIM(str(df.depre_financ_acumulada,12,2)) as depreciacion_acumulada,
-        '$ ' + LTRIM(str(
-        (select top 1  (df.depre_financ_acumulada) - (depre_financ_acumulada) from af_depreciacion_financiera
-        where periodo = @periodoAnterior and af_codigo_interno = df.af_codigo_interno
-        order by id desc),12,2)) as depreciacion_mes,
-        '$' + LTRIM(str(df.valor_libros_financ,12,2)) as valor_libros
-        from af_depreciacion_financiera df
-        inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
-        left join af_agd agd on agd.codigo_agd = af.codigo_agd
-        left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
-        left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
-        left join MUNSV as mun on mun.ID = af.cod_municipio
-        where df.periodo = @periodoEvaluado
-        ");
+       
 
         return response()->json($getCuadro);
         
@@ -129,45 +167,83 @@ class ReportesController extends Controller
         }
 
         $periodoEvaluado = $mes.$anio;
+        $getCuadro = '';
+        if($periodoEvaluado == '122020'){
+            $getCuadro =  DB::connection('comanda')->select("
+            
+            DECLARE @periodoEvaluado varchar(6);
 
-        $execProcedure =  DB::connection('comanda')->statement(
-        "exec  [dbo].[af_depre_fiscal_mensual] '".$periodoEvaluado."','".$periodoAnterior."'");
-
-
-        $getCuadro =  DB::connection('comanda')->select("
-        DECLARE @periodoEvaluado varchar(6);
-        DECLARE @periodoAnterior varchar(6);
-
-        set @periodoEvaluado= '".$periodoEvaluado."';
-        set @periodoAnterior= '".$periodoAnterior."';
+            set @periodoEvaluado= '".$periodoEvaluado."';
 
 
-        select distinct af.af_codigo_interno as codigo_interno, af.af_codigo_vnr, af.af_codigo_contable,
-        descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
-        tp.tipo_partida_descripcion as tipo_partida,
-        af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
-        convert(varchar, af.fecha_compra, 103) as fecha_compra,
-        af.numero_documento, pro.entidad_nombre as proveedor,
-        '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
-        '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
-        str(af.af_tasa_depreciacion_fiscal,12,2) + '%' as tasa_depreciacion,
-        af.af_vida_util as vida_util,
-        mun.munName as municipio,
-        '$ ' + LTRIM(str(df.depre_fiscal_acumulada,12,2)) as depreciacion_acumulada,
-        '$ ' + LTRIM(str(
-        (select top 1  (df.depre_fiscal_acumulada) - (depre_fiscal_acumulada) from af_depreciacion_fiscal
-        where periodo = @periodoAnterior and af_codigo_interno = df.af_codigo_interno
-        order by id desc),12,2)) as depreciacion_mes,
-        '$' + LTRIM(str(df.valor_libros_fiscal,12,2)) as valor_libros
-        from af_depreciacion_fiscal df
-        inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
-        left join af_agd agd on agd.codigo_agd = af.codigo_agd
-        left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
-        left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
-        left join MUNSV as mun on mun.ID = af.cod_municipio
-        where df.periodo = @periodoEvaluado
-        ");
+            select distinct af.af_codigo_interno as codigo_interno, af.af_codigo_vnr, af.af_codigo_contable,
+            descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
+            tp.tipo_partida_descripcion as tipo_partida,
+            af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
+            convert(varchar, af.fecha_compra, 103) as fecha_compra,
+            af.numero_documento, pro.entidad_nombre + ' ' + pro.entidad_apellido as proveedor,
+            '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
+            '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
+            str(af.af_tasa_depreciacion_fiscal,12,2) + '%' as tasa_depreciacion,
+            af.af_vida_util as vida_util,
+            mun.munName as municipio,
+            '$ ' + LTRIM(str(df.depre_fiscal_acumulada,12,2)) as depreciacion_acumulada,
+            '$ ' + LTRIM(str(0.00,12,2)) as depreciacion_mes,
+            '$' + LTRIM(str(df.valor_libros_fiscal,12,2)) as valor_libros
+            from af_depreciacion_fiscal df
+            inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
+            left join af_agd agd on agd.codigo_agd = af.codigo_agd
+            left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
+            left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
+            left join MUNSV as mun on mun.ID = af.cod_municipio
+            where df.periodo = @periodoEvaluado
+            ");
+    
+        }else{
 
+            $execProcedure =  DB::connection('comanda')->statement(
+                "exec  [dbo].[af_depre_fiscal_mensual] '".$periodoEvaluado."','".$periodoAnterior."'");
+
+
+            $getCuadro =  DB::connection('comanda')->select("
+            DECLARE @periodoEvaluado varchar(6);
+            DECLARE @periodoAnterior varchar(6);
+    
+            set @periodoEvaluado= '".$periodoEvaluado."';
+            set @periodoAnterior= '".$periodoAnterior."';
+    
+    
+            select distinct af.af_codigo_interno as codigo_interno, af.af_codigo_vnr, af.af_codigo_contable,
+            descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
+            tp.tipo_partida_descripcion as tipo_partida,
+            af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
+            convert(varchar, af.fecha_compra, 103) as fecha_compra,
+            af.numero_documento, pro.entidad_nombre + ' ' + pro.entidad_apellido as proveedor,
+            '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
+            '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
+            str(af.af_tasa_depreciacion_fiscal,12,2) + '%' as tasa_depreciacion,
+            af.af_vida_util as vida_util,
+            mun.munName as municipio,
+            '$ ' + LTRIM(str(df.depre_fiscal_acumulada,12,2)) as depreciacion_acumulada,
+            '$ ' + LTRIM(str(
+            (select top 1  (df.depre_fiscal_acumulada) - (depre_fiscal_acumulada) from af_depreciacion_fiscal
+            where periodo = @periodoAnterior and af_codigo_interno = df.af_codigo_interno
+            order by id desc),12,2)) as depreciacion_mes,
+            '$' + LTRIM(str(df.valor_libros_fiscal,12,2)) as valor_libros
+            from af_depreciacion_fiscal df
+            inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
+            left join af_agd agd on agd.codigo_agd = af.codigo_agd
+            left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
+            left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
+            left join MUNSV as mun on mun.ID = af.cod_municipio
+            where df.periodo = @periodoEvaluado
+            ");
+        }
+
+       
+
+
+       
         return response()->json($getCuadro);
     }
     
@@ -312,12 +388,13 @@ class ReportesController extends Controller
 
         $periodoEvaluado = $mes.$anio;
 
-        $getCuadro =  DB::connection('comanda')->select("
+        $getCuadro = '';
+        if($periodoEvaluado == '122020'){
+
+            $getCuadro =  DB::connection('comanda')->select("
         DECLARE @periodoEvaluado varchar(6);
-        DECLARE @periodoAnterior varchar(6);
 
         set @periodoEvaluado= '".$periodoEvaluado."';
-        set @periodoAnterior= '".$periodoAnterior."';
 
 
         select distinct af.af_codigo_interno as codigo_interno, af.af_codigo_vnr, af.af_codigo_contable,
@@ -325,17 +402,14 @@ class ReportesController extends Controller
         tp.tipo_partida_descripcion as tipo_partida,
         af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
         convert(varchar, af.fecha_compra, 103) as fecha_compra,
-        af.numero_documento, pro.entidad_nombre as proveedor,
+        af.numero_documento, pro.entidad_nombre + ' ' + pro.entidad_apellido as proveedor,
         '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
         '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
         str(af.af_tasa_depreciacion_fiscal,12,2) + '%' as tasa_depreciacion,
         af.af_vida_util as vida_util,
         mun.munName as municipio,
         '$ ' + LTRIM(str(df.depre_fiscal_acumulada,12,2)) as depreciacion_acumulada,
-        '$ ' + LTRIM(str(
-        (select top 1  (df.depre_fiscal_acumulada) - (depre_fiscal_acumulada) from af_depreciacion_fiscal
-        where periodo = @periodoAnterior and af_codigo_interno = df.af_codigo_interno
-        order by id desc),12,2)) as depreciacion_mes,
+        '$ ' + LTRIM(str(0.00,12,2)) as depreciacion_mes,
         '$' + LTRIM(str(df.valor_libros_fiscal,12,2)) as valor_libros
         from af_depreciacion_fiscal df
         inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
@@ -345,6 +419,44 @@ class ReportesController extends Controller
         left join MUNSV as mun on mun.ID = af.cod_municipio
         where df.periodo = @periodoEvaluado
         ");
+
+        }else{
+            $getCuadro =  DB::connection('comanda')->select("
+            DECLARE @periodoEvaluado varchar(6);
+            DECLARE @periodoAnterior varchar(6);
+    
+            set @periodoEvaluado= '".$periodoEvaluado."';
+            set @periodoAnterior= '".$periodoAnterior."';
+    
+    
+            select distinct af.af_codigo_interno as codigo_interno, af.af_codigo_vnr, af.af_codigo_contable,
+            descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
+            tp.tipo_partida_descripcion as tipo_partida,
+            af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
+            convert(varchar, af.fecha_compra, 103) as fecha_compra,
+            af.numero_documento, pro.entidad_nombre + ' ' + pro.entidad_apellido as proveedor,
+            '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
+            '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
+            str(af.af_tasa_depreciacion_fiscal,12,2) + '%' as tasa_depreciacion,
+            af.af_vida_util as vida_util,
+            mun.munName as municipio,
+            '$ ' + LTRIM(str(df.depre_fiscal_acumulada,12,2)) as depreciacion_acumulada,
+            '$ ' + LTRIM(str(
+            (select top 1  (df.depre_fiscal_acumulada) - (depre_fiscal_acumulada) from af_depreciacion_fiscal
+            where periodo = @periodoAnterior and af_codigo_interno = df.af_codigo_interno
+            order by id desc),12,2)) as depreciacion_mes,
+            '$' + LTRIM(str(df.valor_libros_fiscal,12,2)) as valor_libros
+            from af_depreciacion_fiscal df
+            inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
+            left join af_agd agd on agd.codigo_agd = af.codigo_agd
+            left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
+            left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
+            left join MUNSV as mun on mun.ID = af.cod_municipio
+            where df.periodo = @periodoEvaluado
+            ");
+        }
+
+        
 
        // return response()->json($mes);
 
@@ -398,43 +510,74 @@ class ReportesController extends Controller
 
         $periodoEvaluado = $mes.$anio;
 
-        $execProcedure =  DB::connection('comanda')->statement(
-        "exec  [dbo].[af_depre_financ_mensual] '".$periodoEvaluado."','".$periodoAnterior."'");
+        $getCuadro = '';
+        if($periodoEvaluado == '122020'){
+            $getCuadro =  DB::connection('comanda')->select("
+            DECLARE @periodoEvaluado varchar(6);
+    
+            set @periodoEvaluado= '".$periodoEvaluado."';
+    
+    
+            select distinct af.af_codigo_interno as codigo_interno,af.af_codigo_vnr, af.af_codigo_contable,
+            descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
+            tp.tipo_partida_descripcion as tipo_partida,
+            af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
+            convert(varchar, af.fecha_compra, 103) as fecha_compra,
+            af.numero_documento, pro.entidad_nombre + ' ' + pro.entidad_apellido as proveedor,
+            '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
+            '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
+            str(af.af_tasa_depreciacion_financ,12,2) + '%' as tasa_depreciacion,
+            af.af_vida_util as vida_util,
+            mun.munName as municipio,
+            '$ ' + LTRIM(str(df.depre_financ_acumulada,12,2)) as depreciacion_acumulada,
+            '$ ' + LTRIM(str(0.00,12,2)) as depreciacion_mes,
+            '$' + LTRIM(str(df.valor_libros_financ,12,2)) as valor_libros
+            from af_depreciacion_financiera df
+            inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
+            left join af_agd agd on agd.codigo_agd = af.codigo_agd
+            left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
+            left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
+            left join MUNSV as mun on mun.ID = af.cod_municipio
+            where df.periodo = @periodoEvaluado
+            ");
+        }else{
+            $getCuadro =  DB::connection('comanda')->select("
+            DECLARE @periodoEvaluado varchar(6);
+            DECLARE @periodoAnterior varchar(6);
+    
+            set @periodoEvaluado= '".$periodoEvaluado."';
+            set @periodoAnterior= '".$periodoAnterior."';
+    
+    
+            select distinct af.af_codigo_interno as codigo_interno,af.af_codigo_vnr, af.af_codigo_contable,
+            descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
+            tp.tipo_partida_descripcion as tipo_partida,
+            af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
+            convert(varchar, af.fecha_compra, 103) as fecha_compra,
+            af.numero_documento, pro.entidad_nombre + ' ' + pro.entidad_apellido as proveedor,
+            '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
+            '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
+            str(af.af_tasa_depreciacion_financ,12,2) + '%' as tasa_depreciacion,
+            af.af_vida_util as vida_util,
+            mun.munName as municipio,
+            '$ ' + LTRIM(str(df.depre_financ_acumulada,12,2)) as depreciacion_acumulada,
+            '$ ' + LTRIM(str(
+            (select top 1  (df.depre_financ_acumulada) - (depre_financ_acumulada) from af_depreciacion_financiera
+            where periodo = @periodoAnterior and af_codigo_interno = df.af_codigo_interno
+            order by id desc),12,2)) as depreciacion_mes,
+            '$' + LTRIM(str(df.valor_libros_financ,12,2)) as valor_libros
+            from af_depreciacion_financiera df
+            inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
+            left join af_agd agd on agd.codigo_agd = af.codigo_agd
+            left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
+            left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
+            left join MUNSV as mun on mun.ID = af.cod_municipio
+            where df.periodo = @periodoEvaluado
+            ");
+        }
 
 
-        $getCuadro =  DB::connection('comanda')->select("
-        DECLARE @periodoEvaluado varchar(6);
-        DECLARE @periodoAnterior varchar(6);
-
-        set @periodoEvaluado= '".$periodoEvaluado."';
-        set @periodoAnterior= '".$periodoAnterior."';
-
-
-        select distinct af.af_codigo_interno as codigo_interno,af.af_codigo_vnr, af.af_codigo_contable,
-        descripcion_agd as grupo, convert(varchar, af.fecha_reg_contable, 103) as fechaRegistro,
-        tp.tipo_partida_descripcion as tipo_partida,
-        af.cuenta_contable, af.descripcion_bien, af.codigo_sucursal as ubicacion,
-        convert(varchar, af.fecha_compra, 103) as fecha_compra,
-        af.numero_documento, pro.entidad_nombre as proveedor,
-        '$ ' + LTRIM(str(af.af_valor_compra_siva,12,2)) as valor_compra,
-        '$ ' + LTRIM(str(af.af_valor_residual,12,2)) as valor_residual,
-        str(af.af_tasa_depreciacion_financ,12,2) + '%' as tasa_depreciacion,
-        af.af_vida_util as vida_util,
-        mun.munName as municipio,
-        '$ ' + LTRIM(str(df.depre_financ_acumulada,12,2)) as depreciacion_acumulada,
-        '$ ' + LTRIM(str(
-        (select top 1  (df.depre_financ_acumulada) - (depre_financ_acumulada) from af_depreciacion_financiera
-        where periodo = @periodoAnterior and af_codigo_interno = df.af_codigo_interno
-        order by id desc),12,2)) as depreciacion_mes,
-        '$' + LTRIM(str(df.valor_libros_financ,12,2)) as valor_libros
-        from af_depreciacion_financiera df
-        inner join af_maestro af on af.af_codigo_interno = df.af_codigo_interno
-        left join af_agd agd on agd.codigo_agd = af.codigo_agd
-        left join saf_2011.dbo.tipo_partida tp on tp.tipo_partida_id = af.tipo_partida_id
-        left join saf_2011.dbo.entidad as pro on pro.entidad_id = af.codigo_proveedor
-        left join MUNSV as mun on mun.ID = af.cod_municipio
-        where df.periodo = @periodoEvaluado
-        ");
+        
 
         return response()->download(Excel::create('reporteFinanciero', function($excel) use($getCuadro) {
             $excel->sheet('detalles', function($sheet) use($getCuadro) {

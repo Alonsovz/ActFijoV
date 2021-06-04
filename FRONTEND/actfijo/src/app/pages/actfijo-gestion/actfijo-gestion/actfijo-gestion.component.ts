@@ -38,6 +38,7 @@ export class ActfijoGestionComponent implements OnInit {
   btnFinalizarTraslados = false;
   dateFormat = 'dd/MM/yyyy';
   texto: any;
+  texto2: any;
   textoUser: any;
   mostrarCardAgregar = false;
   mostrarCardListado = true;
@@ -267,7 +268,7 @@ export class ActfijoGestionComponent implements OnInit {
 
     this.usuario.getUsuarios().subscribe(data => {this.objUsuarios = data;});
 
-    this.user = JSON.parse(localStorage.getItem("usuario"));
+    this.user = JSON.parse(localStorage.getItem("usuario_af"));
 
      this.getAltasUser();
      this.conteoUser();
@@ -1130,6 +1131,12 @@ ConvertToLower(evt) {
 _textoUser:string;
 ConvertToLowerUser(evt) {
     this.textoUser = evt.toLowerCase();
+}
+
+
+_texto2:string;
+ConvertToLower2(evt) {
+    this.texto2 = evt.toLowerCase();
 }
 
 // generar hoja de activo

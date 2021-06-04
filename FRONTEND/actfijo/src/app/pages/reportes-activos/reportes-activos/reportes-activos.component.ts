@@ -4,6 +4,7 @@ import { Reportes } from 'src/app/models/reportes';
 import { Usuario } from 'src/app/models/usuario';
 import { ReportesActivosService } from 'src/app/services/reportes-activos.service';
 import { GlobalService } from 'src/app/services/global.service';
+import notie from 'notie';
 
 @Component({
   selector: 'app-reportes-activos',
@@ -62,54 +63,83 @@ export class ReportesActivosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem("usuario"));
+    this.user = JSON.parse(localStorage.getItem("usuario_af"));
   
   }
 
   generarDepreciacionFiscalMensual(){
-    this.modalCarga = true;
-    let datos : Reportes = new Reportes();
-    datos = this.formDepreciacionFiscalMensual.value;
+  
 
     var mes = this.formDepreciacionFiscalMensual.controls["mes"].value;
     var anio = this.formDepreciacionFiscalMensual.controls["anio"].value;
 
-
-    this.reportesService.getCuadroDepreciacionFiscalMensual(datos).subscribe(
-      
-      data => {
-        this.listOfDataCuadroFinancieroMensual = data;
-
-        this.modalDepreciacionFinanciera = true;
-        this.periodoEvaluando = mes+anio;
-        this.tipo =  'fiscal';
-        this.modalCarga = false;
-        this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'exportar_excel_fiscal?mes=' + JSON.stringify(mes) +'&anio='+ JSON.stringify(anio);
+    if(anio <= '2020' && mes <= '11'){
+      notie.alert({ 
+        type: 'error', 
+        text: 'El reporte debe ser procesado apartir del período 012021',
+        stay: false,
+        time: 5, 
+        position: 'top' 
       });
+    }else{
+      this.modalCarga = true;
+      let datos : Reportes = new Reportes();
+      datos = this.formDepreciacionFiscalMensual.value;
+      
+      this.reportesService.getCuadroDepreciacionFiscalMensual(datos).subscribe(
+        
+        data => {
+          this.listOfDataCuadroFinancieroMensual = data;
+
+          this.modalDepreciacionFinanciera = true;
+          this.periodoEvaluando = mes+anio;
+          this.tipo =  'fiscal';
+          this.modalCarga = false;
+          this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'exportar_excel_fiscal?mes=' + JSON.stringify(mes) +'&anio='+ JSON.stringify(anio);
+        });
+
+    }
+
+
   }
 
 
 
 
   generarDepreciacionFinancieraMensual(){
-    this.modalCarga = true;
-    let datos : Reportes = new Reportes();
-    datos = this.formDepreciacionFinancieraMensual.value;
+    
 
     var mes = this.formDepreciacionFinancieraMensual.controls["mes"].value;
     var anio = this.formDepreciacionFinancieraMensual.controls["anio"].value;
 
-
-    this.reportesService.getCuadroDepreciacionFinancieraMensual(datos).subscribe(
-      data => {
-        this.listOfDataCuadroFinancieroMensual = data;
-
-        this.modalDepreciacionFinanciera = true;
-        this.periodoEvaluando = mes+anio;
-        this.tipo =  'financiera';
-        this.modalCarga = false;
-        this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'exportar_excel_financiera?mes=' + JSON.stringify(mes) +'&anio='+ JSON.stringify(anio);
+    if(anio <= '2020' && mes <= '11'){
+      notie.alert({ 
+        type: 'error', 
+        text: 'El reporte debe ser procesado apartir del período 012021',
+        stay: false,
+        time: 5, 
+        position: 'top' 
       });
+    }else{
+
+      this.modalCarga = true;
+      let datos : Reportes = new Reportes();
+      datos = this.formDepreciacionFinancieraMensual.value;
+
+     this.reportesService.getCuadroDepreciacionFinancieraMensual(datos).subscribe(
+        data => {
+          this.listOfDataCuadroFinancieroMensual = data;
+  
+          this.modalDepreciacionFinanciera = true;
+          this.periodoEvaluando = mes+anio;
+          this.tipo =  'financiera';
+          this.modalCarga = false;
+          this.rutaFile = this.urlBackEnd.getUrlBackEnd()+'exportar_excel_financiera?mes=' + JSON.stringify(mes) +'&anio='+ JSON.stringify(anio);
+        });
+
+    }
+
+  
 
       
   }

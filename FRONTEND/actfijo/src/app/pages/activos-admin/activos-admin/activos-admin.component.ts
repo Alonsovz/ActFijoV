@@ -26,6 +26,8 @@ import { UbicacionFisicaService } from 'src/app/services/ubicacion-fisica.servic
 import { UbicacionEspecificaService } from 'src/app/services/ubicacion-especifica.service';
 import { Ubicacion } from 'src/app/models/ubicacion';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+
+
 @Component({
   selector: 'app-activos-admin',
   templateUrl: './activos-admin.component.html',
@@ -44,6 +46,7 @@ export class ActivosAdminComponent implements OnInit {
   objUsuarios : Usuario[];
   user: Usuario = new Usuario();
   texto: any;
+  texto2: any;
   objTipoActivosTbl : Tipoactivo[];
   objTipoBienVNR : TipoBienVnr[];
   objClasificacionAgd : ClasificacionAgd[];
@@ -234,7 +237,7 @@ export class ActivosAdminComponent implements OnInit {
 
     this.usuario.getUsuarios().subscribe(data => {this.objUsuarios = data;});
 
-    this.user = JSON.parse(localStorage.getItem("usuario"));
+    this.user = JSON.parse(localStorage.getItem("usuario_af"));
 
     this.showCardListadoAdminActivos();
     
@@ -1232,6 +1235,11 @@ ConvertToLower(evt) {
     this.texto = evt.toLowerCase();
 }
 
+
+_texto2:string;
+ConvertToLower2(evt) {
+    this.texto2 = evt.toLowerCase();
+}
 
 
 showCardListadoAdminActivosVNR(){

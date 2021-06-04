@@ -20,13 +20,19 @@
 <nz-card style="width:98%" class="cardShadow"  *ngIf="mostrarCardBodegas">
 
     <div nz-row>
-        <div nz-col nzSpan="19">
+        <div nz-col nzSpan="16">
             <h2> <i nz-icon nzType="home"></i> Listado de bodegas que superviso</h2>
         </div>
-        <div nz-col nzSpan="5">
+        <div nz-col nzSpan="4">
             <nz-form-label>Buscar </nz-form-label>
             <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar"
             autocomplete="off"  (ngModelChange)="ConvertToLower($event)">
+        </div>
+
+        <div nz-col nzSpan="4">
+            <nz-form-label>Buscar por código</nz-form-label>
+            <input nz-input [(ngModel)]="_texto2" id="texto2" name="texto2" placeholder="Buscar" autocomplete="off"
+             (ngModelChange)="ConvertToLower2($event)">
         </div>
     </div>
 
@@ -46,7 +52,7 @@
 
         <nz-table nzShowPagination #altasSupervisor
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasSupervisor($event)" 
-        [nzData]="listaAltasSupervisor | searchactgestion: texto" *ngIf="mostrarTablaCarga">
+        [nzData]="listaAltasSupervisor | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
 
@@ -89,7 +95,7 @@
         
         <nz-table nzShowPagination #trasladosSupervisor
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosSupervisor($event)" 
-        [nzData]="listaTrasladosSupervisor  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
+        [nzData]="listaTrasladosSupervisor  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCarga">
         <thead>
             <tr>
 
@@ -135,7 +141,7 @@
 
         <nz-table nzShowPagination #bajasSupervisor
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasSupervisor($event)" 
-        [nzData]="listaBajasSupervisor  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
+        [nzData]="listaBajasSupervisor  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCarga">
         <thead>
             <tr>
 
@@ -178,13 +184,19 @@
 <nz-card style="width:98%" class="cardShadow"  *ngIf="mostrarCardActivos">
 
     <div nz-row>
-        <div nz-col nzSpan="19">
+        <div nz-col nzSpan="16">
             <h2> <i nz-icon nzType="tool"></i> Listado de activos que superviso</h2>
         </div>
-        <div nz-col nzSpan="5">
+        <div nz-col nzSpan="4">
             <nz-form-label>Buscar </nz-form-label>
             <input nz-input [(ngModel)]="_texto" id="texto" name="texto" placeholder="Buscar"
             autocomplete="off"  (ngModelChange)="ConvertToLower($event)">
+        </div>
+
+        <div nz-col nzSpan="4">
+            <nz-form-label>Buscar por código</nz-form-label>
+            <input nz-input [(ngModel)]="_texto2" id="texto2" name="texto2" placeholder="Buscar" autocomplete="off"
+             (ngModelChange)="ConvertToLower2($event)">
         </div>
     </div>
 
@@ -204,7 +216,7 @@
 
         <nz-table nzShowPagination #altasSupervisorActivos
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaAltasSupervisorActivos($event)" 
-        [nzData]="listaAltasSupervisorActivos  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
+        [nzData]="listaAltasSupervisorActivos  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCarga">
             <thead>
               <tr>
 
@@ -245,7 +257,7 @@
         
         <nz-table nzShowPagination #trasladosSupervisorActivos
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaTrasladosSupervisorActivos($event)" 
-        [nzData]="listaTrasladosSupervisorActivos  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
+        [nzData]="listaTrasladosSupervisorActivos  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCarga">
         <thead>
             <tr>
 
@@ -291,7 +303,7 @@
 
         <nz-table nzShowPagination #bajasSupervisorActivos
         nzShowSizeChanger #basicTable (nzCurrentPageDataChange)="paginacionTablaBajasSupervisorActivos($event)" 
-        [nzData]="listaBajasSupervisorActivos  | searchactgestion: texto" *ngIf="mostrarTablaCarga">
+        [nzData]="listaBajasSupervisorActivos  | searchactgestion: texto | searchafCode: texto2" *ngIf="mostrarTablaCarga">
         <thead>
             <tr>
 

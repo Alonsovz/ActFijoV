@@ -17,9 +17,9 @@ export class DashboardComponent implements OnInit {
     private crf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('usuario') !== null){
+    if(localStorage.getItem('usuario_af') !== null){
     
-        this.user = JSON.parse(localStorage.getItem("usuario"));
+        this.user = JSON.parse(localStorage.getItem("usuario_af"));
   
     }
   }

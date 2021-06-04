@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     this.usuarioservice.login(datosUsuario).subscribe(
       response => {
         this.usuariosesion = response;
-        localStorage.setItem('usuario', JSON.stringify(this.usuariosesion));
+        localStorage.setItem('usuario_af', JSON.stringify(this.usuariosesion));
        
       },
       err => {
