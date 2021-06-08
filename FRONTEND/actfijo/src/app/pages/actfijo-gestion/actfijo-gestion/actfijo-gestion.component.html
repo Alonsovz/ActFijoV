@@ -585,34 +585,34 @@
                     <div nz-col [nzSpan]="5">
                         <nz-form-label nzRequired>Cuenta contable asociada</nz-form-label>
                         <input type="text" placeholder="Cuenta contable asociada" nz-input
-                        [(ngModel)]="tp.cuenta_contable" formControlName="cuentaContable">
+                        [(ngModel)]="tp.cuenta_contable" formControlName="cuentaContable" readonly>
                     </div>
                     <div nz-col [nzSpan]="1"></div>
                     <div nz-col [nzSpan]="3">
                         <nz-form-label nzRequired>Tasa Fiscal</nz-form-label>
                         <input type="text" placeholder="Tasa Fiscal" nz-input
-                        [(ngModel)]="tp.tasaFiscal" formControlName="tasaFiscal" >
+                        [(ngModel)]="tp.tasaFiscal" formControlName="tasaFiscal" readonly>
                     </div>
 
                     <div nz-col [nzSpan]="1"></div>
                     <div nz-col [nzSpan]="4">
                         <nz-form-label nzRequired>Vida útil Fiscal(Años)</nz-form-label>
                         <input type="text" placeholder="Vida útil (Años)" nz-input
-                        [(ngModel)]="tp.vidaUtil" formControlName="vidaUtil">
+                        [(ngModel)]="tp.vidaUtil" formControlName="vidaUtil" readonly>
                     </div>
 
                     <div nz-col [nzSpan]="1"></div>
                     <div nz-col [nzSpan]="3">
                         <nz-form-label nzRequired>Tasa Financiera</nz-form-label>
                         <input type="text" placeholder="Tasa Financiera" nz-input
-                        [(ngModel)]="tp.tasaFinan" formControlName="tasaFinanciera">
+                        [(ngModel)]="tp.tasaFinan" formControlName="tasaFinanciera" readonly>
                     </div>
     
                     <div nz-col [nzSpan]="1"></div>
                     <div nz-col [nzSpan]="4">
                         <nz-form-label nzRequired>Vida útil Financiera(Años)</nz-form-label>
                         <input type="text" placeholder="Vida útil (Años)" nz-input
-                        [(ngModel)]="tp.vidaUtilFinanciera" formControlName="vidaUtilFinanciera">
+                        [(ngModel)]="tp.vidaUtilFinanciera" formControlName="vidaUtilFinanciera" readonly>
                     </div>
                     
                 </div>
@@ -622,12 +622,12 @@
                     <div nz-col [nzSpan]="5">
                         <nz-form-label nzRequired>Tipo de bien</nz-form-label>
                         <input type="text" placeholder="Vida útil (Años)" nz-input
-                        [(ngModel)]="tp.tipo_bien" formControlName="tipo_bien">
+                        [(ngModel)]="tp.tipo_bien" formControlName="tipo_bien" readonly>
                     </div>
                     <div nz-col [nzSpan]="1"></div>
                     <div nz-col [nzSpan]="5">
                         <nz-form-label nzRequired>Siglas</nz-form-label>
-                        <input type="text" nz-input [(ngModel)]="tp.siglas" formControlName="siglas">
+                        <input type="text" nz-input [(ngModel)]="tp.siglas" formControlName="siglas" readonly>
                     </div>
                 </div>
                 <nz-divider nzType="horizontal" style="height: 1px !important;background-color: #001529;"></nz-divider>

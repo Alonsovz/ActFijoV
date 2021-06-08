@@ -22,8 +22,8 @@
                 <th style="border:black solid 0.5px;">Tasa de Depreciación</th>
                 <th style="border:black solid 0.5px;">Vida Útil</th>
                 <th style="border:black solid 0.5px;">Municipio</th>
+                <th style="border:black solid 0.5px;">Depreciación mensual</th>
                 <th style="border:black solid 0.5px;">Depreciación acumulada</th>
-                <th style="border:black solid 0.5px;">Depreciación del mes</th>
                 <th style="border:black solid 0.5px;">Valor en libros</th>
             </tr>
         </thead>
@@ -52,8 +52,8 @@
                 <td style="border:black solid 0.5px">{{ $q->tasa_depreciacion}}</td>
                 <td style="border:black solid 0.5px">{{ $q->vida_util}}</td>  
                 <td style="border:black solid 0.5px">{{ $q->municipio}}</td>
-                <td style="border:black solid 0.5px">{{ $q->depreciacion_acumulada}}</td>
                 <td style="border:black solid 0.5px">{{ $q->depreciacion_mes}}</td>
+                <td style="border:black solid 0.5px">{{ $q->depreciacion_acumulada}}</td>
                 <td style="border:black solid 0.5px; text-align:left !important;">{{ $q->valor_libros}}</td>
             </tr>
         @endforeach

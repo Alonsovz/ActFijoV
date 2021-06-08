@@ -141,7 +141,7 @@ class GestionActivoController extends Controller
         $tipo_bien = $request["tipo_bien"];
 
         if(is_null($fechaRegistro)){
-            $fechaRegistroConFormato = '';
+            $fechaRegistroConFormato = null;
         }else{
             $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -159,33 +159,33 @@ class GestionActivoController extends Controller
 
         $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
 
-        $getLastId = DB::connection('comanda')->table('af_maestro')->orderBy('af_codigo_interno', 'desc')->first();
+         $getLastId = DB::connection('comanda')->table('af_maestro')->where('af_maestro.codigo_ppye', '=', $tipoActivoPPYE)->count()+1;
 
         $codVNR = '';
         $codConta = '';
 
-        $insertId = $getLastId->af_codigo_interno + 1;
+        $insertId = $getLastId;
         
         if($insertId < 10){
+            $codVNR = 'VNR 00000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 00000'.$insertId.'';
+        }else if($insertId > 9 && $insertId < 100){
             $codVNR = 'VNR 0000'.$insertId.'';
             $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
-        }else if($insertId > 9 && $insertId < 100){
+        }
+        else if($insertId > 99 && $insertId < 1000){
             $codVNR = 'VNR 000'.$insertId.'';
             $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
         }
-        else if($insertId > 99 && $insertId < 1000){
+
+        else if($insertId > 999 && $insertId < 10000){
             $codVNR = 'VNR 00'.$insertId.'';
             $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
         }
 
-        else if($insertId > 999 && $insertId < 10000){
+        else if($insertId > 9999){
             $codVNR = 'VNR 0'.$insertId.'';
             $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
-        }
-
-        else if($insertId > 9999){
-            $codVNR = 'VNR '.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
         }
 
 
@@ -231,12 +231,19 @@ class GestionActivoController extends Controller
             $mesInicial = '01';
         }
 
-        $anioFinalDepre = $yearIniciaDepre  + $vidaUtil;
+        $validarAnio = 0;
 
-        $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
+        if($monthIniciaDepre == '12'){
+            $validarAnio =  $yearIniciaDepre + 1;
+        }else{
+            $validarAnio = $yearIniciaDepre;
+        }
+        $anioFinalDepre = $validarAnio  + $vidaUtil;
+
+        $periodoInicialDepre = $mesInicial.$validarAnio;
         $periodoFinalDepre = $mesInicial.$anioFinalDepre;
       
-        $anioFinalFinaciero = $yearIniciaDepre + $vidaUtilFinanciera;
+        $anioFinalFinaciero = $validarAnio + $vidaUtilFinanciera;
         $periodoFinalFinanciero = $mesInicial.$anioFinalFinaciero;
 
         $insertar =  DB::connection('comanda')->table('af_maestro')
@@ -390,7 +397,7 @@ class GestionActivoController extends Controller
 
         
         if(is_null($fechaRegistro)){
-            $fechaRegistroConFormato = '';
+            $fechaRegistroConFormato = null;
         }else{
             $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -414,25 +421,25 @@ class GestionActivoController extends Controller
             $insertId = $id;
         
             if($insertId < 10){
+                $codVNR = 'VNR 00000'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 00000'.$insertId.'';
+            }else if($insertId > 9 && $insertId < 100){
                 $codVNR = 'VNR 0000'.$insertId.'';
                 $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
-            }else if($insertId > 9 && $insertId < 100){
+            }
+            else if($insertId > 99 && $insertId < 1000){
                 $codVNR = 'VNR 000'.$insertId.'';
                 $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
             }
-            else if($insertId > 99 && $insertId < 1000){
+    
+            else if($insertId > 999 && $insertId < 10000){
                 $codVNR = 'VNR 00'.$insertId.'';
                 $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
             }
     
-            else if($insertId > 999 && $insertId < 10000){
+            else if($insertId > 9999){
                 $codVNR = 'VNR 0'.$insertId.'';
                 $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
-            }
-    
-            else if($insertId > 9999){
-                $codVNR = 'VNR '.$insertId.'';
-                $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
             }
         }
 
@@ -478,12 +485,19 @@ class GestionActivoController extends Controller
             $mesInicial = '01';
         }
 
-        $anioFinalDepre = $yearIniciaDepre  + $vidaUtil;
+        $validarAnio = 0;
 
-        $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
+        if($monthIniciaDepre == '12'){
+            $validarAnio =  $yearIniciaDepre + 1;
+        }else{
+            $validarAnio = $yearIniciaDepre;
+        }
+        $anioFinalDepre = $validarAnio  + $vidaUtil;
+
+        $periodoInicialDepre = $mesInicial.$validarAnio;
         $periodoFinalDepre = $mesInicial.$anioFinalDepre;
-
-        $anioFinalFinaciero = $yearIniciaDepre + $vidaUtilFinanciera;
+      
+        $anioFinalFinaciero = $validarAnio + $vidaUtilFinanciera;
         $periodoFinalFinanciero = $mesInicial.$anioFinalFinaciero;
 
         $insertar =  DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $id)
@@ -1258,7 +1272,7 @@ class GestionActivoController extends Controller
 
         
         if(is_null($fechaRegistro)){
-            $fechaRegistroConFormato = '';
+            $fechaRegistroConFormato = null;
         }else{
             $fechaRegistroSinFormato = date_create_from_format('Y-m-d',$fechaRegistro);
 
@@ -1276,33 +1290,33 @@ class GestionActivoController extends Controller
 
         $fechaCompraConFormato = date_format($fechaCompraSinFormato,'Ymd');
 
-        $getLastId = DB::connection('comanda')->table('af_maestro')->orderBy('af_codigo_interno', 'desc')->first();
+         $getLastId = DB::connection('comanda')->table('af_maestro')->where('af_maestro.codigo_ppye', '=', $tipoActivoPPYE)->count()+1;
 
         $codVNR = '';
         $codConta = '';
 
-        $insertId = $getLastId->af_codigo_interno + 1;
+        $insertId = $getLastId;
         
         if($insertId < 10){
+            $codVNR = 'VNR 00000'.$insertId.'';
+            $codConta = ''.$tipo_bien.' '.$siglas.' 00000'.$insertId.'';
+        }else if($insertId > 9 && $insertId < 100){
             $codVNR = 'VNR 0000'.$insertId.'';
             $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
-        }else if($insertId > 9 && $insertId < 100){
+        }
+        else if($insertId > 99 && $insertId < 1000){
             $codVNR = 'VNR 000'.$insertId.'';
             $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
         }
-        else if($insertId > 99 && $insertId < 1000){
+
+        else if($insertId > 999 && $insertId < 10000){
             $codVNR = 'VNR 00'.$insertId.'';
             $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
         }
 
-        else if($insertId > 999 && $insertId < 10000){
+        else if($insertId > 9999){
             $codVNR = 'VNR 0'.$insertId.'';
             $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
-        }
-
-        else if($insertId > 9999){
-            $codVNR = 'VNR '.$insertId.'';
-            $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
         }
 
 
@@ -1348,12 +1362,19 @@ class GestionActivoController extends Controller
             $mesInicial = '01';
         }
 
-        $anioFinalDepre = $yearIniciaDepre  + $vidaUtil;
+        $validarAnio = 0;
 
-        $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
+        if($monthIniciaDepre == '12'){
+            $validarAnio =  $yearIniciaDepre + 1;
+        }else{
+            $validarAnio = $yearIniciaDepre;
+        }
+        $anioFinalDepre = $validarAnio  + $vidaUtil;
+
+        $periodoInicialDepre = $mesInicial.$validarAnio;
         $periodoFinalDepre = $mesInicial.$anioFinalDepre;
       
-        $anioFinalFinaciero = $yearIniciaDepre + $vidaUtilFinanciera;
+        $anioFinalFinaciero = $validarAnio + $vidaUtilFinanciera;
         $periodoFinalFinanciero = $mesInicial.$anioFinalFinaciero;
 
         $insertar =  DB::connection('comanda')->table('af_maestro')
@@ -1476,27 +1497,26 @@ class GestionActivoController extends Controller
     
         }else{
             $insertId = $id;
-        
             if($insertId < 10){
+                $codVNR = 'VNR 00000'.$insertId.'';
+                $codConta = ''.$tipo_bien.' '.$siglas.' 00000'.$insertId.'';
+            }else if($insertId > 9 && $insertId < 100){
                 $codVNR = 'VNR 0000'.$insertId.'';
                 $codConta = ''.$tipo_bien.' '.$siglas.' 0000'.$insertId.'';
-            }else if($insertId > 9 && $insertId < 100){
+            }
+            else if($insertId > 99 && $insertId < 1000){
                 $codVNR = 'VNR 000'.$insertId.'';
                 $codConta = ''.$tipo_bien.' '.$siglas.' 000'.$insertId.'';
             }
-            else if($insertId > 99 && $insertId < 1000){
+    
+            else if($insertId > 999 && $insertId < 10000){
                 $codVNR = 'VNR 00'.$insertId.'';
                 $codConta = ''.$tipo_bien.' '.$siglas.' 00'.$insertId.'';
             }
     
-            else if($insertId > 999 && $insertId < 10000){
+            else if($insertId > 9999){
                 $codVNR = 'VNR 0'.$insertId.'';
                 $codConta = ''.$tipo_bien.' '.$siglas.' 0'.$insertId.'';
-            }
-    
-            else if($insertId > 9999){
-                $codVNR = 'VNR '.$insertId.'';
-                $codConta = ''.$tipo_bien.' '.$siglas.' '.$insertId.'';
             }
         }
 
@@ -1543,13 +1563,19 @@ class GestionActivoController extends Controller
             $mesInicial = '01';
         }
 
-        $anioFinalDepre = $yearIniciaDepre  + $vidaUtil;
+        $validarAnio = 0;
 
-        $periodoInicialDepre = $mesInicial.$yearIniciaDepre;
+        if($monthIniciaDepre == '12'){
+            $validarAnio =  $yearIniciaDepre + 1;
+        }else{
+            $validarAnio = $yearIniciaDepre;
+        }
+        $anioFinalDepre = $validarAnio  + $vidaUtil;
+
+        $periodoInicialDepre = $mesInicial.$validarAnio;
         $periodoFinalDepre = $mesInicial.$anioFinalDepre;
-
-
-        $anioFinalFinaciero = $yearIniciaDepre + $vidaUtilFinanciera;
+      
+        $anioFinalFinaciero = $validarAnio + $vidaUtilFinanciera;
         $periodoFinalFinanciero = $mesInicial.$anioFinalFinaciero;
 
         $insertar =  DB::connection('comanda')->table('af_maestro')->where('af_codigo_interno', $id)
